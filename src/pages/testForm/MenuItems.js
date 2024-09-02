@@ -10,8 +10,9 @@ const  MenuItems= () =>{
 
     const fetchTodos = async () => {
       try {
-        const response = await axios.get('/items');
-        setTodos(response.data);
+        const response = await axios.get('http://localhost:8080/items');
+        setItems(response.data);
+        console.log(response);
       } catch (error) {
         console.error('Error fetching todos:', error);
       }
@@ -70,10 +71,10 @@ const  MenuItems= () =>{
       
       <ul>
         {items.map(item => (
-          <li key={item.id}>
-            {item.title}
-            <button onClick={() => editItem(item)}>Edit</button>
-            <button onClick={() => deleteItem(item.id)}>Delete</button>
+          <li key={item.itemId}>
+            {item.itemName}
+            <button onClick={() => editItem(item.itemName)}>Edit</button>
+            <button onClick={() => deleteItem(item.itemId)}>Delete</button>
           </li>
         ))}
       </ul>
