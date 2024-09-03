@@ -30,44 +30,56 @@ const LandingNavBar = () => {
             </Link>
           </Col>
 
-          <Col xs={12} md={6} className="d-flex justify-content-center">
+          <Col xs={12} md={6}>
             {/* Navigation Links */}
-            <Nav className="me-auto">
-              <Link
-                href="/CustomerView/LandingPage/LandingMenu/LandingMenu"
-                legacyBehavior
-                passHref
-              >
-                <a className="nav-link">Menu</a>
-              </Link>
-              <Link
-                href="/CustomerView/LandingPage/LandingSpecial/LandingSpecial"
-                legacyBehavior
-                passHref
-              >
-                <a className="nav-link">Special</a>
-              </Link>
-              <Link
-                href="/CustomerView/LandingPage/LandingContact/LandingContact"
-                legacyBehavior
-                passHref
-              >
-                <a className="nav-link">Contact Us</a>
-              </Link>
-              <Link
-                href="/CustomerView/LandingPage/LandingGallery/LandingGallery"
-                legacyBehavior
-                passHref
-              >
-                <a className="nav-link">Gallery</a>
-              </Link>
-              <Link
-                href="/CustomerView/LandingPage/LandingAbout/LandingAbout"
-                legacyBehavior
-                passHref
-              >
-                <a className="nav-link">About Us</a>
-              </Link>
+            <Nav className="w-100 justify-content-between">
+              <Col className="d-flex justify-content-center">
+                <Link
+                  href="/CustomerView/LandingPage/LandingMenu/LandingMenu"
+                  legacyBehavior
+                  passHref
+                >
+                  <a className="nav-link">Menu</a>
+                </Link>
+              </Col>
+              <Col className="d-flex justify-content-center">
+                <Link
+                  href="/CustomerView/LandingPage/LandingSpecial/LandingSpecial"
+                  legacyBehavior
+                  passHref
+                >
+                  <a className="nav-link">Special</a>
+                </Link>
+              </Col>
+              <Col className="d-flex justify-content-center">
+                <Link
+                  href="/CustomerView/LandingPage/LandingContact/LandingContact"
+                  legacyBehavior
+                  passHref
+                >
+                  <a className="nav-link">Contact Us</a>
+                </Link>
+              </Col>
+              <Col className="d-flex justify-content-center">
+                <Link
+                  href="/CustomerView/LandingPage/LandingGallery/LandingGallery"
+                  legacyBehavior
+                  passHref
+                >
+                  <a className="nav-link">Gallery</a>
+                </Link>
+              </Col>
+              <Col className="d-flex justify-content-center">
+                <Link
+                  href="/CustomerView/LandingPage/LandingAbout/LandingAbout"
+                  legacyBehavior
+                  passHref
+                >
+                  <a className="nav-link">About Us</a>
+                </Link>
+              </Col>
+              <Col className="d-flex justify-content-center"></Col>{" "}
+              {/* Blank space for layout */}
             </Nav>
           </Col>
 
