@@ -1,11 +1,13 @@
-import React from 'react';
+import React from "react";
+import LandingNavBar from "../LandingNavBar/LandingNavBar";
+const LandingContact = () => {
+  return (
+    <div className="landing-contact">
+      <LandingNavBar />
 
-const LandingContact =  () =>{
-    return(
-        <div className="landing-contact">
-            <h1>Contact</h1>
-        </div>
-    )
-}
+      <h1>Contact</h1>
+    </div>
+  );
+};
 
 export default LandingContact;

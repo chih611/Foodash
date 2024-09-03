@@ -1,11 +1,13 @@
 import React from "react";
+import LandingNavBar from "../LandingNavBar/LandingNavBar";
+const LandingGallery = () => {
+  return (
+    <div className="landing-gallery">
+      <LandingNavBar />
 
-const  LandingGallery = () =>{
-    return(
-        <div className="landing-gallery">
-            <h1>Gallery</h1>
-        </div>
-    )
-}
+      <h1>Gallery</h1>
+    </div>
+  );
+};
 
 export default LandingGallery;
