@@ -1,49 +1,54 @@
-@use "@styles/colors.scss/" as *;
+@use "@/styles/colors.scss/" as *;
+@import url('https://fonts.googleapis.com/css2?family=Itim&display=swap');
 
-h1 {
-    font-family: 'Courier New', Courier, monospace;
+$font-stack: 'DM Sans', sans-serif;
+
+h1{
+    font-family: 'Itim', sans-serif;
     font-size: 84px;
     font-weight: bold;
     color: $headline-color;
+    letter-spacing: 2px;
 }
 
-h2 {
-    font-family: 110% 'DM Sans';
-    font-size: 48px;
-    font-weight: medium;
-    color: headline-color;
+h2{
+    font-family: 'DM Sans', sans-serif;
+    font-size: 110% 48px;
+    font-weight: bold;
+    color: $headline-color;
+    letter-spacing: 2px;
 }
 
-h3 {
-    font-family: 130% 'DM Sans';
-    font-size: 36px;
-    font-weight: medium;
+h3{
+    font-family: $font-stack;
+    font-size: 130% 36px;
+    font-weight: bold;
     color: $headline-color;
 
 }
 
-h4 {
-    font-family: 150% 'DM Sans';
-    font-size: 24px;
-    font-weight: medium;
+h4{
+    font-family: $font-stack;
+    font-size: 150% 24px;
+    font-weight: bold;
     color: $headline-color;
 }
 .subtitle {
-    font-family: 150% 'DM Sans';
-    font-size: 16px;
-    font-weight: medium;
+    font-family: $font-stack;
+    font-size: 150% 16px;
+    font-weight: 500;
     color: $text-color;
 }
 
-body {
-    font-family: 150% 'DM Sans';
+body{
+    font-family: $font-stack;
     font-size: 16px;
     font-weight: normal;
     color: $text-color;
 }
 
 .button-text{
-    font-family: 150% 'DM Sans';
+    font-family: $font-stack;
     font-size: 16px;
     font-weight: normal;
     color: $element-2nd-color;
