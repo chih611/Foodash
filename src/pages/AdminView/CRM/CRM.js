@@ -1,7 +1,7 @@
 const CRM = () => {
   return (
     <div>
-      <h1>CRM</h1>
+      <h1>CUSTOMER RELATIONSHIP MANAGEMENT</h1>
     </div>
   );
 };
