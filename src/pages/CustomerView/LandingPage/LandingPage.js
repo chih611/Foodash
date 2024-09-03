@@ -1,7 +1,9 @@
+import Head from "next/head";
+
 const LandingPage = () => {
   return (
     <div>
-      <h1>LandingPage</h1>
+      <h1>Landing Page</h1>
     </div>
   );
 };
