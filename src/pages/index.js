@@ -1,15 +1,8 @@
-import Head from "next/head";
-import Image from "next/image";
-import { Inter } from "next/font/google";
-import styles from "@/styles/Home.module.css";
-import MenuItems from "./testForm/MenuItems";
+// /pages/index.js
+import LandingPage from "./CustomerView/LandingPage/LandingPage";
 
-const inter = Inter({ subsets: ["latin"] });
+const Home = () => {
+  return <LandingPage />;
+};
 
-export default function Home() {
-  return (
-    <>
-    <MenuItems />
-    </>
-  );
-}
+export default Home;
