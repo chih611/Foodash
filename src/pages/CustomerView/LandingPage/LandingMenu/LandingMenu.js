@@ -8,7 +8,6 @@ const LandingMenu = () => {
       <Container
         fluid
         className="px-3 px-md-5 py-5" // Adjusted padding for mobile and desktop
-        style={{ marginTop: "24px" }}
       >
         <Row className="align-items-center">
           {/* Text and Button Section */}
@@ -23,17 +22,7 @@ const LandingMenu = () => {
           </Col>
           {/* Image Placeholder Section */}
           <Col xs={12} md={3} className="d-flex justify-content-center">
-            <div
-              style={{
-                width: "100%",
-                maxWidth: "342px",
-                height: "342px",
-                backgroundColor: "#e0e0e0",
-                marginTop: "24px",
-              }}
-            >
-              {/* Image Placeholder */}
-            </div>
+            <div className="landing-menu--image">{/* Image Placeholder */}</div>
           </Col>
         </Row>
       </Container>

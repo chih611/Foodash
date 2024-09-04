@@ -1,0 +1,14 @@
+@use '../abstract/colors' as colors;
+@use '../abstract/mixins' as mixins;
+
+.landing-menu {
+    padding: 24px;
+
+    &--image {
+        width: 100%;
+        max-width: 342px;
+        height: 342px;
+        background-color: #e0e0e0;
+        margin-top: 24px;
+    }
+}

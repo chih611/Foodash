@@ -1,20 +1,19 @@
-// styles/components/gallery.scss
+// styles/components/about.scss
 
 @use '../abstract/colors' as colors;
 @use '../abstract/mixins' as mixins;
 
 
 
-.gallery-section {
-  background-color: colors.$bg-2nd-color;
+.about-section {
   padding: 3rem 0;
 }
 
-.gallery-container {
+.about-container {
   margin-top: 24px;
 }
 
-.gallery-title {
+.about-title {
   font-family: 'Itim', sans-serif;
   font-size: 2.5rem;
   font-weight: bold;
@@ -22,9 +21,9 @@
   letter-spacing: 2px;
 }
 
-.gallery-box {
+.about-box {
   background-color: colors.$bg-color;
-//   border: 1px solid colors.$border-color;
+  border: 1px solid colors.$element-color;
   border-radius: 5px;
   padding: 1rem;
   height: 200px; // Adjust height as needed

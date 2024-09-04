@@ -11,19 +11,22 @@ const LandingGallery = () => {
         <Container className="gallery-container">
           <h1 className="gallery-title text-center mb-4">Gallery</h1>
           <Row className="gy-4">
-            <Col xs={12} md={6} lg={4}>
+            <Col xs={12} md={6} lg={8}>
               <div className="gallery-box"></div>
             </Col>
-            <Col xs={12} md={6} lg={4}>
+            <Col xs={12} md={6} lg={2}>
               <div className="gallery-box"></div>
             </Col>
-            <Col xs={12} md={6} lg={4}>
+            <Col xs={12} md={6} lg={2}>
               <div className="gallery-box"></div>
             </Col>
-            <Col xs={12} md={6}>
+            <Col xs={12} md={6} lg={2}>
               <div className="gallery-box"></div>
             </Col>
-            <Col xs={12} md={6}>
+            <Col xs={12} md={6} lg={2}>
+              <div className="gallery-box"></div>
+            </Col>
+            <Col xs={12} md={6} lg={8}>
               <div className="gallery-box"></div>
             </Col>
           </Row>
