@@ -1,0 +1,7 @@
+@use '../abstract/colors' as colors;
+@use '../abstract/mixins' as mixins;
+
+
+.landing-contact{
+    background-color: colors.$bg-2nd-color;
+}

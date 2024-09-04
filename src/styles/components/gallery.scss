@@ -1,0 +1,49 @@
+// styles/components/gallery.scss
+
+@use '../abstract/colors' as colors;
+@use '../abstract/mixins' as mixins;
+
+
+
+.gallery-section {
+  background-color: colors.$bg-2nd-color;
+  padding: 3rem 0;
+}
+
+.gallery-container {
+  margin-top: 24px;
+}
+
+.gallery-title {
+  font-family: 'Itim', sans-serif;
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: colors.$headline-color;
+  letter-spacing: 2px;
+}
+
+.gallery-box {
+  background-color: colors.$bg-color;
+//   border: 1px solid colors.$border-color;
+  border-radius: 5px;
+  padding: 1rem;
+  height: 200px; // Adjust height as needed
+
+  @include mixins.media-breakpoint-up(md) {
+    height: 300px; // Taller boxes for medium screens
+  }
+
+  @include mixins.media-breakpoint-up(lg) {
+    height: 300px; // Even taller boxes for large screens
+  }
+}
+
+.see-more-button {
+  background-color: colors.$button-color;
+//   color: colors.$white;
+  border: none;
+
+  &:hover {
+    background-color: colors.$hover-color;
+  }
+}

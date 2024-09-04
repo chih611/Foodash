@@ -1,19 +1,13 @@
 import React from "react";
-import LandingAbout from "./LandingAbout/LandingAbout";
-import LandingContact from "./LandingContact/LandingContact";
-import LandingGallery from "./LandingGallery/LandingGallery";
-import LandingMenu from "./LandingMenu/LandingMenu";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import LandingNavBar from "./LandingNavBar/LandingNavBar";
+import LandingMenu from "./LandingMenu/LandingMenu";
 
 const LandingPage = () => {
   return (
-    <div>
-      <h1>Landing Page</h1>
+    <div className="landing-menu">
       <LandingNavBar />
-      <LandingAbout />
       <LandingMenu />
-      <LandingGallery />
-      <LandingContact />
     </div>
   );
 };
