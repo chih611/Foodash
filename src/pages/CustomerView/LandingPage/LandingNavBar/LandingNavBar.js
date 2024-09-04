@@ -17,7 +17,12 @@ const LandingNavBar = () => {
   const handleToggle = () => setShowOffcanvas(!showOffcanvas);
 
   return (
-    <>
+    <div
+      className="navBar"
+      style={{
+        marginBottom: "48px",
+      }}
+    >
       <Navbar bg="white" expand="lg" className="border-bottom" fixed="top">
         <Container fluid className="px-md-5 py-md-4">
           {/* Mobile Layout */}
@@ -89,7 +94,7 @@ const LandingNavBar = () => {
               <Nav className="w-100 justify-content-between">
                 <Col className="d-flex justify-content-center">
                   <Link
-                    href="/CustomerView/LandingPage/LandingMenu/LandingMenu"
+                    href="/CustomerView/LandingPage/LandingPage"
                     legacyBehavior
                     passHref
                   >
@@ -166,10 +171,7 @@ const LandingNavBar = () => {
         </Offcanvas.Header>
         <Offcanvas.Body>
           <Nav className="flex-column">
-            <Nav.Link
-              as={Link}
-              href="/CustomerView/LandingPage/LandingMenu/LandingMenu"
-            >
+            <Nav.Link as={Link} href="/CustomerView/LandingPage/LandingPage">
               Menu
             </Nav.Link>
             <Nav.Link
@@ -199,7 +201,7 @@ const LandingNavBar = () => {
           </Nav>
         </Offcanvas.Body>
       </Offcanvas>
-    </>
+    </div>
   );
 };
 

@@ -1,4 +1,4 @@
-import "@/styles/base/typography.scss";
+import "@/styles/main.scss";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function App({ Component, pageProps }) {

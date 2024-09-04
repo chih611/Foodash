@@ -5,14 +5,6 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 const LandingMenu = () => {
   return (
     <div className="landing-menu">
-      <div
-        className="navBar"
-        style={{
-          marginBottom: "48px",
-        }}
-      >
-        <LandingNavBar />
-      </div>
       <Container
         fluid
         className="px-3 px-md-5 py-5" // Adjusted padding for mobile and desktop

@@ -1,55 +1,57 @@
-@use "@/styles/colors.scss/" as *;
+// styles/base/typography.scss
+
+@use '../abstract/colors' as colors;
 @import url('https://fonts.googleapis.com/css2?family=Itim&display=swap');
 
 $font-stack: 'DM Sans', sans-serif;
 
-h1{
-    font-family: 'Itim', sans-serif;
-    font-size: 84px;
-    font-weight: bold;
-    color: $headline-color;
-    letter-spacing: 2px;
+h1 {
+  font-family: 'Itim', sans-serif;
+  font-size: 84px;
+  font-weight: bold;
+  color: colors.$headline-color;
+  letter-spacing: 2px;
 }
 
-h2{
-    font-family: 'DM Sans', sans-serif;
-    font-size: 110% 48px;
-    font-weight: bold;
-    color: $headline-color;
-    letter-spacing: 2px;
+h2 {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 48px;
+  font-weight: bold;
+  color: colors.$headline-color;
+  letter-spacing: 2px;
 }
 
-h3{
-    font-family: $font-stack;
-    font-size: 130% 36px;
-    font-weight: bold;
-    color: $headline-color;
-
+h3 {
+  font-family: $font-stack;
+  font-size: 36px;
+  font-weight: bold;
+  color: colors.$headline-color;
 }
 
-h4{
-    font-family: $font-stack;
-    font-size: 150% 24px;
-    font-weight: bold;
-    color: $headline-color;
+h4 {
+  font-family: $font-stack;
+  font-size: 24px;
+  font-weight: bold;
+  color: colors.$headline-color;
 }
+
 .subtitle {
-    font-family: $font-stack;
-    font-size: 150% 16px;
-    font-weight: 500;
-    color: $text-color;
+  font-family: $font-stack;
+  font-size: 16px;
+  font-weight: 500;
+  color: colors.$text-color;
 }
 
-body{
-    font-family: $font-stack;
-    font-size: 16px;
-    font-weight: normal;
-    color: $text-color;
+body {
+  font-family: $font-stack;
+  font-size: 16px;
+  font-weight: normal;
+  color: colors.$text-color;
 }
 
-.button-text{
-    font-family: $font-stack;
-    font-size: 16px;
-    font-weight: normal;
-    color: $element-2nd-color;
+.button-text {
+  font-family: $font-stack;
+  font-size: 16px;
+  font-weight: normal;
+  color: colors.$element-2nd-color;
 }
