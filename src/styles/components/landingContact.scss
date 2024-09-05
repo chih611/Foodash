@@ -1,7 +1,17 @@
-@use '../abstract/colors' as colors;
-@use '../abstract/mixins' as mixins;
+@use "../abstract/colors" as colors;
+@use "../abstract/mixins" as mixins;
 
+.landing-contact {
+  background-color: colors.$bg-2nd-color;
+}
 
-.landing-contact{
-    background-color: colors.$bg-2nd-color;
+a {
+  text-decoration: none;
+  color: colors.$text-color; // Set the desired link color
+}
+
+// Optional: add hover effect for links
+a:hover {
+  text-decoration: underline; // Add underline on hover if desired
+  color: colors.$element-color; // Set hover color if needed
 }
