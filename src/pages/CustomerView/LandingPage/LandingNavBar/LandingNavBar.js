@@ -63,9 +63,9 @@ const LandingNavBar = () => {
                 passHref
               >
                 <a>
-                  <Button variant="outline-primary" className="me-2">
-                    <ShoppingCartRoundedIcon />
-                  </Button>
+                  <div className="cart-button me-3">
+                    <ShoppingCartRoundedIcon sx={{ fontColor: "025373" }} />
+                  </div>
                 </a>
               </Link>
 
@@ -165,9 +165,9 @@ const LandingNavBar = () => {
                 passHref
               >
                 <a>
-                  <Button variant="outline-primary" className="me-2">
+                  <div className="cart-button me-2">
                     <ShoppingCartRoundedIcon />
-                  </Button>
+                  </div>
                 </a>
               </Link>
               <Col xs={3} className="d-flex justify-content-end">

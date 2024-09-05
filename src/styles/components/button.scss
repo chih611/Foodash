@@ -1,6 +1,59 @@
+@use "../abstract/colors" as colors;
+@use "../abstract/mixins" as mixins;
+@use "../base/typography" as typography;
+
+.order-button {
+  &--disabled {
+  }
+  &--hover {
+  }
+  &--pressed {
+  }
+}
+.indicator-button {
+  &--disabled {
+  }
+  &--hover {
+  }
+  &--pressed {
+  }
+}
+
 .login-button {
   padding: 0.5rem 1rem; /* Adjust padding as needed */
   font-size: 0.875rem; /* Make text smaller on small screens */
+  &--disabled {
+  }
+  &--hover {
+  }
+  &--pressed {
+  }
+}
+
+.cart-button {
+  border-radius: 100%;
+  padding: 0.5rem 0.5rem; /* Adjust padding as needed */
+  border: 1px solid colors.$pressed-color;
+
+  &--disabled {
+  }
+
+  &--hover {
+  }
+
+  &--pressed {
+  }
+}
+
+.plus-button {
+  &--disabled {
+  }
+
+  &--hover {
+  }
+
+  &--pressed {
+  }
 }
 
 /* Adjust button sizes for smaller screens */
