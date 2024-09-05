@@ -1,0 +1,12 @@
+.login-button {
+  padding: 0.5rem 1rem; /* Adjust padding as needed */
+  font-size: 0.875rem; /* Make text smaller on small screens */
+}
+
+/* Adjust button sizes for smaller screens */
+@media (max-width: 576px) {
+  .login-button {
+    padding: 0.4rem 0.8rem; /* Adjust to make the button fit better */
+    font-size: 0.75rem; /* Smaller font size */
+  }
+}

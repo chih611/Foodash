@@ -1,5 +1,4 @@
 import React from "react";
-import { Container, Row, Col, Button } from "react-bootstrap";
 import LandingNavBar from "./LandingNavBar/LandingNavBar";
 import LandingMenu from "./LandingMenu/LandingMenu";
 
