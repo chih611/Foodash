@@ -11,8 +11,7 @@ import {
 } from "react-bootstrap";
 import Image from "next/image";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
-import ShoppingCartRoundedIcon from "@mui/icons-material/ShoppingCartRounded";
-
+import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 const LandingNavBar = () => {
   const [showOffcanvas, setShowOffcanvas] = useState(false);
 
@@ -64,7 +63,7 @@ const LandingNavBar = () => {
               >
                 <a>
                   <div className="cart-button me-3">
-                    <ShoppingCartRoundedIcon sx={{ fontColor: "025373" }} />
+                    <ShoppingCartOutlinedIcon sx={{ color: "025373" }} />
                   </div>
                 </a>
               </Link>
@@ -166,7 +165,7 @@ const LandingNavBar = () => {
               >
                 <a>
                   <div className="cart-button me-2">
-                    <ShoppingCartRoundedIcon />
+                    <ShoppingCartOutlinedIcon />
                   </div>
                 </a>
               </Link>
