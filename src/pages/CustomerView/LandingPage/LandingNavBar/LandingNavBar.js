@@ -64,11 +64,6 @@ const LandingNavBar = () => {
                   </Button>
                 </a>
               </Link>
-              <Link href="/CustomerView/SignIn" legacyBehavior passHref>
-                <a>
-                  <Button variant="primary">Log In</Button>
-                </a>
-              </Link>
             </Col>
           </Row>
 
@@ -154,7 +149,11 @@ const LandingNavBar = () => {
                   </Button>
                 </a>
               </Link>
-              <Link href="/CustomerView/SignIn" legacyBehavior passHref>
+              <Link
+                href="CustomerView/HomePage/HomePage"
+                legacyBehavior
+                passHref
+              >
                 <a>
                   <Button variant="primary">Log In</Button>
                 </a>
