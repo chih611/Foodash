@@ -45,36 +45,57 @@ const LandingContact = () => {
             <Row>
               <p className="subtitle">
                 {" "}
-                <Link href="/CustomerView/LandingPage/LandingSpecial/LandingSpecial"></Link>
-                Menu
+                <Link
+                  href="/CustomerView/LandingPage/LandingSpecial/LandingSpecial"
+                  className="subtitle"
+                >
+                  {" "}
+                  Menu
+                </Link>
               </p>
             </Row>
             <Row>
               <p className="subtitle">
                 {" "}
-                <Link href="/CustomerView/LandingPage/LandingSpecial/LandingSpecial"></Link>
-                Recipe
+                <Link
+                  href="/CustomerView/LandingPage/LandingSpecial/LandingSpecial"
+                  className="subtitle"
+                >
+                  Recipe
+                </Link>
               </p>
             </Row>
             <Row>
               <p className="subtitle">
                 {" "}
-                <Link href="/CustomerView/LandingPage/LandingSpecial/LandingSpecial"></Link>
-                Location
+                <Link
+                  href="/CustomerView/LandingPage/LandingSpecial/LandingSpecial"
+                  className="subtitle"
+                >
+                  Location
+                </Link>
               </p>
             </Row>
             <Row>
               <p className="subtitle">
                 {" "}
-                <Link href="/CustomerView/LandingPage/LandingSpecial/LandingSpecial"></Link>
-                About Us
+                <Link
+                  href="/CustomerView/LandingPage/LandingSpecial/LandingSpecial"
+                  className="subtitle"
+                >
+                  About Us
+                </Link>
               </p>
             </Row>
             <Row>
               <p className="subtitle">
                 {" "}
-                <Link href="/CustomerView/LandingPage/LandingSpecial/LandingSpecial"></Link>
-                Contact Us
+                <Link
+                  href="/CustomerView/LandingPage/LandingSpecial/LandingSpecial"
+                  className="subtitle"
+                >
+                  Contact Us
+                </Link>
               </p>
             </Row>
           </Col>
