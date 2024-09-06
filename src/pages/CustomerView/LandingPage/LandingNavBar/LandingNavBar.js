@@ -10,7 +10,8 @@ import {
   Offcanvas,
 } from "react-bootstrap";
 import Image from "next/image";
-
+import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
+import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 const LandingNavBar = () => {
   const [showOffcanvas, setShowOffcanvas] = useState(false);
 
@@ -27,46 +28,56 @@ const LandingNavBar = () => {
         <Container fluid className="px-md-5 py-md-4">
           {/* Mobile Layout */}
           <Row className="w-100 align-items-center d-lg-none">
-            {/* Menu Button (1 column) */}
-            <Col xs={1} className="d-flex justify-content-start">
+            {/* Menu Button (2 columns) */}
+            <Col xs={2} className="d-flex justify-content-start">
               <Button variant="outline-primary" onClick={handleToggle}>
-                <i className="bi bi-list"></i>
+                <MenuRoundedIcon />
               </Button>
             </Col>
 
-            {/* Logo (2 columns) */}
-            <Col xs={2} className="d-flex justify-content-center">
+            {/* Logo (6 columns) */}
+            <Col xs={6} className="d-flex justify-content-center">
               <Link href="/" legacyBehavior passHref>
                 <a>
                   <Image
-                    src="/logo.png"
+                    src="/Foodash_logo.png"
                     alt="Logo"
-                    width={80} // Adjust width as needed
-                    height={40} // Adjust height as needed
+                    width={150} // Adjust width as needed
+                    height={50} // Adjust height as needed
                     className="navbar-brand"
                   />
                 </a>
               </Link>
             </Col>
 
-            {/* Spacer (2 columns) */}
-            <Col xs={2}></Col>
-
-            {/* Cart button and Login button (4 columns total, aligned right) */}
+            {/* Cart and Login buttons (4 columns, aligned right) */}
             <Col
-              xs={6}
+              xs={4}
               className="d-flex justify-content-end align-items-center"
             >
-              <Link href="/CustomerView/ViewCart" legacyBehavior passHref>
+              {/* Cart Button */}
+              <Link
+                href="/CustomerView/ViewCart/ViewCart"
+                legacyBehavior
+                passHref
+              >
                 <a>
-                  <Button variant="outline-primary" className="me-2">
-                    <i className="bi bi-cart"></i>
-                  </Button>
+                  <div className="cart-button me-3">
+                    <ShoppingCartOutlinedIcon sx={{ color: "025373" }} />
+                  </div>
                 </a>
               </Link>
-              <Link href="/CustomerView/SignIn" legacyBehavior passHref>
+
+              {/* Login Button */}
+              <Link
+                href="/CustomerView/HomePage/HomePage"
+                legacyBehavior
+                passHref
+              >
                 <a>
-                  <Button variant="primary">Log In</Button>
+                  <Button variant="primary" className="login-button">
+                    Log In
+                  </Button>
                 </a>
               </Link>
             </Col>
@@ -79,10 +90,10 @@ const LandingNavBar = () => {
               <Link href="/" legacyBehavior passHref>
                 <a>
                   <Image
-                    src="/logo.png"
+                    src="/Foodash_logo.png"
                     alt="Logo"
-                    width={120}
-                    height={50}
+                    width={200} // Adjust width as needed
+                    height={50} // Adjust height as needed
                     className="navbar-brand"
                   />
                 </a>
@@ -147,18 +158,28 @@ const LandingNavBar = () => {
               className="d-flex justify-content-end align-items-center"
             >
               {/* Cart and Login Buttons */}
-              <Link href="/CustomerView/ViewCart" legacyBehavior passHref>
+              <Link
+                href="/CustomerView/ViewCart/ViewCart"
+                legacyBehavior
+                passHref
+              >
                 <a>
-                  <Button variant="outline-primary" className="me-2">
-                    <i className="bi bi-cart"></i>
-                  </Button>
+                  <div className="cart-button me-2">
+                    <ShoppingCartOutlinedIcon sx={{ color: "#025373" }} />
+                  </div>
                 </a>
               </Link>
-              <Link href="/CustomerView/SignIn" legacyBehavior passHref>
-                <a>
-                  <Button variant="primary">Log In</Button>
-                </a>
-              </Link>
+              <Col xs={3} className="d-flex justify-content-end">
+                <Link
+                  href="/CustomerView/HomePage/HomePage"
+                  legacyBehavior
+                  passHref
+                >
+                  <a>
+                    <Button variant="primary">Log In</Button>
+                  </a>
+                </Link>
+              </Col>
             </Col>
           </Row>
         </Container>
