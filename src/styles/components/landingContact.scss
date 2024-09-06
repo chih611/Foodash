@@ -3,6 +3,9 @@
 
 .landing-contact {
   background-color: colors.$bg-2nd-color;
+  position: relative; /* Change from fixed to relative or static */
+  width: 100%;
+  z-index: 1030;
 }
 
 a {
