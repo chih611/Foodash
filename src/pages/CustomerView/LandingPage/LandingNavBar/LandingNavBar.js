@@ -165,7 +165,7 @@ const LandingNavBar = () => {
               >
                 <a>
                   <div className="cart-button me-2">
-                    <ShoppingCartOutlinedIcon />
+                    <ShoppingCartOutlinedIcon sx={{ color: "#025373" }} />
                   </div>
                 </a>
               </Link>
