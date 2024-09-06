@@ -13,137 +13,139 @@ const HomeDirectionLink = () => {
 
   return (
     <div className="container">
-      <Nav className="row justify-content-center custom-nav">
-        <Col
-          md={2}
-          className={`text-center ${router.pathname === "/" ? "active" : ""}`}
-        >
-          <Link href="/" passHref legacyBehavior>
-            <a className="nav-link">
-              <div className="indicator-button">
-                <Row className="align-items-center">
-                  <Col xs={3}>
-                    <HomeOutlinedIcon />
-                  </Col>
-                  <Col xs={9}>
-                    <span>Home</span>
-                  </Col>
-                </Row>
-              </div>
-            </a>
-          </Link>
-        </Col>
+      <div className="home-direction-link">
+        <Nav className="row justify-content-center custom-nav">
+          <Col
+            md={2}
+            className={`text-center ${router.pathname === "/" ? "active" : ""}`}
+          >
+            <Link href="/" passHref legacyBehavior>
+              <a className="nav-link">
+                <div className="indicator-button">
+                  <Row className="align-items-center">
+                    <Col xs={3}>
+                      <HomeOutlinedIcon />
+                    </Col>
+                    <Col xs={9}>
+                      <span>Home</span>
+                    </Col>
+                  </Row>
+                </div>
+              </a>
+            </Link>
+          </Col>
 
-        <Col
-          md={2}
-          className={`text-center ${
-            router.pathname === "/special" ? "active" : ""
-          }`}
-        >
-          <Link href="/" passHref legacyBehavior>
-            <a className="nav-link">
-              <div className="indicator-button">
-                <Row className="align-items-center">
-                  <Col xs={3}>
-                    <StarBorderOutlinedIcon />
-                  </Col>
-                  <Col xs={9}>
-                    <span>Special</span>
-                  </Col>
-                </Row>
-              </div>
-            </a>
-          </Link>
-        </Col>
+          <Col
+            md={2}
+            className={`text-center ${
+              router.pathname === "/special" ? "active" : ""
+            }`}
+          >
+            <Link href="/" passHref legacyBehavior>
+              <a className="nav-link">
+                <div className="indicator-button">
+                  <Row className="align-items-center">
+                    <Col xs={3}>
+                      <StarBorderOutlinedIcon />
+                    </Col>
+                    <Col xs={9}>
+                      <span>Special</span>
+                    </Col>
+                  </Row>
+                </div>
+              </a>
+            </Link>
+          </Col>
 
-        <Col
-          md={2}
-          className={`text-center ${
-            router.pathname === "/favorites" ? "active" : ""
-          }`}
-        >
-          <Link href="/" passHref legacyBehavior>
-            <a className="nav-link">
-              <div className="indicator-button">
-                <Row className="align-items-center">
-                  <Col xs={3}>
-                    <FavoriteBorderOutlinedIcon />
-                  </Col>
-                  <Col xs={9}>
-                    <span>Favorites</span>
-                  </Col>
-                </Row>
-              </div>
-            </a>
-          </Link>
-        </Col>
+          <Col
+            md={2}
+            className={`text-center ${
+              router.pathname === "/favorites" ? "active" : ""
+            }`}
+          >
+            <Link href="/" passHref legacyBehavior>
+              <a className="nav-link">
+                <div className="indicator-button">
+                  <Row className="align-items-center">
+                    <Col xs={3}>
+                      <FavoriteBorderOutlinedIcon />
+                    </Col>
+                    <Col xs={9}>
+                      <span>Favorites</span>
+                    </Col>
+                  </Row>
+                </div>
+              </a>
+            </Link>
+          </Col>
 
-        <Col
-          md={2}
-          className={`text-center ${
-            router.pathname === "/bought-before" ? "active" : ""
-          }`}
-        >
-          <Link href="/" passHref legacyBehavior>
-            <a className="nav-link">
-              <div className="indicator-button">
-                <Row className="align-items-center">
-                  <Col xs={3}>
-                    <SendOutlinedIcon sx={{ rotate: "-30deg" }} />
-                  </Col>
-                  <Col xs={9}>
-                    <span>Bought Before</span>
-                  </Col>
-                </Row>
-              </div>
-            </a>
-          </Link>
-        </Col>
+          <Col
+            md={2}
+            className={`text-center ${
+              router.pathname === "/bought-before" ? "active" : ""
+            }`}
+          >
+            <Link href="/" passHref legacyBehavior>
+              <a className="nav-link">
+                <div className="indicator-button">
+                  <Row className="align-items-center">
+                    <Col xs={3}>
+                      <SendOutlinedIcon sx={{ rotate: "-30deg" }} />
+                    </Col>
+                    <Col xs={9}>
+                      <span>Bought Before</span>
+                    </Col>
+                  </Row>
+                </div>
+              </a>
+            </Link>
+          </Col>
 
-        <Col
-          md={2}
-          className={`text-center ${
-            router.pathname === "/orders" ? "active" : ""
-          }`}
-        >
-          <Link href="/" passHref legacyBehavior>
-            <a className="nav-link">
-              <div className="indicator-button">
-                <Row className="align-items-center">
-                  <Col xs={3}>
-                    <Inventory2OutlinedIcon />
-                  </Col>
-                  <Col xs={9}>
-                    <span>Orders</span>
-                  </Col>
-                </Row>
-              </div>
-            </a>
-          </Link>
-        </Col>
+          <Col
+            md={2}
+            className={`text-center ${
+              router.pathname === "/orders" ? "active" : ""
+            }`}
+          >
+            <Link href="/" passHref legacyBehavior>
+              <a className="nav-link">
+                <div className="indicator-button">
+                  <Row className="align-items-center">
+                    <Col xs={3}>
+                      <Inventory2OutlinedIcon />
+                    </Col>
+                    <Col xs={9}>
+                      <span>Orders</span>
+                    </Col>
+                  </Row>
+                </div>
+              </a>
+            </Link>
+          </Col>
 
-        <Col
-          md={2}
-          className={`text-center   ${
-            router.pathname === "/menu-planning" ? "active" : ""
-          }`}
-        >
-          <Link href="/" passHref legacyBehavior>
-            <a className="nav-link">
-              <div className="indicator-button">
-                <Row className="align-items-center">
-                  <Col xs={3}>
-                    <ContentPasteOutlinedIcon />
-                  </Col>
-                  <Col xs={9}>
-                    <span>Menu Planning</span>
-                  </Col>
-                </Row>
-              </div>
-            </a>
-          </Link>
-        </Col>
-      </Nav>
+          <Col
+            md={2}
+            className={`text-center   ${
+              router.pathname === "/menu-planning" ? "active" : ""
+            }`}
+          >
+            <Link href="/" passHref legacyBehavior>
+              <a className="nav-link">
+                <div className="indicator-button">
+                  <Row className="align-items-center">
+                    <Col xs={3}>
+                      <ContentPasteOutlinedIcon />
+                    </Col>
+                    <Col xs={9}>
+                      <span>Menu Planning</span>
+                    </Col>
+                  </Row>
+                </div>
+              </a>
+            </Link>
+          </Col>
+        </Nav>
+      </div>
     </div>
   );
 };
