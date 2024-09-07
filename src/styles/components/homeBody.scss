@@ -1,6 +1,20 @@
-@use '../abstract/colors' as colors;
-@use '../abstract/mixins' as mixins;
+@use "../abstract/colors" as colors;
+@use "../abstract/mixins" as mixins;
 
-.home-sidebar{
-    border-right: 1px solid  colors.$element-2nd-color;
+.home-sidebar {
+  border-right: 1px solid colors.$element-2nd-color;
+  padding: 1rem 0.01rem;
+}
+.home-sidebar-box {
+  padding: 1rem;
+}
+
+.sidebar-box {
+  background-color: colors.$element-2nd-color;
+  border-radius: 10px;
+
+  &-category {
+    @extend .sidebar-box;
+    padding: 1rem;
+  }
 }
