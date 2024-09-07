@@ -16,6 +16,10 @@
   &-category {
     @extend .sidebar-box;
     padding: 1rem;
+
+    &:first-of-type {
+      box-shadow: 0px -5px 5px -5px colors.$headline-color;
+    }
   }
   &-removeicon {
     background-color: colors.$bg-2nd-color;
