@@ -5,12 +5,12 @@ const HomeContent = () => {
   return (
     <div className="container">
       <Row>
-        <Col md={3} lg={3}>
-          <div className="home-sidebar">
+        <Col xs={12} sm={6} md={5} lg={3}>
+          <div classN ame="home-sidebar">
             <HomeSideBar />
           </div>
         </Col>
-        <Col md={9} lg={9}>
+        <Col xs={12} sm={6} md={7} lg={9}>
           <div className="home-content">
             <h1>Home Content</h1>
           </div>

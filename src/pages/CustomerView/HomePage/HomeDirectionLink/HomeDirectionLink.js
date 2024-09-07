@@ -89,10 +89,10 @@ const HomeDirectionLink = () => {
               <a className="nav-link">
                 <div className="indicator-button">
                   <Row className="align-items-center">
-                    <Col xs={3}>
+                    <Col xs={2}>
                       <SendOutlinedIcon sx={{ rotate: "-30deg" }} />
                     </Col>
-                    <Col xs={9}>
+                    <Col xs={10}>
                       <span>Bought Before</span>
                     </Col>
                   </Row>
@@ -133,10 +133,10 @@ const HomeDirectionLink = () => {
               <a className="nav-link">
                 <div className="indicator-button">
                   <Row className="align-items-center">
-                    <Col xs={3}>
+                    <Col xs={2} md={2} lg={2}>
                       <ContentPasteOutlinedIcon />
                     </Col>
-                    <Col xs={9}>
+                    <Col xs={10} md={10} lg={10}>
                       <span>Menu Planning</span>
                     </Col>
                   </Row>
