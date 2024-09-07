@@ -17,4 +17,10 @@
     @extend .sidebar-box;
     padding: 1rem;
   }
+  &-removeicon {
+    background-color: colors.$bg-2nd-color;
+    color: colors.$headline-color;
+    border: 2px solid colors.$bg-2nd-color;
+    border-radius: 100%;
+  }
 }

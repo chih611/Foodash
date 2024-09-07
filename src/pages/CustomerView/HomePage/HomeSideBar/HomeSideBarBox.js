@@ -9,7 +9,7 @@ const HomeSideBarBox = () => {
       <div className="sidebar-box-category">
         <Row>
           <Col xs={3}>
-            <RemoveCircleIcon />
+            <RemoveCircleIcon className="sidebar-box-removeicon" />
           </Col>
           <Col xs={6}>Event Type</Col>
           <Col xs={3}>
@@ -20,7 +20,7 @@ const HomeSideBarBox = () => {
       <div className="sidebar-box-category">
         <Row>
           <Col xs={3}>
-            <RemoveCircleIcon />
+            <RemoveCircleIcon className="sidebar-box-removeicon" />
           </Col>
           <Col xs={6}>Dietary</Col>
           <Col xs={3}>
@@ -31,7 +31,7 @@ const HomeSideBarBox = () => {
       <div className="sidebar-box-category">
         <Row>
           <Col xs={3}>
-            <RemoveCircleIcon />
+            <RemoveCircleIcon className="sidebar-box-removeicon" />
           </Col>
           <Col xs={6}>People</Col>
           <Col xs={3}>
@@ -42,7 +42,7 @@ const HomeSideBarBox = () => {
       <div className="sidebar-box-category">
         <Row>
           <Col xs={3}>
-            <RemoveCircleIcon />
+            <RemoveCircleIcon className="sidebar-box-removeicon" />
           </Col>
           <Col xs={6}>Checklist</Col>
           <Col xs={3}>
