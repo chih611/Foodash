@@ -1,0 +1,30 @@
+@use "../abstract/colors" as colors;
+@use "../abstract/mixins" as mixins;
+
+.home-sidebar {
+  border-right: 1px solid colors.$element-2nd-color;
+  padding: 1rem 0.01rem;
+}
+.home-sidebar-box {
+  padding: 1rem;
+}
+
+.sidebar-box {
+  background-color: colors.$element-2nd-color;
+  border-radius: 10px;
+
+  &-category {
+    @extend .sidebar-box;
+    padding: 1rem;
+
+    &:first-of-type {
+      box-shadow: 0px -5px 5px -5px colors.$headline-color;
+    }
+  }
+  &-removeicon {
+    background-color: colors.$bg-2nd-color;
+    color: colors.$headline-color;
+    border: 2px solid colors.$bg-2nd-color;
+    border-radius: 100%;
+  }
+}

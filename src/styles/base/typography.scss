@@ -1,12 +1,12 @@
 // styles/base/typography.scss
 
-@use '../abstract/colors' as colors;
-@import url('https://fonts.googleapis.com/css2?family=Itim&display=swap');
+@use "../abstract/colors" as colors;
+@import url("https://fonts.googleapis.com/css2?family=Itim&display=swap");
 
-$font-stack: 'DM Sans', sans-serif;
+$font-stack: "DM Sans", sans-serif;
 
 h1 {
-  font-family: 'Itim', sans-serif;
+  font-family: "Itim", sans-serif;
   font-size: 84px;
   font-weight: bold;
   color: colors.$headline-color;
@@ -14,7 +14,7 @@ h1 {
 }
 
 h2 {
-  font-family: 'DM Sans', sans-serif;
+  font-family: "DM Sans", sans-serif;
   font-size: 48px;
   font-weight: bold;
   color: colors.$headline-color;
@@ -44,6 +44,20 @@ h4 {
 }
 
 body {
+  font-family: $font-stack;
+  font-size: 16px;
+  font-weight: normal;
+  color: colors.$text-color;
+}
+
+.sidebar-box {
+  font-family: $font-stack;
+  font-size: 16px;
+  font-weight: normal;
+  color: colors.$bg-color;
+}
+
+.direction {
   font-family: $font-stack;
   font-size: 16px;
   font-weight: normal;

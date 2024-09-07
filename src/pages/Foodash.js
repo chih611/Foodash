@@ -22,6 +22,9 @@ const Foodash = () => {
             <Link href="/CustomerView/BoughtBefore/BoughtBefore"></Link>
           </li>
           <li>
+            <Link href="CustomerView/HomePage/HomePage"></Link>
+          </li>
+          <li>
             <Link href="/CustomerView/Special/Special"></Link>
           </li>
           <li>
