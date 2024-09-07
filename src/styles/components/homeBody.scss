@@ -1,0 +1,6 @@
+@use '../abstract/colors' as colors;
+@use '../abstract/mixins' as mixins;
+
+.home-sidebar{
+    border-right: 1px solid  colors.$element-2nd-color;
+}
