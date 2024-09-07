@@ -1,0 +1,8 @@
+@use '../abstract/colors' as colors;
+@use '../abstract/mixins' as mixins;
+
+.main_navbar{
+    padding: 16px;
+    background-color: $bg-color;
+    color-scheme: $text-color; // add color for text
+}
