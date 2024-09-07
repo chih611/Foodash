@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Col, Row } from "react-bootstrap";
 import axios from "axios";
 import HomeSideBar from "../HomeSideBar/HomeSideBar";
+import HomeFilterBar from "./HomeFilterBar";
 import { Menu } from "@mui/icons-material";
+import HomeItemContainer from "../HomeItemContainer/HomeItemContainer";
 
 const HomeContent = () => {
   const [items, setItems] = useState([]);
@@ -35,6 +37,8 @@ const HomeContent = () => {
         <Col xs={12} sm={6} md={7} lg={9}>
           <div className="home-content">
             <h1>Home Content</h1>
+            <HomeFilterBar />
+            <HomeItemContainer />
             <ul>
               {items ? (
                 items.map((item) => <li key={item.itemId}>{item.itemName}</li>)
