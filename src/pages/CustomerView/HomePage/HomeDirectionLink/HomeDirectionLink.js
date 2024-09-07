@@ -58,7 +58,6 @@ const HomeDirectionLink = () => {
           </Col>
 
           <Col
-            md={2}
             className={`text-center ${
               router.pathname === "/favorites" ? "active" : ""
             }`}
@@ -89,11 +88,11 @@ const HomeDirectionLink = () => {
               <a className="nav-link">
                 <div className="indicator-button">
                   <Row className="align-items-center">
-                    <Col xs={2}>
+                    <Col xs={2} sm={2} md={2} lg={2}>
                       <SendOutlinedIcon sx={{ rotate: "-30deg" }} />
                     </Col>
-                    <Col xs={10}>
-                      <span>Bought Before</span>
+                    <Col xs={10} sm={10} md={10} lg={10}>
+                      Bought Before
                     </Col>
                   </Row>
                 </div>
