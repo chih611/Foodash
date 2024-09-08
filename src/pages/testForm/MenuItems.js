@@ -10,7 +10,7 @@ const  MenuItems= () =>{
 
     const fetchTodos = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/items');
+        const response = await axios.get('http://localhost:8080/v1/item');
         setItems(response.data);
         console.log(response);
       } catch (error) {
@@ -62,7 +62,7 @@ const  MenuItems= () =>{
       <h2>Menu List</h2>
       <form onSubmit={handleSubmit(onSubmit)}>
         <input
-          type="text"
+          type= "text"
           {...register('title', { required: true })}
           placeholder="Enter item"
         />

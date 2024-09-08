@@ -1,0 +1,105 @@
+@use "../abstract/colors" as colors;
+@use "../abstract/mixins" as mixins;
+@use "../base/typography" as typography;
+
+.order-button {
+  &--disabled {
+  }
+  &--hover {
+  }
+  &--pressed {
+  }
+}
+.indicator-button {
+  @extend .direction; // Use the direction class in button styles
+
+  position: relative;
+  display: inline-block;
+  transition: color 0.3s ease, font-weight 0.3s ease;
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    right: 50%;
+    bottom: -5px;
+    height: 2px;
+    background-color: #025373;
+    transition: width 0.3s ease, left 0.3s ease, right 0.3s ease;
+    width: 0;
+  }
+
+  &:hover {
+    color: #025373;
+    font-weight: 600;
+
+    &::after {
+      left: 0;
+      right: 0;
+      width: 100%;
+    }
+  }
+
+  &:active {
+    color: #025373;
+    font-weight: 600;
+
+    &::after {
+      left: 0;
+      right: 0;
+      width: 100%;
+    }
+  }
+
+  &:disabled {
+    color: #d3d3d3;
+    pointer-events: none;
+    font-weight: 400;
+  }
+}
+
+
+.login-button {
+  padding: 0.5rem 1rem; /* Adjust padding as needed */
+  font-size: 0.875rem; /* Make text smaller on small screens */
+  &--disabled {
+  }
+  &--hover {
+  }
+  &--pressed {
+  }
+}
+
+.cart-button {
+  border-radius: 100%;
+  padding: 0.5rem 0.5rem; /* Adjust padding as needed */
+  border: 1px solid colors.$pressed-color;
+
+  &--disabled {
+  }
+
+  &--hover {
+  }
+
+  &--pressed {
+  }
+}
+
+.plus-button {
+  &--disabled {
+  }
+
+  &--hover {
+  }
+
+  &--pressed {
+  }
+}
+
+/* Adjust button sizes for smaller screens */
+@media (max-width: 576px) {
+  .login-button {
+    padding: 0.4rem 0.8rem; /* Adjust to make the button fit better */
+    font-size: 0.75rem; /* Smaller font size */
+  }
+}
