@@ -4,6 +4,8 @@
 .home-direction-link {
     margin-bottom: 24px;
     background-color: colors.$bg-color;
+
+
   
     // Offcanvas styles for small screens
     @include mixins.media-breakpoint-down(md) {

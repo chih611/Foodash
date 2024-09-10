@@ -9,6 +9,9 @@ import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
 import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
 import ContentPasteOutlinedIcon from "@mui/icons-material/ContentPasteOutlined";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
+import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
+import SortOutlinedIcon from "@mui/icons-material/SortOutlined";
+import SortByAlphaOutlinedIcon from "@mui/icons-material/SortByAlphaOutlined";
 
 const HomeDirectionLink = () => {
   const router = useRouter();
@@ -29,7 +32,11 @@ const HomeDirectionLink = () => {
       </Button>
 
       {/* Offcanvas for smaller screen navigation */}
-      <Offcanvas show={showOffcanvas} onHide={handleOffcanvasClose}>
+      <Offcanvas
+        show={showOffcanvas}
+        onHide={handleOffcanvasClose}
+        style={{ width: "50%" }}
+      >
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>Menu</Offcanvas.Title>
         </Offcanvas.Header>
