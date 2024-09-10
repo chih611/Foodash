@@ -1,0 +1,12 @@
+@use '../abstract/colors' as colors;
+@use '../abstract/mixins' as mixins;
+
+
+
+
+
+.item-information{
+    border: 1px solid colors.$text-color;    
+    display: flex;
+    margin: 24px;
+}
