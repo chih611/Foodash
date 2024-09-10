@@ -1,0 +1,47 @@
+@use "../abstract/colors" as colors;
+@use "../abstract/mixins" as mixins;
+
+.item-card {
+    font-family: 'DM Sans', sans-serif;
+    background-color: white;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+    width: 100%; // Full width of the column
+  
+    .item-image img {
+      width: 100%;
+      height: auto;
+    }
+  
+    .item-info {
+      margin-top: 10px;
+  
+      .price {
+        font-size: 16px;
+        margin: 10px 0;
+        font-weight: 400; // Regular weight for the price text
+      }
+  
+      .item-actions {
+        display: flex;
+        justify-content: space-between;
+  
+        button {
+          background: none;
+          border: none;
+          font-size: 24px;
+        }
+  
+        .favorite-btn {
+          color: red;
+        }
+  
+        .cart-btn {
+          color: green;
+        }
+      }
+    }
+  }
+  

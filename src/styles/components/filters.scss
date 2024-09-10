@@ -1,0 +1,40 @@
+.filters-container {
+    margin-top: 50px; /* Create gap between filters and ads */
+    margin-bottom: 20px; /* Space between the filter section and other sections */
+  
+    .filter-btn {
+      padding: 5px 15px;
+      border-radius: 5px;
+      font-weight: 500;
+    }
+  
+    .filter-group {
+      background-color: #f0f0f0;
+      border-radius: 5px;
+      padding: 5px 15px;
+      display: flex;
+      flex-wrap: wrap; /* Make the group flexible */
+      align-items: center;
+    }
+  
+    .filter-item {
+      color: #333;
+      background-color: #fff;
+      padding: 5px 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      margin-right: 10px; /* Space between the filter items */
+      display: inline-flex;
+      align-items: center;
+    }
+  
+    /* Icon margin adjustments */
+    .ml-2 {
+      margin-left: 5px;
+    }
+  
+    .ml-1 {
+      margin-left: 5px;
+    }
+  }
+  

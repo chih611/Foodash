@@ -1,0 +1,21 @@
+@use "../abstract/colors" as colors;
+@use "../abstract/mixins" as mixins;
+
+
+
+.deals-section {
+  margin-top: 20px;
+  font-family: 'DM Sans', sans-serif;
+
+  .section-title {
+    color: #333;
+    margin-bottom: 10px;
+    font-weight: 500; // Medium weight for section titles
+  }
+
+  .row {
+    margin: 0;
+  }
+}
+
+  
