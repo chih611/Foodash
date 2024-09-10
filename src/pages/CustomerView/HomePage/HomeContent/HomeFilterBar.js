@@ -1,11 +1,12 @@
+// components/HomeFilterBar.js
 import React from "react";
 import { ButtonGroup, Dropdown, Button } from "react-bootstrap";
 
 const HomeFilterBar = () => {
   return (
     <div className="filters-section my-3">
-      <ButtonGroup>
-        <Dropdown as={ButtonGroup}>
+      <ButtonGroup className="d-flex flex-wrap">
+        <Dropdown as={ButtonGroup} className="mb-2 mb-md-0 me-2">
           <Dropdown.Toggle variant="outline-primary">
             Categories
           </Dropdown.Toggle>
@@ -16,7 +17,7 @@ const HomeFilterBar = () => {
           </Dropdown.Menu>
         </Dropdown>
 
-        <Dropdown as={ButtonGroup}>
+        <Dropdown as={ButtonGroup} className="mb-2 mb-md-0 me-2">
           <Dropdown.Toggle variant="outline-primary">
             Price Range
           </Dropdown.Toggle>
@@ -26,7 +27,7 @@ const HomeFilterBar = () => {
           </Dropdown.Menu>
         </Dropdown>
 
-        <Dropdown as={ButtonGroup}>
+        <Dropdown as={ButtonGroup} className="mb-2 mb-md-0 me-2">
           <Dropdown.Toggle variant="outline-primary">
             Name (A-Z)
           </Dropdown.Toggle>
@@ -36,8 +37,12 @@ const HomeFilterBar = () => {
           </Dropdown.Menu>
         </Dropdown>
 
-        <Button variant="outline-primary">Platters</Button>
-        <Button variant="outline-primary">Ham</Button>
+        <Button variant="outline-primary" className="mb-2 mb-md-0 me-2">
+          Platters
+        </Button>
+        <Button variant="outline-primary" className="mb-2 mb-md-0">
+          Ham
+        </Button>
       </ButtonGroup>
     </div>
   );
