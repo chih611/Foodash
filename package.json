@@ -14,6 +14,7 @@
     "@emotion/styled": "^11.13.0",
     "@mui/icons-material": "^6.0.2",
     "@mui/material-nextjs": "^6.0.2",
+    "@nextui-org/input": "^2.2.4",
     "@reduxjs/toolkit": "^2.2.7",
     "axios": "^1.7.5",
     "bootstrap": "^5.3.3",
