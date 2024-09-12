@@ -2,7 +2,6 @@
 @use '../abstract/mixins' as mixins;
 @use '../base/typography' as typography;
 
-
 .item-modification-container {
     
     .breadcrumb {
@@ -12,21 +11,26 @@
     .product-title {
       font-size: 2rem;
       font-weight: bold;
-      color: #094067;
+      color: colors.$headline-color; // Using colors.$headline-color
     }
   
     h4 {
       font-size: 1.25rem;
       font-weight: 600;
-      color: #ef4565;
+      color: colors.$text-color; // Use colors variable
     }
-  
     .badge {
-      background-color: #3da9fc;
-      color: #fff;
-      font-size: 0.9rem;
-      padding: 0.5rem 1rem;
-    }
+        background-color: colors.$bg-color; 
+        color: colors.$text-color; 
+        border-radius: 20px; 
+        padding: 0.5rem 1rem; 
+        font-size: 1rem; 
+        border: 1px solid colors.$bg-2nd-color; 
+        margin-bottom: 1rem; 
+      }
+
+      
+      
   
     /* Custom styling for checkboxes and labels */
     .extra-checkbox-row {
@@ -34,13 +38,42 @@
       display: flex;
       justify-content: space-between;
       margin-bottom: 1rem;
-      border-bottom: 1px solid #90b4ce;
+      border-bottom: 1px solid colors.$element-2nd-color; // Border using color
+    }
+
+    .extra-item-name{
+        color: colors.$text-color;
     }
   
-    .custom-checkbox {
-      margin-right: 10px;
-      cursor: pointer;
+// styles.scss or your main stylesheet
+.custom-checkbox {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #90B4CE;
+    border-radius: 3px;
+    outline: none;
+    cursor: pointer;
+    position: relative;
+  
+    &:checked {
+      background-color: #90B4CE;
     }
+  
+    &:checked::after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 5px;
+      width: 4px;
+      height: 8px;
+      border: solid white;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+  }
   
     .custom-label {
       font-size: 1rem;
@@ -48,17 +81,20 @@
     }
   
     .form-control {
-      border: 1px solid #90b4ce;
+      border: 1px solid colors.$element-2nd-color; // Using color variable
+    }
+
+    .instruction-area {
+      background-color: colors.$bg-2nd-color; // Corrected the variable use
     }
   
     button {
-      background-color: #3da9fc;
-      border-color: #3da9fc;
+      background-color: colors.$element-color; // Button background color
+      border-color: colors.$element-color;
       font-size: 1.25rem;
       &:hover {
-        background-color: #03588c;
-        border-color: #03588c;
+        background-color: colors.$hover-color; // Use hover color
+        border-color: colors.$hover-color;
       }
     }
-  }
-  
+}

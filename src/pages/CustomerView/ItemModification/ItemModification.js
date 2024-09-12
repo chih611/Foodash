@@ -70,15 +70,15 @@ const ItemModification = () => {
 
           {/* Tagging */}
           <div className="my-2">
-            <Badge pill variant="secondary" className="me-2">
+            <div pill className="badge me-2">
               Quick food cooking
-            </Badge>
-            <Badge pill variant="secondary" className="me-2">
+            </div>
+            <div pill className="badge me-2">
               Processed Meats
-            </Badge>
-            <Badge pill variant="secondary">
+            </div>
+            <div pill className="badge me-2">
               Daily
-            </Badge>
+            </div>
           </div>
 
           {/* Price Information */}
@@ -92,12 +92,12 @@ const ItemModification = () => {
       {/* Extras Section - Custom Checkboxes */}
       <Row className="my-4">
         <Col>
-          <h3>Extras</h3>
+          <h2>Extras</h2>
           {Object.keys(extras).map((extra, index) => (
             <Row key={index} className="extra-checkbox-row">
               <Col xs={3} className="d-flex align-items-center">
                 <label htmlFor={extra} className="custom-label">
-                  <Row> {extra}</Row>
+                  <Row className="extra-item-name"> {extra}</Row>
 
                   <Row>+ $3.00 </Row>
                 </label>
@@ -106,6 +106,7 @@ const ItemModification = () => {
               <Col xs={1} className="d-flex align-items-center">
                 <input
                   type="checkbox"
+                  borderColor="#90B4CE"
                   id={extra}
                   name={extra}
                   checked={extras[extra]}
@@ -123,7 +124,7 @@ const ItemModification = () => {
         <Col>
           <h3>Special Instructions</h3>
           <Form.Group>
-            <Form.Control as="textarea" rows={3} />
+            <Form.Control as="textarea" className="instruction-area" rows={3} />
             <p>You may be charged for extras</p>
           </Form.Group>
         </Col>
