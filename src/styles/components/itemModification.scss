@@ -1,0 +1,64 @@
+@use '../abstract/colors' as colors;
+@use '../abstract/mixins' as mixins;
+@use '../base/typography' as typography;
+
+
+.item-modification-container {
+    
+    .breadcrumb {
+      background-color: transparent;
+    }
+  
+    .product-title {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #094067;
+    }
+  
+    h4 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #ef4565;
+    }
+  
+    .badge {
+      background-color: #3da9fc;
+      color: #fff;
+      font-size: 0.9rem;
+      padding: 0.5rem 1rem;
+    }
+  
+    /* Custom styling for checkboxes and labels */
+    .extra-checkbox-row {
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid #90b4ce;
+    }
+  
+    .custom-checkbox {
+      margin-right: 10px;
+      cursor: pointer;
+    }
+  
+    .custom-label {
+      font-size: 1rem;
+      cursor: pointer;
+    }
+  
+    .form-control {
+      border: 1px solid #90b4ce;
+    }
+  
+    button {
+      background-color: #3da9fc;
+      border-color: #3da9fc;
+      font-size: 1.25rem;
+      &:hover {
+        background-color: #03588c;
+        border-color: #03588c;
+      }
+    }
+  }
+  
