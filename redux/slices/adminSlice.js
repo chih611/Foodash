@@ -1,6 +1,14 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
-const itemSlice = createSlice({
-  name: "itemx",
-  intitialState: {},
+const adminSlice = createSlice({
+  name: "admin",
+  initialState: {
+    inventory: [],
+    reports: [],
+  },
+  reducers: {
+    // Other local admin actions, if necessary
+  },
 });
+
+export default adminSlice.reducer;

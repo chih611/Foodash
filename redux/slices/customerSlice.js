@@ -1,19 +1,23 @@
-import { createSlice, PayLoadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
-const userSlice = createSlice({
-  name: "user",
+const customerSlice = createSlice({
+  name: "customer",
   initialState: {
-    userInfo: null,
+    cart: [],
+    orders: [],
   },
   reducers: {
-    setUser: (state, action) => {
-      state.userInfo = action.payload;
+    addToCart: (state, action) => {
+      state.cart.push(action.payload);
     },
-    clearUser: (state) => {
-      state.userInfo = null;
+    removeFromCart: (state, action) => {
+      state.cart = state.cart.filter((item) => item.id !== action.payload);
+    },
+    clearCart: (state) => {
+      state.cart = [];
     },
   },
 });
 
-export const { setUser, clearUser } = userSlice.actions;
-export default userSlice.reducer;
+export const { addToCart, removeFromCart, clearCart } = customerSlice.actions;
+export default customerSlice.reducer;
