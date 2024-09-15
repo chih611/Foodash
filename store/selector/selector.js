@@ -22,6 +22,13 @@ export const selectCartItems = createSelector(
 // Select the admin slice from the state
 const selectAdmin = (state) => state.admin;
 
+// src/store/selectors/selectors.js
+
+// Select the items slice from the state
+const selectItemsState = (state) => state.items;
+
+// Memoized selector for the list of items
+
 // Memoized selector for admin profile
 export const selectAdminProfile = createSelector(
   [selectAdmin],
@@ -32,6 +39,23 @@ export const selectAdminProfile = createSelector(
 export const selectAllUsers = createSelector(
   [selectAdmin],
   (admin) => admin.users
+);
+
+export const selectAllItems = createSelector(
+  [selectItemsState],
+  (itemsState) => itemsState.items
+);
+
+// Memoized selector for the items loading status
+export const selectItemsStatus = createSelector(
+  [selectItemsState],
+  (itemsState) => itemsState.status
+);
+
+// Memoized selector for items error
+export const selectItemsError = createSelector(
+  [selectItemsState],
+  (itemsState) => itemsState.error
 );
 
 // Memoized selector for admin status

@@ -1,31 +1,30 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchItems } from "../../../../../store/slices/itemsSlice";
 import { Col, Row } from "react-bootstrap";
-import axios from "axios";
 import HomeSideBar from "../HomeSideBar/HomeSideBar";
 import HomeFilterBar from "./HomeFilterBar";
-import { Menu } from "@mui/icons-material";
 import HomeItemContainer from "../HomeItemContainer/HomeItemContainer";
 
 const HomeContent = () => {
-  const [items, setItems] = useState([]);
-
-  const getItems = async () => {
-    try {
-      const response = await axios.get("http://localhost:8080/item");
-      console.log("home", response);
-      setItems(response.data.rows || []); // Ensure response.data.row is an array
-    } catch (err) {
-      console.log(err);
-      setItems([]); // Set items to an empty array in case of error
-    }
-  };
+  const dispatch = useDispatch();
+  const { items, status, error } = useSelector((state) => state.items);
 
   useEffect(() => {
-    getItems();
-  }, []);
+    dispatch(fetchItems());
+  }, [dispatch]);
 
-  // Define editItem and deleteItem functions
+  // Error state
+  if (status === "failed") {
+    return <div>Error: {error}</div>;
+  }
 
+  // Loading state
+  if (status === "loading") {
+    return <div>Loading...</div>;
+  }
+
+  // Render items safely
   return (
     <div className="container">
       <Row>
@@ -38,14 +37,13 @@ const HomeContent = () => {
           <div className="home-content">
             <h1>Home Content</h1>
             <HomeFilterBar />
-            <HomeItemContainer />
-            <ul>
-              {items ? (
-                items.map((item) => <li key={item.itemId}>{item.itemName}</li>)
-              ) : (
-                <li>No items available</li>
-              )}
-            </ul>
+            {items.length > 0 ? (
+              items.map((item) => (
+                <HomeItemContainer key={item.ITEM_ID} item={item} />
+              ))
+            ) : (
+              <p>No items available.</p>
+            )}
           </div>
         </Col>
       </Row>
