@@ -16,7 +16,7 @@ import SearchRounded from "@mui/icons-material/SearchRounded";
 import SearchBar from "./searchBar";
 
 // NavBar component
-const HomeNavBar = () => {
+const HomePageNavBar = () => {
   const [showOffcanvas, setShowOffcanvas] = useState(false);
   const handleToggle = () => setShowOffcanvas(!showOffcanvas);
 
@@ -155,4 +155,4 @@ const HomeNavBar = () => {
   );
 };
 
-export default HomeNavBar;
+export default HomePageNavBar;
