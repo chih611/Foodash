@@ -95,6 +95,21 @@
   &--pressed {
   }
 }
+.account-button{
+  border-radius: 100%;
+  padding: 0.5rem 0.5rem; /* Adjust padding as needed */
+  border: 1px solid colors.$headline-color;
+
+  &--disabled {
+  }
+
+  &--hover {
+  }
+
+  &--pressed {
+  }
+}
+
 
 /* Adjust button sizes for smaller screens */
 @media (max-width: 576px) {

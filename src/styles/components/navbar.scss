@@ -6,3 +6,10 @@
     background-color: $bg-color;
     color-scheme: $text-color; // add color for text
 }
+
+.search_bar{
+    background-color: $bg-color;
+    color-scheme: $text-color; // add color for text
+    color: colors.$headline-color;
+    border-radius: 2px;
+}

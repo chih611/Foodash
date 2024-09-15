@@ -6,7 +6,7 @@ interface iDefault {
 }
 
 
-export const SearchInput = ({ defaultValue }: iDefault) => {
+export const SearchBar = ({ defaultValue }: iDefault) => {
     // initiate the router from next/navigation
 
     const router = useRouter()
