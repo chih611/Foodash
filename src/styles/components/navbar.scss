@@ -12,4 +12,24 @@
     color-scheme: $text-color; // add color for text
     color: colors.$headline-color;
     border-radius: 2px;
+    margin-bottom: 10px;
+    padding: 10px;
+    width: 100%;
 }
+
+.searchContainer {
+    position: relative;
+    width: 100%;
+  }
+
+.result_item {
+    background-color: #f0f0f0;
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .result_item:hover {
+    background-color: #e0e0e0;
+  }

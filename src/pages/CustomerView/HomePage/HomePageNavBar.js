@@ -105,21 +105,16 @@ const HomeNavBar = () => {
               </Link>
             </Col>
 
-            <Col xs={12} md={5}>
+            <Col xs={12} md={7}>
               {/* Flex container for icon and search bar */}
               <div className="d-flex align-items-center">
-                <div className="me-2">
-                  <SearchRounded />
-                </div>
 
                 {/* Search bar section */}
-                <div style={{ flex: 1 }}>
-                  <SearchBar className="search_bar" />
+                <div className="w-100 align-items-center d-none d-lg-flex">
+                  <SearchBar />
                 </div>
               </div>
             </Col>
-
-            <Col xs={12} md={2}></Col>
 
             {/* Account Section */}
             <Col xs={12} md={1} className="d-flex flex-row-reverse bd-highlight">

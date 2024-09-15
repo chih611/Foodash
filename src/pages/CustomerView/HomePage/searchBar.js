@@ -1,74 +1,45 @@
-import { useRouter } from "next/navigation";
-import { useState, ChangeEvent } from "react";
+import { useState, useEffect } from "react";
+import SearchRounded from "@mui/icons-material/SearchRounded";
 
-interface iDefault {
-    defaultValue: string | null
-}
+const SearchBar = () => {
+  const [search, setSearch] = useState('');
+  const [list, setList] = useState([]);
 
-
-export const SearchBar = ({ defaultValue }: iDefault) => {
-    // initiate the router from next/navigation
-
-    const router = useRouter()
-
-    // We need to grab the current search parameters and use it as default value for the search input
-
-    const [inputValue, setValue] = useState(defaultValue)
-
-    const handleChange = (event: ChangeEvent<HTMLInputElement>) =>{
-
-        const inputValue = event.target.value;
-
-        setValue(inputValue);
-
+  useEffect(() => {
+    async function fetchData() {
+      const response = await fetch('your-api-url');
+      const data = await response.json();
+      setList(data);
     }
 
+    fetchData();
+  }, []);
 
+  const filteredList = list.filter(item => 
+    item.toLowerCase().includes(search.toLowerCase())
+  );
 
-    // If the user clicks enter on the keyboard, the input value should be submitted for search 
+  return (
+    <div className="searchContainer">
+      <SearchRounded className="me-2"/>
+      <input
+        className = "search_bar"
+        type="text"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        placeholder="Search anything on Foodash"
+      />
+      {filteredList.length > 0 ? (
+        filteredList.map((item, index) => (
+          <div key={index} className="result_item">
+            {item}
+          </div>
+        ))
+      ) : (
+        <div>No results found</div>
+      )}
+    </div>
+  );
+};
 
-    // We are now routing the search results to another page but still on the same page
-
-
-    const handleSearch = () => {
-
-        if (inputValue) return router.push(`/?q=${inputValue}`);
-
-        if (!inputValue) return router.push("/")
-
-    }
-
-
-    const handleKeyPress = (event: { key: any; }) => {
-
-        if (event.key === "Enter") return handleSearch()
-
-    }
-
-
-
-    return (
-
-        <div className="search__input border-[2px] border-solid border-slate-500 flex flex-row items-center gap-5 p-1 rounded-[15px]">
-
-            <label htmlFor="inputId">searchIcon</label>
-
-
-            <input type="text"
-
-                id="inputId"
-
-                placeholder="Enter your keywords"
-
-                value={inputValue ?? ""} onChange={handleChange}
-
-                onKeyDown={handleKeyPress}
-
-                className="bg-[transparent] outline-none border-none w-full py-3 pl-2 pr-3" />
-
-
-        </div>
-
-    )
-
-}
+export default SearchBar;
