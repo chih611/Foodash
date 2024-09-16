@@ -33,7 +33,7 @@ const HomePageNavBar = () => {
           <Row className="w-100 align-items-center d-lg-none">
             {/* Logo (3 columns) */}
             <Col xs={4} className="d-flex justify-content-center">
-              <Link href="/" legacyBehavior passHref>
+              <Link href="/HomePage" legacyBehavior passHref>
                 <a>
                   <Image
                     src="/Foodash_logo.png"
@@ -93,7 +93,7 @@ const HomePageNavBar = () => {
 
           {/* Desktop Layout */}
           <Row className="w-100 align-items-center d-none d-lg-flex">
-            <Col xs={12} md={2} className="d-flex align-items-center">
+            <Col xs={12} md={3} className="d-flex align-items-center">
               {/* Logo Section */}
               <Link href="/" legacyBehavior passHref>
                 <a>
@@ -108,7 +108,7 @@ const HomePageNavBar = () => {
               </Link>
             </Col>
 
-            <Col xs={12} md={7}>
+            <Col xs={12} md={5}>
               {/* Flex container for icon and search bar */}
               <div className="d-flex align-items-center">
 
@@ -118,6 +118,8 @@ const HomePageNavBar = () => {
                 </div>
               </div>
             </Col>
+
+            <Col xs={12} md={1}></Col>
 
             {/* Account Section */}
             <Col xs={12} md={1} className="d-flex flex-row-reverse bd-highlight">
