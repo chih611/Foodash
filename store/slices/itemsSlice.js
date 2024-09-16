@@ -33,6 +33,7 @@ const itemsSlice = createSlice({
   name: "items",
   initialState: {
     items: [],
+    selectedItem: null, // Add selectedItem to store the clicked item
     status: "idle",
     error: null,
   },
@@ -41,6 +42,10 @@ const itemsSlice = createSlice({
       state.items = [];
       state.status = "idle";
       state.error = null;
+    },
+
+    selectItems: (state, action) => {
+      state.selectedItem = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -60,5 +65,5 @@ const itemsSlice = createSlice({
   },
 });
 
-export const { clearItems } = itemsSlice.actions;
+export const { clearItems, selectItems } = itemsSlice.actions;
 export default itemsSlice.reducer;

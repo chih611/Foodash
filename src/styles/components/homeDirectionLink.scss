@@ -1,38 +1,33 @@
-@use '../abstract/colors' as colors;
-@use '../abstract/mixins' as mixins;
+@use "../abstract/colors" as colors;
+@use "../abstract/mixins" as mixins;
 
 .home-direction-link {
-    margin-bottom: 24px;
-    background-color: colors.$bg-color;
+  margin-bottom: 24px;
+  background-color: colors.$bg-color;
 
+  // Offcanvas styles for small screens
+  @include mixins.media-breakpoint-down(md) {
+    display: none;
+  }
 
-  
-    // Offcanvas styles for small screens
-    @include mixins.media-breakpoint-down(md) {
-      display: none;
-    }
-  
-    // Button for offcanvas is hidden on larger screens
-    @include mixins.media-breakpoint-up(md) {
-      .d-md-none {
-        display: block;
-      }
+  // Button for offcanvas is hidden on larger screens
+  @include mixins.media-breakpoint-up(md) {
+    .d-md-none {
+      display: block;
     }
   }
-  
-  .nav-link {
-    color: colors.$element-color; // Use element color for links
-  
-    &:hover {
-      text-decoration: none;
-      color: colors.$hover-color; // Use hover color for hover state
-    }
-  
+}
 
-  
-    &.active .indicator-button {
-      background-color: colors.$element-color; // Active state uses the main element color
-      color: colors.$bg-color; // White text for active buttons
-    }
+.nav-link {
+  color: colors.$element-color; // Use element color for links
+
+  &:hover {
+    text-decoration: none;
+    color: colors.$hover-color; // Use hover color for hover state
   }
-  
+
+  &.active .indicator-button {
+    background-color: colors.$element-color; // Active state uses the main element color
+    color: colors.$bg-color; // White text for active buttons
+  }
+}

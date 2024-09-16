@@ -28,22 +28,26 @@ const HomeContent = () => {
   return (
     <div className="container">
       <Row>
-        <Col xs={12} sm={6} md={4} lg={3}>
+        <Col xs={12} sm={4} md={3} lg={3}>
           <div className="home-sidebar">
             <HomeSideBar />
           </div>
         </Col>
-        <Col xs={12} sm={6} md={8} lg={9}>
+        <Col xs={12} sm={8} md={9} lg={9}>
           <div className="home-content">
             <h1>Home Content</h1>
             <HomeFilterBar />
-            {items.length > 0 ? (
-              items.map((item) => (
-                <HomeItemContainer key={item.ITEM_ID} item={item} />
-              ))
-            ) : (
-              <p>No items available.</p>
-            )}
+            <div className="homeContentSection">
+              <Row>
+                {items ? (
+                  items.map((item) => (
+                    <HomeItemContainer key={item.ITEM_ID} item={item} />
+                  ))
+                ) : (
+                  <p>No items available.</p>
+                )}
+              </Row>
+            </div>
           </div>
         </Col>
       </Row>

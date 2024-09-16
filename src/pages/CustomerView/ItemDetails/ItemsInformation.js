@@ -5,7 +5,7 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import { useRouter } from "next/router";
 
-const ItemsInformation = () => {
+const ItemsInformation = ({ item }) => {
   const router = useRouter();
 
   const handleAddToCart = () => {
@@ -37,7 +37,7 @@ const ItemsInformation = () => {
 
           {/* Text Section */}
           <Col xs={12} md={7} className="mb-4">
-            <h1 className="item-title">Club house Sandwich</h1>
+            <h1 className="item-title">{item.ITEM_NAME}</h1>
             <Nav className="mb-2">
               <Nav.Item>
                 <Nav.Link className="category-tab">Quick food cooking</Nav.Link>
