@@ -1,4 +1,3 @@
-import HomePageNavBar from "../HomePage/HomePageNavBar";
 import CustomerDetail from "./CustomerDetail";
 
 

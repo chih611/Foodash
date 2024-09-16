@@ -1,3 +1,6 @@
+@use '../abstract/colors' as colors;
+@use '../abstract/mixins' as mixins;
+
 .filters-container {
   margin-bottom: 20px;
   display: flex;
@@ -31,3 +34,28 @@
     margin-left: 10px;
   }
 }
+
+.filters-section .filter-dropdown .filter-button {
+  border: none; /* Remove default border */
+  border-bottom: 2px solid colors.$element-2nd-color; /* Only bottom border in primary color */
+  border-radius: 0; /* Remove rounded corners */
+  color: colors.$text-color
+}
+
+.filter-dropdown {
+  margin-right: 8px; /* Adds spacing between dropdowns */
+  color: colors.$text-color;
+}
+
+.filter-dropdown .dropdown-toggle {
+  padding: 8px 16px; /* Add some padding for better UI */
+  color: colors.$text-color;
+}
+
+.filters-section {
+  display: flex;
+  justify-content: start;
+  flex-wrap: wrap;
+}
+
+

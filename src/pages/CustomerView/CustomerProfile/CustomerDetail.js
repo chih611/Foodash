@@ -24,7 +24,7 @@ const CustomerDetail = () => {
   return (
     <div>
       <Container fluid className="px-3 px-md-5 py-5" style={{ marginTop: "24px" }}>
-        <div className="navBar" style={{ marginBottom: "48px" }}>
+        <div className="navBar" style={{ marginBottom: "150px" }}>
           <HomePageNavBar />
         </div>
 
@@ -105,11 +105,13 @@ const CustomerDetail = () => {
         {/* Desktop View */}
         <Row className="w-100 align-items-center d-none d-lg-flex">
           {/* Avatar and Edit Icon Section */}
-          <Col xs={12} md={5} className="d-flex justify-content-center border">
+          <Col xs={12} md={5} className=" d-flex justify-content-center">
+          
             <Col style={{ width: "100%", maxWidth: "342px", height: "342px", backgroundColor: "#e0e0e0", marginLeft: "24px" }}>
               {/* Image Placeholder */}
+              
             </Col>
-            <Col><EditRounded sx={{ color: "#025373" }}/></Col>
+            <EditRounded sx={{ color: "#025373" }}/>
           </Col>    
 
           {/* Form Section */}
