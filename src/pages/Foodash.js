@@ -25,6 +25,9 @@ const Foodash = () => {
             <Link href="CustomerView/HomePage/HomePage"></Link>
           </li>
           <li>
+            <Link href="CustomerView/ItemDetails/ItemDetails"></Link>
+          </li>
+          <li>
             <Link href="/CustomerView/Special/Special"></Link>
           </li>
           <li>

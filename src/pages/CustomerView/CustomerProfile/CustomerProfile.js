@@ -1,7 +1,17 @@
+import CustomerDetail from "./CustomerDetail";
+
+
 const CustomerProfile = () => {
   return (
-    <div>
-      <h1>Customer Profile</h1>
+    <div>      
+      <div
+        style={{
+          marginTop: "48px",
+        }}
+      >
+        <CustomerDetail />
+      </div>
+      
     </div>
   );
 };

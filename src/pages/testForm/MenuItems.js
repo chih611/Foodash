@@ -2,75 +2,80 @@ import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-const  MenuItems= () =>{
-    const {register, handleSubmit ,  formState:{errors}} = useForm();
-    const [items, setItems] =  useState([]);
-    const  [editItems, setEditItems] = useState(null);
+const MenuItems = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const [items, setItems] = useState([]);
+  const [editItems, setEditItems] = useState(null);
 
+  const fetchTodos = async () => {
+    try {
+      const response = await axios.get("http://localhost:8080/item");
+      setItems(response.data.rows);
+      console.log(response);
+    } catch (error) {
+      console.error("Error fetching todos:", error);
+    }
+  };
 
-    const fetchTodos = async () => {
-      try {
-        const response = await axios.get('http://localhost:8080/v1/item');
-        setItems(response.data);
-        console.log(response);
-      } catch (error) {
-        console.error('Error fetching todos:', error);
-      }
-    };
-  
-    // Use useEffect to fetch todos when the component mounts
-    useEffect(() => {
-      fetchTodos();
-    }, []);
+  // Use useEffect to fetch todos when the component mounts
+  useEffect(() => {
+    fetchTodos();
+  }, []);
 
   // Handle form submission for adding/updating todos
   const onSubmit = async (data) => {
     try {
       if (editItems) {
-        const response = await axios.put('', { id: editItems.id, title: data.title });
-        setItems(items.map(item => item.id === editItems.id ? response.data : item));
+        const response = await axios.put("", {
+          id: editItems.id,
+          title: data.title,
+        });
+        setItems(
+          items.map((item) => (item.id === editItems.id ? response.data : item))
+        );
         setEditItems(null);
       } else {
-        const response = await axios.post('', data);
+        const response = await axios.post("", data);
         setItems([...items, response.data]);
       }
       reset();
     } catch (error) {
-      console.error('Error submitting form:', error);
+      console.error("Error submitting form:", error);
     }
   };
 
-  const deleteItem = async (id) =>{
-    try{
-      await  axios.delete('', {data: {id}});
+  const deleteItem = async (id) => {
+    try {
+      await axios.delete("", { data: { id } });
       fetchTodos();
-      
-
+    } catch (error) {
+      console.log(error.message);
     }
-    catch(error){
-        console.log(error.message)
-    }
-  }
+  };
 
-  const  editItem = (item) =>{
+  const editItem = (item) => {
     setEditItems(item);
-    reset('title', item.title);
-  }
+    reset("title", item.title);
+  };
 
   return (
     <div>
       <h2>Menu List</h2>
       <form onSubmit={handleSubmit(onSubmit)}>
         <input
-          type= "text"
-          {...register('title', { required: true })}
+          type="text"
+          {...register("title", { required: true })}
           placeholder="Enter item"
         />
-        <button type="submit">{editItems ? 'Update' : 'Add'}</button>
+        <button type="submit">{editItems ? "Update" : "Add"}</button>
       </form>
-      
+
       <ul>
-        {items.map(item => (
+        {items.map((item) => (
           <li key={item.itemId}>
             {item.itemName}
             <button onClick={() => editItem(item.itemName)}>Edit</button>
@@ -80,8 +85,6 @@ const  MenuItems= () =>{
       </ul>
     </div>
   );
-
-}
-
+};
 
 export default MenuItems;
