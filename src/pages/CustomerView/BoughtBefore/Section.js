@@ -1,16 +1,23 @@
 import React from 'react';
 import Item from './Item';
-// import './Section.scss';
+import { Row, Col } from "react-bootstrap";
+;
 
 const Section = ({ title }) => {
   return (
     <section className="deals-section">
-      <h2>{title}</h2>
-      <div className="item-row">
-        <Item />
-        <Item />
-        <Item />
-      </div>
+      <h2 className="section-title">{title}</h2>
+      <Row>
+        <Col md={4}>
+          <Item />
+        </Col>
+        <Col md={4}>
+          <Item />
+        </Col>
+        <Col md={4}>
+          <Item />
+        </Col>
+      </Row>
     </section>
   );
 };

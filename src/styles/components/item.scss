@@ -2,46 +2,61 @@
 @use "../abstract/mixins" as mixins;
 
 .item-card {
-    font-family: 'DM Sans', sans-serif;
-    background-color: white;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    text-align: center;
-    width: 100%; // Full width of the column
-  
-    .item-image img {
-      width: 100%;
-      height: auto;
-    }
-  
-    .item-info {
-      margin-top: 10px;
-  
-      .price {
-        font-size: 16px;
-        margin: 10px 0;
-        font-weight: 400; // Regular weight for the price text
-      }
-  
-      .item-actions {
-        display: flex;
-        justify-content: space-between;
-  
-        button {
-          background: none;
-          border: none;
-          font-size: 24px;
-        }
-  
-        .favorite-btn {
-          color: red;
-        }
-  
-        .cart-btn {
-          color: green;
-        }
-      }
-    }
-  }
-  
+  background-color: #e0e0e0; /* Grey background */
+  border-radius: 8px;
+  padding: 20px;
+  position: relative; /* To enable absolute positioning */
+  width: 100%; /* Full width of the container */
+  height: 250px; /* Set a fixed height */
+  text-align: center; /* Center the text horizontally */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center the content vertically */
+}
+
+.item-title {
+  font-size: 18px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 20px; /* Adds space between the title and bottom */
+}
+
+/* Absolute positioning for the price and icons at the bottom corners */
+.item-bottom {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  padding: 0 20px;
+}
+
+.price {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  position: absolute;
+  bottom: 10px; /* Positioned at the bottom-left corner */
+  left: 20px;
+}
+
+.item-actions {
+  display: flex;
+  gap: 10px; /* Space between the icons */
+  position: absolute;
+  bottom: 10px; /* Positioned at the bottom-right corner */
+  right: 20px;
+}
+
+.action-btn {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: #333;
+  font-size: 18px;
+}
+
+.action-btn:hover {
+  color: #007bff; /* Hover effect on the buttons */
+}

@@ -1,0 +1,22 @@
+@use "../abstract/colors" as colors;
+@use "../abstract/mixins" as mixins;
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
+
+.bought-before-container {
+  font-family: 'DM Sans', sans-serif;
+  background-color: #fffffe;
+  width: 100%;
+  margin: 0 auto;
+  padding: 10px;
+
+  .title {
+    color: #094067;
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: 700;
+  }
+
+  main {
+    padding: 10px;
+  }
+}

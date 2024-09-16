@@ -8,10 +8,16 @@
   font-family: 'DM Sans', sans-serif;
 
   .section-title {
-    color: #333;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 22px;
+    font-weight: bold;
+    color: #094067; /* Adjust color as needed */
     margin-bottom: 10px;
-    font-weight: 500; // Medium weight for section titles
+    padding-bottom: 5px; /* Adds space between the text and the line */
+    border-bottom: 2px solid #90B4CE; /* Add the line under the title */
+    display: inline-block; /* Ensures the line does not extend the full width */
   }
+  
 
   .row {
     margin: 0;

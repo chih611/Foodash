@@ -15,9 +15,9 @@ function Special() {
         {/* Filters Section */}
         <Filters />
         {/* Repeat the section for different categories */}
-        <Section title="Deli and Fresh Meats" />
-        <Section title="Party Platters" />
-        <Section title="Flowers and Extras" />
+        <Section className="title" title="Deli and Fresh Meats" />
+        <Section className="title" title="Party Platters" />
+        <Section className="title" title="Flowers and Extras" />
       </main>
     </Container>
   );
