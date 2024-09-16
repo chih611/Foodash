@@ -37,6 +37,9 @@ const Foodash = () => {
             <Link href="/CustomerView/SignIn/SignIn"></Link>
           </li>
           <li>
+            <Link href="/CustomerView/Payment/Payment"></Link>
+          </li>
+          <li>
             <Link href="/AdminView/Dashboard/Dashboard"></Link>
           </li>
           <li>
