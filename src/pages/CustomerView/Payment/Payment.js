@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { CreditCard, PaymentForm } from "react-square-web-payments-sdk"
-require('dotenv').config()
 
 const Payment = () => {
     const appId = 'sandbox-sq0idb-J_Bld9paUEQuNmSg2taitQ';
