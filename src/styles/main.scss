@@ -1,12 +1,12 @@
 // styles/main.scss
 
 // Use abstract styles (variables, mixins)
-@use 'abstract/colors';
-@use 'abstract/mixins';
+@use "abstract/colors";
+@use "abstract/mixins";
 
 // Import base styles (global styles, typography)
-@use 'base/base';
-@use 'base/typography';
+@use "base/base";
+@use "base/typography";
 
 // Import component-specific styles
 @use 'components/button';
@@ -16,5 +16,9 @@
 @use 'components/landingContact.scss';
 @use  'components/homeDirectionLink.scss';
 @use 'components/homeBody.scss';
+@use "components/homeItemContainer.scss";
+@use "components/itemDetails.scss";
+@use "components/itemModification.scss";
+@use "components/homeFilterBar.scss";
 @use 'components/navbar.scss';
 @use 'components/form.scss';
