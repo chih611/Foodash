@@ -29,6 +29,7 @@
     "react-square-web-payments-sdk": "^3.2.1",
     "redux": "^5.0.1",
     "sass": "^1.77.8",
+    "square": "^38.0.0",
     "sweetalert2": "^11.12.4"
   },
   "devDependencies": {
