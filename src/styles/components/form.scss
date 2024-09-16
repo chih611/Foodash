@@ -1,0 +1,27 @@
+@use '../abstract/colors' as colors;
+@use '../abstract/mixins' as mixins;
+
+.form-section{
+    padding: 3rem 0;
+    color-scheme: colors.$text-color;
+    margin-top: 24px;
+
+}
+.form_item{
+    background-color: colors.$bg-color;
+    color-scheme: colors.$text-color; // add color for text
+    border: colors.$headline-color;
+    border-radius: 10px;
+    margin: 10px;
+    padding: 10px;
+    width: 100%;
+
+  &--disabled {
+  }
+
+  &--hover {
+  }
+
+  &--pressed {
+  }
+}

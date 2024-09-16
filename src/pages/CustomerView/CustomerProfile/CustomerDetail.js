@@ -42,7 +42,7 @@ const CustomerDetail = () => {
         </div>
 
         <Row > 
-          {/* Image Placeholder Section */}
+          {/* Avatar Image */}
           <Col xs={12} md={4} className="d-flex justify-content-center">
             <div
               style={{
@@ -56,23 +56,62 @@ const CustomerDetail = () => {
               {/* Image Placeholder */}
             </div>
           </Col>
-          <Col xs={4} className="d-flex justify-content-begin">
-            <Row>
-              <Input type="email" label="Email" />
-            </Row>
-            
-          </Col>
-          <Col xs={4} className="d-flex justify-content-begin">
-            <Input type="email" label="Email" placeholder="Enter your email"/>
-          </Col>
+        </Row>
+        <Row className="form-section">
+          <div
+              style={{
+                width: "100%",
+                marginTop: "24px",
+              }}
+              >
+
+            <Col className="d-flex justify-content-center">
+              <Input className = "form_item" type="text" label="First Name"/> 
+              <Input className = "form_item" type="text" label="Last Name" />          
+            </Col>
+          </div>
+          <div
+              style={{
+                width: "100%",
+                marginTop: "24px",
+              }}
+              >
+
+            <Col className="d-flex justify-content-center">
+              <Input className = "form_item" type="text" label="Company Name"/> 
+              <Input className = "form_item" type="text" label="ABN"/>          
+            </Col>
+          </div>
+          <div
+              style={{
+                width: "100%",
+                marginTop: "24px",
+              }}
+              >
+
+            <Col className="d-flex justify-content-center">
+              <Input className = "form_item" type="date" label="Date of Birth"/> 
+              <Input className = "form_item" type="text" label="Gender"/>          
+            </Col>
+          </div>
+
+          <div
+              style={{
+                width: "100%",
+                marginTop: "24px",
+              }}
+              >
+
+            <Col className="d-flex justify-content-center">
+              <Input className = "form_item" type="email" label="Contact" placeholder="Enter your email"/> 
+              <Input className = "form_item" type="email" label="Type" />   
+              {/* // adjust list drop down after */}
+            </Col>
+          </div>
           
         </Row>
-
-
-      </Container>
-        
-        
-      </div>  
+      </Container>            
+    </div>  
     );
   };
   
