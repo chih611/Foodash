@@ -9,14 +9,16 @@
 @use "base/typography";
 
 // Import component-specific styles
-@use "components/button";
-@use "components/gallery";
-@use "components/landingMenu";
-@use "components/landingAbout.scss";
-@use "components/landingContact.scss";
-@use "components/homeDirectionLink.scss";
-@use "components/homeBody.scss";
+@use 'components/button';
+@use 'components/gallery';
+@use 'components/landingMenu';
+@use 'components/landingAbout.scss';
+@use 'components/landingContact.scss';
+@use  'components/homeDirectionLink.scss';
+@use 'components/homeBody.scss';
 @use "components/homeItemContainer.scss";
 @use "components/itemDetails.scss";
 @use "components/itemModification.scss";
 @use "components/homeFilterBar.scss";
+@use 'components/navbar.scss';
+@use 'components/form.scss';
