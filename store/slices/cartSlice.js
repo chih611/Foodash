@@ -22,13 +22,23 @@ export const fetchCart = createAsyncThunk(
 const cartSlice = createSlice({
   name: "cart",
   initialState: {
-    items: [],
+    cartItems: [], // Renamed from items to cartItems
     status: "idle", // 'idle' | 'loading' | 'succeeded' | 'failed'
     error: null,
   },
   reducers: {
+    addToCart: (state, action) => {
+      state.cartItems.push(action.payload); // Add the modified item to the cartItems array
+      console.log("Added to cart:", action.payload);
+      console.log("Cart items:", JSON.parse(JSON.stringify(state.cartItems))); // Deep clone to properly log items
+    },
+    removeFromCart: (state, action) => {
+      state.cartItems = state.cartItems.filter(
+        (item) => item.ITEM_ID !== action.payload
+      );
+    },
     clearCart: (state) => {
-      state.items = [];
+      state.cartItems = []; // Clear cartItems instead of items
       state.status = "idle";
     },
   },
@@ -38,7 +48,7 @@ const cartSlice = createSlice({
         state.status = "loading";
       })
       .addCase(fetchCart.fulfilled, (state, action) => {
-        state.items = action.payload;
+        state.cartItems = action.payload; // Updated to set fetched cartItems
         state.status = "succeeded";
       })
       .addCase(fetchCart.rejected, (state, action) => {
@@ -48,5 +58,5 @@ const cartSlice = createSlice({
   },
 });
 
-export const { clearCart } = cartSlice.actions;
+export const { clearCart, addToCart, removeFromCart } = cartSlice.actions;
 export default cartSlice.reducer;

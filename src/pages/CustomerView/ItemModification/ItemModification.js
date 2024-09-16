@@ -1,9 +1,17 @@
 import React, { useState } from "react";
 import { Container, Row, Col, Button, Form, Badge } from "react-bootstrap";
+import { useSelector } from "react-redux";
+import { addToCart } from "../../../../store/slices/cartSlice";
+import { useDispatch } from "react-redux";
 import Image from "next/image";
 import Link from "next/link";
 
 const ItemModification = () => {
+  // Access selectedItem from Redux
+  const selectedItem = useSelector((state) => state.items.selectedItem);
+  const dispatch = useDispatch();
+
+  // Initialize extras
   const [extras, setExtras] = useState({
     Bacon: false,
     Ham: false,
@@ -11,6 +19,7 @@ const ItemModification = () => {
     Tomatoes: false,
   });
 
+  // Handle checkbox changes
   const handleCheckboxChange = (e) => {
     const { name, checked } = e.target;
     setExtras((prevExtras) => ({
@@ -19,14 +28,38 @@ const ItemModification = () => {
     }));
   };
 
+  // Calculate the total price
   const calculateTotal = () => {
-    const basePrice = 13.5;
+    const basePrice = selectedItem ? selectedItem.PRICE || 13.5 : 13.5; // Default price if not provided
     const extrasCost = Object.keys(extras).reduce(
       (total, extra) => (extras[extra] ? total + 3 : total),
       0
     );
     return basePrice + extrasCost;
   };
+
+  const handleAddToCart = () => {
+    const modifiedItem = {
+      ...selectedItem,
+      extras,
+      totalPrice: calculateTotal(),
+    };
+    dispatch(addToCart(modifiedItem));
+  };
+
+  // Handle case where no item is selected
+  if (!selectedItem) {
+    return (
+      <Container className="py-5 item-modification-container">
+        <Row>
+          <Col>
+            <h2>No item selected</h2>
+            <Link href="/CustomerView/HomePage/HomePage">Go back to home</Link>
+          </Col>
+        </Row>
+      </Container>
+    );
+  }
 
   return (
     <Container className="py-5 item-modification-container">
@@ -36,13 +69,15 @@ const ItemModification = () => {
           <nav aria-label="breadcrumb">
             <ol className="breadcrumb">
               <li className="breadcrumb-item">
+                {/* Updated Link: removed <a> */}
                 <Link href="/CustomerView/HomePage/HomePage">Home</Link>
               </li>
               <li className="breadcrumb-item">
+                {/* Updated Link: removed <a> */}
                 <Link href="/platters">Platters</Link>
               </li>
               <li className="breadcrumb-item active" aria-current="page">
-                Club House Sandwich
+                {selectedItem.ITEM_NAME || "Selected Item"}
               </li>
             </ol>
           </nav>
@@ -62,34 +97,39 @@ const ItemModification = () => {
               position: "relative",
             }}
           >
-            {/* Image Placeholder */}
+            {/* Placeholder Image */}
+            <Image
+              src={selectedItem.image || ""}
+              alt={selectedItem.ITEM_NAME}
+              layout="fill"
+            />
           </div>
         </Col>
         <Col xs={12} md={6} lg={6}>
-          <h2 className="product-title">Club House Sandwich</h2>
+          <h2 className="product-title">{selectedItem.ITEM_NAME}</h2>
 
           {/* Tagging */}
           <div className="my-2">
-            <div pill className="badge me-2">
+            <Badge pill className="badge me-2">
               Quick food cooking
-            </div>
-            <div pill className="badge me-2">
+            </Badge>
+            <Badge pill className="badge me-2">
               Processed Meats
-            </div>
-            <div pill className="badge me-2">
+            </Badge>
+            <Badge pill className="badge me-2">
               Daily
-            </div>
+            </Badge>
           </div>
 
           {/* Price Information */}
           <div className="my-3">
-            <h4>$13.5 / pack</h4>
+            <h4>${selectedItem.PRICE || 13.5} / pack</h4>
             <h4>$38.2 / 3 packs</h4>
           </div>
         </Col>
       </Row>
 
-      {/* Extras Section - Custom Checkboxes */}
+      {/* Extras Section */}
       <Row className="my-4">
         <Col>
           <h2>Extras</h2>
@@ -97,16 +137,14 @@ const ItemModification = () => {
             <Row key={index} className="extra-checkbox-row">
               <Col xs={3} className="d-flex align-items-center">
                 <label htmlFor={extra} className="custom-label">
-                  <Row className="extra-item-name"> {extra}</Row>
-
-                  <Row>+ $3.00 </Row>
+                  <Row className="extra-item-name">{extra}</Row>
+                  <Row>+ $3.00</Row>
                 </label>
               </Col>
               <Col xs={8} />
               <Col xs={1} className="d-flex align-items-center">
                 <input
                   type="checkbox"
-                  borderColor="#90B4CE"
                   id={extra}
                   name={extra}
                   checked={extras[extra]}
@@ -133,7 +171,7 @@ const ItemModification = () => {
       {/* Add to Cart */}
       <Row className="my-4">
         <Col>
-          <Button className="w-100">
+          <Button className="w-100" onClick={handleAddToCart}>
             Add 1 to cart - ${calculateTotal().toFixed(2)}
           </Button>
         </Col>
