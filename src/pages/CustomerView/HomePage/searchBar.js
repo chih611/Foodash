@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import SearchRounded from "@mui/icons-material/SearchRounded";
+import { BorderBottom, BorderColorOutlined } from "@mui/icons-material";
 
 const SearchBar = () => {
   const [search, setSearch] = useState('');
@@ -21,13 +22,14 @@ const SearchBar = () => {
 
   return (
     <div className="searchContainer">
-      <SearchRounded className="me-2"/>
+      <SearchRounded className="me-2" sx={{ color: "#025373" }} />
       <input
         className = "search_bar"
         type="text"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         placeholder="Search anything on Foodash"
+        
       />
       {filteredList.length > 0 ? (
         filteredList.map((item, index) => (
@@ -36,7 +38,7 @@ const SearchBar = () => {
           </div>
         ))
       ) : (
-        <div>No results found</div>
+        <div> </div>
       )}
     </div>
   );

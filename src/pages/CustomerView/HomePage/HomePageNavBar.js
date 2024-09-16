@@ -65,7 +65,7 @@ const HomePageNavBar = () => {
             <Col xs={2} className="d-flex flex-row-reverse bd-highlight">
               <div className="text-end">
                 <p className="subtitle mb-0">Amount:</p>
-                <h4 className="mb-0">$124.25</h4>
+                <p className="subtitle mb-0">$124.25</p>
               </div>
             </Col>
 
@@ -73,9 +73,9 @@ const HomePageNavBar = () => {
             <Col xs={2} className="d-flex flex-column align-items-end">
               <Link href="/CustomerView/ViewCart/ViewCart" legacyBehavior passHref>
                 <a>
-                  <Button variant="outline-primary" className="me-2">
+                  <div className="cart-button me-2">
                     <ShoppingCartOutlinedIcon sx={{ color: "#025373" }} />
-                  </Button>
+                  </div>
                 </a>
               </Link>
             </Col>
@@ -83,10 +83,13 @@ const HomePageNavBar = () => {
 
           {/* Mobile Search Bar */}
           <Row className="w-100 align-items-center d-lg-none">
-            <Col xs={12} className="d-flex justify-content-center">
-              <SearchBar className="search_bar" />
+            <Col xs={12} className="w-100 d-flex justify-content-center">
+              <div>
+                <SearchBar />
+              </div>
             </Col>
           </Row>
+          
 
           {/* Desktop Layout */}
           <Row className="w-100 align-items-center d-none d-lg-flex">
