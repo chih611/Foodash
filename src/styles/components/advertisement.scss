@@ -1,0 +1,34 @@
+.advertisement-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Align ads side by side */
+    width: 100%;
+    overflow: hidden; /* Prevent extra content from overflowing */
+    margin-bottom: 30px; /* Create gap between ads and filter */
+  }
+  
+  .advertisement-scroller {
+    display: flex;
+    flex-wrap: nowrap; /* Ensure ads stay in one row */
+    overflow-x: auto; /* Enable the scrollbar for horizontal scrolling */
+    scroll-behavior: smooth; /* Smooth scrolling */
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on mobile */
+    width: 100%; /* Ensure scroller takes full width */
+    padding: 10px 0;
+  }
+  
+  .advertisement-item {
+    flex: 0 0 auto; /* Prevent wrapping */
+    width: 300px; /* Increased width for larger container */
+    height: 200px; /* Increased height for larger container */
+    margin-right: 15px; /* Adjust spacing between ads */
+    background-color: #e0e0e0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    font-weight: 600;
+    color: #333;
+    text-align: center;
+  }
+  

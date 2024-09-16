@@ -1,0 +1,33 @@
+.filters-container {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  
+  .filter-group {
+    background-color: #90B4CE; /* Set background color to #90B4CE */
+    border-radius: 5px;
+    padding: 5px 15px;
+    display: flex;
+    gap: 10px; /* Space between the filter items */
+    align-items: center;
+    color: white; /* Make sure text is readable */
+  }
+
+  .filter-item {
+    display: flex;
+    align-items: center;
+    padding: 5px 10px;
+    background-color: transparent;
+    border-radius: 3px;
+    color: white;
+    font-weight: 500;
+  }
+
+  .clear-filters {
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    margin-left: 10px;
+  }
+}
