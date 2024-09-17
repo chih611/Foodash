@@ -110,8 +110,24 @@
   }
 }
 
+.button-2 {
+  border: 2px solid colors.$element-2nd-color; /* Only bottom border in primary color */
+  border-radius: 10px; /* Remove rounded corners */
+  padding: 5px;
+  color: colors.$element-2nd-color;
+  width: 100%;
+  height: 40px;
+  background-color: colors.$bg-color;
 
+  &--disabled {
+  }
 
+  &:hover {
+    background-color: colors.$element-color;
+    color: colors.$bg-color;
+    border: none;
+  }
+}
 
 /* Adjust button sizes for smaller screens */
 @media (max-width: 576px) {
