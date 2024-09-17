@@ -2,8 +2,11 @@ import HomePageNavBar from "../HomePage/HomePageNavBar";
 import ArrowBackRounded from "@mui/icons-material/ArrowBackRounded"
 import Link from "next/link";
 import { Container, Row, Col, Button } from "react-bootstrap";
+import OrderList from "./OrderList";
 
 import OrderFilter from "./OrderFilter";
+import OrderFilter_desktop from "./OrderrFilter_desktop"
+import RecentOrder from "./RecentOrder"
 
 const OrderTracking = () => {
   return (
@@ -30,8 +33,12 @@ const OrderTracking = () => {
         </Row>
 
         {/* Desktop View - List of orders */}
-        <Row className="d-none justify-content-center d-lg-flex">
-          
+        <Row className="d-none justify-content-center d-lg-flex w-100">
+          <OrderFilter_desktop />
+        </Row>
+        <Row>
+          <OrderList />
+          <RecentOrder />
         </Row>
 
 

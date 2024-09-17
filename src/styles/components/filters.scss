@@ -39,7 +39,8 @@
   border: none; /* Remove default border */
   border-bottom: 2px solid colors.$element-2nd-color; /* Only bottom border in primary color */
   border-radius: 0; /* Remove rounded corners */
-  color: colors.$text-color
+  color: colors.$text-color;
+  width: 100%;
 }
 
 .filter-dropdown {
@@ -54,7 +55,7 @@
 
 .filters-section {
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
   flex-wrap: wrap;
 }
 
