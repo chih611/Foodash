@@ -41,6 +41,18 @@ const OrderTracking = () => {
           <RecentOrder />
         </Row>
 
+        {/* Back to home button */}
+        <Row className="w-100 my-5">
+          <Link
+            href="/CustomerView/HomePage/HomePage"
+            legacyBehavior passHref>
+
+            <a className="w-100">
+              <Button variant="primary" className="w-100">Back to Home</Button>
+            </a>
+          </Link>
+        </Row>
+
 
 
         {/* Mobile View - side bar (Name and Return button)*/}

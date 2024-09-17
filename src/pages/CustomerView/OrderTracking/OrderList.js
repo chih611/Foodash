@@ -102,7 +102,7 @@ const OrderList = () => {
         </Row>
 
         <Row className="w-100 align-items-center d-none d-lg-flex" style={{marginTop: "24px", borderTop: "1px solid #90B4CE"}}>
-          <h4 className= "mt-4 mb-4">Recent Order</h4>
+          <h4 className= "mt-4 mb-0">Recent Order</h4>
 
         </Row>
 
