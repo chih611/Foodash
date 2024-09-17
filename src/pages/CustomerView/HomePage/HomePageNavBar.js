@@ -1,12 +1,6 @@
 import React, { useState } from "react";
 import Link from "next/link";
-import {
-  Container,
-  Row,
-  Col,
-  Navbar,
-  Button,
-} from "react-bootstrap";
+import { Container, Row, Col, Navbar, Button } from "react-bootstrap";
 import Image from "next/image";
 import PermIdentityOutlined from "@mui/icons-material/PermIdentityOutlined";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
@@ -24,7 +18,7 @@ const HomePageNavBar = () => {
     <div
       className="navBar"
       style={{
-        marginBottom: "50px",
+        marginBottom: "150px",
       }}
     >
       <Navbar bg="white" expand="lg" className="border-bottom" fixed="top">
@@ -48,14 +42,22 @@ const HomePageNavBar = () => {
             <Col xs={3}></Col>
 
             {/* Account button */}
-            <Col xs={1} className="d-flex justify-content-end align-items-center">
-              <Link href="/CustomerView/CustomerProfile/CustomerProfile" legacyBehavior passHref>
+            <Col
+              xs={1}
+              className="d-flex justify-content-end align-items-center"
+            >
+              <Link
+                href="/CustomerView/CustomerProfile/CustomerProfile"
+                legacyBehavior
+                passHref
+              >
                 <a className="d-flex align-items-center text-decoration-none">
                   <div className="account-button me-2">
                     <PermIdentityOutlined sx={{ color: "#025373" }} />
                   </div>
                   <div>
-                    <p className="subtitle mb-0">Hi, Joliana</p> {/* 'mb-0' to remove bottom margin */}
+                    <p className="subtitle mb-0">Hi, Joliana</p>{" "}
+                    {/* 'mb-0' to remove bottom margin */}
                   </div>
                 </a>
               </Link>
@@ -71,7 +73,11 @@ const HomePageNavBar = () => {
 
             {/* Cart button */}
             <Col xs={2} className="d-flex flex-column align-items-end">
-              <Link href="/CustomerView/ViewCart/ViewCart" legacyBehavior passHref>
+              <Link
+                href="/CustomerView/ViewCart/ViewCart"
+                legacyBehavior
+                passHref
+              >
                 <a>
                   <div className="cart-button me-2">
                     <ShoppingCartOutlinedIcon sx={{ color: "#025373" }} />
@@ -89,7 +95,6 @@ const HomePageNavBar = () => {
               </div>
             </Col>
           </Row>
-          
 
           {/* Desktop Layout */}
           <Row className="w-100 align-items-center d-none d-lg-flex">
@@ -111,7 +116,6 @@ const HomePageNavBar = () => {
             <Col xs={12} md={5}>
               {/* Flex container for icon and search bar */}
               <div className="d-flex align-items-center">
-
                 {/* Search bar section */}
                 <div className="w-100 align-items-center d-none d-lg-flex">
                   <SearchBar />
@@ -122,8 +126,16 @@ const HomePageNavBar = () => {
             <Col xs={12} md={1}></Col>
 
             {/* Account Section */}
-            <Col xs={12} md={1} className="d-flex flex-row-reverse bd-highlight">
-              <Link href="/CustomerView/CustomerProfile/CustomerProfile" legacyBehavior passHref>
+            <Col
+              xs={12}
+              md={1}
+              className="d-flex flex-row-reverse bd-highlight"
+            >
+              <Link
+                href="/CustomerView/CustomerProfile/CustomerProfile"
+                legacyBehavior
+                passHref
+              >
                 <a className="d-flex align-items-center text-decoration-none">
                   <div className="account-button me-2">
                     <PermIdentityOutlined sx={{ color: "#025373" }} />
@@ -144,8 +156,16 @@ const HomePageNavBar = () => {
             </Col>
 
             {/* Cart button */}
-            <Col xs={12} md={1} className="d-flex flex-row-reverse bd-highlight">
-              <Link href="/CustomerView/ViewCart/ViewCart" legacyBehavior passHref>
+            <Col
+              xs={12}
+              md={1}
+              className="d-flex flex-row-reverse bd-highlight"
+            >
+              <Link
+                href="/CustomerView/ViewCart/ViewCart"
+                legacyBehavior
+                passHref
+              >
                 <a>
                   <div className="cart-button me-2">
                     <ShoppingCartOutlinedIcon sx={{ color: "#025373" }} />
