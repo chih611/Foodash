@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Button, Form, Badge } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { addToCart } from "../../../../store/slices/cartSlice";
@@ -11,13 +11,27 @@ const ItemModification = () => {
   const selectedItem = useSelector((state) => state.items.selectedItem);
   const dispatch = useDispatch();
 
-  // Initialize extras
+  // Local state for extras
   const [extras, setExtras] = useState({
     Bacon: false,
     Ham: false,
     Egg: false,
     Tomatoes: false,
   });
+
+  // Ensure selectedItem is available
+  if (!selectedItem) {
+    return (
+      <Container className="py-5 item-modification-container">
+        <Row>
+          <Col>
+            <h2>No item selected</h2>
+            <Link href="/CustomerView/HomePage/HomePage">Go back to home</Link>
+          </Col>
+        </Row>
+      </Container>
+    );
+  }
 
   // Handle checkbox changes
   const handleCheckboxChange = (e) => {
@@ -30,7 +44,7 @@ const ItemModification = () => {
 
   // Calculate the total price
   const calculateTotal = () => {
-    const basePrice = selectedItem ? selectedItem.PRICE || 13.5 : 13.5; // Default price if not provided
+    const basePrice = selectedItem ? selectedItem.PRICE || 13.5 : 13.5;
     const extrasCost = Object.keys(extras).reduce(
       (total, extra) => (extras[extra] ? total + 3 : total),
       0
@@ -47,20 +61,6 @@ const ItemModification = () => {
     dispatch(addToCart(modifiedItem));
   };
 
-  // Handle case where no item is selected
-  if (!selectedItem) {
-    return (
-      <Container className="py-5 item-modification-container">
-        <Row>
-          <Col>
-            <h2>No item selected</h2>
-            <Link href="/CustomerView/HomePage/HomePage">Go back to home</Link>
-          </Col>
-        </Row>
-      </Container>
-    );
-  }
-
   return (
     <Container className="py-5 item-modification-container">
       {/* Breadcrumb */}
@@ -69,11 +69,9 @@ const ItemModification = () => {
           <nav aria-label="breadcrumb">
             <ol className="breadcrumb">
               <li className="breadcrumb-item">
-                {/* Updated Link: removed <a> */}
                 <Link href="/CustomerView/HomePage/HomePage">Home</Link>
               </li>
               <li className="breadcrumb-item">
-                {/* Updated Link: removed <a> */}
                 <Link href="/platters">Platters</Link>
               </li>
               <li className="breadcrumb-item active" aria-current="page">
@@ -97,7 +95,6 @@ const ItemModification = () => {
               position: "relative",
             }}
           >
-            {/* Placeholder Image */}
             <Image
               src={selectedItem.image || ""}
               alt={selectedItem.ITEM_NAME}
@@ -108,23 +105,18 @@ const ItemModification = () => {
         <Col xs={12} md={6} lg={6}>
           <h2 className="product-title">{selectedItem.ITEM_NAME}</h2>
 
-          {/* Tagging */}
           <div className="my-2">
-            <Badge pill className="badge me-2">
-              Quick food cooking
-            </Badge>
-            <Badge pill className="badge me-2">
-              Processed Meats
-            </Badge>
-            <Badge pill className="badge me-2">
-              Daily
-            </Badge>
+            {selectedItem.LABELS
+              ? selectedItem.LABELS.map((label, index) => (
+                  <Badge pill key={index} className="badge me-2">
+                    {label}
+                  </Badge>
+                ))
+              : "No labels available"}
           </div>
 
-          {/* Price Information */}
           <div className="my-3">
             <h4>${selectedItem.PRICE || 13.5} / pack</h4>
-            <h4>$38.2 / 3 packs</h4>
           </div>
         </Col>
       </Row>
@@ -154,17 +146,6 @@ const ItemModification = () => {
               </Col>
             </Row>
           ))}
-        </Col>
-      </Row>
-
-      {/* Special Instructions */}
-      <Row className="my-4">
-        <Col>
-          <h3>Special Instructions</h3>
-          <Form.Group>
-            <Form.Control as="textarea" className="instruction-area" rows={3} />
-            <p>You may be charged for extras</p>
-          </Form.Group>
         </Col>
       </Row>
 
