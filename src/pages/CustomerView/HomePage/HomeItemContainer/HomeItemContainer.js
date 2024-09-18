@@ -12,14 +12,15 @@ const HomeItemContainer = ({ item }) => {
   const dispatch = useDispatch();
 
   const handleAddToCart = () => {
+    // Dispatch the selected item to Redux
     dispatch(selectItems(item));
+
+    // Navigate to the item details page
     router.push("/CustomerView/ItemDetails/ItemDetails");
   };
 
   return (
     <Col xs={6} md={3} className="my-3">
-      {" "}
-      {/* Adjusted the column layout */}
       <Card className="product-card">
         <div className="card-img-container">
           <Card.Img
