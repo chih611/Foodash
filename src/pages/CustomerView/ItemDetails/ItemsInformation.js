@@ -7,7 +7,13 @@ import { useRouter } from "next/router";
 
 const ItemsInformation = ({ item }) => {
   const router = useRouter();
+  const parsedIngredients =
+    typeof item.INGREDIENTS === "string"
+      ? JSON.parse(item.INGREDIENTS)
+      : item.INGREDIENTS;
 
+  const parsedLabels =
+    typeof item.LABELS === "string" ? JSON.parse(item.LABELS) : item.LABELS;
   const handleAddToCart = () => {
     router.push("/CustomerView/ItemModification/ItemModification");
   };
@@ -39,35 +45,36 @@ const ItemsInformation = ({ item }) => {
           <Col xs={12} md={7} className="mb-4">
             <h1 className="item-title">{item.ITEM_NAME}</h1>
             <Nav className="mb-2">
-              <Nav.Item>
-                <Nav.Link className="category-tab">Quick food cooking</Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Nav.Link className="category-tab">Processed Meats</Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Nav.Link className="category-tab">Daily</Nav.Link>
-              </Nav.Item>
+              {parsedLabels.map((label, index) => (
+                <Nav.Item key={index}>
+                  <Nav.Link className="category-tab">{label}</Nav.Link>
+                </Nav.Item>
+              ))}
             </Nav>
 
             <div className="price-section">
-              <h3 className="price">$13.5/pack</h3>
-              <h4 className="multi-pack-price">$38.2/3 packs</h4>
+              <h3>${item.PRICE}</h3>
             </div>
             <h5 className="ingredients-title">Description</h5>
 
             <p className="description">
-              A triple-decker sandwich made up of three slices toasted white
-              bread, deli-sliced turkey or chicken, fried bacon, lettuce,
-              tomatoes, and mayonnaise.
+              {item.DESCRIPTION
+                ? `$${item.DESCRIPTION}`
+                : `A triple-decker sandwich made up of three
+              slices toasted white bread, deli-sliced turkey or chicken, fried
+              bacon, lettuce, tomatoes, and mayonnaise`}
             </p>
 
             <h5 className="ingredients-title">Ingredients & Recipes</h5>
             <Row className="ingredients-list">
-              <Col>Deli-sliced smoky meats: 0.3kg</Col>
-              <Col>Lettuce: 0.1kg</Col>
-              <Col>Fried Eggs: 2</Col>
-              <Col>Tomatoes: 2</Col>
+              {parsedIngredients &&
+                Object.entries(parsedIngredients).map(
+                  ([ingredient, amount], index) => (
+                    <Col key={index}>
+                      {ingredient}: {amount}
+                    </Col>
+                  )
+                )}
             </Row>
 
             <Row className="action-buttons mt-3">
