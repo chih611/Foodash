@@ -1,0 +1,79 @@
+.reminder-page {
+    background-color: #b0d7e8;
+    padding: 20px;
+    border-radius: 8px;
+  }
+  
+  .calendar-toolbar {
+    background-color: #e6f1f8;
+    padding: 10px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  /* Navigation buttons */
+  .navigation-buttons {
+    .arrow-btn {
+      font-size: 20px;
+      background-color: #ffffff;
+      color: black;
+      padding: 5px 15px;
+      margin-right: 10px;
+    }
+  
+    .today-btn {
+      font-size: 16px;
+      background-color: #ffffff;
+      color: black;
+      padding: 5px 20px;
+      margin-right: 10px;
+    }
+  }
+  
+  /* View toggle buttons */
+  .view-buttons {
+    button {
+      margin-right: 10px;
+    }
+  
+    .btn-danger {
+      background-color: #ff4d4f;
+      border-color: #ff4d4f;
+      color: white;
+    }
+  }
+  
+  /* Search bar */
+  .right-section {
+    .search-bar {
+      max-width: 200px;
+      .form-control {
+        border-radius: 10px;
+      }
+    }
+  }
+  
+  .rbc-calendar {
+    background-color: #ffffff;
+    border-radius: 10px;
+  }
+  
+  .rbc-toolbar {
+    display: none; /* Hide default toolbar */
+  }
+  
+  .rbc-event {
+    background-color: #e0f3ff;
+    color: #003366;
+    border-radius: 5px;
+    padding: 2px 5px;
+  }
+  
+  .rbc-event-label {
+    display: none; /* Hide event time label */
+  }
+  
+  
