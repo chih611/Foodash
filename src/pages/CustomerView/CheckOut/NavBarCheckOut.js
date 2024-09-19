@@ -26,16 +26,24 @@ const NavBarCheckOut = () => {
     <div
       className="navBar"
       style={{
-        marginBottom: "48px",
+        marginBottom: "150px",
       }}
     >
       <Navbar bg="white" expand="lg" className="border-bottom" fixed="top">
         <Container fluid className="px-md-5 py-md-4">
           {/* Mobile Layout */}
+
+          
           <Row className="w-100 align-items-center d-lg-none">
-            {/* Menu Button (2 columns) */}
-            <Col xs={2} className="d-flex justify-content-start">
-              <HomeDirectionLink />   
+            {/* Return Button, Edit After */}
+            <Col xs={1} className="d-flex justify-content-start">
+              <Link href="/CustomerView/HomePage/HomePage" legacyBehavior passHref>
+                <a>
+                  <div className="me-2">
+                    <ArrowBackRounded sx={{ color: "#90B4CE" }} />
+                  </div>
+                </a>
+              </Link>    
             </Col>
 
             {/* Logo (6 columns) */}
@@ -53,6 +61,8 @@ const NavBarCheckOut = () => {
               </Link>
             </Col>
 
+            <Col xs={1}></Col>
+            
             {/* Account button */}
             <Col xs={4} className="d-flex justify-content-end align-items-center">
             <Link
@@ -69,18 +79,7 @@ const NavBarCheckOut = () => {
             </Col>
           </Row>
 
-          {/* Return Button, Edit After */}
-          <Row className="w-100 d-lg-none mt-3" >
-            <Col className="d-flex justify-content-begin align-items-center"> 
-              <Link href="/CustomerView/HomePage/HomePage" legacyBehavior passHref>
-                <a>
-                  <div className="me-2">
-                    <ArrowBackRounded sx={{ color: "#90B4CE" }} />
-                  </div>
-                </a>
-              </Link> 
-            </Col>
-          </Row>
+          
 
           {/* Desktop Layout */}
           
@@ -127,11 +126,8 @@ const NavBarCheckOut = () => {
                     <PermIdentityOutlined sx={{ color: "#025373" }} />
                 </a>
               </Link>
-              
             </Col>
           </Row>
-
-
         </Container>
       </Navbar>
     </div>

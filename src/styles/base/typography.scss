@@ -69,4 +69,18 @@ body {
   font-size: 16px;
   font-weight: normal;
   color: colors.$element-2nd-color;
+  &:hover {
+    color: colors.$bg-color;
+  }
+}
+
+.button-title-text {
+  font-family: $font-stack;
+  font-size: 20px;
+  font-weight: normal;
+  color: colors.$element-2nd-color;
+  
+  &:hover {
+    color: colors.$bg-color;
+  }
 }
