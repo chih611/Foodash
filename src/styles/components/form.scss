@@ -39,3 +39,30 @@
     background-color: darken(colors.$bg-color, 10%);
   }
 }
+
+// Elegant color: light blue border, light grey text, no hover, 10% rounded
+.form_item1{ 
+  background-color: colors.$bg-color;       // Background color from your variables
+  color: colors.$disabled-color;                
+  border: 1px solid colors.$element-2nd-color !important;;
+  border-radius: 10px !important;;               
+  margin: 10px;                      
+  padding: 10px;                     
+  width: 100%;                       
+
+  &:focus {
+    border-color: colors.$element-color;  // Change border color when input is focused
+    outline: none;                 // Remove the default browser outline
+  }
+
+  &--disabled {
+    background-color: colors.$disabled-color;
+    border-color: colors.$disabled-color;
+    cursor: not-allowed;
+  }
+
+  &--pressed {
+    background-color: darken(colors.$bg-color, 10%);
+  }
+}
+
