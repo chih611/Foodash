@@ -1,7 +1,20 @@
+import React, { useState } from "react";
+import Link from "next/link";
+import {
+  Container,
+  Row,
+  Col,
+  Navbar,
+  Nav,
+  Button,
+  Offcanvas,
+} from "react-bootstrap";
+import NavBarCheckOut from "./NavBarCheckOut";
+
 const Checkout = () => {
   return (
     <div>
-      <h1>Checkout</h1>
+      <NavBarCheckOut/>
     </div>
   );
 };
