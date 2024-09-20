@@ -31,7 +31,12 @@ const categorySlice = createSlice({
     error: null, // Error for category items
     categoryError: null, // Error for categories
   },
-  reducers: {},
+  reducers: {
+    // Clear category filter and reset categoryItems
+    clearCategoryFilter: (state) => {
+      state.categoryItems = []; // Reset categoryItems to an empty array
+    },
+  },
   extraReducers: (builder) => {
     // Handle fetchItemsByCategory
     builder
@@ -62,5 +67,8 @@ const categorySlice = createSlice({
       });
   },
 });
+
+// Explicitly export the clearCategoryFilter action
+export const { clearCategoryFilter } = categorySlice.actions;
 
 export default categorySlice.reducer;
