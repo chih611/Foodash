@@ -2,6 +2,7 @@ import {
   Tab
 } from "react-bootstrap";
 import { useEffect } from "react";
+import TableContent from "./_Components/table";
 
 const Order = (props) => {
   useEffect(() => {
@@ -10,7 +11,9 @@ const Order = (props) => {
 
   return (
     <>
-      <Tab.Pane { ...props }>order</Tab.Pane>
+      <Tab.Pane { ...props }>
+        <TableContent />
+      </Tab.Pane>
     </>
   );
 };
