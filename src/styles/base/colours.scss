@@ -1,0 +1,5 @@
+@use "../abstract/colors" as colors;
+
+.color-head-line {
+    background-color: colors.$headline-color;
+}
