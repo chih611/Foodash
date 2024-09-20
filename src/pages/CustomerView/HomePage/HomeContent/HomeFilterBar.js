@@ -4,7 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   fetchAllCategories,
   fetchItemsByCategory,
+  clearCategoryFilter,
 } from "../../../../../store/slices/categorySlice";
+import { fetchItems } from "../../../../../store/slices/itemsSlice";
 import {
   selectAllCategories,
   selectCategoriesStatus,
@@ -26,6 +28,12 @@ const HomeFilterBar = () => {
   // Dispatch action to filter items by selected category
   const handleCategoryClick = (categoryName) => {
     dispatch(fetchItemsByCategory(categoryName)); // Fetch items by category
+  };
+
+  // Dispatch action to clear category filter and fetch all items
+  const handleClearFilter = () => {
+    dispatch(clearCategoryFilter()); // Clear category filter
+    dispatch(fetchItems()); // Fetch all items after clearing filter
   };
 
   return (
@@ -54,6 +62,8 @@ const HomeFilterBar = () => {
           </Dropdown.Menu>
         </Dropdown>
 
+        {/* Clear Filter Button */}
+
         {/* You can add other filters here (Price Range, Name sorting, etc.) */}
         <Dropdown as={ButtonGroup} className="mb-2 mb-md-0 me-2">
           <Dropdown.Toggle variant="outline-primary">
@@ -64,6 +74,10 @@ const HomeFilterBar = () => {
             <Dropdown.Item href="#action/3.2">High to Low</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
+
+        <Button variant="outline-danger" onClick={handleClearFilter}>
+          Clear Filter
+        </Button>
       </ButtonGroup>
     </div>
   );
