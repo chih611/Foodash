@@ -7,78 +7,89 @@ import {
     Image,
     Navbar,
     Row,
+    Form
 } from "react-bootstrap";
+// Icons
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import ChatIcon from '@mui/icons-material/Chat';
 import SettingsIcon from '@mui/icons-material/Settings';
+import SearchIcon from '@mui/icons-material/Search';
+import ReorderIcon from '@mui/icons-material/Reorder';
+
+import style from '../_style/header.module.scss'
 
 const Header = ({ breadcrumb }) => {
+    const showBreadcrumb = ["Order", "Inventory", "Product", "User setting"].includes(breadcrumb)
 
     return (
         <>
-            <Row>
-                <Col lg={ 3 }>
-                    <Navbar.Brand href="#home"> <Image src="Foodash_logo.png" className="w-50" /></Navbar.Brand>
+            <Row className={`align-items-center ${style.header}`}>
+                <Col lg={2}>
+                    <Navbar.Brand href="#home"> <Image src="Foodash_logo.png" className="w-100" /></Navbar.Brand>
                 </Col>
-                <Col lg={ 4 }>
+                <Col lg={4} className="ps-5">
                     <Navbar>
                         <Navbar.Collapse>
-                            <Breadcrumb>
+                            {showBreadcrumb ? <Breadcrumb>
                                 <Breadcrumb.Item href="#">Home</Breadcrumb.Item>
                                 <Breadcrumb.Item>
-                                    { breadcrumb }
+                                    {breadcrumb}
                                 </Breadcrumb.Item>
-                            </Breadcrumb>
+                            </Breadcrumb> : <Form className={`d-flex ${style.search}`}>
+                                <ReorderIcon className={style.icon} />
+                                <Form.Control
+                                    type="search"
+                                    placeholder="Search anything with Foodash"
+                                    className="me-2 ps-5"
+                                    aria-label="Search"
+                                    size="lg"
+                                />
+                                <button><SearchIcon /></button>
+                            </Form>}
                         </Navbar.Collapse>
                     </Navbar>
                 </Col>
-                <Col lg={ 2 }>
-                    <Row>
-                        <Col lg={ 4 }>
+                <Col lg={4}>
+                    <Row className="justify-content-end">
+                        <Col lg={1}>
                             <Navbar>
                                 <Navbar.Collapse>
-                                    <Button variant="info" size='sm' className="position-relative">
+                                    <button className={`position-relative ${style.btnInfo}`}>
                                         <NotificationsNoneIcon />
-                                        <Badge bg="secondary" className="position-absolute top-0 end-0" pill>9</Badge>
-                                    </Button>
+                                        <Badge className="position-absolute" pill>9</Badge>
+                                    </button>
                                 </Navbar.Collapse>
                             </Navbar>
                         </Col>
-                        <Col lg={ 4 }>
+                        <Col lg={1}>
                             <Navbar>
                                 <Navbar.Collapse className="justify-content-end">
-                                    <Button variant="info" size='sm' className="position-relative">
+                                    <button className={`position-relative ${style.btnInfo}`}>
                                         <ChatIcon />
-                                        <Badge bg="secondary" className="position-absolute top-0 end-0" pill>9</Badge>
-                                    </Button>
+                                        <Badge className="position-absolute" pill>9</Badge>
+                                    </button>
                                 </Navbar.Collapse>
                             </Navbar>
                         </Col>
-                        <Col lg={ 4 }>
+                        <Col lg={1}>
                             <Navbar>
                                 <Navbar.Collapse className="justify-content-end">
-                                    <Button variant="info" size='sm' className="position-relative">
+                                    <button className={`position-relative ${style.btnInfo} ${style.btnSetting}`}>
                                         <SettingsIcon />
-                                        <Badge bg="secondary" className="position-absolute top-0 end-0" pill>9</Badge>
-                                    </Button>
+                                        <Badge className="position-absolute" pill>9</Badge>
+                                    </button>
                                 </Navbar.Collapse>
                             </Navbar>
                         </Col>
                     </Row>
                 </Col>
-                
-              
-                <Col lg={ 2 } >
-                     <Navbar className="justify-content-end">
+                <Col lg={2}>
+                    <Navbar className={`justify-content-center ${style.user}`}>
                         <Button variant="link" >hello, admin</Button>
-                    </Navbar>
-                </Col>
-                <Col lg={ 1}>
-                    <Navbar className="justify-content-start">
-                        <Figure>
+                        <Figure className={style.figure}>
                             <Figure.Image
-                                width={ 30 }
-                                height={ 30 }
+                                width={40}
+                                height={40}
                                 alt="avatar"
                                 src="/avatar.png"
                             />

@@ -1,4 +1,5 @@
 import {
+    Button,
     Col,
     Nav,
     Row,
@@ -10,10 +11,14 @@ import Inventory from "../inventory";
 import Product from "../product";
 import CRM from "../crm";
 import UserSetting from "../user_setting";
+
+// Icons
 import HomeIcon from '@mui/icons-material/Home';
 import AssessmentIcon from '@mui/icons-material/Assessment';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
 import { nav_style,icon_style } from "../styles";
+import style from "../_style/sideBar.module.scss"
 
 const SideBar = ({
     handleSelect,
@@ -21,32 +26,33 @@ const SideBar = ({
 
     return (
         <>
-            <Row>
-                <Col sm={ 3 }>
+            <Row className={style.main}>
+                <Col sm={ 2 } className={style.sideBar}>
                     <Nav variant="pills" className="flex-column" onSelect={ handleSelect }>
                         <Nav.Item>
-                            <Nav.Link className={ nav_style } eventKey="Report"><HomeIcon className={ icon_style} />report</Nav.Link>
+                            <Nav.Link className={ nav_style } eventKey="Home"><HomeIcon className={ icon_style} />Home Page <ChevronRightIcon /></Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
-                            <Nav.Link className={ nav_style } eventKey="Order"><AssessmentIcon className={ icon_style} />order</Nav.Link>
+                            <Nav.Link className={ nav_style } eventKey="Order"><AssessmentIcon className={ icon_style} />order <ChevronRightIcon /></Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
-                            <Nav.Link className={ nav_style } eventKey="Inventory">inventory</Nav.Link>
+                            <Nav.Link className={ nav_style } eventKey="Inventory">inventory <ChevronRightIcon /></Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
-                            <Nav.Link className={ nav_style } eventKey="Product">product</Nav.Link>
+                            <Nav.Link className={ nav_style } eventKey="Product">product <ChevronRightIcon /></Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
-                            <Nav.Link className={ nav_style } eventKey="CRM">crm</Nav.Link>
+                            <Nav.Link className={ nav_style } eventKey="CRM">crm <ChevronRightIcon /></Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
-                            <Nav.Link className={ nav_style } eventKey="User setting">user setting</Nav.Link>
+                            <Nav.Link className={ nav_style } eventKey="User setting">user setting <ChevronRightIcon /></Nav.Link>
                         </Nav.Item>
                     </Nav>
+                    <Button>LOG OUT</Button>
                 </Col>
-                <Col sm={ 9 }>
+                <Col sm={ 10 } className={style.content}>
                     <Tab.Content>
-                        <Report eventKey="Report" setBreadcrumb={ setBreadcrumb } />
+                        <Report eventKey="Home" setBreadcrumb={ setBreadcrumb } />
                         <Order eventKey="Order" setBreadcrumb={ setBreadcrumb } />
                         <Inventory eventKey="Inventory" setBreadcrumb={ setBreadcrumb } />
                         <Product eventKey="Product" />

@@ -1,8 +1,6 @@
 const nav_style = `fw-bolder
             text-decoration-none 
-            text-uppercase
-            color-head-line
-            text-reset`;
+            text-uppercase`;
 
 const icon_style = `fs-7`;
 
