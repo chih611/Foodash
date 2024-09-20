@@ -63,3 +63,39 @@ export const selectAdminStatus = createSelector(
   [selectAdmin],
   (admin) => admin.status
 );
+
+const selectCategoryState = (state) => state.category;
+
+// Memoized selector for fetching category items (items within a specific category)
+export const selectCategoryItems = createSelector(
+  [selectCategoryState],
+  (categoryState) => categoryState.categoryItems
+);
+
+// Memoized selector for the categories list (all available categories)
+export const selectAllCategories = createSelector(
+  [selectCategoryState],
+  (categoryState) => categoryState.categories
+);
+
+// Memoized selector for category loading status (for both category items and categories)
+export const selectCategoryItemsStatus = createSelector(
+  [selectCategoryState],
+  (categoryState) => categoryState.status
+);
+
+export const selectCategoriesStatus = createSelector(
+  [selectCategoryState],
+  (categoryState) => categoryState.categoryStatus
+);
+
+// Memoized selector for category error (for both category items and categories)
+export const selectCategoryItemsError = createSelector(
+  [selectCategoryState],
+  (categoryState) => categoryState.error
+);
+
+export const selectCategoriesError = createSelector(
+  [selectCategoryState],
+  (categoryState) => categoryState.categoryError
+);
