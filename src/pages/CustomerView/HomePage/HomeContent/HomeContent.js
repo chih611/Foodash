@@ -5,13 +5,17 @@ import { Col, Row } from "react-bootstrap";
 import HomeSideBar from "../HomeSideBar/HomeSideBar";
 import HomeFilterBar from "./HomeFilterBar";
 import HomeItemContainer from "../HomeItemContainer/HomeItemContainer";
+import {
+  selectItems,
+  selectCategoryItems,
+} from "../../../../../store/selector/selector";
 
 const HomeContent = () => {
   const dispatch = useDispatch();
   const { items, status, error } = useSelector((state) => state.items);
-
+  const categoryItems = useSelector(selectCategoryItems);
   useEffect(() => {
-    dispatch(fetchItems());
+    dispatch(fetchItems()); // Fetch all items initially
   }, [dispatch]);
 
   // Error state
@@ -24,7 +28,9 @@ const HomeContent = () => {
     return <div>Loading...</div>;
   }
 
-  // Render items safely
+  // Render items (use filtered items if a category is selected)
+  const displayedItems = categoryItems.length > 0 ? categoryItems : items;
+
   return (
     <div className="container">
       <Row>
@@ -39,8 +45,8 @@ const HomeContent = () => {
             <HomeFilterBar />
             <div className="homeContentSection">
               <Row>
-                {items ? (
-                  items.map((item) => (
+                {displayedItems.length > 0 ? (
+                  displayedItems.map((item) => (
                     <HomeItemContainer key={item.ITEM_ID} item={item} />
                   ))
                 ) : (

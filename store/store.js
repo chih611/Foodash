@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import customerReducer from "./slices/customerSlice";
 import itemsReducer from "./slices/itemsSlice";
 import cartReducer from "./slices/cartSlice";
+import categoryReducer from "./slices/categorySlice";
 import adminReducer from "./slices/adminSlice"; // Admin slice
 import loggerMiddleware from "./middleware/loggerMiddleware"; // Logger middleware
 import { persistStore, persistReducer } from "redux-persist";
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
   cart: cartReducer,
   admin: adminReducer,
   items: itemsReducer,
+  category: categoryReducer,
 });
 
 // Create the persisted reducer
