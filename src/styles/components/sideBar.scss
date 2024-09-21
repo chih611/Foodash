@@ -1,26 +1,26 @@
 .admin-main {
-    height: calc(100vh - 90px);
-    padding-top: 10px;
+  height: calc(100vh - 90px);
+  padding-top: 10px;
 
-    .side-bar {
-        a {
-            color: #174c71;
-        }
-
-        a:hover {
-            background-color: #ebf5fe;
-        }
-
-        svg {
-            width: 20px;
-            margin-bottom: 5px;
-            margin-right: 5px;
-        }
+  .side-bar {
+    a {
+      color: #174c71;
     }
 
-    .admin-content {
-        background-color: #ebf5fe;
-        border-radius: 10px;
-        padding: 10px;
+    a:hover {
+      background-color: #ebf5fe;
     }
+
+    svg {
+      width: 20px;
+      margin-bottom: 5px;
+      margin-right: 5px;
+    }
+  }
+
+  .admin-content {
+    background-color: #ebf5fe;
+    border-radius: 10px;
+    padding: 10px;
+  }
 }

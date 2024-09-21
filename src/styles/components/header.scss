@@ -1,75 +1,74 @@
 .admin-header {
-    .search {
-        width: 100%;
+  .search {
+    width: 100%;
 
-        svg {
-            position: absolute;
-            left: 10px;
-            top: 20px;
-            color: #05486e;
-        }
-
-        button {
-            position: absolute;
-            right: 40px;
-            top: 0;
-
-        }
-
-        input {
-            text-align: center;
-            font-size: 18px;
-            background-color: #d7d7d9;
-            color: #05486e;
-        }
+    svg {
+      position: absolute;
+      left: 10px;
+      top: 20px;
+      color: #05486e;
     }
 
-    .info-group {
-        .col-lg-1 {
-            width: fit-content;
-        }
-
-        .btn-info {
-            border-radius: 8px;
-            background-color: #ebf5fe;
-            padding: 5px;
-
-            span {
-                top: -8px;
-                background-color: #3184b3 !important;
-            }
-
-            svg {
-                color: #05486e;
-            }
-        }
-
-        .btn-setting {
-            background-color: #e9a9a3;
-
-            svg {
-                color: #d4493c;
-            }
-
-            span {
-                background-color: #d4493c !important;
-            }
-        }
+    button {
+      position: absolute;
+      right: 40px;
+      top: 0;
     }
 
-    .user {
-        button {
-            text-decoration: none;
-        }
+    input {
+      text-align: center;
+      font-size: 18px;
+      background-color: #d7d7d9;
+      color: #05486e;
+    }
+  }
+
+  .info-group {
+    .col-lg-1 {
+      width: fit-content;
     }
 
-    .figure {
-        border-left: solid 2px black;
-        padding-left: 15px;
-        margin: 0;
+    .btn-info {
+      border-radius: 8px;
+      background-color: #ebf5fe;
+      padding: 5px;
 
-        img {
-            margin: 0;
-        }
+      span {
+        top: -8px;
+        background-color: #3184b3 !important;
+      }
+
+      svg {
+        color: #05486e;
+      }
     }
+
+    .btn-setting {
+      background-color: #e9a9a3;
+
+      svg {
+        color: #d4493c;
+      }
+
+      span {
+        background-color: #d4493c !important;
+      }
+    }
+  }
+
+  .user {
+    button {
+      text-decoration: none;
+    }
+  }
+
+  .figure {
+    border-left: solid 2px black;
+    padding-left: 15px;
+    margin: 0;
+
+    img {
+      margin: 0;
+    }
+  }
 }
