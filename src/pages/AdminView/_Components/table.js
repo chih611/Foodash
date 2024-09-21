@@ -1,36 +1,34 @@
+// _Components/table.js
+import React from 'react';
+import PropTypes from 'prop-types';
 
-function TableContent() {
+function TableContent({ headers, data }) {
   return (
-    <table class="table table-striped table-borderless table-hover">
-    <thead>
+    <table className="table table-striped table-borderless table-hover">
+      <thead>
         <tr>
-        <th scope="col">#</th>
-        <th scope="col">First</th>
-        <th scope="col">Last</th>
-        <th scope="col">Handle</th>
+          {headers.map((header, index) => (
+            <th key={index}>{header}</th>
+          ))}
         </tr>
-    </thead>
-    <tbody >
-        <tr>
-        <th scope="row">1</th>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
-        </tr>
-        <tr>
-        <th scope="row">2</th>
-        <td>Jacob</td>
-        <td>Thornton</td>
-        <td>@fat</td>
-        </tr>
-        <tr>
-        <th scope="row">3</th>
-        <td colspan="2">Larry the Bird</td>
-        <td>@twitter</td>
-        </tr>
-    </tbody>
+      </thead>
+      <tbody>
+        {data.map((row, rowIndex) => (
+          <tr key={rowIndex}>
+            {headers.map((header, colIndex) => (
+              <td key={colIndex}>{row[header]}</td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
     </table>
   );
 }
+
+// Define PropTypes for better type-checking and documentation
+TableContent.propTypes = {
+  headers: PropTypes.arrayOf(PropTypes.string).isRequired, // Array of headers (strings)
+  data: PropTypes.arrayOf(PropTypes.object).isRequired // Array of data objects
+};
 
 export default TableContent;
