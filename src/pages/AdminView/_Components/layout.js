@@ -4,18 +4,18 @@ import Header from './header'
 import SideBar from './sidebar'
 
 const AdminLayout = () => {
-    const [breadcrumb, setBreadcrumb] = useState(false)
+    const [breadcrumb, setbreadcrumb] = useState(false);
 
     const handleSelect = (eventKey) => {
-        setBreadcrumb(eventKey)
-    }
+      setbreadcrumb(eventKey);
+    };
 
     return (
-        <Tab.Container id="left-tabs-example" defaultActiveKey="first">
-            <Header breadcrumb={breadcrumb} />
-            <SideBar handleSelect={handleSelect} setBreadcrumb={setBreadcrumb} />
-        </Tab.Container>
-    )
+      <Tab.Container id="left-tabs-example" defaultActiveKey="first">
+        <Header breadcrumb={breadcrumb} handleSelect={handleSelect} />
+        <SideBar handleSelect={handleSelect} setbreadcrumb={setbreadcrumb} />
+      </Tab.Container>
+    );
 }
 
 export default AdminLayout

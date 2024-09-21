@@ -7,32 +7,35 @@ import {
   Image,
   Navbar,
   Row,
-  Form
+  Form,
+  Nav,
 } from "react-bootstrap";
 // Icons
-import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
-import ChatIcon from '@mui/icons-material/Chat';
-import SettingsIcon from '@mui/icons-material/Settings';
+import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
+import ChatIcon from "@mui/icons-material/Chat";
+import SettingsIcon from "@mui/icons-material/Settings";
 
-const Header = ({ breadcrumb }) => {
-
+const Header = ({ breadcrumb, handleSelect }) => {
   return (
     <>
       <Row className="align-items-center admin-header">
         <Col lg={2}>
-          <Navbar.Brand href="#home"> <Image src="Foodash_logo.png" className="w-100" /></Navbar.Brand>
+          <Navbar.Brand href="#home">
+            {" "}
+            <Image src="Foodash_logo.png" className="w-100" />
+          </Navbar.Brand>
         </Col>
-        <Col lg={4} className="ps-5">
-          <Navbar>
-            <Navbar.Collapse>
-              <Breadcrumb>
-                <Breadcrumb.Item href="#" className={`home-item ${breadcrumb === 'Home' && 'underline'}`}>Home</Breadcrumb.Item>
-                {breadcrumb !== 'Home' && <Breadcrumb.Item>
-                  {breadcrumb}
-                </Breadcrumb.Item>}
-              </Breadcrumb>
-            </Navbar.Collapse>
-          </Navbar>
+        <Col lg={4}>
+          <Nav className="flex-row" onSelect={handleSelect}>
+            <Nav.Item className="me-2">
+              <Nav.Link eventKey="Home">Home </Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link>
+                {breadcrumb === "Home" ? "" : " > " + breadcrumb}
+              </Nav.Link>
+            </Nav.Item>
+          </Nav>
         </Col>
         <Col lg={4}>
           <Row className="justify-content-end info-group">
@@ -41,7 +44,9 @@ const Header = ({ breadcrumb }) => {
                 <Navbar.Collapse>
                   <button className="position-relative btn-info">
                     <NotificationsNoneIcon />
-                    <Badge className="position-absolute" pill>9</Badge>
+                    <Badge className="position-absolute" pill>
+                      9
+                    </Badge>
                   </button>
                 </Navbar.Collapse>
               </Navbar>
@@ -51,7 +56,9 @@ const Header = ({ breadcrumb }) => {
                 <Navbar.Collapse className="justify-content-end">
                   <button className="position-relative btn-info">
                     <ChatIcon />
-                    <Badge className="position-absolute" pill>9</Badge>
+                    <Badge className="position-absolute" pill>
+                      9
+                    </Badge>
                   </button>
                 </Navbar.Collapse>
               </Navbar>
@@ -61,7 +68,9 @@ const Header = ({ breadcrumb }) => {
                 <Navbar.Collapse className="justify-content-end">
                   <button className="position-relative btn-info btn-setting">
                     <SettingsIcon />
-                    <Badge className="position-absolute" pill>9</Badge>
+                    <Badge className="position-absolute" pill>
+                      9
+                    </Badge>
                   </button>
                 </Navbar.Collapse>
               </Navbar>
@@ -70,7 +79,7 @@ const Header = ({ breadcrumb }) => {
         </Col>
         <Col lg={2}>
           <Navbar className="justify-content-center user">
-            <Button variant="link" >hello, admin</Button>
+            <Button variant="link">hello, admin</Button>
             <Figure className="figure">
               <Figure.Image
                 width={40}

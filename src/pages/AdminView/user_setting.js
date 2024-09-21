@@ -4,7 +4,7 @@ import {
 const UserSetting = (props) => {
   return (
     <>
-      <Tab.Pane { ...props }>home page</Tab.Pane>
+      <Tab.Pane {...props}>user setting</Tab.Pane>
     </>
   );
 };

@@ -149,6 +149,10 @@
   }
 }
 
+.custom-dropdown {
+  background-image: none;  /* Remove the default arrow */
+}
+
 
 /* Adjust button sizes for smaller screens */
 @media (max-width: 576px) {
