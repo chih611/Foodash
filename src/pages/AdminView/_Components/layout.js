@@ -19,7 +19,6 @@ const AdminLayout = () => {
       <SideBar
         handleSelect={ handleSelect }
         setBreadcrumb={ setBreadcrumb } />
-
     </Tab.Container>
   );
 }

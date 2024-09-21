@@ -1,4 +1,4 @@
-.header {
+.admin-header {
     .search {
         width: 100%;
 
@@ -24,30 +24,36 @@
         }
     }
 
-    .btnInfo {
-        border-radius: 8px;
-        background-color: #ebf5fe;
-        padding: 5px;
-
-        span {
-            top: -8px;
-            background-color: #3184b3 !important;
+    .info-group {
+        .col-lg-1 {
+            width: fit-content;
         }
 
-        svg {
-            color: #05486e;
+        .btn-info {
+            border-radius: 8px;
+            background-color: #ebf5fe;
+            padding: 5px;
+
+            span {
+                top: -8px;
+                background-color: #3184b3 !important;
+            }
+
+            svg {
+                color: #05486e;
+            }
         }
-    }
 
-    .btnSetting {
-        background-color: #e9a9a3;
+        .btn-setting {
+            background-color: #e9a9a3;
 
-        svg {
-            color: #d4493c;
-        }
+            svg {
+                color: #d4493c;
+            }
 
-        span {
-            background-color: #d4493c !important;
+            span {
+                background-color: #d4493c !important;
+            }
         }
     }
 
@@ -61,6 +67,7 @@
         border-left: solid 2px black;
         padding-left: 15px;
         margin: 0;
+
         img {
             margin: 0;
         }

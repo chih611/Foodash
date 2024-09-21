@@ -14,11 +14,13 @@ import UserSetting from "../user_setting";
 
 // Icons
 import HomeIcon from '@mui/icons-material/Home';
-import AssessmentIcon from '@mui/icons-material/Assessment';
+import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import InventoryIcon from '@mui/icons-material/Inventory';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 
 import { nav_style,icon_style } from "../styles";
-import style from "../_style/sideBar.module.scss"
 
 const SideBar = ({
     handleSelect,
@@ -26,31 +28,31 @@ const SideBar = ({
 
     return (
         <>
-            <Row className={style.main}>
-                <Col sm={ 2 } className={style.sideBar}>
+            <Row className="admin-main">
+                <Col sm={ 2 } className="side-bar">
                     <Nav variant="pills" className="flex-column" onSelect={ handleSelect }>
                         <Nav.Item>
                             <Nav.Link className={ nav_style } eventKey="Home"><HomeIcon className={ icon_style} />Home Page <ChevronRightIcon /></Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
-                            <Nav.Link className={ nav_style } eventKey="Order"><AssessmentIcon className={ icon_style} />order <ChevronRightIcon /></Nav.Link>
+                            <Nav.Link className={ nav_style } eventKey="Order"><ReceiptLongIcon className={ icon_style} />order <ChevronRightIcon /></Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
-                            <Nav.Link className={ nav_style } eventKey="Inventory">inventory <ChevronRightIcon /></Nav.Link>
+                            <Nav.Link className={ nav_style } eventKey="Inventory"><InventoryIcon />inventory<ChevronRightIcon /></Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
-                            <Nav.Link className={ nav_style } eventKey="Product">product <ChevronRightIcon /></Nav.Link>
+                            <Nav.Link className={ nav_style } eventKey="Product"><AddCircleOutlineIcon />product <ChevronRightIcon /></Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
-                            <Nav.Link className={ nav_style } eventKey="CRM">crm <ChevronRightIcon /></Nav.Link>
+                            <Nav.Link className={ nav_style } eventKey="CRM"><AddCircleOutlineIcon />crm <ChevronRightIcon /></Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
-                            <Nav.Link className={ nav_style } eventKey="User setting">user setting <ChevronRightIcon /></Nav.Link>
+                            <Nav.Link className={ nav_style } eventKey="User setting"><PeopleAltIcon />user setting <ChevronRightIcon /></Nav.Link>
                         </Nav.Item>
                     </Nav>
                     <Button>LOG OUT</Button>
                 </Col>
-                <Col sm={ 10 } className={style.content}>
+                <Col sm={ 10 } className="admin-content">
                     <Tab.Content>
                         <Report eventKey="Home" setBreadcrumb={ setBreadcrumb } />
                         <Order eventKey="Order" setBreadcrumb={ setBreadcrumb } />

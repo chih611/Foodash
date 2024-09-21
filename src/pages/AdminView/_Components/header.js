@@ -16,14 +16,12 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import SearchIcon from '@mui/icons-material/Search';
 import ReorderIcon from '@mui/icons-material/Reorder';
 
-import style from '../_style/header.module.scss'
-
 const Header = ({ breadcrumb }) => {
     const showBreadcrumb = ["Order", "Inventory", "Product", "User setting"].includes(breadcrumb)
 
     return (
         <>
-            <Row className={`align-items-center ${style.header}`}>
+            <Row className="align-items-center admin-header">
                 <Col lg={2}>
                     <Navbar.Brand href="#home"> <Image src="Foodash_logo.png" className="w-100" /></Navbar.Brand>
                 </Col>
@@ -35,8 +33,8 @@ const Header = ({ breadcrumb }) => {
                                 <Breadcrumb.Item>
                                     {breadcrumb}
                                 </Breadcrumb.Item>
-                            </Breadcrumb> : <Form className={`d-flex ${style.search}`}>
-                                <ReorderIcon className={style.icon} />
+                            </Breadcrumb> : <Form className="d-flex search">
+                                <ReorderIcon className="icon" />
                                 <Form.Control
                                     type="search"
                                     placeholder="Search anything with Foodash"
@@ -50,11 +48,11 @@ const Header = ({ breadcrumb }) => {
                     </Navbar>
                 </Col>
                 <Col lg={4}>
-                    <Row className="justify-content-end">
+                    <Row className="justify-content-end info-group">
                         <Col lg={1}>
                             <Navbar>
                                 <Navbar.Collapse>
-                                    <button className={`position-relative ${style.btnInfo}`}>
+                                    <button className="position-relative btn-info">
                                         <NotificationsNoneIcon />
                                         <Badge className="position-absolute" pill>9</Badge>
                                     </button>
@@ -64,7 +62,7 @@ const Header = ({ breadcrumb }) => {
                         <Col lg={1}>
                             <Navbar>
                                 <Navbar.Collapse className="justify-content-end">
-                                    <button className={`position-relative ${style.btnInfo}`}>
+                                    <button className="position-relative btn-info">
                                         <ChatIcon />
                                         <Badge className="position-absolute" pill>9</Badge>
                                     </button>
@@ -74,7 +72,7 @@ const Header = ({ breadcrumb }) => {
                         <Col lg={1}>
                             <Navbar>
                                 <Navbar.Collapse className="justify-content-end">
-                                    <button className={`position-relative ${style.btnInfo} ${style.btnSetting}`}>
+                                    <button className="position-relative btn-info btn-setting">
                                         <SettingsIcon />
                                         <Badge className="position-absolute" pill>9</Badge>
                                     </button>
@@ -84,9 +82,9 @@ const Header = ({ breadcrumb }) => {
                     </Row>
                 </Col>
                 <Col lg={2}>
-                    <Navbar className={`justify-content-center ${style.user}`}>
+                    <Navbar className="justify-content-center user">
                         <Button variant="link" >hello, admin</Button>
-                        <Figure className={style.figure}>
+                        <Figure className="figure">
                             <Figure.Image
                                 width={40}
                                 height={40}
