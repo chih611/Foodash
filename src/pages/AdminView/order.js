@@ -64,7 +64,7 @@ const Order = (props) => {
   return (
     <>
       <Tab.Pane {...props}>
-        <div className="border me-5 ">
+        <div className="border p-2 pt-2 me-5 rounded-4" style={{backgroundColor:'#EBF5FD'} }>
             {/* Pass headers and paginated data to TableContent */}
           <TableContent headers={headers} data={paginatedData} />
           <Pagination className="justify-content-center mt-3">
