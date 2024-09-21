@@ -23,6 +23,24 @@
     }
   }
 
+  .breadcrumb {
+    text-transform: uppercase;
+    margin: 0;
+
+    a {
+      color: #174c71;
+      font-weight: bold;
+    }
+
+    li.home-item a {
+      text-decoration: none;
+    }
+
+    .underline {
+      text-decoration: underline;
+    }
+  }
+
   .info-group {
     .col-lg-1 {
       width: fit-content;

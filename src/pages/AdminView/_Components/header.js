@@ -13,11 +13,8 @@ import {
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import ChatIcon from '@mui/icons-material/Chat';
 import SettingsIcon from '@mui/icons-material/Settings';
-import SearchIcon from '@mui/icons-material/Search';
-import ReorderIcon from '@mui/icons-material/Reorder';
 
 const Header = ({ breadcrumb }) => {
-  const showBreadcrumb = ["Order", "Inventory", "Product", "User setting"].includes(breadcrumb)
 
   return (
     <>
@@ -28,22 +25,12 @@ const Header = ({ breadcrumb }) => {
         <Col lg={4} className="ps-5">
           <Navbar>
             <Navbar.Collapse>
-              {showBreadcrumb ? <Breadcrumb>
-                <Breadcrumb.Item href="#">Home</Breadcrumb.Item>
-                <Breadcrumb.Item>
+              <Breadcrumb>
+                <Breadcrumb.Item href="#" className={`home-item ${breadcrumb === 'Home' && 'underline'}`}>Home</Breadcrumb.Item>
+                {breadcrumb !== 'Home' && <Breadcrumb.Item>
                   {breadcrumb}
-                </Breadcrumb.Item>
-              </Breadcrumb> : <Form className="d-flex search">
-                <ReorderIcon className="icon" />
-                <Form.Control
-                  type="search"
-                  placeholder="Search anything with Foodash"
-                  className="me-2 ps-5"
-                  aria-label="Search"
-                  size="lg"
-                />
-                <button><SearchIcon /></button>
-              </Form>}
+                </Breadcrumb.Item>}
+              </Breadcrumb>
             </Navbar.Collapse>
           </Navbar>
         </Col>
