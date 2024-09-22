@@ -106,7 +106,7 @@ const SideBar = ({ handleSelect }) => {
             </Col>
           </Row>
         </Col>
-        <Col lg={10} className="">
+        <Col lg={10}>
           <Contents />
         </Col>
       </Row>
