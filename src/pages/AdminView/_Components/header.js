@@ -18,7 +18,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 const Header = ({ breadcrumb, handleSelect }) => {
   return (
     <>
-      <Row className="align-items-center admin-header border">
+      <Row className="align-items-center admin-header">
         <Col>
           <Navbar.Brand href="#home">
             {" "}

@@ -24,9 +24,9 @@ const SideBar = ({ handleSelect }) => {
   const dropdown_style = nav_style.concat(custom_dropdown);
   return (
     <>
-      <Row className="">
+      <Row className="admin-main">
         <Col lg={2} className="">
-          <Row className="flex-column justify-content-between">
+          <Row className="flex-column justify-content-between side-bar">
             <Col>
               <Nav
                 variant="pills"
