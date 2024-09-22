@@ -1,6 +1,8 @@
 import React from "react";
 import LandingNavBar from "../LandingNavBar/LandingNavBar";
 import { Container, Row, Col, Button } from "react-bootstrap";
+import PrimaryButton from "../../ViewCart/PrimaryButton";
+import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
 
 const LandingMenu = () => {
   return (
@@ -16,9 +18,7 @@ const LandingMenu = () => {
               Welcome to today's delicious catering menu
             </h1>
             <p className="lead">WWC freshest ingredients for your event</p>
-            <Button variant="primary" className="mt-3">
-              <i className="bi bi-basket-fill"></i> Order now
-            </Button>
+            <PrimaryButton icon={Inventory2OutlinedIcon} text="Order Now" />
           </Col>
           {/* Image Placeholder Section */}
           <Col xs={12} md={3} className="d-flex justify-content-center">
