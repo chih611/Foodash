@@ -2,18 +2,12 @@ import {
   Button,
   ButtonGroup,
   Col,
+  Container,
   Dropdown,
   DropdownButton,
   Nav,
   Row,
-  Tab,
 } from "react-bootstrap";
-import Report from "../report";
-import Order from "../order";
-import Inventory from "../inventory";
-import Product from "../product";
-import CRM from "../crm";
-import UserSetting from "../user_setting";
 
 // Icons
 import HomeIcon from "@mui/icons-material/Home";
@@ -23,15 +17,17 @@ import InventoryIcon from "@mui/icons-material/Inventory";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 
-import { nav_style, icon_style } from "../styles";
+import { nav_style, icon_style, custom_dropdown, logout_btn } from "../styles";
+import Contents from "./contents";
 
-const SideBar = ({ handleSelect, setbreadcrumb }) => {
+const SideBar = ({ handleSelect }) => {
+  const dropdown_style = nav_style.concat(custom_dropdown);
   return (
     <>
-      <Row className="admin-main">
-        <Col lg={2} className="side-bar">
-          <Row className="flex-column justify-content-between h-100">
-            <Col lg={10}>
+      <Row className="">
+        <Col lg={2} className="">
+          <Row className="flex-column justify-content-between">
+            <Col>
               <Nav
                 variant="pills"
                 className="flex-column"
@@ -62,14 +58,14 @@ const SideBar = ({ handleSelect, setbreadcrumb }) => {
                     product <ChevronRightIcon />
                   </Nav.Link>
                 </Nav.Item>
-                <div>
+                <Container className="ps-3">
                   <AddCircleOutlineIcon />
                   {["end"].map((direction) => (
                     <DropdownButton
                       as={ButtonGroup}
                       key={direction}
                       drop={direction}
-                      bsPrefix={nav_style}
+                      bsPrefix={dropdown_style}
                       title={`CRM`}
                     >
                       <Dropdown.Item eventKey="CRM">
@@ -82,7 +78,7 @@ const SideBar = ({ handleSelect, setbreadcrumb }) => {
                     </DropdownButton>
                   ))}
                   <ChevronRightIcon />
-                </div>
+                </Container>
                 <Nav.Item>
                   <Nav.Link className={nav_style} eventKey="User setting">
                     <PeopleAltIcon />
@@ -91,20 +87,13 @@ const SideBar = ({ handleSelect, setbreadcrumb }) => {
                 </Nav.Item>
               </Nav>
             </Col>
-            <Col lg={2} className="w-50 align-self-center">
+            <Col className={logout_btn}>
               <Button>log out</Button>
             </Col>
           </Row>
         </Col>
-        <Col lg={10} className="admin-content">
-          <Tab.Content>
-            <Report eventKey="Home" />
-            <Order eventKey="Order" />
-            <Inventory eventKey="Inventory" />
-            <Product eventKey="Product" />
-            <CRM eventKey="CRM" />
-            <UserSetting eventKey="User setting" />
-          </Tab.Content>
+        <Col lg={10} className="">
+          <Contents />
         </Col>
       </Row>
     </>

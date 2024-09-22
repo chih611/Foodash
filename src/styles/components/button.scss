@@ -149,8 +149,8 @@
   }
 }
 
-.custom-dropdown {
-  background-image: none;  /* Remove the default arrow */
+.custom-dropdown-button::after {
+  border-left: 0!important;
 }
 
 

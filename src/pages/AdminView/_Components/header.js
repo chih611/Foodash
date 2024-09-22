@@ -18,14 +18,14 @@ import SettingsIcon from "@mui/icons-material/Settings";
 const Header = ({ breadcrumb, handleSelect }) => {
   return (
     <>
-      <Row className="align-items-center admin-header">
-        <Col lg={2}>
+      <Row className="align-items-center admin-header border">
+        <Col>
           <Navbar.Brand href="#home">
             {" "}
             <Image src="Foodash_logo.png" className="w-100" />
           </Navbar.Brand>
         </Col>
-        <Col lg={4}>
+        <Col>
           <Nav className="flex-row" onSelect={handleSelect}>
             <Nav.Item className="me-2">
               <Nav.Link eventKey="Home">Home </Nav.Link>
@@ -37,7 +37,7 @@ const Header = ({ breadcrumb, handleSelect }) => {
             </Nav.Item>
           </Nav>
         </Col>
-        <Col lg={4}>
+        <Col>
           <Row className="justify-content-end info-group">
             <Col lg={1}>
               <Navbar>
@@ -77,7 +77,7 @@ const Header = ({ breadcrumb, handleSelect }) => {
             </Col>
           </Row>
         </Col>
-        <Col lg={2}>
+        <Col>
           <Navbar className="justify-content-center user">
             <Button variant="link">hello, admin</Button>
             <Figure className="figure">
