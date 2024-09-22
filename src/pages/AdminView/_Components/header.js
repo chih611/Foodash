@@ -14,6 +14,7 @@ import {
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import ChatIcon from "@mui/icons-material/Chat";
 import SettingsIcon from "@mui/icons-material/Settings";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
 const Header = ({ breadcrumb, handleSelect }) => {
   return (
@@ -26,13 +27,13 @@ const Header = ({ breadcrumb, handleSelect }) => {
           </Navbar.Brand>
         </Col>
         <Col>
-          <Nav className="flex-row" onSelect={handleSelect}>
+          <Nav className="flex-row breadcrumb" onSelect={handleSelect}>
             <Nav.Item className="me-2">
               <Nav.Link eventKey="Home">Home </Nav.Link>
             </Nav.Item>
             <Nav.Item>
               <Nav.Link>
-                {breadcrumb === "Home" ? "" : " > " + breadcrumb}
+                {breadcrumb === "Home" ? "" : <><ChevronRightIcon /><span className="underline">{breadcrumb}</span></>}
               </Nav.Link>
             </Nav.Item>
           </Nav>

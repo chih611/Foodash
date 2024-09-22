@@ -5,16 +5,36 @@
   .side-bar {
     a {
       color: #174c71;
-    }
+      position: relative;
 
-    a:hover {
-      background-color: #ebf5fe;
+      &:hover {
+        background-color: #ebf5fe;
+      }
+
+      &.active {
+        background-color: #174c71;
+      }
+
+      svg[data-testid='ChevronRightIcon'] {
+        position: absolute;
+        right: 20px;
+      }
     }
 
     svg {
       width: 20px;
       margin-bottom: 5px;
       margin-right: 5px;
+    }
+
+    .btn-logout {
+      button {
+        position: absolute;
+        bottom: 20px;
+        background-color: #174c71;
+        border: none;
+        font-weight: bold;
+      }
     }
   }
 

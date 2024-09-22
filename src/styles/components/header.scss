@@ -1,4 +1,10 @@
 .admin-header {
+  .navbar-brand {
+    img {
+      width: 80% !important;
+    }
+  }
+
   .search {
     width: 100%;
 
@@ -30,11 +36,17 @@
     a {
       color: #174c71;
       font-weight: bold;
+      padding: 8px 0;
+
+      svg {
+        margin-right: 5px;
+        margin-bottom: 4px;
+      }
     }
 
-    li.home-item a {
-      text-decoration: none;
-    }
+    // li.home-item a {
+    //   text-decoration: none;
+    // }
 
     .underline {
       text-decoration: underline;

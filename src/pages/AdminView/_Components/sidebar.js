@@ -68,10 +68,24 @@ const SideBar = ({ handleSelect }) => {
                       bsPrefix={dropdown_style}
                       title={`CRM`}
                     >
-                      <Dropdown.Item eventKey="CRM">
+                      <Dropdown.Item>
                         <Nav.Item>
-                          <Nav.Link className={nav_style} eventKey="CRM">
-                            user <ChevronRightIcon />
+                          <Nav.Link className={nav_style} eventKey="Marketing">
+                            marketing <ChevronRightIcon />
+                          </Nav.Link>
+                        </Nav.Item>
+                      </Dropdown.Item>
+                      <Dropdown.Item>
+                        <Nav.Item>
+                          <Nav.Link className={nav_style} eventKey="Profile">
+                            profile <ChevronRightIcon />
+                          </Nav.Link>
+                        </Nav.Item>
+                      </Dropdown.Item>
+                      <Dropdown.Item>
+                        <Nav.Item>
+                          <Nav.Link className={nav_style} eventKey="Reminder">
+                            reminder <ChevronRightIcon />
                           </Nav.Link>
                         </Nav.Item>
                       </Dropdown.Item>
@@ -88,7 +102,7 @@ const SideBar = ({ handleSelect }) => {
               </Nav>
             </Col>
             <Col className={logout_btn}>
-              <Button>log out</Button>
+              <Button>LOG OUT</Button>
             </Col>
           </Row>
         </Col>
