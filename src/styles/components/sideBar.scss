@@ -36,6 +36,48 @@
         font-weight: bold;
       }
     }
+
+    .accordion {
+      .accordion-item {
+        border: none;
+      }
+
+      button {
+        padding: 8px 16px;
+        color: #174c71;
+        position: relative;
+        font-weight: bolder;
+        border: none;
+        border-radius: 5px !important;
+
+        svg[data-testid='ChevronRightIcon'] {
+          position: absolute;
+          right: 20px;
+        }
+
+        &::after {
+          display: none;
+        }
+
+        &:not(.collapsed) {
+          background-color: transparent;
+          box-shadow: none;
+        }
+
+        &:focus {
+          box-shadow: none;
+        }
+
+        &:hover {
+          background-color: #ebf5fe;
+        }
+      }
+
+      .accordion-body {
+        padding: 0;
+        padding-left: 16px;
+      }
+    }
   }
 
   .admin-content {

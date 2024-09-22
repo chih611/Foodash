@@ -7,7 +7,6 @@ import {
   Image,
   Navbar,
   Row,
-  Form,
   Nav,
 } from "react-bootstrap";
 // Icons
@@ -23,7 +22,7 @@ const Header = ({ breadcrumb, handleSelect }) => {
         <Col>
           <Navbar.Brand href="#home">
             {" "}
-            <Image src="Foodash_logo.png" className="w-100" />
+            <Image src="Foodash_logo.png" className="w-50" />
           </Navbar.Brand>
         </Col>
         <Col>
@@ -33,7 +32,14 @@ const Header = ({ breadcrumb, handleSelect }) => {
             </Nav.Item>
             <Nav.Item>
               <Nav.Link>
-                {breadcrumb === "Home" ? "" : <><ChevronRightIcon /><span className="underline">{breadcrumb}</span></>}
+                {breadcrumb === "Home" ? (
+                  ""
+                ) : (
+                  <>
+                    <ChevronRightIcon />
+                    <span className="underline">{breadcrumb}</span>
+                  </>
+                )}
               </Nav.Link>
             </Nav.Item>
           </Nav>
