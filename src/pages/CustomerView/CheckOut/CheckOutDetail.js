@@ -23,6 +23,7 @@ import RemoveCircleOutlineOutlined from "@mui/icons-material/RemoveCircleOutline
 import CloseOutlined from "@mui/icons-material/CloseOutlined"; // delete item x
 
 import AddLocationAltRounded from "@mui/icons-material/AddLocationAltRounded";
+import CreditCardRounded from "@mui/icons-material/CreditCardRounded";
 
 const CheckOutDetail = () => {
   const [receiver, setReceiverName] = useState('');
@@ -230,6 +231,14 @@ const CheckOutDetail = () => {
                 </div>
                 <div className="w-100 d-flex">
                     <p className="subtitle mt-3 mb-1">Gift Wrap</p>
+                </div>
+
+                <div className="w-100 d-flex">
+                    <CreditCardRounded className="subtitle mt-3 mb-1"/>
+                    <button className="d-flex mx-5 mt-3 mb-1">
+                        <p className ="subtitle mx-4">Add payment method</p>
+                        <ArrowRightRounded sx={{ color: "#025373" }} className="ms-5"/>
+                    </button> 
                 </div>
 
                 <div className="w-100 d-flex">
