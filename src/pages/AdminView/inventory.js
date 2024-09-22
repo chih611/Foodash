@@ -1,92 +1,75 @@
-import { useState } from "react";
-import { Tab, Pagination } from "react-bootstrap";
-import TableContent from "./_Components/table";
-import SearchBar from "./_Components/searchbar";
-import initialData from "./data";
+import React, { useState } from 'react';
+import { Button } from 'react-bootstrap'; // Import Bootstrap components
+import TableContent from './_Components/table'; // Import TableContent component
+import SearchBar from './_Components/searchbar'; // Import SearchBar component
+import inventoryData from './inventoryData'; // Import the inventory data
+import EditIcon from '@mui/icons-material/Edit'; // Import Edit Icon from MUI
+import DeleteIcon from '@mui/icons-material/Delete'; // Import Delete Icon from MUI
 
-const Inventory = (props) => {
-  const headers = ["ID", "NAME", "ADDRESS", "PHONE_NUMBER", "ORDER_DETAILS", "STATUS"];
+const Inventory = () => {
+  const headers = ["ID", "NAME", "CATEGORY", "EXP.DATE", "STATUS", "ACTIONS"];
 
-  const [tableData, setTableData] = useState(initialData); // Use imported data
-  const [currentPage, setCurrentPage] = useState(1);
-  const rowsPerPage = 11;
+  const [data, setData] = useState(inventoryData); // Use the imported data as initial state
+  const [searchTerm, setSearchTerm] = useState(''); // State for search term
+  const [selectedCategory, setSelectedCategory] = useState(''); // State for selected category
+  const [selectedStatus, setSelectedStatus] = useState(''); // State for selected status
 
-  const totalPages = Math.ceil(tableData.length / rowsPerPage);
+  const handleEdit = (item) => {
+    // Handle edit functionality here
+    console.log("Edit item:", item);
+  };
 
-  const paginatedData = tableData.slice(
-    (currentPage - 1) * rowsPerPage,
-    currentPage * rowsPerPage
-  );
+  const handleDelete = (item) => {
+    // Handle delete functionality here
+    console.log("Delete item:", item);
+  };
 
-  const handleSearch = (searchTerm, category, status) => {
-    const filteredData = initialData.filter((item) => {
-      const matchesSearch = item.NAME.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesCategory = category ? item.ORDER_DETAILS.toLowerCase().includes(category.toLowerCase()) : true;
-      const matchesStatus = status ? item.STATUS === status : true;
-      return matchesSearch && matchesCategory && matchesStatus;
+  // Function to handle search and filtering
+  const handleSearch = (term, category, status) => {
+    setSearchTerm(term);
+    setSelectedCategory(category);
+    setSelectedStatus(status);
+
+    const filteredData = inventoryData.filter((item) => {
+      const matchesTerm = item.NAME.toLowerCase().includes(term.toLowerCase());
+      const matchesCategory = category ? item.CATEGORY.toLowerCase() === category.toLowerCase() : true;
+      const matchesStatus = status ? (status === 'In Stock' ? item.STATUS > 0 : item.STATUS === 0) : true;
+      return matchesTerm && matchesCategory && matchesStatus;
     });
-    setTableData(filteredData);
+
+    setData(filteredData);
   };
 
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-  };
-
-  const renderPaginationItems = () => {
-    let items = [];
-    for (let i = 1; i <= totalPages; i++) {
-      items.push(
-        <Pagination.Item
-          key={i}
-          active={i === currentPage}
-          onClick={() => handlePageChange(i)}
-        >
-          {i}
-        </Pagination.Item>
-      );
-    }
-    return items;
-  };
-
+  // Render the inventory page
   return (
-    <>
-           <Tab.Pane {...props}>
-        <div
-          className="border mb-2 p-1 me-5 rounded-4 d-flex justify-content-end align-items-center"
-          style={{ backgroundColor: '#EBF5FD', minHeight: 'auto', padding: '0.5rem' }} // Adjust padding as needed
-        >
-          <SearchBar
-            onSearch={handleSearch}
-            categories={["T-Shirts", "Laptop", "Books", "Phone", "Notebooks"]}
-            statuses={["COMPLETED", "IN PROGRESS"]}
-          />
-        </div>
+    <div className="container mt-4">
+      <h3>Inventory List</h3>
 
+      {/* Include the SearchBar component */}
+      <SearchBar
+        onSearch={handleSearch}
+        categories={["Fruits", "Vegetables", "Meat", "Fish", "Dairy", "Beverages", "Grains", "Condiments", "Snacks"]}
+        statuses={["In Stock", "Out of Stock"]}
+      />
 
-        <div className="border p-2 pt-2 me-5 rounded-4" style={{backgroundColor:'#EBF5FD'}}>
-          <TableContent headers={headers} data={paginatedData} />
-          <Pagination className="justify-content-center mt-3">
-            <Pagination.First
-              onClick={() => handlePageChange(1)}
-              disabled={currentPage === 1}
-            />
-            <Pagination.Prev
-              onClick={() => handlePageChange(currentPage - 1)}
-              disabled={currentPage === 1}
-            />
-            {renderPaginationItems()}
-            <Pagination.Next
-              onClick={() => handlePageChange(currentPage + 1)}
-              disabled={currentPage === totalPages}
-            />
-            <Pagination.Last
-              onClick={() => handlePageChange(totalPages)}
-              disabled={currentPage === totalPages}
-            />
-          </Pagination>
-        </div>
-      </Tab.Pane>
-    </>
+      {/* Include the TableContent component */}
+      <TableContent
+        headers={headers}
+        data={data.map((item) => ({
+          ...item,
+          ACTIONS: (
+            <>
+              <Button variant="warning" size="sm" onClick={() => handleEdit(item)} className="me-2">
+                <EditIcon /> {/* Edit Icon */}
+              </Button>
+              <Button variant="danger" size="sm" onClick={() => handleDelete(item)}>
+                <DeleteIcon /> {/* Delete Icon */}
+              </Button>
+            </>
+          )
+        }))}
+      />
+    </div>
   );
 };
 
