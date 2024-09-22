@@ -6,6 +6,9 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 import LandingNavBar from "../LandingNavBar/LandingNavBar";
 import LandingMenu from "../LandingMenu/LandingMenu";
 import Image from "next/image";
+import PrimaryButton from "../../ViewCart/PrimaryButton";
+import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
+import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 
 const LandingContact = () => {
   return (
@@ -27,12 +30,17 @@ const LandingContact = () => {
                 width={100}
                 height={50}
               />
-              <Button variant="primary" className="ms-3">
-                Order now
-              </Button>
-              <Button variant="outline-primary" className="ms-3">
-                Subscribe Us
-              </Button>
+
+              <PrimaryButton
+                icon={Inventory2OutlinedIcon}
+                text="Order now"
+                className="me-3"
+              />
+              <PrimaryButton
+                icon={NotificationsNoneIcon}
+                text="Subscribe Us"
+                inverted={true}
+              />
             </Col>
 
             {/* Contact Information */}
