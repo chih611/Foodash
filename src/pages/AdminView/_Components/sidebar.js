@@ -1,12 +1,9 @@
 import {
   Button,
-  ButtonGroup,
   Col,
-  Container,
-  Dropdown,
-  DropdownButton,
   Nav,
   Row,
+  Accordion
 } from "react-bootstrap";
 
 // Icons
@@ -17,11 +14,11 @@ import InventoryIcon from "@mui/icons-material/Inventory";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 
-import { nav_style, icon_style, custom_dropdown, logout_btn } from "../styles";
+import { nav_style, icon_style, logout_btn } from "../styles";
 import Contents from "./contents";
 
 const SideBar = ({ handleSelect }) => {
-  const dropdown_style = nav_style.concat(custom_dropdown);
+
   return (
     <>
       <Row className="admin-main">
@@ -58,41 +55,28 @@ const SideBar = ({ handleSelect }) => {
                     product <ChevronRightIcon />
                   </Nav.Link>
                 </Nav.Item>
-                <Container className="ps-3">
-                  <AddCircleOutlineIcon />
-                  {["end"].map((direction) => (
-                    <DropdownButton
-                      as={ButtonGroup}
-                      key={direction}
-                      drop={direction}
-                      bsPrefix={dropdown_style}
-                      title={`CRM`}
-                    >
-                      <Dropdown.Item>
-                        <Nav.Item>
-                          <Nav.Link className={nav_style} eventKey="Marketing">
-                            marketing <ChevronRightIcon />
-                          </Nav.Link>
-                        </Nav.Item>
-                      </Dropdown.Item>
-                      <Dropdown.Item>
-                        <Nav.Item>
-                          <Nav.Link className={nav_style} eventKey="Profile">
-                            profile <ChevronRightIcon />
-                          </Nav.Link>
-                        </Nav.Item>
-                      </Dropdown.Item>
-                      <Dropdown.Item>
-                        <Nav.Item>
-                          <Nav.Link className={nav_style} eventKey="Reminder">
-                            reminder <ChevronRightIcon />
-                          </Nav.Link>
-                        </Nav.Item>
-                      </Dropdown.Item>
-                    </DropdownButton>
-                  ))}
-                  <ChevronRightIcon />
-                </Container>
+                <Accordion flush>
+                  <Accordion.Item eventKey="0">
+                    <Accordion.Header className={nav_style}><AddCircleOutlineIcon />CRM <ChevronRightIcon /></Accordion.Header>
+                    <Accordion.Body>
+                      <Nav.Item>
+                        <Nav.Link className={nav_style} eventKey="Marketing">
+                          marketing <ChevronRightIcon />
+                        </Nav.Link>
+                      </Nav.Item>
+                      <Nav.Item>
+                        <Nav.Link className={nav_style} eventKey="Profile">
+                          profile <ChevronRightIcon />
+                        </Nav.Link>
+                      </Nav.Item>
+                      <Nav.Item>
+                        <Nav.Link className={nav_style} eventKey="Reminder">
+                          reminder <ChevronRightIcon />
+                        </Nav.Link>
+                      </Nav.Item>
+                    </Accordion.Body>
+                  </Accordion.Item>
+                </Accordion>
                 <Nav.Item>
                   <Nav.Link className={nav_style} eventKey="User setting">
                     <PeopleAltIcon />
