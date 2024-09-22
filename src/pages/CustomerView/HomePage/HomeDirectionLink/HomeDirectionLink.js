@@ -133,7 +133,7 @@ const HomeDirectionLink = () => {
                 router.pathname === "/orders" ? "active" : ""
               }`}
             >
-              <Link href="/orders" passHref legacyBehavior>
+              <Link href="/CustomerView/OrderTracking/OrderTracking" passHref legacyBehavior>
                 <a className="nav-link">
                   <div className="indicator-button">
                     <Row className="align-items-center">
@@ -271,7 +271,7 @@ const HomeDirectionLink = () => {
               router.pathname === "/orders" ? "active" : ""
             }`}
           >
-            <Link href="/orders" passHref legacyBehavior>
+            <Link href="/CustomerView/OrderTracking/OrderTracking" passHref legacyBehavior>
               <a className="nav-link">
                 <div className="indicator-button">
                   <Row className="align-items-center">
