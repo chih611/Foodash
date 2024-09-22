@@ -5,7 +5,7 @@ import Section from './Section';
 
 function BoughtBefore() {
   return (
-    <Container className="bought-before-container color-head-line">
+    <Container className="bought-before-container">
       <main>
         <h1 className="title">Bought Before</h1>
         {/* Repeat the section for different categories */}

@@ -149,6 +149,10 @@
   }
 }
 
+.custom-dropdown-button::after {
+  border-left: 0!important;
+}
+
 
 /* Adjust button sizes for smaller screens */
 @media (max-width: 576px) {
