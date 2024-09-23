@@ -42,7 +42,7 @@ const Inventory = () => {
 
   // Render the inventory page
   return (
-    <div className="container mt-4">
+    <div className="g-4  bg-2nd-color mt-1 px-3 py-3 rounded-4" style={{ height: "100vh"}}>
       <h3>Inventory List</h3>
 
       {/* Include the SearchBar component */}

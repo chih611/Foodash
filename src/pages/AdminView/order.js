@@ -9,7 +9,7 @@ const Order = (props) => {
 
   const [tableData, setTableData] = useState(initialData); // Use imported data
   const [currentPage, setCurrentPage] = useState(1);
-  const rowsPerPage = 11;
+  const rowsPerPage = 15;
 
   const totalPages = Math.ceil(tableData.length / rowsPerPage);
 

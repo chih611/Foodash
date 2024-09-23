@@ -4,6 +4,7 @@ import { Col, Row, Nav, Container, Button } from "react-bootstrap";
 import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
+import PrimaryButton from "../ViewCart/PrimaryButton";
 import { useRouter } from "next/router";
 
 const ItemsInformation = () => {
@@ -108,28 +109,19 @@ const ItemsInformation = () => {
 
             <Row className="action-buttons mt-3">
               <Col xs={5} md={5}>
-                <Button variant="outline-primary" className="cart-btn">
-                  <Row>
-                    <Col xs={3}>
-                      <Inventory2OutlinedIcon />
-                    </Col>
-                    <Col xs={9}>Order Now</Col>
-                  </Row>
-                </Button>
+                <PrimaryButton
+                  onClick={handleAddToCart}
+                  icon={Inventory2OutlinedIcon}
+                  text="Order Now"
+                />
               </Col>
               <Col xs={5} md={5}>
-                <Button
-                  variant="outline-primary"
-                  className="cart-btn"
+                <PrimaryButton
                   onClick={handleAddToCart}
-                >
-                  <Row>
-                    <Col xs={3}>
-                      <AddShoppingCartIcon />
-                    </Col>
-                    <Col xs={9}>Add to cart</Col>
-                  </Row>
-                </Button>
+                  icon={AddShoppingCartIcon}
+                  text="Add to Cart"
+                  inverted={true}
+                />
               </Col>
               <Col xs={2} md={2}>
                 <Button variant="outline-danger" className="wishlist-btn">

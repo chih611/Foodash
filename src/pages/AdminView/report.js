@@ -8,7 +8,7 @@ const Report = (props) => {
     <>
       <Tab.Pane
         {...props}
-        className="g-4 bg-2nd-color mt-1 px-3 py-3 rounded-4"
+        className="g-4  bg-2nd-color mt-1 px-3 py-3 rounded-4" style={{ height: "100vh"}}
       >
         <Row xs={1} md={2} className="justify-content-around">
           <Col lg={4}>
