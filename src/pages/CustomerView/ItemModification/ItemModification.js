@@ -3,6 +3,9 @@ import { Container, Row, Col, Button, Form, Badge } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { addToCart } from "../../../../store/slices/cartSlice";
 import { useDispatch } from "react-redux";
+import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
+
+import PrimaryButton from "../ViewCart/PrimaryButton";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -152,9 +155,11 @@ const ItemModification = () => {
       {/* Add to Cart */}
       <Row className="my-4">
         <Col>
-          <Button className="w-100" onClick={handleAddToCart}>
-            Add 1 to cart - ${calculateTotal().toFixed(2)}
-          </Button>
+          <PrimaryButton
+            onClick={handleAddToCart}
+            icon={Inventory2OutlinedIcon}
+            text={`Add 1 to cart - ${calculateTotal().toFixed(2)}`}
+          />
         </Col>
       </Row>
     </Container>
