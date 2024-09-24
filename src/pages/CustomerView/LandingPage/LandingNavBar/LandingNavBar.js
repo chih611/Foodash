@@ -169,7 +169,10 @@ const LandingNavBar = () => {
                   </div>
                 </a>
               </Link>
-              <Col xs={ 3 } className="d-flex justify-content-end align-items-center">
+              <Col
+                xs={3}
+                className="d-flex justify-content-end align-items-center"
+              >
                 <Link
                   href="/CustomerView/HomePage/HomePage"
                   legacyBehavior
@@ -177,17 +180,6 @@ const LandingNavBar = () => {
                 >
                   <a>
                     <Button variant="primary">Log In</Button>
-                  </a>
-                </Link>
-              </Col>
-              <Col xs={ 3 } className="d-flex justify-content-end">
-                <Link
-                  href="/CustomerView/Payment/Payment"
-                  legacyBehavior
-                  passHref
-                >
-                  <a>
-                    <Button variant="primary">Payment</Button>
                   </a>
                 </Link>
               </Col>

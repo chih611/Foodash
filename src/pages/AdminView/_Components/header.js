@@ -86,7 +86,7 @@ const Header = ({ breadcrumb, handleSelect }) => {
         </Col>
         <Col>
           <Navbar className="justify-content-center user">
-            <Button variant="link">hello, admin</Button>
+            <Button variant="link text-capitalize">hello, admin</Button>
             <Figure className="figure">
               <Figure.Image
                 width={40}
