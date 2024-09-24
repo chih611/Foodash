@@ -8,19 +8,26 @@ export const fetchItems = createAsyncThunk(
     try {
       const response = await axios.get("http://localhost:8888/item");
       let data = response.data;
-
-      // Log the raw data from the response
-      console.log("Raw data from backend:", data);
-
-      // If the data is not an array, wrap it in an array
       if (!Array.isArray(data)) {
         data = [data];
       }
-
-      // Log the processed data
-      console.log("Processed data:", data);
-
       return data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response ? error.response.data : error.message
+      );
+    }
+  }
+);
+
+export const searchItemsByName = createAsyncThunk(
+  "items/searchItemsByName",
+  async (searchTerm, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8888/items/search/${searchTerm}`
+      );
+      return response.data;
     } catch (error) {
       return rejectWithValue(
         error.response ? error.response.data : error.message
@@ -33,24 +40,17 @@ const itemsSlice = createSlice({
   name: "items",
   initialState: {
     items: [],
-    selectedItem: null, // Add selectedItem to store the clicked item
+    searchResults: [],
     status: "idle",
     error: null,
   },
   reducers: {
-    clearItems: (state) => {
-      state.items = [];
-      state.status = "idle";
-      state.error = null;
-    },
-
-    selectItems: (state, action) => {
-      state.selectedItem = action.payload;
+    clearSearchResults: (state) => {
+      state.searchResults = [];
     },
   },
   extraReducers: (builder) => {
     builder
-      // Handle fetchItems
       .addCase(fetchItems.pending, (state) => {
         state.status = "loading";
       })
@@ -60,10 +60,23 @@ const itemsSlice = createSlice({
       })
       .addCase(fetchItems.rejected, (state, action) => {
         state.status = "failed";
-        state.error = action.payload;
+        state.error = action.error || { message: "Failed to fetch items" };
+      })
+      .addCase(searchItemsByName.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(searchItemsByName.fulfilled, (state, action) => {
+        state.searchResults = action.payload.length > 0 ? action.payload : []; // Keep searchResults empty if no matches
+        state.status = "succeeded";
+      })
+      .addCase(searchItemsByName.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error || {
+          message: "Error searching items by name",
+        };
       });
   },
 });
 
-export const { clearItems, selectItems } = itemsSlice.actions;
+export const { clearSearchResults } = itemsSlice.actions;
 export default itemsSlice.reducer;

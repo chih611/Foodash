@@ -12,15 +12,18 @@ import {
 
 const HomeContent = () => {
   const dispatch = useDispatch();
-  const { items, status, error } = useSelector((state) => state.items);
+  const { items, searchResults, status, error } = useSelector(
+    (state) => state.items
+  );
   const categoryItems = useSelector(selectCategoryItems);
+
   useEffect(() => {
     dispatch(fetchItems()); // Fetch all items initially
   }, [dispatch]);
 
   // Error state
   if (status === "failed") {
-    return <div>Error: {error}</div>;
+    return <div>Error: {error?.message || "An unexpected error occurred"}</div>;
   }
 
   // Loading state
@@ -28,8 +31,13 @@ const HomeContent = () => {
     return <div>Loading...</div>;
   }
 
-  // Render items (use filtered items if a category is selected)
-  const displayedItems = categoryItems.length > 0 ? categoryItems : items;
+  // Determine which items to display
+  const displayedItems =
+    searchResults.length > 0
+      ? searchResults // Show search results if there are any matches
+      : categoryItems.length > 0
+      ? categoryItems // If a category is selected, show category items
+      : items; // Fallback to showing all items
 
   return (
     <div className="container">
@@ -41,7 +49,6 @@ const HomeContent = () => {
         </Col>
         <Col xs={12} sm={8} md={9} lg={9}>
           <div className="home-content">
-            <h1>Home Content</h1>
             <HomeFilterBar />
             <div className="homeContentSection">
               <Row>
