@@ -27,7 +27,7 @@ export const searchItemsByName = createAsyncThunk(
       const response = await axios.get(
         `http://localhost:8888/items/search/${searchTerm}`
       );
-      return response.data;
+      return response.data.length > 0 ? response.data : [];
     } catch (error) {
       return rejectWithValue(
         error.response ? error.response.data : error.message
@@ -47,6 +47,9 @@ const itemsSlice = createSlice({
   reducers: {
     clearSearchResults: (state) => {
       state.searchResults = [];
+    },
+    selectItems: (state, action) => {
+      state.selectedItem = action.payload; // Set the selected item
     },
   },
   extraReducers: (builder) => {
@@ -78,5 +81,5 @@ const itemsSlice = createSlice({
   },
 });
 
-export const { clearSearchResults } = itemsSlice.actions;
+export const { clearSearchResults, selectItems } = itemsSlice.actions;
 export default itemsSlice.reducer;
