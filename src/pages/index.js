@@ -1,5 +1,5 @@
 // /pages/index.js
-import LandingPage from "./CustomerView/LandingPage/LandingPage";
+import LandingPage from "./CustomerView/LandingPage";
 
 const Home = () => {
   return <LandingPage />;

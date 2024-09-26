@@ -56,7 +56,7 @@ const SearchBar = () => {
     setSearch("");
     setLocalSearchResults([]);
     dispatch(clearSearchResults());
-    router.push("/CustomerView/HomePage/HomePage"); // Reset URL to the original one
+    router.push("/CustomerView/HomePage/HomePage");
   };
 
   // Handle clicking on a search result
@@ -70,14 +70,14 @@ const SearchBar = () => {
       <SearchRounded
         className="me-2"
         sx={{ color: "#025373", cursor: "pointer" }}
-        onClick={() => handleSearch(search)} // Trigger search when the icon is clicked
+        onClick={() => handleSearch(search)}
       />
       <input
         className="search_bar"
         type="text"
         value={search}
-        onChange={handleInputChange} // Perform local search as the user types
-        onKeyPress={handleKeyPress} // Trigger backend search when 'Enter' is pressed
+        onChange={handleInputChange}
+        onKeyPress={handleKeyPress}
         placeholder="Search anything on Foodash"
       />
       {search && (
