@@ -37,10 +37,10 @@ const SearchBar = () => {
   const handleSearch = (searchTerm) => {
     if (searchTerm.trim()) {
       dispatch(searchItemsByName(searchTerm));
-      router.push(`/CustomerView/HomePage/HomePage?search=${searchTerm}`);
+      router.push(`/CustomerView/HomePage?search=${searchTerm}`);
     } else {
       dispatch(clearSearchResults());
-      router.push("/CustomerView/HomePage/HomePage");
+      router.push("/CustomerView/HomePage");
     }
   };
 
@@ -56,7 +56,7 @@ const SearchBar = () => {
     setSearch("");
     setLocalSearchResults([]);
     dispatch(clearSearchResults());
-    router.push("/CustomerView/HomePage/HomePage");
+    router.push("/CustomerView/HomePage");
   };
 
   // Handle clicking on a search result
