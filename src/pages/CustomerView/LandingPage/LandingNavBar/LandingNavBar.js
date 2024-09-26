@@ -56,11 +56,7 @@ const LandingNavBar = () => {
               className="d-flex justify-content-end align-items-center"
             >
               {/* Cart Button */}
-              <Link
-                href="/CustomerView/ViewCart/ViewCart"
-                legacyBehavior
-                passHref
-              >
+              <Link href="/CustomerView/ViewCart" legacyBehavior passHref>
                 <a>
                   <div className="cart-button me-3">
                     <ShoppingCartOutlinedIcon sx={{ color: "#025373" }} />
@@ -69,11 +65,7 @@ const LandingNavBar = () => {
               </Link>
 
               {/* Login Button */}
-              <Link
-                href="/CustomerView/HomePage/HomePage"
-                legacyBehavior
-                passHref
-              >
+              <Link href="/CustomerView/HomePage" legacyBehavior passHref>
                 <a>
                   <Button variant="primary" className="login-button">
                     Log In
@@ -105,7 +97,7 @@ const LandingNavBar = () => {
               <Nav className="w-100 justify-content-between">
                 <Col className="d-flex justify-content-center">
                   <Link
-                    href="/CustomerView/LandingPage/LandingPage"
+                    href="/CustomerView/LandingPage/"
                     legacyBehavior
                     passHref
                   >
@@ -114,7 +106,7 @@ const LandingNavBar = () => {
                 </Col>
                 <Col className="d-flex justify-content-center">
                   <Link
-                    href="/CustomerView/LandingPage/LandingSpecial/LandingSpecial"
+                    href="/CustomerView/LandingPage/LandingSpecial"
                     legacyBehavior
                     passHref
                   >
@@ -123,7 +115,7 @@ const LandingNavBar = () => {
                 </Col>
                 <Col className="d-flex justify-content-center">
                   <Link
-                    href="/CustomerView/LandingPage/LandingContact/LandingContact"
+                    href="/CustomerView/LandingPage/LandingContact"
                     legacyBehavior
                     passHref
                   >
@@ -132,7 +124,7 @@ const LandingNavBar = () => {
                 </Col>
                 <Col className="d-flex justify-content-center">
                   <Link
-                    href="/CustomerView/LandingPage/LandingGallery/LandingGallery"
+                    href="/CustomerView/LandingPage/LandingGallery"
                     legacyBehavior
                     passHref
                   >
@@ -141,7 +133,7 @@ const LandingNavBar = () => {
                 </Col>
                 <Col className="d-flex justify-content-center">
                   <Link
-                    href="/CustomerView/LandingPage/LandingAbout/LandingAbout"
+                    href="/CustomerView/LandingPage/LandingAbout"
                     legacyBehavior
                     passHref
                   >
@@ -158,11 +150,7 @@ const LandingNavBar = () => {
               className="d-flex justify-content-end align-items-center"
             >
               {/* Cart and Login Buttons */}
-              <Link
-                href="/CustomerView/ViewCart/ViewCart"
-                legacyBehavior
-                passHref
-              >
+              <Link href="/CustomerView/ViewCart/" legacyBehavior passHref>
                 <a>
                   <div className="cart-button me-2">
                     <ShoppingCartOutlinedIcon sx={{ color: "#025373" }} />
@@ -173,11 +161,7 @@ const LandingNavBar = () => {
                 xs={3}
                 className="d-flex justify-content-end align-items-center"
               >
-                <Link
-                  href="/CustomerView/HomePage/HomePage"
-                  legacyBehavior
-                  passHref
-                >
+                <Link href="/CustomerView/HomePage" legacyBehavior passHref>
                   <a>
                     <Button variant="primary">Log In</Button>
                   </a>
