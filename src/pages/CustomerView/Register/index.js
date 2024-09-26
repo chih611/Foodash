@@ -1,9 +1,43 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+
+// Define the validation schema using Yup
+const schema = yup.object().shape({
+  firstName: yup.string().required("First Name is required"),
+  lastName: yup.string().required("Last Name is required"),
+  email: yup
+    .string()
+    .email("Invalid email address")
+    .required("Email is required"),
+  password: yup
+    .string()
+    .min(8, "Password must be at least 8 characters long")
+    .required("Password is required"),
+  dob: yup
+    .date()
+    .max(new Date(), "Date of Birth cannot be in the future")
+    .required("Date of Birth is required"),
+  gender: yup.string().required("Gender is required"),
+  phoneNumber: yup
+    .string()
+    .matches(/^[0-9]{10}$/, "Invalid phone number, must be 10 digits")
+    .required("Phone Number is required"),
+  companyName: yup.string(),
+  abn: yup.string(),
+});
 
 const Register = () => {
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema), // Integrate Yup with react-hook-form
+  });
+
   const router = useRouter();
 
   const onSubmit = (data) => {
@@ -25,52 +59,63 @@ const Register = () => {
           />
 
           {/* Sign Up Card */}
-          <div className="card p-4 w-100 shadow-lg" style={{ maxWidth: '500px' }}>
+          <div
+            className="card p-4 w-100 shadow-lg"
+            style={{ maxWidth: "500px" }}
+          >
             <h1 className="text-center mb-4">Sign Up</h1>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="row">
                 {/* First Name */}
                 <div className="col-md-6 mb-3">
-                  <label htmlFor="firstName" className="form-label">First Name:</label>
+                  <label htmlFor="firstName" className="form-label">
+                    First Name:
+                  </label>
                   <input
                     id="firstName"
-                    className={`form-control ${errors.firstName ? 'is-invalid' : ''}`}
-                    {...register("firstName", { required: "First Name is required" })}
+                    className={`form-control ${
+                      errors.firstName ? "is-invalid" : ""
+                    }`}
+                    {...register("firstName")}
                     placeholder="First Name"
                   />
                   {errors.firstName && (
-                    <div className="invalid-feedback">{errors.firstName.message}</div>
+                    <div className="invalid-feedback">
+                      {errors.firstName.message}
+                    </div>
                   )}
                 </div>
 
                 {/* Last Name */}
                 <div className="col-md-6 mb-3">
-                  <label htmlFor="lastName" className="form-label">Last Name:</label>
+                  <label htmlFor="lastName" className="form-label">
+                    Last Name:
+                  </label>
                   <input
                     id="lastName"
-                    className={`form-control ${errors.lastName ? 'is-invalid' : ''}`}
-                    {...register("lastName", { required: "Last Name is required" })}
+                    className={`form-control ${
+                      errors.lastName ? "is-invalid" : ""
+                    }`}
+                    {...register("lastName")}
                     placeholder="Last Name"
                   />
                   {errors.lastName && (
-                    <div className="invalid-feedback">{errors.lastName.message}</div>
+                    <div className="invalid-feedback">
+                      {errors.lastName.message}
+                    </div>
                   )}
                 </div>
               </div>
 
               {/* Email Field */}
               <div className="mb-3">
-                <label htmlFor="email" className="form-label">Email:</label>
+                <label htmlFor="email" className="form-label">
+                  Email:
+                </label>
                 <input
                   id="email"
-                  className={`form-control ${errors.email ? 'is-invalid' : ''}`}
-                  {...register("email", {
-                    required: "Email is required",
-                    pattern: {
-                      value: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
-                      message: "Invalid email address",
-                    },
-                  })}
+                  className={`form-control ${errors.email ? "is-invalid" : ""}`}
+                  {...register("email")}
                   placeholder="Email"
                 />
                 {errors.email && (
@@ -80,45 +125,53 @@ const Register = () => {
 
               {/* Password Field */}
               <div className="mb-3">
-                <label htmlFor="password" className="form-label">Password:</label>
+                <label htmlFor="password" className="form-label">
+                  Password:
+                </label>
                 <input
                   id="password"
-                  className={`form-control ${errors.password ? 'is-invalid' : ''}`}
-                  {...register("password", {
-                    required: "Password is required",
-                    minLength: {
-                      value: 8,
-                      message: "Password must be at least 8 characters long",
-                    },
-                  })}
+                  className={`form-control ${
+                    errors.password ? "is-invalid" : ""
+                  }`}
+                  {...register("password")}
                   type="password"
                   placeholder="Password"
                 />
                 {errors.password && (
-                  <div className="invalid-feedback">{errors.password.message}</div>
+                  <div className="invalid-feedback">
+                    {errors.password.message}
+                  </div>
                 )}
               </div>
 
               <div className="row">
                 {/* Date of Birth */}
                 <div className="col-md-6 mb-3">
-                  <label htmlFor="dob" className="form-label">Date of Birth:</label>
+                  <label htmlFor="dob" className="form-label">
+                    Date of Birth:
+                  </label>
                   <input
                     id="dob"
                     type="date"
-                    className={`form-control ${errors.dob ? 'is-invalid' : ''}`}
-                    {...register("dob", { required: "Date of Birth is required" })}
+                    className={`form-control ${errors.dob ? "is-invalid" : ""}`}
+                    {...register("dob")}
                   />
-                  {errors.dob && <div className="invalid-feedback">{errors.dob.message}</div>}
+                  {errors.dob && (
+                    <div className="invalid-feedback">{errors.dob.message}</div>
+                  )}
                 </div>
 
                 {/* Gender */}
                 <div className="col-md-6 mb-3">
-                  <label htmlFor="gender" className="form-label">Gender:</label>
+                  <label htmlFor="gender" className="form-label">
+                    Gender:
+                  </label>
                   <select
                     id="gender"
-                    className={`form-select ${errors.gender ? 'is-invalid' : ''}`}
-                    {...register("gender", { required: "Gender is required" })}
+                    className={`form-select ${
+                      errors.gender ? "is-invalid" : ""
+                    }`}
+                    {...register("gender")}
                   >
                     <option value="">Select</option>
                     <option value="male">Male</option>
@@ -126,36 +179,40 @@ const Register = () => {
                     <option value="other">Other</option>
                   </select>
                   {errors.gender && (
-                    <div className="invalid-feedback">{errors.gender.message}</div>
+                    <div className="invalid-feedback">
+                      {errors.gender.message}
+                    </div>
                   )}
                 </div>
               </div>
 
               {/* Phone Number */}
               <div className="mb-3">
-                <label htmlFor="phoneNumber" className="form-label">Phone Number:</label>
+                <label htmlFor="phoneNumber" className="form-label">
+                  Phone Number:
+                </label>
                 <input
                   id="phoneNumber"
                   type="tel"
-                  className={`form-control ${errors.phoneNumber ? 'is-invalid' : ''}`}
-                  {...register("phoneNumber", {
-                    required: "Phone Number is required",
-                    pattern: {
-                      value: /^[0-9]{10}$/,
-                      message: "Invalid phone number, must be 10 digits",
-                    },
-                  })}
+                  className={`form-control ${
+                    errors.phoneNumber ? "is-invalid" : ""
+                  }`}
+                  {...register("phoneNumber")}
                   placeholder="Phone Number"
                 />
                 {errors.phoneNumber && (
-                  <div className="invalid-feedback">{errors.phoneNumber.message}</div>
+                  <div className="invalid-feedback">
+                    {errors.phoneNumber.message}
+                  </div>
                 )}
               </div>
 
               <div className="row">
                 {/* Company Name */}
                 <div className="col-md-6 mb-3">
-                  <label htmlFor="companyName" className="form-label">Company Name (Optional):</label>
+                  <label htmlFor="companyName" className="form-label">
+                    Company Name (Optional):
+                  </label>
                   <input
                     id="companyName"
                     className="form-control"
@@ -166,7 +223,9 @@ const Register = () => {
 
                 {/* ABN */}
                 <div className="col-md-6 mb-3">
-                  <label htmlFor="abn" className="form-label">ABN (Optional):</label>
+                  <label htmlFor="abn" className="form-label">
+                    ABN (Optional):
+                  </label>
                   <input
                     id="abn"
                     className="form-control"
@@ -189,11 +248,11 @@ const Register = () => {
           {/* Custom content or image */}
           <div className="text-center text-white p-4">
             <h2>Welcome to Our Community</h2>
-            <img 
-              src="/path/to/your-image.png" 
-              alt="Custom Design" 
+            <img
+              src="/path/to/your-image.png"
+              alt="Custom Design"
               className="img-fluid"
-              style={{ maxWidth: '80%' }}
+              style={{ maxWidth: "80%" }}
             />
             <p className="mt-4">
               Join us and be a part of our amazing journey.
