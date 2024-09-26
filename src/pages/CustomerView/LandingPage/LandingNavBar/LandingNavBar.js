@@ -150,11 +150,7 @@ const LandingNavBar = () => {
               className="d-flex justify-content-end align-items-center"
             >
               {/* Cart and Login Buttons */}
-              <Link
-                href="/CustomerView/ViewCart/ViewCart"
-                legacyBehavior
-                passHref
-              >
+              <Link href="/CustomerView/ViewCart/" legacyBehavior passHref>
                 <a>
                   <div className="cart-button me-2">
                     <ShoppingCartOutlinedIcon sx={{ color: "#025373" }} />
@@ -165,11 +161,7 @@ const LandingNavBar = () => {
                 xs={3}
                 className="d-flex justify-content-end align-items-center"
               >
-                <Link
-                  href="/CustomerView/HomePage/HomePage"
-                  legacyBehavior
-                  passHref
-                >
+                <Link href="/CustomerView/HomePage" legacyBehavior passHref>
                   <a>
                     <Button variant="primary">Log In</Button>
                   </a>
