@@ -14,7 +14,7 @@ const Payment = () => {
       cardTokenizeResponseReceived={async (token) => {
         console.log("token", token);
         await axios
-          .post("http://localhost:8888/payment/create", {
+          .post("http://localhost:8080/payment/create", {
             sourceId: token.token,
           })
           .then((response) => {

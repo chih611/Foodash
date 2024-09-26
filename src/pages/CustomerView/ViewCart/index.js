@@ -154,7 +154,7 @@ const ViewCart = () => {
             />{" "}
           </Col>
           <Col xs={3}>
-            <Button variant="primary" href="/CustomerView/Payment/Payment">
+            <Button variant="primary" href="/CustomerView/Payment">
               Payment
             </Button>
           </Col>
