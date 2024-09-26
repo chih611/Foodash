@@ -2,11 +2,16 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
+// Define base URL with dynamic backend port from the environment variable
+const BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT;
+const BASE_URL = `http://localhost:${BACKEND_PORT}`;
+
+// Fetch items thunk
 export const fetchItems = createAsyncThunk(
   "items/fetchItems",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get("http://localhost:8888/item");
+      const response = await axios.get(`${BASE_URL}/item`);
       let data = response.data;
       if (!Array.isArray(data)) {
         data = [data];
@@ -20,12 +25,13 @@ export const fetchItems = createAsyncThunk(
   }
 );
 
+// Search items by name thunk
 export const searchItemsByName = createAsyncThunk(
   "items/searchItemsByName",
   async (searchTerm, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `http://localhost:8888/items/search/${searchTerm}`
+        `${BASE_URL}/items/search/${searchTerm}`
       );
       return response.data.length > 0 ? response.data : [];
     } catch (error) {

@@ -1,8 +1,14 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
+import { useDispatch, useSelector } from "react-redux";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { createCustomer } from "../../../../store/slices/customerSlice";
+import {
+  selectCustomerStatus,
+  selectCustomerError,
+} from "../../../../store/selector/selector";
 
 // Define the validation schema using Yup
 const schema = yup.object().shape({
@@ -38,35 +44,60 @@ const Register = () => {
     resolver: yupResolver(schema), // Integrate Yup with react-hook-form
   });
 
+  const dispatch = useDispatch();
   const router = useRouter();
 
-  const onSubmit = (data) => {
-    console.log(data);
-    // Handle account creation logic here, e.g., send data to backend API
+  // Retrieve status and error state from Redux
+  const status = useSelector(selectCustomerStatus);
+  const error = useSelector(selectCustomerError);
+
+  const onSubmit = async (data) => {
+    // Format the date of birth to 'YYYY-MM-DD'
+    const formattedDOB = new Date(data.dob).toISOString().split("T")[0];
+
+    const customerData = {
+      firstName: data.firstName,
+      lastName: data.lastName,
+      email: data.email,
+      password: data.password,
+      phoneNumber: data.phoneNumber,
+      address: data.address || "N/A",
+      dob: formattedDOB, // Use the formatted date here
+      gender: data.gender,
+      type: "user", // Indicate the customer is a user
+    };
+
+    try {
+      await dispatch(createCustomer(customerData)).unwrap();
+      console.log("Customer Data:", customerData);
+      router.push("/CustomerView/HomePage");
+    } catch (err) {
+      console.error("Signup failed:", err);
+    }
   };
 
   return (
     <div className="container-fluid vh-100 d-flex align-items-center">
       <div className="row w-100">
-        {/* Left Side: Form Content */}
         <div className="col-12 col-md-6 d-flex flex-column align-items-center justify-content-center p-5 vh-100 bg-light">
-          {/* Company Logo */}
           <img
-            src="/Foodash_logo.png" // Correct path to your logo in the public folder
+            src="/Foodash_logo.png"
             alt="Company Logo"
             className="img-fluid mb-4"
-            style={{ maxWidth: "200px" }} // Adjust logo size as needed
+            style={{ maxWidth: "200px" }}
           />
 
-          {/* Sign Up Card */}
           <div
             className="card p-4 w-100 shadow-lg"
             style={{ maxWidth: "500px" }}
           >
             <h1 className="text-center mb-4">Sign Up</h1>
+
+            {/* Display error message from Redux state */}
+            {error && <div className="alert alert-danger">{error}</div>}
+
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="row">
-                {/* First Name */}
                 <div className="col-md-6 mb-3">
                   <label htmlFor="firstName" className="form-label">
                     First Name:
@@ -86,7 +117,6 @@ const Register = () => {
                   )}
                 </div>
 
-                {/* Last Name */}
                 <div className="col-md-6 mb-3">
                   <label htmlFor="lastName" className="form-label">
                     Last Name:
@@ -144,8 +174,8 @@ const Register = () => {
                 )}
               </div>
 
+              {/* Date of Birth and Gender */}
               <div className="row">
-                {/* Date of Birth */}
                 <div className="col-md-6 mb-3">
                   <label htmlFor="dob" className="form-label">
                     Date of Birth:
@@ -161,7 +191,6 @@ const Register = () => {
                   )}
                 </div>
 
-                {/* Gender */}
                 <div className="col-md-6 mb-3">
                   <label htmlFor="gender" className="form-label">
                     Gender:
@@ -207,8 +236,8 @@ const Register = () => {
                 )}
               </div>
 
+              {/* Company Name and ABN */}
               <div className="row">
-                {/* Company Name */}
                 <div className="col-md-6 mb-3">
                   <label htmlFor="companyName" className="form-label">
                     Company Name (Optional):
@@ -221,7 +250,6 @@ const Register = () => {
                   />
                 </div>
 
-                {/* ABN */}
                 <div className="col-md-6 mb-3">
                   <label htmlFor="abn" className="form-label">
                     ABN (Optional):
@@ -236,16 +264,20 @@ const Register = () => {
               </div>
 
               {/* Create Account Button */}
-              <button type="submit" className="btn btn-success w-100">
-                Create Account
+              <button
+                type="submit"
+                className="btn btn-success w-100"
+                disabled={status === "loading"}
+              >
+                {status === "loading"
+                  ? "Creating Account..."
+                  : "Create Account"}
               </button>
             </form>
           </div>
         </div>
 
-        {/* Right Side: Image or Custom Content */}
         <div className="col-12 col-md-6 d-none d-md-flex align-items-center justify-content-center bg-primary vh-100">
-          {/* Custom content or image */}
           <div className="text-center text-white p-4">
             <h2>Welcome to Our Community</h2>
             <img
