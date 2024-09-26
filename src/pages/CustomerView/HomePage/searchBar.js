@@ -5,63 +5,134 @@ import {
   clearSearchResults,
 } from "../../../../store/slices/itemsSlice";
 import SearchRounded from "@mui/icons-material/SearchRounded";
-import ClearRounded from "@mui/icons-material/ClearRounded";
+import ClearIcon from "@mui/icons-material/Clear";
+import { useRouter } from "next/router";
 
 const SearchBar = () => {
   const dispatch = useDispatch();
+  const router = useRouter();
   const [search, setSearch] = useState("");
-  const [showResults, setShowResults] = useState(false);
+  const [localSearchResults, setLocalSearchResults] = useState([]);
 
-  // Access the search results, status, and error from Redux store
-  const { searchResults, status, error } = useSelector((state) => state.items);
+  // Access items from Redux store
+  const { items } = useSelector((state) => state.items);
 
-  // Handle search submission
-  const handleSearch = () => {
-    if (search.trim()) {
-      dispatch(searchItemsByName(search)); // Dispatch the thunk action
-      setShowResults(true); // Show the results section when a search is performed
+  // Handle search input change
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    setSearch(value);
+
+    if (value.trim()) {
+      const filteredItems = items.filter((item) =>
+        item.ITEM_NAME.toLowerCase().includes(value.toLowerCase())
+      );
+      setLocalSearchResults(filteredItems);
     } else {
-      clearSearch(); // Clear search results when the search is empty
+      setLocalSearchResults([]);
+      dispatch(clearSearchResults());
     }
   };
 
-  // Handle clearing the search
-  const clearSearch = () => {
-    setSearch("");
-    dispatch(clearSearchResults());
-    setShowResults(false); // Hide results when cleared
+  // Handle search submission
+  const handleSearch = (searchTerm) => {
+    if (searchTerm.trim()) {
+      dispatch(searchItemsByName(searchTerm));
+      router.push(`/CustomerView/HomePage?search=${searchTerm}`);
+    } else {
+      dispatch(clearSearchResults());
+      router.push("/CustomerView/HomePage");
+    }
   };
 
   // Handle the 'Enter' key press
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
-      handleSearch();
+      handleSearch(search);
     }
   };
 
+  // Handle clearing the search input
+  const handleClearSearch = () => {
+    setSearch("");
+    setLocalSearchResults([]);
+    dispatch(clearSearchResults());
+    router.push("/CustomerView/HomePage");
+  };
+
+  // Handle clicking on a search result
+  const handleSearchResultClick = (itemName) => {
+    setSearch(itemName);
+    handleSearch(itemName);
+  };
+
   return (
-    <div className="searchContainer">
+    <div className="searchContainer" style={{ position: "relative" }}>
       <SearchRounded
         className="me-2"
         sx={{ color: "#025373", cursor: "pointer" }}
-        onClick={handleSearch} // Trigger search when the icon is clicked
+        onClick={() => handleSearch(search)}
       />
       <input
         className="search_bar"
         type="text"
         value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        onKeyPress={handleKeyPress} // Trigger search when 'Enter' is pressed
+        onChange={handleInputChange}
+        onKeyPress={handleKeyPress}
         placeholder="Search anything on Foodash"
       />
       {search && (
-        <ClearRounded
-          className="me-2"
+        <ClearIcon
+          className="clear-search-icon"
           sx={{ color: "#025373", cursor: "pointer" }}
-          onClick={clearSearch} // Clear the search input and results
+          onClick={handleClearSearch} // Clear search when the clear icon is clicked
         />
       )}
-      {/* Display search results or error only if showResults is true */}
+
+      {/* Display local search results below the search bar */}
+      {(localSearchResults.length > 0 || search.trim()) && (
+        <div
+          className="search-results-container"
+          style={{
+            position: "absolute",
+            top: "100%",
+            left: 0,
+            right: 0,
+            backgroundColor: "#fff",
+            zIndex: 1000,
+            border: "1px solid #ddd",
+            borderRadius: "4px",
+            maxHeight: "200px",
+            overflowY: "auto",
+          }}
+        >
+          {localSearchResults.length > 0 ? (
+            localSearchResults.map((item, index) => (
+              <div
+                key={index}
+                className="result_item"
+                onClick={() => handleSearchResultClick(item.ITEM_NAME)} // Make the item clickable
+                style={{
+                  padding: "10px",
+                  borderBottom: "1px solid #f0f0f0",
+                  cursor: "pointer",
+                }}
+              >
+                {item.ITEM_NAME}
+              </div>
+            ))
+          ) : (
+            <div
+              style={{
+                padding: "10px",
+                color: "#777",
+                textAlign: "center",
+              }}
+            >
+              No items match your search
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };

@@ -73,11 +73,7 @@ const HomePageNavBar = () => {
 
             {/* Cart button */}
             <Col xs={2} className="d-flex flex-column align-items-end">
-              <Link
-                href="/CustomerView/ViewCart/ViewCart"
-                legacyBehavior
-                passHref
-              >
+              <Link href="/CustomerView/ViewCart/" legacyBehavior passHref>
                 <a>
                   <div className="cart-button me-2">
                     <ShoppingCartOutlinedIcon sx={{ color: "#025373" }} />
@@ -161,11 +157,7 @@ const HomePageNavBar = () => {
               md={1}
               className="d-flex flex-row-reverse bd-highlight"
             >
-              <Link
-                href="/CustomerView/ViewCart/ViewCart"
-                legacyBehavior
-                passHref
-              >
+              <Link href="/CustomerView/ViewCart/" legacyBehavior passHref>
                 <a>
                   <div className="cart-button me-2">
                     <ShoppingCartOutlinedIcon sx={{ color: "#025373" }} />

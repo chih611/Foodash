@@ -5,39 +5,57 @@ import { Col, Row } from "react-bootstrap";
 import HomeSideBar from "../HomeSideBar/HomeSideBar";
 import HomeFilterBar from "./HomeFilterBar";
 import HomeItemContainer from "../HomeItemContainer/HomeItemContainer";
-import {
-  selectItems,
-  selectCategoryItems,
-} from "../../../../../store/selector/selector";
+import { selectCategoryItems } from "../../../../../store/selector/selector";
+import { useRouter } from "next/router";
 
 const HomeContent = () => {
   const dispatch = useDispatch();
-  const { items, searchResults, status, error } = useSelector(
-    (state) => state.items
-  );
+  const router = useRouter();
+  const searchQuery = router.query.search || ""; // Fetch search query from URL
+
+  const { items, searchResults, status } = useSelector((state) => state.items);
   const categoryItems = useSelector(selectCategoryItems);
 
   useEffect(() => {
     dispatch(fetchItems()); // Fetch all items initially
   }, [dispatch]);
 
-  // Error state
-  if (status === "failed") {
-    return <div>Error: {error?.message || "An unexpected error occurred"}</div>;
-  }
+  if (status === "loading") return <div>Loading...</div>;
 
-  // Loading state
-  if (status === "loading") {
-    return <div>Loading...</div>;
+  // Check if no items match the search and search query exists
+  if (searchQuery && searchResults.length === 0 && status === "succeeded") {
+    return (
+      <div
+        className="no-items-found"
+        style={{ textAlign: "center", marginTop: "20px" }}
+      >
+        <p>No items match your search</p>
+        <button
+          style={{
+            color: "#025373",
+            textDecoration: "underline",
+            cursor: "pointer",
+            background: "none",
+            border: "none",
+            padding: "0",
+          }}
+          onClick={() => router.push("/CustomerView/HomePage/HomePage")}
+        >
+          Go back to the homepage
+        </button>
+      </div>
+    );
   }
 
   // Determine which items to display
   const displayedItems =
-    searchResults.length > 0
+    searchQuery && searchResults.length > 0
       ? searchResults // Show search results if there are any matches
-      : categoryItems.length > 0
-      ? categoryItems // If a category is selected, show category items
-      : items; // Fallback to showing all items
+      : !searchQuery && categoryItems.length > 0
+      ? categoryItems // If a category is selected and no search is active, show category items
+      : !searchQuery
+      ? items // Fallback to showing all items if no search is made
+      : []; // Ensure an empty array is used if the search is empty
 
   return (
     <div className="container">
@@ -57,7 +75,27 @@ const HomeContent = () => {
                     <HomeItemContainer key={item.ITEM_ID} item={item} />
                   ))
                 ) : (
-                  <p>No items available.</p>
+                  <div
+                    className="no-items-found"
+                    style={{ textAlign: "center", marginTop: "20px" }}
+                  >
+                    <p>No items match your search</p>
+                    <button
+                      style={{
+                        color: "#025373",
+                        textDecoration: "underline",
+                        cursor: "pointer",
+                        background: "none",
+                        border: "none",
+                        padding: "0",
+                      }}
+                      onClick={() =>
+                        router.push("/CustomerView/HomePage/HomePage")
+                      }
+                    >
+                      Go back to the homepage
+                    </button>
+                  </div>
                 )}
               </Row>
             </div>
