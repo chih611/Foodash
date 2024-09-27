@@ -10,6 +10,18 @@ export const selectCustomerProfile = createSelector(
   (customer) => customer.profile
 );
 
+// Memoized selector for customer status
+export const selectCustomerStatus = createSelector(
+  [selectCustomer],
+  (customer) => customer.status
+);
+
+// Memoized selector for customer error
+export const selectCustomerError = createSelector(
+  [selectCustomer],
+  (customer) => customer.error
+);
+
 // Select the cart slice from the state
 const selectCart = (state) => state.cart;
 
@@ -21,13 +33,6 @@ export const selectCartItems = createSelector(
 
 // Select the admin slice from the state
 const selectAdmin = (state) => state.admin;
-
-// src/store/selectors/selectors.js
-
-// Select the items slice from the state
-const selectItemsState = (state) => state.items;
-
-// Memoized selector for the list of items
 
 // Memoized selector for admin profile
 export const selectAdminProfile = createSelector(
@@ -41,6 +46,10 @@ export const selectAllUsers = createSelector(
   (admin) => admin.users
 );
 
+// Select the items slice from the state
+const selectItemsState = (state) => state.items;
+
+// Memoized selector for the list of items
 export const selectAllItems = createSelector(
   [selectItemsState],
   (itemsState) => itemsState.items
