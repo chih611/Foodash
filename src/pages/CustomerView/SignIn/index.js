@@ -1,9 +1,30 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+
+// Define the validation schema using Yup
+const schema = yup.object().shape({
+  email: yup
+    .string()
+    .email("Invalid email address")
+    .required("Email is required"),
+  password: yup
+    .string()
+    .min(8, "Password must be at least 8 characters long")
+    .required("Password is required"),
+});
 
 const SignIn = () => {
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema), // Integrate Yup with react-hook-form
+  });
+
   const router = useRouter(); // Initialize useRouter
 
   const onSubmit = (data) => {
@@ -25,22 +46,21 @@ const SignIn = () => {
           />
 
           {/* Sign In Card */}
-          <div className="card p-4 w-100 shadow-lg" style={{ maxWidth: '400px' }}>
+          <div
+            className="card p-4 w-100 shadow-lg"
+            style={{ maxWidth: "400px" }}
+          >
             <h1 className="text-center mb-4">Sign In</h1>
             <form onSubmit={handleSubmit(onSubmit)}>
               {/* Email Field */}
               <div className="mb-3">
-                <label htmlFor="email" className="form-label">Email:</label>
+                <label htmlFor="email" className="form-label">
+                  Email:
+                </label>
                 <input
                   id="email"
-                  className={`form-control ${errors.email ? 'is-invalid' : ''}`}
-                  {...register("email", {
-                    required: "Email is required",
-                    pattern: {
-                      value: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
-                      message: "Invalid email address",
-                    },
-                  })}
+                  className={`form-control ${errors.email ? "is-invalid" : ""}`}
+                  {...register("email")}
                   placeholder="Enter your email"
                 />
                 {errors.email && (
@@ -50,22 +70,22 @@ const SignIn = () => {
 
               {/* Password Field */}
               <div className="mb-3">
-                <label htmlFor="password" className="form-label">Password:</label>
+                <label htmlFor="password" className="form-label">
+                  Password:
+                </label>
                 <input
                   id="password"
-                  className={`form-control ${errors.password ? 'is-invalid' : ''}`}
-                  {...register("password", {
-                    required: "Password is required",
-                    minLength: {
-                      value: 8,
-                      message: "Password must be at least 8 characters long",
-                    },
-                  })}
+                  className={`form-control ${
+                    errors.password ? "is-invalid" : ""
+                  }`}
+                  {...register("password")}
                   type="password"
                   placeholder="Enter your password"
                 />
                 {errors.password && (
-                  <div className="invalid-feedback">{errors.password.message}</div>
+                  <div className="invalid-feedback">
+                    {errors.password.message}
+                  </div>
                 )}
               </div>
 
@@ -78,7 +98,7 @@ const SignIn = () => {
               <button
                 type="button"
                 className="btn btn-secondary w-100 mt-3"
-                onClick={() => router.push("/CustomerView/Register/Register")} // Corrected absolute path
+                onClick={() => router.push("/CustomerView/Register")} // Corrected absolute path
               >
                 Register
               </button>
@@ -91,15 +111,13 @@ const SignIn = () => {
           {/* Custom content or image */}
           <div className="text-center text-white p-4">
             <h2>Content (Pictures) go here</h2>
-            <img 
-              src="/path/to/your-image.png" 
-              alt="Custom Design" 
+            <img
+              src="/path/to/your-image.png"
+              alt="Custom Design"
               className="img-fluid"
-              style={{ maxWidth: '80%' }}
+              style={{ maxWidth: "80%" }}
             />
-            <p className="mt-4">
-              Choose later
-            </p>
+            <p className="mt-4">Choose later</p>
           </div>
         </div>
       </div>
