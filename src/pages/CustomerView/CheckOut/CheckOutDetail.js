@@ -25,7 +25,7 @@ import CloseOutlined from "@mui/icons-material/CloseOutlined"; // delete item x
 import AddLocationAltRounded from "@mui/icons-material/AddLocationAltRounded";
 import CreditCardRounded from "@mui/icons-material/CreditCardRounded";
 import OrderSummary from "./OrderSummary";
-import PaymentMethod from "./PaymentMethod";
+import AddPayment from "./AddPayment";
 import DetailForm from "./DetailForm";
 
 const CheckOutDetail = () => {
@@ -35,7 +35,7 @@ const CheckOutDetail = () => {
     async function fetchData() {
       const response = await fetch('your-api-url');
       const data = await response.json();
-      // Assuming you update `contact` with this data
+      // Assuming to update `contact` with this data
       setContact(data);
     }
 
@@ -50,6 +50,7 @@ const CheckOutDetail = () => {
         </div>
 
         {/* Mobie View */}
+        
         <div className="d-flex justify-content-center d-lg-none"> 
             <iframe
                 src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d12624.53948738401!2d145.03831394999997!3d-37.71651195!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sau!4v1726732205221!5m2!1sen!2sau"
@@ -73,50 +74,47 @@ const CheckOutDetail = () => {
 
         {/* Paymment Method Section */}
         <Row className="d-flex justify-content-begin d-lg-none my-4 mx-4" style={{borderTop:"1px solid #90B4CE "}}>
-            <PaymentMethod />
+            <AddPayment />
         </Row>
 
 
         {/* Desktop View */}
 
-        <Row className="justify-content-center d-lg-flex">
-            {/* Mobie View */}
-        <Row className="justify-content-center"> 
-            <iframe
-                src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d12624.53948738401!2d145.03831394999997!3d-37.71651195!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sau!4v1726732205221!5m2!1sen!2sau"
-                width="600"
-                height="300"
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                style={{ borderRadius: "50px", border: "0" }} 
-            ></iframe>
-        </Row>
+        <Row className="justify-content-center d-none d-lg-flex"> 
+              <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d12624.53948738401!2d145.03831394999997!3d-37.71651195!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sau!4v1726732205221!5m2!1sen!2sau"
+                  width="600"
+                  height="300"
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  style={{ borderRadius: "50px", border: "0" }} 
+              ></iframe>
+          </Row>
 
-        <Row className="d-flex justify-content-begin d-lg-flex my-5 mx-4">
+        <Row className="d-none justify-content-begin d-lg-flex my-5 mx-4">
             <DetailForm />
         </Row>
 
         {/* Order Summary Section */}
-        <Row className="d-flex align-items-center d-lg-flex mx-4" style={{borderTop:"1px solid #03588C "}}>
+        <Row className="d-none align-items-center d-lg-flex mx-4" style={{borderTop:"1px solid #03588C "}}>
             <OrderSummary />
         </Row>
 
         {/* Paymment Method Section */}
-        <Row className="d-flex justify-content-begin d-lg-flex my-4 mx-4" style={{borderTop:"1px solid #90B4CE "}}>
-            <PaymentMethod />
+        <Row className="d-none justify-content-begin d-lg-flex my-4 mx-4" style={{borderTop:"1px solid #90B4CE "}}>
+            <AddPayment />
         </Row>
 
         {/* Paynow  Button */}
-        <Row className="w-100 d-flex justify-content-center" style={{ marginTop: "24px" }}>
+        <Row className="w-100 justify-content-center" style={{ marginTop: "24px" }}>
               <Col xs={12}>
-                <Link href="/CustomerView/CheckOut/Confirmation" legacyBehavior passHref>
+                <Link href="/CustomerView/Payment" legacyBehavior passHref>
                   <a className="w-100">
                     <Button variant="primary" className="w-100">Pay Now</Button>
                   </a>
                 </Link>
               </Col>
-        </Row>
         </Row>
       </Container>
     </div>
