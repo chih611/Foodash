@@ -144,7 +144,7 @@ const ViewCart = () => {
           <p className="option-item">Request utensils, etc.</p>
         </div>
         <Row className="subtotal-checkout mt-4">
-          <Col xs={6} className="text-left">
+          <Col xs={3} className="text-left">
             <h3 className="subtotal-text">Subtotal: ${subtotal}</h3>
           </Col>
           <Col xs={6} className="text-right">
@@ -152,6 +152,11 @@ const ViewCart = () => {
               text="Check out now"
               icon={Inventory2Outlined} // Pass the icon component
             />{" "}
+          </Col>
+          <Col xs={3}>
+            <Button variant="primary" href="/CustomerView/Payment">
+              Payment
+            </Button>
           </Col>
         </Row>
       </div>
