@@ -4,8 +4,7 @@ import { Container, Row, Col, Navbar, Button } from "react-bootstrap";
 import Image from "next/image";
 import PermIdentityOutlined from "@mui/icons-material/PermIdentityOutlined";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import SearchRounded from "@mui/icons-material/SearchRounded";
-
+import { useSelector } from "react-redux";
 // Importing SearchBar module from searchInput.js
 import SearchBar from "./searchBar";
 
@@ -13,6 +12,7 @@ import SearchBar from "./searchBar";
 const HomePageNavBar = () => {
   const [showOffcanvas, setShowOffcanvas] = useState(false);
   const handleToggle = () => setShowOffcanvas(!showOffcanvas);
+  const customerProfile = useSelector((state) => state.customer.profile);
 
   return (
     <div
@@ -47,7 +47,7 @@ const HomePageNavBar = () => {
               className="d-flex justify-content-end align-items-center"
             >
               <Link
-                href="/CustomerView/CustomerProfile/CustomerProfile"
+                href="/CustomerView/CustomerProfile/"
                 legacyBehavior
                 passHref
               >
@@ -56,8 +56,10 @@ const HomePageNavBar = () => {
                     <PermIdentityOutlined sx={{ color: "#025373" }} />
                   </div>
                   <div>
-                    <p className="subtitle mb-0">Hi, Joliana</p>{" "}
-                    {/* 'mb-0' to remove bottom margin */}
+                    <p className="subtitle mb-0">
+                      Hi, {customerProfile ? customerProfile.LAST_NAME : "User"}
+                    </p>{" "}
+                    {/* Display the customer's first name or "User" if not signed in */}
                   </div>
                 </a>
               </Link>
@@ -128,7 +130,7 @@ const HomePageNavBar = () => {
               className="d-flex flex-row-reverse bd-highlight"
             >
               <Link
-                href="/CustomerView/CustomerProfile/CustomerProfile"
+                href="/CustomerView/CustomerProfile/"
                 legacyBehavior
                 passHref
               >
@@ -137,7 +139,10 @@ const HomePageNavBar = () => {
                     <PermIdentityOutlined sx={{ color: "#025373" }} />
                   </div>
                   <div>
-                    <p className="subtitle mb-0">Hi, Joliana</p>
+                    <p className="subtitle mb-0">
+                      Hi, {customerProfile ? customerProfile.LAST_NAME : "User"}
+                    </p>{" "}
+                    {/* Display the customer's first name or "User" if not signed in */}
                   </div>
                 </a>
               </Link>

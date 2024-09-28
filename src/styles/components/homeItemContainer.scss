@@ -12,9 +12,9 @@
     padding: 8px; // Reduced padding inside the card
     padding-top: 40px; // Reduced padding for the top section
     transition: all 0.3s ease;
+    height: 210px !important;
     position: relative;
     background-color: #fffffe;
-    height: auto; // Ensure the height adjusts based on content
   
     &:hover {
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);

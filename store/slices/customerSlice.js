@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const BACKEND_PORT = process.env.REACT_APP_BACKEND_PORT || 8080;
+const BACKEND_PORT = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_PORT;
 const BASE_URL = `http://localhost:${BACKEND_PORT}`;
 
 /* Utility Functions */
@@ -145,10 +145,10 @@ export const updateCustomer = createAsyncThunk(
 const customerSlice = createSlice({
   name: "customer",
   initialState: {
-    profile: null,
-    favouriteFoods: [],
-    status: "idle", // 'idle' | 'loading' | 'succeeded' | 'failed'
-    error: null,
+    profile: null, // Will store customer details directly
+    favouriteFoods: [], // Example additional state
+    status: "idle", // Status to track loading state
+    error: null, // To handle errors
   },
   reducers: {
     clearProfile: (state) => {
@@ -160,12 +160,12 @@ const customerSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // Handling createCustomer states
+      // Handling createCustomer states (if user signs up)
       .addCase(createCustomer.pending, (state) => {
         state.status = "loading";
       })
       .addCase(createCustomer.fulfilled, (state, action) => {
-        state.profile = action.payload;
+        state.profile = action.payload.customer || action.payload; // Store customer details directly in profile
         state.status = "succeeded";
         state.error = null;
       })
@@ -173,24 +173,25 @@ const customerSlice = createSlice({
         state.status = "failed";
         state.error = action.payload;
       })
-      // Handling signInCustomer states
+      // Handling signInCustomer states (if user signs in)
       .addCase(signInCustomer.pending, (state) => {
         state.status = "loading";
       })
       .addCase(signInCustomer.fulfilled, (state, action) => {
-        state.profile = action.payload;
+        state.profile = action.payload.customer || action.payload; // Store signed-in customer details directly in profile
         state.status = "succeeded";
+        state.error = null;
       })
       .addCase(signInCustomer.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload;
       })
-      // Handling updateCustomer states
+      // Handling updateCustomer states (if user updates their profile)
       .addCase(updateCustomer.pending, (state) => {
         state.status = "loading";
       })
       .addCase(updateCustomer.fulfilled, (state, action) => {
-        state.profile = action.payload;
+        state.profile = action.payload.customer || action.payload; // Update profile with new details directly
         state.status = "succeeded";
         state.error = null;
       })
