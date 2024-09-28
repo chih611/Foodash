@@ -1,11 +1,18 @@
 import { useState } from "react";
 import { Tab, Pagination } from "react-bootstrap";
-import TableContent from "./_Components/table";
-import SearchBar from "./_Components/searchbar";
-import initialData from "./data";
+import TableContent from "../_components/table";
+import SearchBar from "../_components/searchbar";
+import initialData from "../_data"; // Import the data from data.js
 
-const Inventory = (props) => {
-  const headers = ["ID", "NAME", "ADDRESS", "PHONE_NUMBER", "ORDER_DETAILS", "STATUS"];
+const Product = (props) => {
+  const headers = [
+    "ID",
+    "NAME",
+    "ADDRESS",
+    "PHONE_NUMBER",
+    "Product_DETAILS",
+    "STATUS",
+  ];
 
   const [tableData, setTableData] = useState(initialData); // Use imported data
   const [currentPage, setCurrentPage] = useState(1);
@@ -20,8 +27,12 @@ const Inventory = (props) => {
 
   const handleSearch = (searchTerm, category, status) => {
     const filteredData = initialData.filter((item) => {
-      const matchesSearch = item.NAME.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesCategory = category ? item.ORDER_DETAILS.toLowerCase().includes(category.toLowerCase()) : true;
+      const matchesSearch = item.NAME.toLowerCase().includes(
+        searchTerm.toLowerCase()
+      );
+      const matchesCategory = category
+        ? item.Product_DETAILS.toLowerCase().includes(category.toLowerCase())
+        : true;
       const matchesStatus = status ? item.STATUS === status : true;
       return matchesSearch && matchesCategory && matchesStatus;
     });
@@ -50,10 +61,14 @@ const Inventory = (props) => {
 
   return (
     <>
-           <Tab.Pane {...props}>
+      <Tab.Pane {...props}>
         <div
-          className="border mb-2 p-1 me-5 rounded-4 d-flex justify-content-end align-items-center"
-          style={{ backgroundColor: '#EBF5FD', minHeight: 'auto', padding: '0.5rem' }} // Adjust padding as needed
+          className="bProduct mb-2 p-1 me-5 rounded-4 d-flex justify-content-end align-items-center"
+          style={{
+            backgroundColor: "#EBF5FD",
+            minHeight: "auto",
+            padding: "0.5rem",
+          }} // Adjust padding as needed
         >
           <SearchBar
             onSearch={handleSearch}
@@ -62,8 +77,10 @@ const Inventory = (props) => {
           />
         </div>
 
-
-        <div className="border p-2 pt-2 me-5 rounded-4" style={{backgroundColor:'#EBF5FD'}}>
+        <div
+          className="bProduct p-2 pt-2 me-5 rounded-4"
+          style={{ backgroundColor: "#EBF5FD" }}
+        >
           <TableContent headers={headers} data={paginatedData} />
           <Pagination className="justify-content-center mt-3">
             <Pagination.First
@@ -90,4 +107,4 @@ const Inventory = (props) => {
   );
 };
 
-export default Inventory;
+export default Product;

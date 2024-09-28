@@ -1,10 +1,4 @@
-import {
-  Button,
-  Col,
-  Nav,
-  Row,
-  Accordion
-} from "react-bootstrap";
+import { Button, Col, Nav, Row, Accordion } from "react-bootstrap";
 
 // Icons
 import HomeIcon from "@mui/icons-material/Home";
@@ -14,11 +8,10 @@ import InventoryIcon from "@mui/icons-material/Inventory";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 
-import { nav_style, icon_style, logout_btn } from "../styles";
+import { nav_style, icon_style, logout_btn } from "../_styles";
 import Contents from "./contents";
 
 const SideBar = ({ handleSelect }) => {
-
   return (
     <>
       <Row className="admin-main">
@@ -57,7 +50,10 @@ const SideBar = ({ handleSelect }) => {
                 </Nav.Item>
                 <Accordion flush>
                   <Accordion.Item eventKey="0">
-                    <Accordion.Header className={nav_style}><AddCircleOutlineIcon />CRM <ChevronRightIcon /></Accordion.Header>
+                    <Accordion.Header className={nav_style}>
+                      <AddCircleOutlineIcon />
+                      CRM <ChevronRightIcon />
+                    </Accordion.Header>
                     <Accordion.Body>
                       <Nav.Item>
                         <Nav.Link className={nav_style} eventKey="Marketing">
