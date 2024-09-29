@@ -11,7 +11,7 @@ import {
 } from "react-bootstrap";
 import ArrowRightRounded from "@mui/icons-material/ArrowRightRounded";
 import CreditCardRounded from "@mui/icons-material/CreditCardRounded";
-import DetailForm from "./DetailForm"
+import DetailForm from "./_recipientForm"
 
 
 const AddPayment = () => {

@@ -9,37 +9,45 @@ h1 {
   font-family: "Itim", sans-serif;
   font-size: 84px;
   font-weight: bold;
-  color: colors.$headline-color;
+  color: colors.$headline-color !important;
   letter-spacing: 2px;
+  color-scheme: colors.$headline-color;
 }
 
 h2 {
   font-family: "DM Sans", sans-serif;
   font-size: 48px;
   font-weight: bold;
-  color: colors.$headline-color;
-  letter-spacing: 2px;
+  color: colors.$headline-color !important;
+  letter-spacing: 2px !important;
 }
 
 h3 {
   font-family: $font-stack;
   font-size: 36px;
   font-weight: bold;
-  color: colors.$headline-color;
+  color: colors.$headline-color !important;
 }
 
 h4 {
   font-family: $font-stack;
   font-size: 24px;
   font-weight: bold;
-  color: colors.$headline-color;
+  color: colors.$headline-color !important;
+}
+
+h5 {
+  font-family: $font-stack;
+  font-size: 24px;
+  font-weight: bold;
+  color: colors.$text-color !important;
 }
 
 .subtitle {
   font-family: $font-stack;
   font-size: 16px;
   font-weight: 500;
-  color: colors.$text-color;
+  color: colors.$text-color !important;
   text-decoration: none;
 }
 
