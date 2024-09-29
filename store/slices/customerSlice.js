@@ -15,15 +15,6 @@ const checkIfCustomerExists = async (type, email, phoneNumber) => {
   }
 };
 
-// Upgrade a guest customer to a user
-const handleUpdateCustomerRequest = async (customerId, customerData) => {
-  const response = await axios.put(
-    `${BASE_URL}/customers/update/${customerId}`,
-    customerData
-  );
-  return response;
-};
-
 // Create a new customer
 const createNewCustomer = async (customerData) => {
   const response = await axios.post(
@@ -43,6 +34,23 @@ const handleSignInRequest = async (email, password) => {
 };
 
 /* Async Thunks */
+
+// Fetch customer details by ID
+export const fetchCustomerById = createAsyncThunk(
+  "customer/fetchCustomerById",
+  async (customerId, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(`${BASE_URL}/customer/${customerId}`);
+      if (response.status === 200) {
+        return response.data;
+      } else {
+        return rejectWithValue("Failed to fetch customer details");
+      }
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || error.message);
+    }
+  }
+);
 
 // Async thunk to sign up a customer (create or upgrade guest to user)
 export const createCustomer = createAsyncThunk(
@@ -118,24 +126,56 @@ export const signInCustomer = createAsyncThunk(
 // Async thunk to update a customer
 export const updateCustomer = createAsyncThunk(
   "customer/updateCustomer",
-  async ({ customerId, customerData }, { rejectWithValue }) => {
+  async (
+    { customerId, updatedData },
+    { getState, dispatch, rejectWithValue }
+  ) => {
     try {
-      const response = await handleUpdateCustomerRequest(
-        customerId,
+      const existingProfile = getState().customer.profile;
+
+      if (!existingProfile) {
+        return rejectWithValue("No existing customer profile found.");
+      }
+
+      const customerData = {
+        ...existingProfile,
+        ...updatedData,
+        firstName: updatedData.firstName || existingProfile.FIRST_NAME,
+        lastName: updatedData.lastName || existingProfile.LAST_NAME,
+        email: updatedData.email || existingProfile.EMAIL,
+        phoneNumber: updatedData.phoneNumber || existingProfile.PHONE_NUMBER,
+        address: updatedData.address || existingProfile.ADDRESS,
+        password: updatedData.password || existingProfile.PASSWORD,
+        customerType: updatedData.customerType || existingProfile.CUSTOMER_TYPE,
+        dob: updatedData.dob || existingProfile.DATE_OF_BIRTH,
+        gender: updatedData.gender || existingProfile.GENDER,
+        abn: updatedData.abn || existingProfile.ABN,
+        dietaryPreference:
+          updatedData.dietaryPreference || existingProfile.DIETARY_PREFERENCE,
+        loyaltyPoints:
+          updatedData.loyaltyPoints !== undefined
+            ? updatedData.loyaltyPoints
+            : existingProfile.LOYALTY_POINTS,
+        favourites: updatedData.favourites || existingProfile.FAVOURITES,
+        postcode: updatedData.postcode || existingProfile.POSTCODE,
+        state: updatedData.state || existingProfile.STATE,
+        city: updatedData.city || existingProfile.CITY,
+      };
+
+      const response = await axios.put(
+        `${BASE_URL}/customers/update/${customerId}`,
         customerData
       );
 
       if (response.status === 200) {
+        // Fetch the updated customer data
+        await dispatch(fetchCustomerById(customerId));
         return response.data;
       } else {
         return rejectWithValue("Failed to update customer");
       }
     } catch (error) {
-      return rejectWithValue(
-        error.response && error.response.data
-          ? error.response.data.message
-          : error.message
-      );
+      return rejectWithValue(error.response?.data?.message || error.message);
     }
   }
 );
@@ -191,11 +231,26 @@ const customerSlice = createSlice({
         state.status = "loading";
       })
       .addCase(updateCustomer.fulfilled, (state, action) => {
-        state.profile = action.payload.customer || action.payload; // Update profile with new details directly
+        state.profile = {
+          ...state.profile, // Keep existing profile data
+          ...action.payload, // Update only the fields returned from the backend
+        };
         state.status = "succeeded";
         state.error = null;
       })
       .addCase(updateCustomer.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      })
+      .addCase(fetchCustomerById.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchCustomerById.fulfilled, (state, action) => {
+        state.profile = action.payload; // Update profile with fetched data
+        state.status = "succeeded";
+        state.error = null;
+      })
+      .addCase(fetchCustomerById.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload;
       });

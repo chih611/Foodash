@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import CustomInput from "./CustomInput";
 import EditRounded from "@mui/icons-material/EditRounded";
@@ -59,24 +59,32 @@ const CustomerDetail = () => {
     },
   });
 
+  // Log initial profile data
+  useEffect(() => {
+    console.log("Initial Profile Data:", customerProfile);
+  }, [customerProfile]);
+
   const onSubmit = async (data) => {
     try {
       const customerId = customerProfile?.CUSTOMER_ID;
-
       if (!customerId) {
         console.error("Customer ID not found.");
         return;
       }
 
-      // Ensure data is in the correct format before sending to backend
+      // Combine existing and updated data
       const updatedCustomerData = {
-        ...data,
-        customerId,
-        dateOfBirth: new Date(data.dateOfBirth).toISOString().split("T")[0], // Format DOB as YYYY-MM-DD
+        ...customerProfile, // Retain existing data
+        ...data, // Merge with new data from form
+        dateOfBirth: new Date(data.dateOfBirth).toISOString().split("T")[0],
       };
 
+      console.log("Data before update:", updatedCustomerData);
+
       // Dispatch the update customer action
-      await dispatch(updateCustomer(updatedCustomerData));
+      await dispatch(
+        updateCustomer({ customerId, updatedData: updatedCustomerData })
+      );
 
       console.log("Profile Updated:", updatedCustomerData);
 
