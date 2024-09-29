@@ -63,19 +63,19 @@ const CheckOutDetail = () => {
             ></iframe>
         </div>
 
-        <Row className="d-flex justify-content-begin d-lg-none my-5 mx-4">
+        <div className="d-flex justify-content-begin d-lg-none my-5 mx-4">
             <DetailForm />
-        </Row>
+        </div>
 
         {/* Order Summary Section */}
-        <Row className="d-flex align-items-center d-lg-none my-5 mx-4" style={{borderTop:"1px solid #03588C "}}>
+        <div className="d-flex align-items-center d-lg-none my-5 mx-4" style={{borderTop:"1px solid #03588C "}}>
             <OrderSummary />
-        </Row>
+        </div>
 
         {/* Paymment Method Section */}
-        <Row className="d-flex justify-content-begin d-lg-none my-4 mx-4" style={{borderTop:"1px solid #90B4CE "}}>
+        <div className="d-flex justify-content-begin d-lg-none my-4 mx-4" style={{borderTop:"1px solid #90B4CE "}}>
             <AddPayment />
-        </Row>
+        </div>
 
 
         {/* Desktop View */}

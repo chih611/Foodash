@@ -32,7 +32,7 @@ const HomePageNavBar = () => {
                   <Image
                     src="/Foodash_logo.png"
                     alt="Logo"
-                    width={199} // Adjust width as needed
+                    width={150} // Adjust width as needed
                     height={62} // Adjust height as needed
                     className="navbar-brand"
                   />
