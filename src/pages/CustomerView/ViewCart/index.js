@@ -11,7 +11,7 @@ import {
 import QuantityInputField from "./QuantityInputContainer";
 import ClearIcon from "@mui/icons-material/Clear";
 import PrimaryButton from "./PrimaryButton";
-import NavBarCheckOut from "../CheckOut/NavBarCheckOut";
+import NavBarCheckOut from "../CheckOut/_NavBarCheckOut";
 import Inventory2Outlined from "@mui/icons-material/Inventory2Outlined";
 const ViewCart = () => {
   // Initial state for items

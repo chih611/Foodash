@@ -9,14 +9,10 @@ import {
   Button,
   Offcanvas,
 } from "react-bootstrap";
-import Image from "next/image";
 import ArrowDropDownOutlined from "@mui/icons-material/ArrowDropDownOutlined"; //dropdown arrow
 import AddCircleOutlineOutlined from "@mui/icons-material/AddCircleOutlineOutlined"; //add item +
 import RemoveCircleOutlineOutlined from "@mui/icons-material/RemoveCircleOutlineOutlined"; //remove item -
 import CloseOutlined from "@mui/icons-material/CloseOutlined"; // delete item x
-
-import AddLocationAltRounded from "@mui/icons-material/AddLocationAltRounded";
-import CreditCardRounded from "@mui/icons-material/CreditCardRounded";
 
 const OrderSummary = () => {
   const [showOffcanvas, setShowOffcanvas] = useState(false);
