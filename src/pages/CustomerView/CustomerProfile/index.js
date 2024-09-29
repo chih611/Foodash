@@ -8,6 +8,7 @@ import PrimaryButton from "../ViewCart/PrimaryButton";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import LogoutIcon from "@mui/icons-material/Logout";
 import Home from "@/pages";
 
 const CustomerDetail = () => {
@@ -311,6 +312,7 @@ const CustomerDetail = () => {
                   <Col xs={12}>
                     <PrimaryButton
                       variant="red"
+                      icon={LogoutIcon}
                       text="Sign Out"
                       onClick={handleSignOut}
                     />
