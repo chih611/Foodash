@@ -1,9 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const IntroductionBanquet = () => {
+  const [hover, setHover] = useState(false);
+
+  const hoverStyle = {
+    color: hover ? 'blue' : 'white', // Change color on hover
+    cursor: 'pointer',
+  };
+
+  const containerStyle = {
+    backgroundColor: 'rgba(0, 0, 0, 0.2)', // Black with 20% opacity
+    borderRadius: '15px', // Rounded corners
+    padding: '20px', // Padding inside the container
+    color: 'white', // Text color default to white
+    textAlign: 'center', // Center the text
+  };
+
   return (
-    <div>
-      <h1 className="mb-4">Introduction to Banquet Menu</h1>
+    <div style={containerStyle}>
+      <h1 className="mb-4" style={hoverStyle} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
+        Introduction to Banquet Menu
+      </h1>
       <p className="mb-5" style={{ fontSize: '1.5rem' }}>
         Welcome to our exclusive banquet offerings. We specialize in creating exceptional experiences tailored for any occasion. Our banquet services cater to the following three main event types:
       </p>

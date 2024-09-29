@@ -72,7 +72,7 @@ const Menu = () => {
           <Carousel.Item>
             <div
               style={{
-                backgroundImage: `url('/pexels-rdne-6518674.jpg')`,
+                backgroundImage: `url('/white-chairs-stand-before-wedding-altar-porch.jpg')`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
@@ -96,7 +96,7 @@ const Menu = () => {
           <Carousel.Item>
             <div
               style={{
-                backgroundImage: `url('/pexels-fidel-2814828.jpg')`,
+                backgroundImage: `url('/floral-garlands-green-eucalyptus-pink-flowers-decorate-we.jpg')`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
