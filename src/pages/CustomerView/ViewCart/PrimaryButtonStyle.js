@@ -38,6 +38,17 @@ export const InvertedButtonContainer = styled(PrimaryButtonContainer)`
   }
 `;
 
+export const RedButtonContainer = styled(PrimaryButtonContainer)`
+  background-color: #fff; // White background
+  color: #ef4565; // Blue text
+  border: 2px solid #ef4565; // Blue border
+
+  &:hover {
+    background-color: #ef4565; // Light blue on hover
+    color: #fff;
+  }
+`;
+
 // Icon container
 export const IconContainer = styled.div`
   display: flex;

@@ -1,24 +1,43 @@
-// PrimaryButton.js
+// PrimaryButton.jsx
 import React from "react";
 import {
   PrimaryButtonContainer,
   InvertedButtonContainer,
+  RedButtonContainer,
   IconContainer,
 } from "./PrimaryButtonStyle"; // Import styled components
 
-// Define the PrimaryButton component
-const PrimaryButton = ({ onClick, text, icon: Icon, inverted = false }) => {
-  // Decide which button style to use based on the `inverted` prop
-  const ButtonComponent = inverted
-    ? InvertedButtonContainer
-    : PrimaryButtonContainer;
+const PrimaryButton = ({ onClick, text, icon: Icon, variant = "primary" }) => {
+  let ButtonComponent;
+  switch (variant) {
+    case "inverted":
+      ButtonComponent = InvertedButtonContainer;
+      break;
+    case "red":
+      ButtonComponent = RedButtonContainer;
+      break;
+    case "primary":
+    default:
+      ButtonComponent = PrimaryButtonContainer;
+      break;
+  }
 
   return (
     <ButtonComponent onClick={onClick}>
-      <IconContainer>
-        <Icon style={{ color: inverted ? "#007bff" : "#0056b3" }} />{" "}
-        {/* Icon color changes based on the style */}
-      </IconContainer>
+      {Icon && (
+        <IconContainer>
+          <Icon
+            style={{
+              color:
+                variant === "inverted"
+                  ? "#007bff"
+                  : variant === "red"
+                  ? "#ef4565"
+                  : "#0056b3",
+            }}
+          />
+        </IconContainer>
+      )}
       {text}
     </ButtonComponent>
   );

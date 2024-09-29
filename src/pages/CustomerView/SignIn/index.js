@@ -38,8 +38,7 @@ const SignIn = () => {
       // Check if sign-in was successful
       if (signInCustomer.fulfilled.match(resultAction)) {
         console.log("Sign-in successful:", resultAction.payload);
-        router.push("/CustomerView/HomePage"); // Redirect to dashboard or home page after successful sign-in
-        alert("Sign-in successful!"); // Display success message
+        router.push("/CustomerView/HomePage");
       } else {
         console.error("Sign-in failed:", resultAction.payload);
       }
