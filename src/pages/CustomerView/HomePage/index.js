@@ -10,7 +10,7 @@ const HomePage = () => {
 
   return (
     <div>
-      {/* {customerProfile &&
+      {customerProfile &&
       customerProfile.CUSTOMER_TYPE.toLowerCase() === "user" ? (
         <>
           <HomePageNavBar />
@@ -22,11 +22,7 @@ const HomePage = () => {
           <HomePageNavBar />
           <HomeContent />
         </>
-      )} */}
-
-      <HomePageNavBar />
-      <HomeDirectionLink />
-      <HomeContent />
+      )}
     </div>
   );
 };
