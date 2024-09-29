@@ -86,7 +86,7 @@ const NavBarCheckOut = () => {
           <Row className="w-100 d-none d-lg-flex">
 
             <Col xs ={12} md = {1} className="d-flex align-items-center">
-              <Link href="/CustomerView/HomePage/HomePage" legacyBehavior passHref>
+              <Link href="/CustomerView/HomePage" legacyBehavior passHref>
                 <a className="me-2">
                     <ArrowBackRounded sx={{ color: "#90B4CE" }} />
                 </a>
