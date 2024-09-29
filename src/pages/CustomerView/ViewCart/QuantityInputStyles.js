@@ -5,9 +5,9 @@ import styled from "styled-components";
 export const QuantityInputContainer = styled.div`
   display: flex;
   align-items: center;
-  border: 2px solid #094067;
   border-radius: 4px;
-  padding: 2px 5px;
+  padding: 5px 1px;
+  margin-top: 20px;
   max-width: 100px;
 `;
 

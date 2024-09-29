@@ -1,16 +1,16 @@
 import { useState } from "react";
 import { Tab, Pagination } from "react-bootstrap";
-import TableContent from "./_Components/table";
-import SearchBar from "./_Components/searchbar";
-import initialData from "./data"; // Import the data from data.js
+import TableContent from "../_components/table";
+import SearchBar from "../_components/searchbar";
+import initialData from "../_data"; // Import the data from data.js
 
-const Product = (props) => {
+const UserSetting = (props) => {
   const headers = [
     "ID",
     "NAME",
     "ADDRESS",
     "PHONE_NUMBER",
-    "Product_DETAILS",
+    "UserSetting_DETAILS",
     "STATUS",
   ];
 
@@ -31,7 +31,9 @@ const Product = (props) => {
         searchTerm.toLowerCase()
       );
       const matchesCategory = category
-        ? item.Product_DETAILS.toLowerCase().includes(category.toLowerCase())
+        ? item.UserSetting_DETAILS.toLowerCase().includes(
+            category.toLowerCase()
+          )
         : true;
       const matchesStatus = status ? item.STATUS === status : true;
       return matchesSearch && matchesCategory && matchesStatus;
@@ -63,7 +65,7 @@ const Product = (props) => {
     <>
       <Tab.Pane {...props}>
         <div
-          className="bProduct mb-2 p-1 me-5 rounded-4 d-flex justify-content-end align-items-center"
+          className="bUserSetting mb-2 p-1 me-5 rounded-4 d-flex justify-content-end align-items-center"
           style={{
             backgroundColor: "#EBF5FD",
             minHeight: "auto",
@@ -78,7 +80,7 @@ const Product = (props) => {
         </div>
 
         <div
-          className="bProduct p-2 pt-2 me-5 rounded-4"
+          className="bUserSetting p-2 pt-2 me-5 rounded-4"
           style={{ backgroundColor: "#EBF5FD" }}
         >
           <TableContent headers={headers} data={paginatedData} />
@@ -107,4 +109,4 @@ const Product = (props) => {
   );
 };
 
-export default Product;
+export default UserSetting;

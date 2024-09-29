@@ -110,6 +110,9 @@
   }
 }
 
+.standard-icon{
+  color: colors.$headline-color;
+}
 .button-2 {
   border: 2px solid colors.$headline-color; /* Only bottom border in primary color */
   border-radius: 10px; /* Remove rounded corners */

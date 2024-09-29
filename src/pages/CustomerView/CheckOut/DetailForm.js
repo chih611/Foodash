@@ -25,6 +25,7 @@ const DetailForm = () => {
   const [receiver, setReceiverName] = useState('');
   const [address, setAddress] = useState('');
   const [contact, setContact] = useState('');
+  
 
   const handleToggle = () => setShowOffcanvas(!showOffcanvas);
 
@@ -32,7 +33,7 @@ const DetailForm = () => {
     <div>
         {/* Add Recipient Name */}
         <div className="d-flex w-100">
-            <AccountCircleRounded sx={{ color: "#025373" }}/>
+            <AccountCircleRounded className="standard-icon"/>
 
             <p className= "subtitle ms-2">Recipient Name</p>
         </div>
@@ -45,14 +46,14 @@ const DetailForm = () => {
                 className="form_item1"
             />
             <button>
-                <ArrowRightRounded sx={{ color: "#025373" }}/>
+                <ArrowRightRounded className="standard-icon"/>
             </button>
                         
         </div>   
                 
         {/* Add address and check address dictionary */}
         <div className="d-flex w-100 mt-3">
-            <AddLocationAltRounded sx={{ color: "#025373" }}/>
+            <AddLocationAltRounded className="standard-icon"/>
             <p className= "subtitle ms-2">Address</p>
         </div>
 
@@ -64,13 +65,13 @@ const DetailForm = () => {
                 className="form_item1"
             />
             <button>
-                <ArrowRightRounded sx={{ color: "#025373" }}/>
+                <ArrowRightRounded className="standard-icon"/>
             </button>
         </div>
 
         {/* Add phone and check phone dictionary */}
         <div className="d-flex w-100 mt-3">
-            <LocalPhoneOutlined sx={{ color: "#025373" }}/>
+            <LocalPhoneOutlined sclassName="standard-icon"/>
             <p className= "subtitle ms-2">Contact</p>
         </div>
         <div className="w-100 d-flex mb-3 ">
@@ -81,14 +82,14 @@ const DetailForm = () => {
                 className="form_item1"
             />
             <button>
-                <ArrowRightRounded sx={{ color: "#025373" }}/>
+                <ArrowRightRounded className="standard-icon"/>
             </button>
         </div>
 
          {/* Add delivery option */}
          <div className="d-flex w-100 my-2">
-            <AccessTimeOutlined sx={{ color: "#025373" }}/>
-            <p className= "subtitle ms-2">Contact</p>
+            <AccessTimeOutlined className="standard-icon"/>
+            <p className= "subtitle ms-2">Delivery Method</p>
         </div>
                         
         <div className="w-100 d-flex my-2">
@@ -96,7 +97,7 @@ const DetailForm = () => {
             <button>
                 <div className="button-3" style={{width:"120px"}}>
                     <p className="button-title-text my-1">Standard</p>
-                    <p className=" my-2">within 24 hours</p>
+                    <p className="my-2">within 24 hours</p>
                 </div>
             </button>
                 
@@ -117,7 +118,7 @@ const DetailForm = () => {
                     <div className="d-flex item-align-center ms-3">
                         <p>Choose your time</p>
                         <button>
-                            <ArrowRightRounded sx={{ color: "#025373" }}/>
+                            <ArrowRightRounded className="standard-icon"/>
                          </button>
                      </div>
                 </div>
