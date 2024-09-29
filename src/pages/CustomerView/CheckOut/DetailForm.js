@@ -25,6 +25,7 @@ const DetailForm = () => {
   const [receiver, setReceiverName] = useState('');
   const [address, setAddress] = useState('');
   const [contact, setContact] = useState('');
+  
 
   const handleToggle = () => setShowOffcanvas(!showOffcanvas);
 
@@ -88,7 +89,7 @@ const DetailForm = () => {
          {/* Add delivery option */}
          <div className="d-flex w-100 my-2">
             <AccessTimeOutlined sx={{ color: "#025373" }}/>
-            <p className= "subtitle ms-2">Contact</p>
+            <p className= "subtitle ms-2">Delivery Method</p>
         </div>
                         
         <div className="w-100 d-flex my-2">

@@ -187,7 +187,6 @@ const CustomerDetail = () => {
           </Col>
         </Row>
 
-
        
       </Container>
     </div>

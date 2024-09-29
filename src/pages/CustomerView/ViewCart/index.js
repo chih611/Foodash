@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Link from "next/link"
 import {
   Container,
   Row,
@@ -144,19 +145,17 @@ const ViewCart = () => {
           <p className="option-item">Request utensils, etc.</p>
         </div>
         <Row className="subtotal-checkout mt-4">
-          <Col xs={3} className="text-left">
+          <Col xs={2} className="text-left">
             <h3 className="subtotal-text">Subtotal: ${subtotal}</h3>
           </Col>
-          <Col xs={6} className="text-right">
-            <PrimaryButton
-              text="Check out now"
-              icon={Inventory2Outlined} // Pass the icon component
-            />{" "}
-          </Col>
-          <Col xs={3}>
-            <Button variant="primary" href="/CustomerView/Payment">
-              Payment
-            </Button>
+          <Col xs={10}></Col>
+          <Col xs={12} className="text-right mt-3 ms-3" >
+            <Link href = "/CustomerView/CheckOut">
+              <PrimaryButton                
+                  text="Check out now"
+                  icon={Inventory2Outlined} // Pass the icon component                
+                />{" "}          
+            </Link>            
           </Col>
         </Row>
       </div>
