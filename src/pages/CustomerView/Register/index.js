@@ -70,7 +70,7 @@ const Register = () => {
     try {
       await dispatch(createCustomer(customerData)).unwrap();
       console.log("Customer Data:", customerData);
-      router.push("/CustomerView/HomePage");
+      router.push("/CustomerView/SignIn");
     } catch (err) {
       console.error("Signup failed:", err);
     }

@@ -1,12 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
+const BACKEND_PORT = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_PORT;
+const BASE_URL = `http://localhost:${BACKEND_PORT}`;
 // Thunk to fetch items by category
 export const fetchItemsByCategory = createAsyncThunk(
   "category/fetchItemsByCategory",
   async (categoryName) => {
     const response = await axios.get(
-      `http://localhost:8888/items/category/${categoryName}`
+      `${BASE_URL}/items/category/${categoryName}`
     );
     return response.data;
   }
@@ -16,7 +18,7 @@ export const fetchItemsByCategory = createAsyncThunk(
 export const fetchAllCategories = createAsyncThunk(
   "category/fetchAllCategories",
   async () => {
-    const response = await axios.get("http://localhost:8888/category"); // Adjust the URL based on your API
+    const response = await axios.get(`${BASE_URL}/category`); // Adjust the URL based on your API
     return response.data;
   }
 );

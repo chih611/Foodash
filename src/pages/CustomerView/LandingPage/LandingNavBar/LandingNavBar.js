@@ -65,7 +65,7 @@ const LandingNavBar = () => {
               </Link>
 
               {/* Login Button */}
-              <Link href="/CustomerView/HomePage" legacyBehavior passHref>
+              <Link href="/CustomerView/SignIn" legacyBehavior passHref>
                 <a>
                   <Button variant="primary" className="login-button">
                     Log In
@@ -161,7 +161,7 @@ const LandingNavBar = () => {
                 xs={3}
                 className="d-flex justify-content-end align-items-center"
               >
-                <Link href="/CustomerView/HomePage" legacyBehavior passHref>
+                <Link href="/CustomerView/SignIn" legacyBehavior passHref>
                   <a>
                     <Button variant="primary">Log In</Button>
                   </a>
