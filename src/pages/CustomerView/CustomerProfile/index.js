@@ -1,175 +1,255 @@
 import { useState } from "react";
-import HomePageNavBar from "../HomePage/HomePageNavBar";
 import { Container, Row, Col, Button } from "react-bootstrap";
-import CustomInput from "./CustomInput"; // Import the reusable CustomInput component
+import CustomInput from "./CustomInput";
 import EditRounded from "@mui/icons-material/EditRounded";
-import { clearProfile } from "../../../../store/slices/customerSlice";
+import {
+  clearProfile,
+  updateCustomer,
+} from "../../../../store/slices/customerSlice";
 import PrimaryButton from "../ViewCart/PrimaryButton";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
-import Link from "next/link";
 import LogoutIcon from "@mui/icons-material/Logout";
+import HomePageNavBar from "../HomePage/HomePageNavBar";
+import { useForm } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+
+// Yup validation schema
+const schema = yup.object().shape({
+  firstName: yup.string().required("First Name is required"),
+  lastName: yup.string().required("Last Name is required"),
+  email: yup
+    .string()
+    .email("Invalid email format")
+    .required("Email is required"),
+  phone: yup.string().required("Phone is required"),
+  address: yup.string().required("Address is required"),
+  city: yup.string().required("City/Suburb is required"),
+  state: yup.string().required("State is required"),
+  postcode: yup.string().required("Postcode is required"),
+  dateOfBirth: yup.date().required("Date of Birth is required"),
+  gender: yup.string().required("Gender is required"),
+});
 
 const CustomerDetail = () => {
   const customerProfile = useSelector((state) => state.customer.profile);
-  const [f_name, setFName] = useState("");
-  const [l_name, setLName] = useState("");
   const dispatch = useDispatch();
   const router = useRouter();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+    defaultValues: {
+      firstName: customerProfile?.FIRST_NAME || "",
+      lastName: customerProfile?.LAST_NAME || "",
+      companyName: customerProfile?.COMPANY_NAME || "",
+      abn: customerProfile?.ABN || "",
+      email: customerProfile?.EMAIL || "",
+      phone: customerProfile?.PHONE_NUMBER || "",
+      address: customerProfile?.ADDRESS || "",
+      city: customerProfile?.CITY || "",
+      state: customerProfile?.STATE || "",
+      postcode: customerProfile?.POSTCODE || "",
+      dateOfBirth: customerProfile?.DATE_OF_BIRTH || "",
+      gender: customerProfile?.GENDER || "",
+    },
+  });
+
+  const onSubmit = async (data) => {
+    try {
+      const customerId = customerProfile?.CUSTOMER_ID;
+
+      if (!customerId) {
+        console.error("Customer ID not found.");
+        return;
+      }
+
+      // Ensure data is in the correct format before sending to backend
+      const updatedCustomerData = {
+        ...data,
+        customerId,
+        dateOfBirth: new Date(data.dateOfBirth).toISOString().split("T")[0], // Format DOB as YYYY-MM-DD
+      };
+
+      // Dispatch the update customer action
+      await dispatch(updateCustomer(updatedCustomerData));
+
+      console.log("Profile Updated:", updatedCustomerData);
+
+      // Redirect to homepage after successful update
+      await router.push("/CustomerView/HomePage");
+    } catch (error) {
+      console.error("Error updating profile:", error);
+    }
+  };
 
   const handleSignOut = async () => {
     await dispatch(clearProfile());
     await router.push("/CustomerView/HomePage");
+    console.log("Sign out successful");
   };
 
   return (
     <div>
-      {customerProfile &&
-      customerProfile.CUSTOMER_TYPE.toLowerCase() === "user" ? (
-        <Container fluid className="px-3 px-md-5 py-5">
+      {customerProfile && customerProfile.CUSTOMER_TYPE === "user" ? (
+        <Container
+          fluid
+          className="px-3 px-md-5 py-5"
+          style={{ marginTop: "24px" }}
+        >
           <div className="navBar" style={{ marginBottom: "150px" }}>
             <HomePageNavBar />
           </div>
-
-          {/* Avatar and Form Fields in the Same Row */}
-          <Row className="align-items-start justify-content-center">
-            {/* Avatar Section */}
-            <Col
-              xs={12}
-              md={6}
-              className="d-flex justify-content-center position-relative mb-3 mb-md-0"
-            >
+          <Row className="align-items-center justify-content-center">
+            <Col xs={12} md={6} className="text-center mb-4">
               <div
                 style={{
-                  width: "100%",
-                  maxWidth: "342px",
+                  width: "342px",
                   height: "342px",
                   backgroundColor: "#e0e0e0",
+                  position: "relative",
+                  margin: "0 auto",
                 }}
               >
-                {/* Image Placeholder */}
+                <EditRounded
+                  sx={{
+                    color: "#025373",
+                    position: "absolute",
+                    top: "10px",
+                    right: "10px",
+                    cursor: "pointer",
+                  }}
+                />
               </div>
-              <EditRounded
-                sx={{ color: "#025373" }}
-                style={{
-                  position: "absolute",
-                  bottom: "10px",
-                  right: "10px",
-                  cursor: "pointer",
-                }}
-              />
             </Col>
 
-            {/* Form Fields Section */}
+            {/* Form Section */}
             <Col xs={12} md={6}>
-              <Row>
-                {/* First Name and Last Name */}
-                <Col xs={12} md={6} className="mb-3">
-                  <CustomInput
-                    label="First Name"
-                    placeholder={
-                      customerProfile
-                        ? customerProfile.FIRST_NAME
-                        : "First Name"
-                    }
-                    value={f_name}
-                    onChange={(e) => setFName(e.target.value)}
-                  />
-                </Col>
-                <Col xs={12} md={6} className="mb-3">
-                  <CustomInput
-                    label="Last Name"
-                    placeholder={
-                      customerProfile ? customerProfile.LAST_NAME : "Last Name"
-                    }
-                    value={l_name}
-                    onChange={(e) => setLName(e.target.value)}
-                  />
-                </Col>
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <Row>
+                  <Col xs={12} md={6}>
+                    <CustomInput
+                      label="First Name"
+                      {...register("firstName")}
+                      error={errors.firstName}
+                    />
+                  </Col>
+                  <Col xs={12} md={6}>
+                    <CustomInput
+                      label="Last Name"
+                      {...register("lastName")}
+                      error={errors.lastName}
+                    />
+                  </Col>
+                  <Col xs={12} md={6}>
+                    <CustomInput
+                      label="Company Name"
+                      {...register("companyName")}
+                      error={errors.companyName}
+                    />
+                  </Col>
+                  <Col xs={12} md={6}>
+                    <CustomInput
+                      label="ABN"
+                      {...register("abn")}
+                      error={errors.abn}
+                    />
+                  </Col>
+                  <Col xs={12} md={6}>
+                    <CustomInput
+                      label="Email"
+                      type="email"
+                      {...register("email")}
+                      error={errors.email}
+                    />
+                  </Col>
+                  <Col xs={12} md={6}>
+                    <CustomInput
+                      label="Phone"
+                      {...register("phone")}
+                      error={errors.phone}
+                    />
+                  </Col>
+                  <Col xs={12} md={6}>
+                    <CustomInput
+                      label="Date of Birth"
+                      type="date"
+                      {...register("dateOfBirth")}
+                      error={errors.dateOfBirth}
+                    />
+                  </Col>
+                  <Col xs={12} md={6}>
+                    <CustomInput
+                      label="Gender"
+                      {...register("gender")}
+                      error={errors.gender}
+                    />
+                  </Col>
+                </Row>
 
-                {/* Company Name and ABN */}
-                <Col xs={12} md={6} className="mb-3">
-                  <CustomInput
-                    label="Company Name"
-                    placeholder={
-                      customerProfile
-                        ? customerProfile.FIRST_NAME
-                        : "Company Name"
-                    }
-                  />
-                </Col>
-                <Col xs={12} md={6} className="mb-3">
-                  <CustomInput
-                    placeholder={customerProfile ? customerProfile.ABN : "ABN"}
-                    label="ABN"
-                  />
-                </Col>
+                {/* Billing Address */}
+                <Row className="mt-4">
+                  <Col xs={12}>
+                    <h5>Billing Address</h5>
+                  </Col>
+                  <Col xs={12} md={6}>
+                    <CustomInput
+                      label="Address 1"
+                      {...register("address")}
+                      error={errors.address}
+                    />
+                  </Col>
+                  <Col xs={12} md={6}>
+                    <CustomInput
+                      label="City/Suburb"
+                      {...register("city")}
+                      error={errors.city}
+                    />
+                  </Col>
+                  <Col xs={12} md={6}>
+                    <CustomInput
+                      label="State"
+                      {...register("state")}
+                      error={errors.state}
+                    />
+                  </Col>
+                  <Col xs={12} md={6}>
+                    <CustomInput
+                      label="Postcode"
+                      {...register("postcode")}
+                      error={errors.postcode}
+                    />
+                  </Col>
+                </Row>
 
-                {/* Email and Phone */}
-                <Col xs={12} md={6} className="mb-3">
-                  <CustomInput
-                    label="Email"
-                    placeholder={
-                      customerProfile ? customerProfile.EMAIL : "EMAIL"
-                    }
-                    type="email"
-                  />
-                </Col>
-                <Col xs={12} md={6} className="mb-3">
-                  <CustomInput
-                    label="Phone"
-                    placeholder={
-                      customerProfile
-                        ? customerProfile.PHONE_NUMBER
-                        : "Phone Number"
-                    }
-                    type="tel"
-                  />
-                </Col>
-
-                {/* Billing Address Section */}
-                <Col xs={12} md={6} className="mb-3">
-                  <CustomInput label="Address 1" type="text" />
-                </Col>
-                <Col xs={12} md={6} className="mb-3">
-                  <CustomInput label="City/Suburb" type="text" />
-                </Col>
-                <Col xs={12} md={6} className="mb-3">
-                  <CustomInput label="State" type="text" />
-                </Col>
-                <Col xs={12} md={6} className="mb-3">
-                  <CustomInput label="Postcode" type="text" />
-                </Col>
-              </Row>
-
-              <Row className="justify-content-center mt-4">
-                <Col xs={12} md={6}>
-                  <Link href="/CustomerView/HomePage/" legacyBehavior passHref>
-                    <a className="w-100">
-                      <Button variant="primary" className="w-100">
-                        Save your profile
-                      </Button>
-                    </a>
-                  </Link>
-                </Col>
-                <Col xs={12} md={6} className="mt-2 mt-md-0">
-                  <PrimaryButton
-                    variant="red"
-                    icon={LogoutIcon}
-                    text="Sign Out"
-                    onClick={handleSignOut}
-                  />
-                </Col>
-              </Row>
+                {/* Save Button */}
+                <Row className="mt-4">
+                  <Col xs={12}>
+                    <Button variant="primary" type="submit" className="w-100">
+                      Save your profile
+                    </Button>
+                  </Col>
+                  <Col xs={12} className="mt-3">
+                    <PrimaryButton
+                      variant="red"
+                      icon={LogoutIcon}
+                      text="Sign Out"
+                      onClick={handleSignOut}
+                    />
+                  </Col>
+                </Row>
+              </form>
             </Col>
           </Row>
-
-          {/* Save and Sign Out Buttons */}
         </Container>
       ) : (
         <div
-          className="no-items-found text-center"
-          style={{ marginTop: "20px" }}
+          className="no-items-found"
+          style={{ textAlign: "center", marginTop: "20px" }}
         >
           <HomePageNavBar />
           <p>It seems like you are not logged in</p>
