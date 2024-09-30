@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux"; // Import useDispatch an
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { signInCustomer } from "../../../../store/slices/customerSlice";
+
 // Define the validation schema using Yup
 const schema = yup.object().shape({
   email: yup
@@ -48,102 +49,86 @@ const SignIn = () => {
   };
 
   return (
-    <div className="container-fluid vh-100 d-flex align-items-center">
-      <div className="row w-100">
-        {/* Left Side: Form Content */}
-        <div className="col-12 col-md-6 d-flex flex-column align-items-center justify-content-center p-5 vh-100 bg-light">
-          {/* Company Logo */}
-          <img
-            src="/Foodash_logo.png" // Correct path to your logo in the public folder
-            alt="Company Logo"
-            className="img-fluid mb-4"
-            style={{ maxWidth: "200px" }} // Adjust logo size as needed
-          />
+    <div
+      className="container-fluid vh-100 d-flex align-items-center justify-content-center"
+      style={{
+        backgroundImage: "url('/SignIn.jpg')", // Set the background image for the entire screen
+        backgroundSize: "cover", // Make the background cover the whole screen
+        backgroundPosition: "center", // Center the background image
+        backgroundRepeat: "no-repeat", // Prevent repetition of the image
+      }}
+    >
+      {/* Sign In Card */}
+      <div
+        className="card p-4 w-100 shadow-lg"
+        style={{ maxWidth: "400px", backgroundColor: "rgba(255, 255, 255, 0.85)" }} // Added opacity to make the form stand out over the background
+      >
+        <img
+          src="/Foodash_logo.png" // Correct path to your logo in the public folder
+          alt="Company Logo"
+          className="img-fluid mb-4"
+          style={{ maxWidth: "200px", display: "block", margin: "0 auto" }} // Center the logo
+        />
+        <h1 className="text-center mb-4">Sign In</h1>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          {/* Display error message if sign-in fails */}
+          {error && (
+            <div className="alert alert-danger text-center">{error}</div>
+          )}
 
-          {/* Sign In Card */}
-          <div
-            className="card p-4 w-100 shadow-lg"
-            style={{ maxWidth: "400px" }}
-          >
-            <h1 className="text-center mb-4">Sign In</h1>
-            <form onSubmit={handleSubmit(onSubmit)}>
-              {/* Display error message if sign-in fails */}
-              {error && (
-                <div className="alert alert-danger text-center">{error}</div>
-              )}
-
-              {/* Email Field */}
-              <div className="mb-3">
-                <label htmlFor="email" className="form-label">
-                  Email:
-                </label>
-                <input
-                  id="email"
-                  className={`form-control ${errors.email ? "is-invalid" : ""}`}
-                  {...register("email")}
-                  placeholder="Enter your email"
-                />
-                {errors.email && (
-                  <div className="invalid-feedback">{errors.email.message}</div>
-                )}
-              </div>
-
-              {/* Password Field */}
-              <div className="mb-3">
-                <label htmlFor="password" className="form-label">
-                  Password:
-                </label>
-                <input
-                  id="password"
-                  className={`form-control ${
-                    errors.password ? "is-invalid" : ""
-                  }`}
-                  {...register("password")}
-                  type="password"
-                  placeholder="Enter your password"
-                />
-                {errors.password && (
-                  <div className="invalid-feedback">
-                    {errors.password.message}
-                  </div>
-                )}
-              </div>
-
-              {/* Sign In Button */}
-              <button
-                type="submit"
-                className="btn btn-primary w-100"
-                disabled={status === "loading"} // Disable button while loading
-              >
-                {status === "loading" ? "Signing In..." : "Sign In"}
-              </button>
-
-              {/* Register Button */}
-              <button
-                type="button"
-                className="btn btn-secondary w-100 mt-3"
-                onClick={() => router.push("/CustomerView/Register")} // Corrected absolute path
-              >
-                Register
-              </button>
-            </form>
-          </div>
-        </div>
-
-        {/* Right Side: Image or Custom Content */}
-        <div className="col-12 col-md-6 d-none d-md-flex align-items-center justify-content-center bg-primary vh-100">
-          {/* Custom content or image */}
-          <div className="text-center text-white p-4">
-            <h2>Content (Pictures) go here</h2>
-            <img
-              src="/path/to/your-image.png"
-              alt="Custom Design"
-              className="img-fluid"
-              style={{ maxWidth: "80%" }}
+          {/* Email Field */}
+          <div className="mb-3">
+            <label htmlFor="email" className="form-label">
+              Email:
+            </label>
+            <input
+              id="email"
+              className={`form-control ${errors.email ? "is-invalid" : ""}`}
+              {...register("email")}
+              placeholder="Enter your email"
             />
-            <p className="mt-4">Choose later</p>
+            {errors.email && (
+              <div className="invalid-feedback">{errors.email.message}</div>
+            )}
           </div>
-        </div>
+
+          {/* Password Field */}
+          <div className="mb-3">
+            <label htmlFor="password" className="form-label">
+              Password:
+            </label>
+            <input
+              id="password"
+              className={`form-control ${
+                errors.password ? "is-invalid" : ""
+              }`}
+              {...register("password")}
+              type="password"
+              placeholder="Enter your password"
+            />
+            {errors.password && (
+              <div className="invalid-feedback">{errors.password.message}</div>
+            )}
+          </div>
+
+          {/* Sign In Button */}
+          <button
+            type="submit"
+            className="btn btn-primary w-100"
+            disabled={status === "loading"} // Disable button while loading
+          >
+            {status === "loading" ? "Signing In..." : "Sign In"}
+          </button>
+
+          {/* Register Button */}
+          <button
+            type="button"
+            className="btn btn-secondary w-100 mt-3"
+            onClick={() => router.push("/CustomerView/Register")} // Corrected absolute path
+          >
+            Register
+          </button>
+        </form>
       </div>
     </div>
   );
