@@ -72,7 +72,7 @@ const ItemModification = () => {
           <nav aria-label="breadcrumb">
             <ol className="breadcrumb">
               <li className="breadcrumb-item">
-                <Link href="/CustomerView/HomePage/HomePage">Home</Link>
+                <Link href="/CustomerView/HomePage/">Home</Link>
               </li>
               <li className="breadcrumb-item">
                 <Link href="/platters">Platters</Link>
