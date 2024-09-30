@@ -3,7 +3,7 @@ import axios from "axios";
 
 const BACKEND_PORT = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_PORT;
 const BASE_URL = `http://localhost:${BACKEND_PORT}`;
-// Thunk to fetch items by category
+
 export const fetchItemsByCategory = createAsyncThunk(
   "category/fetchItemsByCategory",
   async (categoryName) => {
@@ -14,11 +14,10 @@ export const fetchItemsByCategory = createAsyncThunk(
   }
 );
 
-// Thunk to fetch all categories
 export const fetchAllCategories = createAsyncThunk(
   "category/fetchAllCategories",
   async () => {
-    const response = await axios.get(`${BASE_URL}/category`); // Adjust the URL based on your API
+    const response = await axios.get(`${BASE_URL}/category`);
     return response.data;
   }
 );
@@ -26,21 +25,19 @@ export const fetchAllCategories = createAsyncThunk(
 const categorySlice = createSlice({
   name: "category",
   initialState: {
-    categoryItems: [], // Items for a specific category
-    categories: [], // All categories
-    status: "idle", // Loading status for category items
-    categoryStatus: "idle", // Loading status for categories
-    error: null, // Error for category items
-    categoryError: null, // Error for categories
+    categoryItems: [],
+    categories: [],
+    status: "idle",
+    categoryStatus: "idle",
+    error: null,
+    categoryError: null,
   },
   reducers: {
-    // Clear category filter and reset categoryItems
     clearCategoryFilter: (state) => {
-      state.categoryItems = []; // Reset categoryItems to an empty array
+      state.categoryItems = [];
     },
   },
   extraReducers: (builder) => {
-    // Handle fetchItemsByCategory
     builder
       .addCase(fetchItemsByCategory.pending, (state) => {
         state.status = "loading";

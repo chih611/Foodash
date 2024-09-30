@@ -5,7 +5,7 @@ import Image from "next/image";
 import PermIdentityOutlined from "@mui/icons-material/PermIdentityOutlined";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import { useSelector } from "react-redux";
-// Importing SearchBar module from searchInput.js
+import { getCartTotal } from "../../../../store/slices/cartSlice";
 import SearchBar from "./searchBar";
 
 // NavBar component
@@ -13,7 +13,7 @@ const HomePageNavBar = () => {
   const [showOffcanvas, setShowOffcanvas] = useState(false);
   const handleToggle = () => setShowOffcanvas(!showOffcanvas);
   const customerProfile = useSelector((state) => state.customer.profile);
-
+  const cartTotal = useSelector(getCartTotal);
   return (
     <div
       className="navBar"
@@ -69,7 +69,7 @@ const HomePageNavBar = () => {
             <Col xs={2} className="d-flex flex-row-reverse bd-highlight">
               <div className="text-end">
                 <p className="subtitle mb-0">Amount:</p>
-                <p className="subtitle mb-0">$124.25</p>
+                <p className="subtitle mb-0">${cartTotal.toFixed(2)}</p>
               </div>
             </Col>
 

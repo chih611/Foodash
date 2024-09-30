@@ -133,7 +133,11 @@ const HomeDirectionLink = () => {
                 router.pathname === "/orders" ? "active" : ""
               }`}
             >
-              <Link href="/CustomerView/OrderTracking/OrderTracking" passHref legacyBehavior>
+              <Link
+                href="/CustomerView/OrderTracking/OrderTracking"
+                passHref
+                legacyBehavior
+              >
                 <a className="nav-link">
                   <div className="indicator-button">
                     <Row className="align-items-center">
@@ -153,7 +157,7 @@ const HomeDirectionLink = () => {
                 router.pathname === "/menu-planning" ? "active" : ""
               }`}
             >
-              <Link href="/menu-planning" passHref legacyBehavior>
+              <Link href="/CustomerView/Menu" passHref legacyBehavior>
                 <a className="nav-link">
                   <div className="indicator-button">
                     <Row className="align-items-center">
@@ -271,7 +275,11 @@ const HomeDirectionLink = () => {
               router.pathname === "/orders" ? "active" : ""
             }`}
           >
-            <Link href="/CustomerView/OrderTracking/OrderTracking" passHref legacyBehavior>
+            <Link
+              href="/CustomerView/OrderTracking/OrderTracking"
+              passHref
+              legacyBehavior
+            >
               <a className="nav-link">
                 <div className="indicator-button">
                   <Row className="align-items-center">
@@ -293,7 +301,7 @@ const HomeDirectionLink = () => {
               router.pathname === "/menu-planning" ? "active" : ""
             }`}
           >
-            <Link href="/menu-planning" passHref legacyBehavior>
+            <Link href="/CustomerView/Menu" passHref legacyBehavior>
               <a className="nav-link">
                 <div className="indicator-button">
                   <Row className="align-items-center">
