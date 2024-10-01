@@ -44,7 +44,7 @@ export const fetchCartByCustomerId = createAsyncThunk(
   async (customerId, { rejectWithValue }) => {
     try {
       if (!customerId) {
-        return { CART_ITEMS: [], CART_ID: null }; // Return empty if there's no customer ID
+        return { CART_ITEMS: [], CART_ID: null };
       }
 
       const response = await axios.get(
@@ -75,8 +75,10 @@ export const addToCart = createAsyncThunk(
 
       // Handle the case for guest users (customerId is null)
       if (!customerId) {
-        const updatedCartItems = [...cartItems, item];
-        return { cartItems: updatedCartItems, cartId: null }; // Don't store in the database
+        const updatedCartItems = [...cartItems, item].filter(
+          (item) => item !== null
+        ); // Ensure no null items
+        return { cartItems: updatedCartItems, cartId: null }; // Only update the frontend state
       }
 
       // If cart already exists for this customer

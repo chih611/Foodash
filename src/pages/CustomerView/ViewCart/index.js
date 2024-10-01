@@ -1,13 +1,6 @@
 import React, { useEffect } from "react";
 import Link from "next/link";
-import {
-  Container,
-  Row,
-  Col,
-  Button,
-  InputGroup,
-  FormControl,
-} from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import QuantityInputField from "./QuantityInputContainer";
 import ClearIcon from "@mui/icons-material/Clear";
 import PrimaryButton from "./PrimaryButton";
@@ -29,16 +22,17 @@ const ViewCart = () => {
   const customerProfile = useSelector((state) => state.customer.profile);
   const customerId = customerProfile?.CUSTOMER_ID || null;
 
+  // Fetch cart when the component mounts
   useEffect(() => {
     if (customerId) {
+      // Fetch cart data from the backend if customerId is available
       dispatch(fetchCartByCustomerId(customerId)).then((action) => {
         if (action.payload) {
           console.log("Cart Items fetched:", action.payload);
         }
       });
     } else {
-      dispatch(clearCart());
-      console.log("No customerId available, cart is cleared");
+      console.log("No customerId available, managing cart locally");
     }
   }, [customerId, dispatch]);
 
@@ -50,13 +44,12 @@ const ViewCart = () => {
     return <p>Loading your cart...</p>;
   }
 
-  if (!customerId || cartItems.length === 0) {
+  if (cartItems.length === 0) {
     return (
       <Container className="view-cart-container">
         <NavBarCheckOut />
-        <p> You don't have any items in your cart</p>
+        <p>You don't have any items in your cart</p>
         <Link href="/CustomerView/HomePage">
-          {" "}
           <button
             style={{
               color: "#025373",
@@ -69,34 +62,31 @@ const ViewCart = () => {
             onClick={() => router.push("/CustomerView/HomePage")}
           >
             Create my first order
-          </button>{" "}
+          </button>
         </Link>
       </Container>
     );
   }
 
-  // Filter out null objects
-  const filteredCartItems = cartItems.filter(
-    (item) => item !== null && item !== undefined
-  );
-
-  const total = filteredCartItems
+  // Calculate total locally
+  const total = cartItems
+    .filter((item) => item !== null) // Ensure null items are filtered out
     .reduce((acc, item) => acc + item.price * item.quantity, 0)
     .toFixed(2);
 
   // Function to handle increasing the item quantity
   const onIncrease = (itemId) => {
-    const item = filteredCartItems.find((item) => item.itemId === itemId);
+    const item = cartItems.find((item) => item.itemId === itemId);
     if (item) {
-      dispatch(addToCart({ ...item, quantity: 1 }));
+      dispatch(addToCart({ customerId, item: { ...item, quantity: 1 } }));
     }
   };
 
   // Function to handle decreasing the item quantity
   const onDecrease = (itemId) => {
-    const item = filteredCartItems.find((item) => item.itemId === itemId);
+    const item = cartItems.find((item) => item.itemId === itemId);
     if (item && item.quantity > 1) {
-      dispatch(addToCart({ ...item, quantity: -1 }));
+      dispatch(addToCart({ customerId, item: { ...item, quantity: -1 } }));
     }
   };
 
@@ -105,10 +95,10 @@ const ViewCart = () => {
       <NavBarCheckOut />
       <h2>Your Cart</h2>
       <h2 className="view-cart-header">
-        {filteredCartItems.length} Items – Total: ${total}
+        {cartItems.length} Items – Total: ${total}
       </h2>
 
-      {filteredCartItems.map((item) => (
+      {cartItems.map((item) => (
         <Row className="view-cart-item" key={item.itemId}>
           <Col xs={2} className="view-cart-item-image"></Col>
           <Col xs={10} className="view-cart-item-details">
