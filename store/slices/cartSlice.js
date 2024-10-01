@@ -78,7 +78,7 @@ export const addToCart = createAsyncThunk(
         const updatedCartItems = [...cartItems, item].filter(
           (item) => item !== null
         ); // Ensure no null items
-        return { cartItems: updatedCartItems, cartId: null }; // Only update the frontend state
+        return { cartItems: updatedCartItems, cartId: null };
       }
 
       // If cart already exists for this customer
@@ -96,24 +96,6 @@ export const addToCart = createAsyncThunk(
         );
         console.log("Cart updated successfully:", result); // Debugging log
         return { cartItems: updatedCartItems, cartId };
-      }
-
-      // Check if there's an existing cart with that customerId
-      const existingCart = await checkCartExists(customerId);
-      if (existingCart) {
-        const updatedCartItems = [...existingCart.CART_ITEMS, item];
-        const cartTotal = updatedCartItems.reduce(
-          (total, item) => total + item.price * item.quantity,
-          0
-        );
-        const result = await updateExistingCart(
-          existingCart.CART_ID,
-          customerId,
-          updatedCartItems,
-          cartTotal
-        );
-        console.log("Cart updated for existing customer:", result); // Debugging log
-        return { cartItems: updatedCartItems, cartId: existingCart.CART_ID };
       }
 
       // Create a new cart if none exists

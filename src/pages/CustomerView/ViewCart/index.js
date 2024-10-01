@@ -18,14 +18,12 @@ const ViewCart = () => {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const { cartItems = [], status, error } = useSelector((state) => state.cart); // Default to an empty array
+  const { cartItems = [], status, error } = useSelector((state) => state.cart);
   const customerProfile = useSelector((state) => state.customer.profile);
   const customerId = customerProfile?.CUSTOMER_ID || null;
 
-  // Fetch cart when the component mounts
   useEffect(() => {
     if (customerId) {
-      // Fetch cart data from the backend if customerId is available
       dispatch(fetchCartByCustomerId(customerId)).then((action) => {
         if (action.payload) {
           console.log("Cart Items fetched:", action.payload);
