@@ -152,7 +152,7 @@ const HomePageNavBar = () => {
             <Col xs={12} md={1} className="d-flex flex-column align-items-end">
               <div className="text-end">
                 <p className="subtitle mb-0">Amount:</p>
-                <h4 className="mb-0">$124.25</h4>
+                <p className="subtitle mb-0">${cartTotal.toFixed(2)}</p>
               </div>
             </Col>
 

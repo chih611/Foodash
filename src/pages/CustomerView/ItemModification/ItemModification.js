@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Button, Form, Badge } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import { Container, Row, Col, Badge } from "react-bootstrap";
+import { useSelector, useDispatch } from "react-redux";
 import { addToCart } from "../../../../store/slices/cartSlice";
-import { useDispatch } from "react-redux";
 import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
-
 import PrimaryButton from "../ViewCart/PrimaryButton";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const ItemModification = () => {
   // Access selectedItem from Redux
   const selectedItem = useSelector((state) => state.items.selectedItem);
+  const customerProfile = useSelector((state) => state.customer.profile);
+  const customerId = customerProfile?.CUSTOMER_ID || null; // Fetch the customer ID, or null if it's a guest
   const dispatch = useDispatch();
+  const router = useRouter();
 
   // Local state for extras
   const [extras, setExtras] = useState({
@@ -55,13 +57,21 @@ const ItemModification = () => {
     return basePrice + extrasCost;
   };
 
+  // Add the item to the cart
   const handleAddToCart = () => {
+    // Prepare the item object to be added to the cart
     const modifiedItem = {
-      ...selectedItem,
-      extras,
+      itemId: selectedItem.ITEM_ID, // Assuming ITEM_ID is the unique identifier for the item
+      itemName: selectedItem.ITEM_NAME,
+      price: selectedItem.PRICE || 13.5,
+      quantity: 1,
+      extras: extras,
       totalPrice: calculateTotal(),
     };
-    dispatch(addToCart(modifiedItem));
+
+    // Dispatch the addToCart action with customerId and modifiedItem
+    dispatch(addToCart({ customerId, item: modifiedItem }));
+    router.push("/CustomerView/ViewCart");
   };
 
   return (
@@ -158,7 +168,7 @@ const ItemModification = () => {
           <PrimaryButton
             onClick={handleAddToCart}
             icon={Inventory2OutlinedIcon}
-            text={`Add 1 to cart - ${calculateTotal().toFixed(2)}`}
+            text={`Add 1 to cart - $${calculateTotal().toFixed(2)}`}
           />
         </Col>
       </Row>

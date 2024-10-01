@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import Link from "next/link"
+import React, { useEffect } from "react";
+import Link from "next/link";
 import {
   Container,
   Row,
@@ -13,91 +13,111 @@ import ClearIcon from "@mui/icons-material/Clear";
 import PrimaryButton from "./PrimaryButton";
 import NavBarCheckOut from "../CheckOut/_NavBarCheckOut";
 import Inventory2Outlined from "@mui/icons-material/Inventory2Outlined";
-const ViewCart = () => {
-  // Initial state for items
-  const [items, setItems] = useState([
-    {
-      id: 1,
-      name: "Glazed Honey & Mustard Ham",
-      category: 12,
-      quantity: 2,
-      price: 13.5,
-    },
-    {
-      id: 2,
-      name: "Glazed Honey & Mustard Ham",
-      category: 12,
-      quantity: 2,
-      price: 13.5,
-    },
-    {
-      id: 3,
-      name: "Glazed Honey & Mustard Ham",
-      category: 12,
-      quantity: 2,
-      price: 13.5,
-    },
-    {
-      id: 4,
-      name: "Glazed Honey & Mustard Ham",
-      category: 12,
-      quantity: 2,
-      price: 13.5,
-    },
-  ]);
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchCartByCustomerId,
+  clearCart,
+  addToCart,
+} from "../../../../store/slices/cartSlice";
+import { useRouter } from "next/router";
 
-  // Calculate subtotal
-  const subtotal = items
+const ViewCart = () => {
+  const dispatch = useDispatch();
+  const router = useRouter();
+
+  const { cartItems = [], status, error } = useSelector((state) => state.cart); // Default to an empty array
+  const customerProfile = useSelector((state) => state.customer.profile);
+  const customerId = customerProfile?.CUSTOMER_ID || null;
+
+  useEffect(() => {
+    if (customerId) {
+      dispatch(fetchCartByCustomerId(customerId)).then((action) => {
+        if (action.payload) {
+          console.log("Cart Items fetched:", action.payload);
+        }
+      });
+    } else {
+      dispatch(clearCart());
+      console.log("No customerId available, cart is cleared");
+    }
+  }, [customerId, dispatch]);
+
+  const handleAddToCart = (item) => {
+    dispatch(addToCart({ customerId, item }));
+  };
+
+  if (status === "loading") {
+    return <p>Loading your cart...</p>;
+  }
+
+  if (!customerId || cartItems.length === 0) {
+    return (
+      <Container className="view-cart-container">
+        <NavBarCheckOut />
+        <p> You don't have any items in your cart</p>
+        <Link href="/CustomerView/HomePage">
+          {" "}
+          <button
+            style={{
+              color: "#025373",
+              textDecoration: "underline",
+              cursor: "pointer",
+              background: "none",
+              border: "none",
+              padding: "0",
+            }}
+            onClick={() => router.push("/CustomerView/HomePage")}
+          >
+            Create my first order
+          </button>{" "}
+        </Link>
+      </Container>
+    );
+  }
+
+  // Filter out null objects
+  const filteredCartItems = cartItems.filter(
+    (item) => item !== null && item !== undefined
+  );
+
+  const total = filteredCartItems
     .reduce((acc, item) => acc + item.price * item.quantity, 0)
     .toFixed(2);
 
-  // Function to handle quantity increase
-  const increaseQuantity = (itemId) => {
-    const updatedItems = items.map((item) =>
-      item.id === itemId ? { ...item, quantity: item.quantity + 1 } : item
-    );
-    setItems(updatedItems);
+  // Function to handle increasing the item quantity
+  const onIncrease = (itemId) => {
+    const item = filteredCartItems.find((item) => item.itemId === itemId);
+    if (item) {
+      dispatch(addToCart({ ...item, quantity: 1 }));
+    }
   };
 
-  // Function to handle quantity decrease
-  const decreaseQuantity = (itemId) => {
-    const updatedItems = items.map((item) =>
-      item.id === itemId && item.quantity > 1
-        ? { ...item, quantity: item.quantity - 1 }
-        : item
-    );
-    setItems(updatedItems);
-  };
-
-  // Function to remove an item from the cart
-  const removeItem = (itemId) => {
-    const updatedItems = items.filter((item) => item.id !== itemId);
-    setItems(updatedItems);
+  // Function to handle decreasing the item quantity
+  const onDecrease = (itemId) => {
+    const item = filteredCartItems.find((item) => item.itemId === itemId);
+    if (item && item.quantity > 1) {
+      dispatch(addToCart({ ...item, quantity: -1 }));
+    }
   };
 
   return (
     <Container className="view-cart-container">
       <NavBarCheckOut />
-
       <h2>Your Cart</h2>
       <h2 className="view-cart-header">
-        {items.length} Items – Total: ${subtotal}
+        {filteredCartItems.length} Items – Total: ${total}
       </h2>
 
-      {items.map((item) => (
-        <Row className="view-cart-item" key={item.id}>
+      {filteredCartItems.map((item) => (
+        <Row className="view-cart-item" key={item.itemId}>
           <Col xs={2} className="view-cart-item-image"></Col>
           <Col xs={10} className="view-cart-item-details">
             <Row>
               <Col xs={10}>
-                <h4 className="item-name">{item.name}</h4>
+                <h4 className="item-name">{item.itemName}</h4>
               </Col>
               <Col xs={2}>
-                <Button
-                  variant="link"
-                  onClick={() => removeItem(item.id)}
-                  className="remove-item-button"
-                >
+                <Button variant="link" className="remove-item-button">
                   <ClearIcon
                     className="remove-item-icon"
                     style={{ color: "094067" }}
@@ -106,8 +126,7 @@ const ViewCart = () => {
               </Col>
             </Row>
             <Row>
-              <Col xs={4}>Categories: {item.category}</Col>
-              <Col xs={6}></Col>
+              <Col xs={10}>Categories: {item.category}</Col>
               <Col xs={2}>
                 <a href="#" className="save-for-later">
                   Save for later
@@ -115,14 +134,13 @@ const ViewCart = () => {
               </Col>
             </Row>
             <Row>
-              <Col xs={3}>
+              <Col xs={10}>
                 <QuantityInputField
                   quantity={item.quantity}
-                  onIncrease={() => increaseQuantity(item.id)}
-                  onDecrease={() => decreaseQuantity(item.id)}
+                  onIncrease={() => onIncrease(item.itemId)}
+                  onDecrease={() => onDecrease(item.itemId)}
                 />
               </Col>
-              <Col xs={7}></Col>
               <Col xs={2}>
                 <h4 className="item-price">
                   ${(item.price * item.quantity).toFixed(2)}
@@ -132,33 +150,6 @@ const ViewCart = () => {
           </Col>
         </Row>
       ))}
-
-      <div className="view-cart-footer">
-        <Button variant="link" className="add-items">
-          + Add items
-        </Button>
-        <InputGroup className="additional-notes mt-3">
-          <FormControl placeholder="Add notes" className="add-notes-input" />
-        </InputGroup>
-        <div className="options mt-3">
-          <p className="option-item">Send as a gift</p>
-          <p className="option-item">Request utensils, etc.</p>
-        </div>
-        <Row className="subtotal-checkout mt-4">
-          <Col xs={2} className="text-left">
-            <h3 className="subtotal-text">Subtotal: ${subtotal}</h3>
-          </Col>
-          <Col xs={10}></Col>
-          <Col xs={12} className="text-right mt-3 ms-3" >
-            <Link href = "/CustomerView/CheckOut">
-              <PrimaryButton                
-                  text="Check out now"
-                  icon={Inventory2Outlined} // Pass the icon component                
-                />{" "}          
-            </Link>            
-          </Col>
-        </Row>
-      </div>
     </Container>
   );
 };
