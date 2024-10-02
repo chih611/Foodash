@@ -9,8 +9,10 @@ import Inventory2Outlined from "@mui/icons-material/Inventory2Outlined";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchCartByCustomerId,
-  clearCart,
-  addToCart,
+  removeFromCart,
+  increaseQuantity,
+  decreaseQuantity,
+  clearCartItems,
 } from "../../../../store/slices/cartSlice";
 import { useRouter } from "next/router";
 
@@ -18,7 +20,12 @@ const ViewCart = () => {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const { cartItems = [], status, error } = useSelector((state) => state.cart);
+  const {
+    cartItems = [],
+    cartId,
+    status,
+    error,
+  } = useSelector((state) => state.cart);
   const customerProfile = useSelector((state) => state.customer.profile);
   const customerId = customerProfile?.CUSTOMER_ID || null;
 
@@ -34,8 +41,34 @@ const ViewCart = () => {
     }
   }, [customerId, dispatch]);
 
-  const handleAddToCart = (item) => {
-    dispatch(addToCart({ customerId, item }));
+  const handleRemoveItem = (itemId) => {
+    dispatch(removeFromCart({ customerId, itemId }));
+  };
+
+  const handleIncreaseQuantity = (itemId) => {
+    console.log("Increase quantity", itemId);
+    dispatch(increaseQuantity({ customerId, itemId }));
+  };
+
+  const handleClearCart = () => {
+    dispatch(clearCartItems({ customerId, cartId }));
+  };
+
+  const handleDecreaseQuantity = (itemId) => {
+    if (
+      cartItems.find((item) => item.itemId === itemId).quantity === 1 &&
+      cartItems.length === 1
+    ) {
+      dispatch(clearCartItems({ customerId, cartId }));
+      return;
+    } else if (
+      cartItems.find((item) => item.itemId === itemId).quantity === 1
+    ) {
+      dispatch(removeFromCart({ customerId, itemId }));
+      return;
+    }
+
+    dispatch(decreaseQuantity({ customerId, itemId }));
   };
 
   if (status === "loading") {
@@ -72,22 +105,6 @@ const ViewCart = () => {
     .reduce((acc, item) => acc + item.price * item.quantity, 0)
     .toFixed(2);
 
-  // Function to handle increasing the item quantity
-  const onIncrease = (itemId) => {
-    const item = cartItems.find((item) => item.itemId === itemId);
-    if (item) {
-      dispatch(addToCart({ customerId, item: { ...item, quantity: 1 } }));
-    }
-  };
-
-  // Function to handle decreasing the item quantity
-  const onDecrease = (itemId) => {
-    const item = cartItems.find((item) => item.itemId === itemId);
-    if (item && item.quantity > 1) {
-      dispatch(addToCart({ customerId, item: { ...item, quantity: -1 } }));
-    }
-  };
-
   return (
     <Container className="view-cart-container">
       <NavBarCheckOut />
@@ -109,6 +126,7 @@ const ViewCart = () => {
                   <ClearIcon
                     className="remove-item-icon"
                     style={{ color: "094067" }}
+                    onClick={() => handleRemoveItem(item.itemId)}
                   />
                 </Button>
               </Col>
@@ -125,8 +143,8 @@ const ViewCart = () => {
               <Col xs={10}>
                 <QuantityInputField
                   quantity={item.quantity}
-                  onIncrease={() => onIncrease(item.itemId)}
-                  onDecrease={() => onDecrease(item.itemId)}
+                  onIncrease={() => handleIncreaseQuantity(item.itemId)}
+                  onDecrease={() => handleDecreaseQuantity(item.itemId)}
                 />
               </Col>
               <Col xs={2}>
@@ -138,6 +156,7 @@ const ViewCart = () => {
           </Col>
         </Row>
       ))}
+      <PrimaryButton text="Clear Cart" onClick={handleClearCart} />
     </Container>
   );
 };

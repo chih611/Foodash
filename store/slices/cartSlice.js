@@ -111,12 +111,165 @@ export const addToCart = createAsyncThunk(
   }
 );
 
+export const increaseQuantity = createAsyncThunk(
+  "cart/increaseQuantity",
+  async ({ customerId, itemId }, { getState, rejectWithValue }) => {
+    try {
+      const { cartItems, cartId } = getState().cart;
+      const updatedCartItems = cartItems.map((cartItem) => {
+        if (cartItem.itemId === itemId) {
+          return { ...cartItem, quantity: cartItem.quantity + 1 };
+        }
+        return cartItem;
+      });
+      const cartTotal = updatedCartItems.reduce(
+        (total, item) => total + item.price * item.quantity,
+        0
+      );
+      if (!customerId) {
+        return { cartItems: updatedCartItems, cartId: null };
+      }
+      if (cartId) {
+        const result = await updateExistingCart(
+          cartId,
+          customerId,
+          updatedCartItems,
+          cartTotal
+        );
+        console.log("Cart updated successfully:", result); // Debugging log
+        return { cartItems: updatedCartItems, cartId };
+      }
+    } catch (error) {
+      console.error("Error in increaseQuantity:", error.message); // Debugging log
+      return rejectWithValue(error.response?.data?.message || error.message);
+    }
+  }
+);
+
+export const removeFromCart = createAsyncThunk(
+  "cart/removeFromCart",
+  async ({ customerId, itemId }, { getState, rejectWithValue }) => {
+    try {
+      const { cartItems, cartId } = getState().cart;
+
+      // Log the IDs
+      console.log("Removing item with itemId:", itemId);
+      console.log("Customer ID:", customerId);
+      console.log("Cart ID:", cartId);
+
+      const updatedCartItems = cartItems.filter(
+        (cartItem) => cartItem.itemId !== itemId
+      );
+
+      console.log("Updated cart items after removal:", updatedCartItems);
+
+      const cartTotal = updatedCartItems.reduce(
+        (total, item) => total + item.price * item.quantity,
+        0
+      );
+
+      if (!customerId) {
+        return { cartItems: updatedCartItems, cartId: null };
+      }
+
+      if (cartId) {
+        const result = await updateExistingCart(
+          cartId,
+          customerId,
+          updatedCartItems,
+          cartTotal
+        );
+        console.log("Cart updated successfully:", result);
+        return { cartItems: updatedCartItems, cartId };
+      }
+    } catch (error) {
+      console.error("Error in removeFromCart:", error.message);
+      return rejectWithValue(error.response?.data?.message || error.message);
+    }
+  }
+);
+
+export const decreaseQuantity = createAsyncThunk(
+  "cart/decreaseQuantity",
+  async ({ customerId, itemId }, { getState, rejectWithValue }) => {
+    try {
+      const { cartItems, cartId } = getState().cart;
+
+      // Map through cart items and decrease the quantity of the specified item
+      const updatedCartItems = cartItems.map((cartItem) => {
+        if (cartItem.itemId === itemId) {
+          return { ...cartItem, quantity: cartItem.quantity - 1 };
+        }
+        return cartItem;
+      });
+
+      // Calculate the total cart value after updating the quantity
+      const cartTotal = updatedCartItems.reduce(
+        (total, item) => total + item.price * item.quantity,
+        0
+      );
+
+      // Case for guest users (no customerId), just return updated items without updating in the database
+      if (!customerId) {
+        return { cartItems: updatedCartItems, cartId: null };
+      }
+
+      // If a cartId exists, update the cart in the backend
+      if (cartId) {
+        const result = await updateExistingCart(
+          cartId,
+          customerId,
+          updatedCartItems,
+          cartTotal
+        );
+        console.log("Cart updated successfully:", result); // Debugging log
+        return { cartItems: updatedCartItems, cartId };
+      }
+
+      // Handle cases where there's no cartId
+      return { cartItems: updatedCartItems, cartId: null };
+    } catch (error) {
+      // Return error if something goes wrong
+      return rejectWithValue(error.response?.data?.message || error.message);
+    }
+  }
+);
+
+export const clearCartItems = createAsyncThunk(
+  "cart/clearCartItems",
+  async ({ customerId, cartId }, { getState, rejectWithValue }) => {
+    try {
+      const { cart } = getState();
+
+      const updatedCartItems = [];
+      const cartTotal = 0;
+
+      if (!customerId) {
+        return { cartItems: updatedCartItems, cartId: null };
+      }
+
+      const result = await updateExistingCart(
+        cartId,
+        customerId,
+        updatedCartItems,
+        cartTotal
+      );
+
+      console.log("Cart cleared successfully:", result.data);
+      return { cartItems: updatedCartItems, cartId };
+    } catch (error) {
+      console.error("Error clearing cart:", error.message);
+      return rejectWithValue(error.response?.data?.message || error.message);
+    }
+  }
+);
+
 export const getCartTotal = (state) => {
   if (!state.cart.cartItems || state.cart.cartItems.length === 0) {
     return 0;
   }
   return state.cart.cartItems
-    .filter((item) => item !== null) // Filter out null objects
+    .filter((item) => item !== null)
     .reduce((total, item) => {
       return total + item.price * item.quantity;
     }, 0);
@@ -160,6 +313,54 @@ const cartSlice = createSlice({
         state.status = "succeeded";
       })
       .addCase(addToCart.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      })
+      .addCase(removeFromCart.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(removeFromCart.fulfilled, (state, action) => {
+        state.cartItems = action.payload.cartItems;
+        state.cartId = action.payload.cartId;
+        state.status = "succeeded";
+      })
+      .addCase(removeFromCart.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      })
+      .addCase(increaseQuantity.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(increaseQuantity.fulfilled, (state, action) => {
+        state.cartItems = action.payload.cartItems;
+        state.cartId = action.payload.cartId;
+        state.status = "succeeded";
+      })
+      .addCase(increaseQuantity.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      })
+      .addCase(decreaseQuantity.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(decreaseQuantity.fulfilled, (state, action) => {
+        state.cartItems = action.payload.cartItems;
+        state.cartId = action.payload.cartId;
+        state.status = "succeeded";
+      })
+      .addCase(decreaseQuantity.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      })
+      .addCase(clearCartItems.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(clearCartItems.fulfilled, (state, action) => {
+        state.cartItems = action.payload.cartItems;
+        state.cartId = action.payload.cartId;
+        state.status = "succeeded";
+      })
+      .addCase(clearCartItems.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload;
       });

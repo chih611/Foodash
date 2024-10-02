@@ -1,4 +1,3 @@
-// QuantityInputField.js
 import React from "react";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
@@ -11,7 +10,7 @@ import {
 const QuantityInputField = ({ quantity, onIncrease, onDecrease, min = 1 }) => {
   return (
     <QuantityInputContainer>
-      <QuantityButton onClick={onDecrease} disabled={quantity <= min}>
+      <QuantityButton onClick={onDecrease}>
         <RemoveIcon />
       </QuantityButton>
       <StyledInputField type="text" value={quantity} readOnly />
