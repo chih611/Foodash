@@ -4,10 +4,7 @@ import {
   Container,
   Row,
   Col,
-  Navbar,
-  Nav,
   Button,
-  Offcanvas,
 } from "react-bootstrap";
 import NavBarCheckOut from "./_NavBarCheckOut";
 import HomeDirectionLink from "../HomePage/HomeDirectionLink/HomeDirectionLink";
@@ -16,17 +13,6 @@ import AddPayment from "./_calculateFees";
 import DetailForm from "./_recipientForm";
 
 const Checkout = () => {
-  useEffect(() => {
-    async function fetchData() {
-      const response = await fetch('your-api-url');
-      const data = await response.json();
-      // Assuming to update `contact` with this data
-      setContact(data);
-    }
-
-    fetchData();
-  }, []);
-
   return (
     <div>
       <NavBarCheckOut/>
@@ -51,7 +37,7 @@ const Checkout = () => {
             ></iframe>
         </div>
 
-        <div className="d-flex justify-content-begin d-lg-none my-5 mx-4">
+        <div className="d-flex justify-content-center d-lg-none my-5 mx-4">
             <DetailForm />
         </div>
 
@@ -61,7 +47,7 @@ const Checkout = () => {
         </div>
 
         {/* Paymment Method Section */}
-        <div className="d-flex justify-content-begin d-lg-none my-4 mx-4" style={{borderTop:"1px solid #90B4CE "}}>
+        <div className="d-flex justify-content-center d-lg-none my-4 mx-4" style={{borderTop:"1px solid #90B4CE "}}>
             <AddPayment />
         </div>
 

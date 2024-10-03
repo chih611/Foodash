@@ -1,33 +1,31 @@
 import React, { useState } from "react";
 import Link from "next/link";
-import {
-  Container,
-  Row,
-  Col,
-  Navbar,
-  Nav,
-  Button,
-  Offcanvas,
-} from "react-bootstrap";
-import Image from "next/image";
 
 import AccountCircleRounded from "@mui/icons-material/AccountCircleRounded";
 import ArrowRightRounded from "@mui/icons-material/ArrowRightRounded";
 import LocalPhoneOutlined from "@mui/icons-material/LocalPhoneOutlined";
 import AccessTimeOutlined from "@mui/icons-material/AccessTimeOutlined"; //clock
-import ArrowDropDownOutlined from "@mui/icons-material/ArrowDropDownOutlined"; //dropdown arrow
 
 import AddLocationAltRounded from "@mui/icons-material/AddLocationAltRounded";
 
 const DetailForm = () => {
-  const [showOffcanvas, setShowOffcanvas] = useState(false);
 
   const [receiver, setReceiverName] = useState('');
   const [address, setAddress] = useState('');
   const [contact, setContact] = useState('');
-  
+  const [delivery, setDelivery] = useState('');
+  const [pickup, setPickup] = useState('');
 
-  const handleToggle = () => setShowOffcanvas(!showOffcanvas);
+//   useEffect(() => {
+//     async function fetchData() {
+//       const response = await fetch('your-api-url');
+//       const data = await response.json();
+//       // Assuming to update `contact` with this data
+//       setContact(data);
+//     }
+
+//     fetchData();
+//   }, []);
 
   return (
     <div>
@@ -71,7 +69,7 @@ const DetailForm = () => {
 
         {/* Add phone and check phone dictionary */}
         <div className="d-flex w-100 mt-3">
-            <LocalPhoneOutlined sclassName="standard-icon"/>
+            <LocalPhoneOutlined className="standard-icon"/>
             <p className= "subtitle ms-2">Contact</p>
         </div>
         <div className="w-100 d-flex mb-3 ">
@@ -92,37 +90,25 @@ const DetailForm = () => {
             <p className= "subtitle ms-2">Delivery Method</p>
         </div>
                         
-        <div className="w-100 d-flex my-2">
+        <div className="w-100 d-flex my-2" value={delivery}>
         {/* option 1: */}
-            <button>
-                <div className="button-3" style={{width:"120px"}}>
-                    <p className="button-title-text my-1">Standard</p>
-                    <p className="my-2">within 24 hours</p>
+            <button value={delivery} onClick={(e) => setDelivery(e.target.value)}>
+                <div className="button-3" style={{width:"150px"}}>
+                    <p className="button-title-text my-1">Delivery</p>
+                    <p className="my-1">within 48 hours</p>
                 </div>
             </button>
                 
-        {/* option 2 */}
-            <button>
-                <div className="button-3" style={{width:"120px"}}>
-                    <p className="button-title-text my-1">Priority</p>
-                    <p className="my-1">3-4 hours</p>
-                    <p>+ $5.99</p>
-
-                 </div>
-            </button>
-                    
-        {/* option 3: select time in drop down section */}
-            <button>
-                <div className="button-3 " style={{width:"140px"}}>
-                    <p className="button-title-text my-1">Schedule</p>
-                    <div className="d-flex item-align-center ms-3">
-                        <p>Choose your time</p>
-                        <button>
-                            <ArrowRightRounded className="standard-icon"/>
-                         </button>
-                     </div>
+        {/* option 2: pick up in drop down section */}
+            <button value={pickup} onClick={(e) => setPickup(e.target.value)}>
+                <div className="button-3 text-center " style={{width:"150px"}}>
+                    <p className="button-title-text my-1">Pick Up</p>
+                    <div className="d-flex">
+                        <p>Select available slot</p>
+                    </div>
                 </div>
             </button>
+
         </div>
 
 
