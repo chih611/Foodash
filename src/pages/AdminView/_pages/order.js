@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Tab, Pagination } from "react-bootstrap";
 import TableContent from "../_components/table";
 import SearchBar from "../_components/searchbar";
 import initialData from "../_data"; // Import the data from data.js
+import { useDispatch, useSelector } from "react-redux";
+import { fetchOrderList } from "../../../../store/actions/orderAction";
 
 const Order = (props) => {
   const headers = [
@@ -58,6 +60,26 @@ const Order = (props) => {
     }
     return items;
   };
+
+  const dispatch = useDispatch();
+  // const formatHeaderName = (headers) => {
+  //   headers.forEach((header) => {
+  //     header
+  //       .toLowerCase()
+  //       .replace(/_/g, " ") // Replace underscores with spaces
+  //       .replace(/\b\w/g, (char) => char.toUpperCase()); // Capitalize the first letter of each word
+  //   });
+  //   // Replace underscores with space and capitalize each word
+  //   return headers;
+  // };
+
+  useEffect(() => {
+    dispatch(fetchOrderList());
+  }, []);
+
+  const orderList = useSelector((state) => state.order.ordersList);
+
+  // const headers = orderList ? Object.keys(orderList[0]) : null;
 
   return (
     <>

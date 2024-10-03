@@ -37,7 +37,7 @@ const NavBarCheckOut = () => {
           <Row className="w-100 align-items-center d-lg-none">
             {/* Return Button, Edit After */}
             <Col xs={1} className="d-flex justify-content-start">
-              <Link href="/CustomerView/HomePage" legacyBehavior passHref>
+              <Link href="/CustomerView/ViewCart" legacyBehavior passHref>
                 <a>
                   <div className="me-2">
                     <ArrowBackRounded sx={{ color: "#90B4CE" }} />
@@ -48,17 +48,13 @@ const NavBarCheckOut = () => {
 
             {/* Logo (6 columns) */}
             <Col xs={6} className="d-flex justify-content-center">
-              <Link href="/" legacyBehavior passHref>
-                <a>
-                  <Image
+              <Image
                     src="/Foodash_logo.png"
                     alt="Logo"
                     width={150} // Adjust width as needed
                     height={50} // Adjust height as needed
                     className="navbar-brand"
                   />
-                </a>
-              </Link>
             </Col>
 
             <Col xs={1}></Col>
