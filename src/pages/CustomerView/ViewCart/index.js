@@ -41,34 +41,38 @@ const ViewCart = () => {
     }
   }, [customerId, dispatch]);
 
-  const handleRemoveItem = (itemId) => {
-    dispatch(removeFromCart({ customerId, itemId }));
+  const handleRemoveItem = (itemId, extras, note) => {
+    dispatch(removeFromCart({ customerId, itemId, extras, note }));
   };
 
-  const handleIncreaseQuantity = (itemId) => {
+  const handleIncreaseQuantity = (itemId, extras, note) => {
     console.log("Increase quantity", itemId);
-    dispatch(increaseQuantity({ customerId, itemId }));
+    dispatch(increaseQuantity({ customerId, itemId, extras, note }));
   };
 
   const handleClearCart = () => {
     dispatch(clearCartItems({ customerId, cartId }));
   };
 
-  const handleDecreaseQuantity = (itemId) => {
-    if (
-      cartItems.find((item) => item.itemId === itemId).quantity === 1 &&
-      cartItems.length === 1
-    ) {
-      dispatch(clearCartItems({ customerId, cartId }));
-      return;
-    } else if (
-      cartItems.find((item) => item.itemId === itemId).quantity === 1
-    ) {
-      dispatch(removeFromCart({ customerId, itemId }));
-      return;
-    }
+  const handleDecreaseQuantity = (itemId, extras, note) => {
+    // Find the specific item by itemId, extras, and note
+    const currentItem = cartItems.find((item) => {
+      const extrasMatch =
+        JSON.stringify(item.extras) === JSON.stringify(extras);
+      const notesMatch = (item.note || "").trim() === (note || "").trim();
+      return item.itemId === itemId && extrasMatch && notesMatch;
+    });
 
-    dispatch(decreaseQuantity({ customerId, itemId }));
+    // If the item exists, handle decreasing or removing it based on its quantity
+    if (currentItem) {
+      if (currentItem.quantity === 1) {
+        // If quantity is 1, remove the item
+        dispatch(removeFromCart({ customerId, itemId, extras, note }));
+      } else {
+        // Otherwise, decrease the quantity
+        dispatch(decreaseQuantity({ customerId, itemId, extras, note }));
+      }
+    }
   };
 
   if (status === "loading") {
@@ -113,8 +117,8 @@ const ViewCart = () => {
         {cartItems.length} Items – Total: ${total}
       </h2>
 
-      {cartItems.map((item) => (
-        <Row className="view-cart-item" key={item.itemId}>
+      {cartItems.map((item, index) => (
+        <Row className="view-cart-item" key={`${item.itemId}-${index}`}>
           <Col xs={2} className="view-cart-item-image"></Col>
           <Col xs={10} className="view-cart-item-details">
             <Row>
@@ -126,7 +130,9 @@ const ViewCart = () => {
                   <ClearIcon
                     className="remove-item-icon"
                     style={{ color: "094067" }}
-                    onClick={() => handleRemoveItem(item.itemId)}
+                    onClick={() =>
+                      handleRemoveItem(item.itemId, item.extras, item.note)
+                    }
                   />
                 </Button>
               </Col>
@@ -143,8 +149,12 @@ const ViewCart = () => {
               <Col xs={10}>
                 <QuantityInputField
                   quantity={item.quantity}
-                  onIncrease={() => handleIncreaseQuantity(item.itemId)}
-                  onDecrease={() => handleDecreaseQuantity(item.itemId)}
+                  onIncrease={() =>
+                    handleIncreaseQuantity(item.itemId, item.extras, item.note)
+                  }
+                  onDecrease={() =>
+                    handleDecreaseQuantity(item.itemId, item.extras, item.note)
+                  }
                 />
               </Col>
               <Col xs={2}>
@@ -152,6 +162,19 @@ const ViewCart = () => {
                   ${(item.price * item.quantity).toFixed(2)}
                 </h4>
               </Col>
+            </Row>
+            <Row>
+              <p>Extras:</p>
+              <ul>
+                {Object.entries(item.extras).map(([key, value]) => (
+                  <li key={key}>
+                    {key}: {value ? "Yes" : "No"}
+                  </li>
+                ))}
+              </ul>
+            </Row>
+            <Row>
+              <p>notes: {item.notes}</p>
             </Row>
           </Col>
         </Row>

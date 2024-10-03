@@ -27,7 +27,7 @@ const HomePageNavBar = () => {
           <Row className="w-100 align-items-center d-lg-none">
             {/* Logo (3 columns) */}
             <Col xs={4} className="d-flex justify-content-center">
-              <Link href="/HomePage" legacyBehavior passHref>
+              <Link href="/CustomerView/HomePage" legacyBehavior passHref>
                 <a>
                   <Image
                     src="/Foodash_logo.png"
@@ -98,7 +98,7 @@ const HomePageNavBar = () => {
           <Row className="w-100 align-items-center d-none d-lg-flex">
             <Col xs={12} md={3} className="d-flex align-items-center">
               {/* Logo Section */}
-              <Link href="/" legacyBehavior passHref>
+              <Link href="/CustomerView/HomePage" legacyBehavior passHref>
                 <a>
                   <Image
                     src="/Foodash_logo.png"

@@ -113,22 +113,37 @@ export const addToCart = createAsyncThunk(
 
 export const increaseQuantity = createAsyncThunk(
   "cart/increaseQuantity",
-  async ({ customerId, itemId }, { getState, rejectWithValue }) => {
+  async (
+    { customerId, itemId, extras = {}, note = "" },
+    { getState, rejectWithValue }
+  ) => {
     try {
       const { cartItems, cartId } = getState().cart;
+
+      // Map through cart items and increase the quantity of the specified item, considering extras and notes
       const updatedCartItems = cartItems.map((cartItem) => {
-        if (cartItem.itemId === itemId) {
+        const extrasMatch =
+          JSON.stringify(cartItem.extras || {}) ===
+          JSON.stringify(extras || {});
+        const notesMatch = (cartItem.note || "").trim() === (note || "").trim();
+        const itemIdMatch = cartItem.itemId === itemId;
+
+        // Increase the quantity only for the matching item
+        if (extrasMatch && notesMatch && itemIdMatch) {
           return { ...cartItem, quantity: cartItem.quantity + 1 };
         }
         return cartItem;
       });
+
       const cartTotal = updatedCartItems.reduce(
         (total, item) => total + item.price * item.quantity,
         0
       );
+
       if (!customerId) {
         return { cartItems: updatedCartItems, cartId: null };
       }
+
       if (cartId) {
         const result = await updateExistingCart(
           cartId,
@@ -148,19 +163,29 @@ export const increaseQuantity = createAsyncThunk(
 
 export const removeFromCart = createAsyncThunk(
   "cart/removeFromCart",
-  async ({ customerId, itemId }, { getState, rejectWithValue }) => {
+  async (
+    { customerId, itemId, extras = {}, note = "" },
+    { getState, rejectWithValue }
+  ) => {
     try {
       const { cartItems, cartId } = getState().cart;
 
-      // Log the IDs
-      console.log("Removing item with itemId:", itemId);
-      console.log("Customer ID:", customerId);
-      console.log("Cart ID:", cartId);
+      // Log the state of cartItems before the removal process
+      console.log("Current cart items before removal:", cartItems);
+      console.log("Attempting to remove item:", { itemId, extras, note });
 
-      const updatedCartItems = cartItems.filter(
-        (cartItem) => cartItem.itemId !== itemId
-      );
+      // Improved comparison logic for extras and note
+      const updatedCartItems = cartItems.filter((cartItem) => {
+        const extrasMatch =
+          JSON.stringify(cartItem.extras || {}) ===
+          JSON.stringify(extras || {});
+        const notesMatch = (cartItem.note || "").trim() === (note || "").trim(); // Added null/undefined check
+        const itemIdMatch = cartItem.itemId === itemId;
 
+        return !(extrasMatch && notesMatch && itemIdMatch);
+      });
+
+      // Log the updated cart after removal attempt
       console.log("Updated cart items after removal:", updatedCartItems);
 
       const cartTotal = updatedCartItems.reduce(
@@ -191,25 +216,50 @@ export const removeFromCart = createAsyncThunk(
 
 export const decreaseQuantity = createAsyncThunk(
   "cart/decreaseQuantity",
-  async ({ customerId, itemId }, { getState, rejectWithValue }) => {
+  async (
+    { customerId, itemId, extras = {}, note = "" },
+    { getState, rejectWithValue, dispatch }
+  ) => {
     try {
       const { cartItems, cartId } = getState().cart;
 
-      // Map through cart items and decrease the quantity of the specified item
+      // Find the target item
+      const targetItem = cartItems.find((cartItem) => {
+        const extrasMatch =
+          JSON.stringify(cartItem.extras || {}) ===
+          JSON.stringify(extras || {});
+        const notesMatch = (cartItem.note || "").trim() === (note || "").trim();
+        const itemIdMatch = cartItem.itemId === itemId;
+
+        return extrasMatch && notesMatch && itemIdMatch;
+      });
+
+      // If the item exists and its quantity is 1, remove it instead of decreasing
+      if (targetItem && targetItem.quantity === 1) {
+        return dispatch(
+          removeFromCart({ customerId, itemId, extras, note })
+        ).unwrap();
+      }
+
+      // Otherwise, proceed to decrease the quantity
       const updatedCartItems = cartItems.map((cartItem) => {
-        if (cartItem.itemId === itemId) {
+        const extrasMatch =
+          JSON.stringify(cartItem.extras || {}) ===
+          JSON.stringify(extras || {});
+        const notesMatch = (cartItem.note || "").trim() === (note || "").trim();
+        const itemIdMatch = cartItem.itemId === itemId;
+
+        if (extrasMatch && notesMatch && itemIdMatch) {
           return { ...cartItem, quantity: cartItem.quantity - 1 };
         }
         return cartItem;
       });
 
-      // Calculate the total cart value after updating the quantity
       const cartTotal = updatedCartItems.reduce(
         (total, item) => total + item.price * item.quantity,
         0
       );
 
-      // Case for guest users (no customerId), just return updated items without updating in the database
       if (!customerId) {
         return { cartItems: updatedCartItems, cartId: null };
       }
@@ -229,7 +279,7 @@ export const decreaseQuantity = createAsyncThunk(
       // Handle cases where there's no cartId
       return { cartItems: updatedCartItems, cartId: null };
     } catch (error) {
-      // Return error if something goes wrong
+      console.error("Error in decreaseQuantity:", error.message); // Debugging log
       return rejectWithValue(error.response?.data?.message || error.message);
     }
   }
