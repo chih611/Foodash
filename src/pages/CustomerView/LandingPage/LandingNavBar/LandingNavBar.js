@@ -97,7 +97,7 @@ const LandingNavBar = () => {
               <Nav className="w-100 justify-content-between">
                 <Col className="d-flex justify-content-center">
                   <Link
-                    href="/CustomerView/LandingPage/"
+                    href="/CustomerView/HomePage/"
                     legacyBehavior
                     passHref
                   >
