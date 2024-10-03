@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Badge } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
-import { addToCart } from "../../../../store/slices/cartSlice";
+import {
+  addToCart,
+  increaseQuantity,
+} from "../../../../store/slices/cartSlice";
 import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
 import PrimaryButton from "../ViewCart/PrimaryButton";
 import Image from "next/image";
@@ -10,9 +13,10 @@ import { useRouter } from "next/router";
 
 const ItemModification = () => {
   // Access selectedItem from Redux
+  const { cartItems } = useSelector((state) => state.cart);
   const selectedItem = useSelector((state) => state.items.selectedItem);
   const customerProfile = useSelector((state) => state.customer.profile);
-  const customerId = customerProfile?.CUSTOMER_ID || null; // Fetch the customer ID, or null if it's a guest
+  const customerId = customerProfile?.CUSTOMER_ID || null;
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -23,6 +27,7 @@ const ItemModification = () => {
     Egg: false,
     Tomatoes: false,
   });
+  const [note, setNote] = useState("");
 
   // Ensure selectedItem is available
   if (!selectedItem) {
@@ -47,6 +52,10 @@ const ItemModification = () => {
     }));
   };
 
+  const handleNoteChange = (e) => {
+    setNote(e.target.value);
+  };
+
   // Calculate the total price
   const calculateTotal = () => {
     const basePrice = selectedItem ? selectedItem.PRICE || 13.5 : 13.5;
@@ -59,18 +68,32 @@ const ItemModification = () => {
 
   // Add the item to the cart
   const handleAddToCart = () => {
-    // Prepare the item object to be added to the cart
     const modifiedItem = {
       itemId: selectedItem.ITEM_ID, // Assuming ITEM_ID is the unique identifier for the item
       itemName: selectedItem.ITEM_NAME,
-      price: selectedItem.PRICE || 13.5,
+      price: calculateTotal(),
       quantity: 1,
       extras: extras,
+      notes: note,
       totalPrice: calculateTotal(),
     };
 
-    // Dispatch the addToCart action with customerId and modifiedItem
-    dispatch(addToCart({ customerId, item: modifiedItem }));
+    // Check if the item with the same extras and note already exists in the cart
+    const existingItem = cartItems.find(
+      (item) =>
+        item.itemId === modifiedItem.itemId &&
+        JSON.stringify(item.extras) === JSON.stringify(modifiedItem.extras) &&
+        item.notes === modifiedItem.notes
+    );
+
+    if (existingItem) {
+      // If the item exists, increase the quantity
+      dispatch(increaseQuantity({ customerId, itemId: existingItem.itemId }));
+    } else {
+      // If the item doesn't exist, add it to the cart
+      dispatch(addToCart({ customerId, item: modifiedItem }));
+    }
+
     router.push("/CustomerView/ViewCart");
   };
 
@@ -162,15 +185,25 @@ const ItemModification = () => {
         </Col>
       </Row>
 
-      {/* Add to Cart */}
       <Row className="my-4">
         <Col>
-          <PrimaryButton
-            onClick={handleAddToCart}
-            icon={Inventory2OutlinedIcon}
-            text={`Add 1 to cart - $${calculateTotal().toFixed(2)}`}
+          <h2>Note</h2>
+          <textarea
+            value={note}
+            onChange={handleNoteChange}
+            placeholder="Write a note..."
+            className="form-control"
+            rows="3"
           />
         </Col>
+      </Row>
+      {/* Add to Cart */}
+      <Row className="my-4">
+        <PrimaryButton
+          onClick={handleAddToCart}
+          icon={Inventory2OutlinedIcon}
+          text={`Add 1 to cart - $${calculateTotal().toFixed(2)}`}
+        />
       </Row>
     </Container>
   );

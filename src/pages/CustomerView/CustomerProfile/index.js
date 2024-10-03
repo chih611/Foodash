@@ -99,8 +99,7 @@ const CustomerDetail = () => {
   const handleSignOut = async () => {
     await dispatch(clearProfile());
     await dispatch(clearCart());
-    await router.push("/CustomerView/HomePage");
-    console.log("Sign out successful");
+    await router.push("/CustomerView/");
   };
 
   return (
