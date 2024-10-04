@@ -92,3 +92,31 @@ body {
     color: colors.$bg-color;
   }
 }
+
+
+//Colors
+
+
+  .text-color-head-line {
+      color: colors.$headline-color;
+  }
+  .text-pressed-color{
+      color:colors.$pressed-color !important;
+  }
+  .text-headline-color{
+    color: colors.$headline-color !important;
+}
+  .bg-2nd-color{
+      background-color: colors.$bg-2nd-color;
+  }
+  
+  .bg-element-color{
+      background-color: colors.$element-color;
+  }
+  .bg-headline-color{
+      background-color: colors.$headline-color !important;
+  }
+  .bg-pressed-color{
+    background-color: colors.$pressed-color !important;
+  }
+  
