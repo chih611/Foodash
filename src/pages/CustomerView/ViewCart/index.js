@@ -5,7 +5,8 @@ import QuantityInputField from "./QuantityInputContainer";
 import ClearIcon from "@mui/icons-material/Clear";
 import PrimaryButton from "./PrimaryButton";
 import NavBarCheckOut from "../CheckOut/_NavBarCheckOut";
-import Inventory2Outlined from "@mui/icons-material/Inventory2Outlined";
+import ClearAllIcon from "@mui/icons-material/ClearAll";
+import PaymentIcon from "@mui/icons-material/Payment";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchCartByCustomerId,
@@ -182,7 +183,23 @@ const ViewCart = () => {
           </Col>
         </Row>
       ))}
-      <PrimaryButton text="Clear Cart" onClick={handleClearCart} />
+      <Row className="view-cart-footer">
+        <Col xs={5}>
+          <PrimaryButton
+            icon={ClearAllIcon}
+            variant="red"
+            text="Clear Cart"
+            onClick={handleClearCart}
+          />
+        </Col>
+        <Col xs={7}>
+          <PrimaryButton
+            text="Proceed to Checkout"
+            icon={PaymentIcon}
+            onClick={() => router.push("/CustomerView/CheckOut")}
+          />
+        </Col>
+      </Row>
     </Container>
   );
 };

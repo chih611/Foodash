@@ -63,7 +63,7 @@ const NavBarCheckOut = () => {
               className="d-flex justify-content-end align-items-center"
             >
               <Link
-                href="/CustomerView/CustomerProfile/CustomerProfile"
+                href="/CustomerView/CustomerProfile"
                 legacyBehavior
                 passHref
               >
@@ -115,7 +115,7 @@ const NavBarCheckOut = () => {
             >
               {/* Account Button */}
               <Link
-                href="/CustomerView/ViewCart/ViewCart"
+                href="/CustomerView/CustomerProfile"
                 legacyBehavior
                 passHref
               >

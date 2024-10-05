@@ -9,29 +9,44 @@ import {
   Button,
   Offcanvas,
 } from "react-bootstrap";
+import { useSelector, useDispatch } from "react-redux";
 import ArrowRightRounded from "@mui/icons-material/ArrowRightRounded";
 import CreditCardRounded from "@mui/icons-material/CreditCardRounded";
-import DetailForm from "./_recipientForm"
-
+import DetailForm from "./_recipientForm";
 
 const AddPayment = ({ pickup }) => {
+  const cartItems = useSelector((state) => state.cart.cartItems);
+
+  const cartTotal = cartItems
+    .filter((item) => item !== null) // Ensure null items are filtered out
+    .reduce((acc, item) => acc + item.price * item.quantity, 0)
+    .toFixed(2);
+  const [total, setTotal] = useState(cartTotal);
+  console.log("cartTotal", cartTotal);
+
   const [promo, setPromo] = useState("");
   const [appliedPromo, setAppliedPromo] = useState(null);
   const [fees, setFees] = useState([
-    { id: 1, name: "Delivery Fee", price: 6.99 },
+    { id: 1, name: "Subtotal", price: parseFloat(cartTotal) },
+    { id: 2, name: "Delivery Fee", price: 6.99 },
     { id: 2, name: "Service Fee", price: 2.99 },
-    { id: 3, name: "Utensil", price: 1.99 },
-    { id: 4, name: "Gift Wrap", price: 5.5 },
+    { id: 4, name: "Utensil", price: 1.99 },
+    { id: 5, name: "Gift Wrap", price: 5.5 },
   ]);
-  const [total, setTotal] = useState(0);
 
   useEffect(() => {
-    // Calculate total whenever fees or appliedPromo change
-    const feesTotal = fees.reduce((sum, fee) => sum + fee.price, 0);
+    // Calculate total whenever fees, appliedPromo, or cartTotal change
+    const feesTotal = fees.reduce(
+      (sum, fee) => sum + (pickup && fee.id === 1 ? 0 : fee.price),
+      0
+    );
     const discountAmount = appliedPromo ? appliedPromo.discountAmount : 0;
-    const newTotal = Math.max(0, feesTotal - discountAmount);
-    setTotal(newTotal);
-  }, [fees, appliedPromo]);
+    const newTotal = Math.max(
+      0,
+      parseFloat(cartTotal) + feesTotal - discountAmount
+    );
+    setTotal(newTotal.toFixed(2));
+  }, [fees, appliedPromo, cartTotal, pickup]);
 
   const handlePromoApply = () => {
     // This is a mock promo code validation
@@ -113,7 +128,7 @@ const AddPayment = ({ pickup }) => {
       {/* Summary of the total */}
       <div className="w-100 d-flex justify-content-between">
         <p className="h4 mt-3 mb-1">Total</p>
-        <p className="h4 mt-3 mb-1">${total.toFixed(2)}</p>
+        <p className="h4 mt-3 mb-1">${total}</p>
       </div>
     </div>
   );
