@@ -47,7 +47,7 @@ const ViewCart = () => {
   };
 
   const handleIncreaseQuantity = (itemId, extras, note) => {
-    console.log("Increase quantity", itemId);
+    console.log("Increase quantity", itemId, extras, note);
     dispatch(increaseQuantity({ customerId, itemId, extras, note }));
   };
 
@@ -56,11 +56,13 @@ const ViewCart = () => {
   };
 
   const handleDecreaseQuantity = (itemId, extras, note) => {
+    console.log("Decreasing quantity for:", itemId, extras, note); // Debugging log
+
     // Find the specific item by itemId, extras, and note
     const currentItem = cartItems.find((item) => {
       const extrasMatch =
         JSON.stringify(item.extras) === JSON.stringify(extras);
-      const notesMatch = (item.note || "").trim() === (note || "").trim();
+      const notesMatch = (item.notes || "").trim() === (note || "").trim();
       return item.itemId === itemId && extrasMatch && notesMatch;
     });
 

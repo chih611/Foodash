@@ -125,7 +125,8 @@ export const increaseQuantity = createAsyncThunk(
         const extrasMatch =
           JSON.stringify(cartItem.extras || {}) ===
           JSON.stringify(extras || {});
-        const notesMatch = (cartItem.note || "").trim() === (note || "").trim();
+        const notesMatch =
+          (cartItem.notes || "").trim() === (note || "").trim();
         const itemIdMatch = cartItem.itemId === itemId;
 
         // Increase the quantity only for the matching item
@@ -151,11 +152,9 @@ export const increaseQuantity = createAsyncThunk(
           updatedCartItems,
           cartTotal
         );
-        console.log("Cart updated successfully:", result); // Debugging log
         return { cartItems: updatedCartItems, cartId };
       }
     } catch (error) {
-      console.error("Error in increaseQuantity:", error.message); // Debugging log
       return rejectWithValue(error.response?.data?.message || error.message);
     }
   }
@@ -230,7 +229,8 @@ export const decreaseQuantity = createAsyncThunk(
         const extrasMatch =
           JSON.stringify(cartItem.extras || {}) ===
           JSON.stringify(extras || {});
-        const notesMatch = (cartItem.note || "").trim() === (note || "").trim();
+        const notesMatch =
+          (cartItem.notes || "").trim() === (note || "").trim();
         const itemIdMatch = cartItem.itemId === itemId;
 
         return extrasMatch && notesMatch && itemIdMatch;
@@ -248,7 +248,8 @@ export const decreaseQuantity = createAsyncThunk(
         const extrasMatch =
           JSON.stringify(cartItem.extras || {}) ===
           JSON.stringify(extras || {});
-        const notesMatch = (cartItem.note || "").trim() === (note || "").trim();
+        const notesMatch =
+          (cartItem.notes || "").trim() === (note || "").trim();
         const itemIdMatch = cartItem.itemId === itemId;
 
         if (extrasMatch && notesMatch && itemIdMatch) {
