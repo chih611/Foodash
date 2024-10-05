@@ -152,7 +152,7 @@ const ItemModification = () => {
           </div>
 
           <div className="my-3">
-            <h4>${selectedItem.PRICE || 13.5} / pack</h4>
+            <h4>${selectedItem.UNIT_PRICE || 13.5} / pack</h4>
           </div>
         </Col>
       </Row>

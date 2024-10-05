@@ -83,7 +83,7 @@ const ItemsInformation = () => {
             </Nav>
 
             <div className="price-section">
-              <h3>${selectedItem.PRICE}</h3>
+              <h3>${selectedItem.UNIT_PRICE}</h3>
             </div>
             <h5 className="ingredients-title">Description</h5>
 

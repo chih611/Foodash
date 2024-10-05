@@ -40,7 +40,7 @@ const HomeItemContainer = ({ item }) => {
           <Row className="item-button align-items-center justify-content-between">
             <Col xs={6} className="text-center">
               <Card.Text className="product-price">
-                {item.PRICE ? `$${item.PRICE}` : "Price Unavailable"}
+                {item.UNIT_PRICE ? `$${item.UNIT_PRICE}` : "Price Unavailable"}
               </Card.Text>
             </Col>
             <Col xs={3} className="text-center">
