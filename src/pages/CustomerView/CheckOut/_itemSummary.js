@@ -20,6 +20,7 @@ import ArrowDropDownOutlined from "@mui/icons-material/ArrowDropDownOutlined"; /
 import AddCircleOutlineOutlined from "@mui/icons-material/AddCircleOutlineOutlined"; //add item +
 import RemoveCircleOutlineOutlined from "@mui/icons-material/RemoveCircleOutlineOutlined"; //remove item -
 import CloseOutlined from "@mui/icons-material/CloseOutlined"; // delete item x
+import ClearIcon from "@mui/icons-material/Clear";
 
 const OrderSummary = () => {
   const [showOffcanvas, setShowOffcanvas] = useState(false);
@@ -95,9 +96,13 @@ const OrderSummary = () => {
               />
             </Col>
             <Col xs={4}>
-              <button>
-                <CloseOutlined className=" ms-5" />
-              </button>
+              <ClearIcon
+                className="remove-item-icon"
+                style={{ color: "094067" }}
+                onClick={() =>
+                  handleRemoveItem(item.itemId, item.extras, item.notes)
+                }
+              />
             </Col>
           </Row>
         ))
