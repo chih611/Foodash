@@ -1,14 +1,30 @@
 import { Container, Form, Navbar } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import CustomTable from "../_components/table";
+import { fetchOrderDetailList } from "../../../../store/actions/orderDetailAction";
+import { useEffect } from "react";
 
-const OrderDetails = () => {
+const OrderDetails = ({ orderId }) => {
   let records = [];
+  let headers = [];
+
+  const customColumns = [""];
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchOrderDetailList(orderId));
+  }, [orderId]);
 
   //Get data
-  const orderList = useSelector((state) => state.order.ordersList);
+  const orderDetailList = useSelector(
+    (state) => state.orderDetail.orderDetailList
+  );
   //Get colunms of headers name
-  if (orderList) {
-    orderList[0].rows?.map((e) => {
+  if (orderDetailList) {
+    orderDetailList[0].fields?.map((e) => {
+      headers.push(e.name);
+    });
+    orderDetailList[0].rows?.map((e) => {
       records.push(e);
     });
   }
@@ -26,6 +42,7 @@ const OrderDetails = () => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
+      <CustomTable headers={headers} records={records} />
     </>
   );
 };

@@ -12,18 +12,25 @@ const CustomTable = ({ headers, records }) => {
   };
   return (
     <>
-      <Table striped bordered hover size="sm" responsive>
+      <Table
+        striped
+        bordered
+        hover
+        size="sm"
+        responsive
+        className="rounded-start-2"
+      >
         <thead>
           <tr>
             {Array.from({ length: 1 }).map((_, index) =>
-              headers.map((header) => (
+              headers?.map((header) => (
                 <th className=" bg-pressed-color text-light">{header}</th>
               ))
             )}
           </tr>
         </thead>
         <tbody>
-          {records.map((e, i) => (
+          {records?.map((e, i) => (
             <tr key={i}>
               {Array.from({ length: 1 }).map((_, index) =>
                 Object.values(e).map((value, j) => (
@@ -35,11 +42,6 @@ const CustomTable = ({ headers, records }) => {
                     >
                       {value}
                     </Button>
-                    <CustomModal
-                      setShow={setShow}
-                      show={show}
-                      selectedId={selectedId}
-                    />
                   </td>
                 ))
               )}
@@ -47,6 +49,7 @@ const CustomTable = ({ headers, records }) => {
           ))}
         </tbody>
       </Table>
+      <CustomModal setShow={setShow} show={show} selectedId={selectedId} />
     </>
   );
 };

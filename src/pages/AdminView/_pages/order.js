@@ -23,6 +23,7 @@ const Order = (props) => {
       records.push(e);
     });
   }
+
   return (
     <>
       <Tab.Pane {...props}>
