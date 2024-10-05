@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import {
-  Container,
-  Row,
-  Col,
-  Button,
-} from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import NavBarCheckOut from "./_NavBarCheckOut";
 import HomeDirectionLink from "../HomePage/HomeDirectionLink/HomeDirectionLink";
 import OrderSummary from "./_itemSummary";
@@ -14,6 +9,7 @@ import DetailForm from "./_recipientForm";
 
 const Checkout = () => {
   const [pickup, setPickup] = useState(false);
+  const [address, setAddress] = useState("");
 
   return (
     <div>
