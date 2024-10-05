@@ -179,9 +179,11 @@ export const removeFromCart = createAsyncThunk(
         const extrasMatch =
           JSON.stringify(cartItem.extras || {}) ===
           JSON.stringify(extras || {});
-        const notesMatch = (cartItem.note || "").trim() === (note || "").trim();
+        const notesMatch =
+          (cartItem.notes || "").trim() === (note || "").trim();
         const itemIdMatch = cartItem.itemId === itemId;
 
+        // Remove only the matching item with the same extras AND notes
         return !(extrasMatch && notesMatch && itemIdMatch);
       });
 

@@ -35,7 +35,7 @@ const NavBarCheckOut = () => {
           <Row className="w-100 align-items-center d-lg-none">
             {/* Return Button, Edit After */}
             <Col xs={1} className="d-flex justify-content-start">
-              <Link href="/CustomerView/ViewCart" legacyBehavior passHref>
+              <Link href="/CustomerView/HomePage" legacyBehavior passHref>
                 <a>
                   <div className="me-2">
                     <ArrowBackRounded sx={{ color: "#90B4CE" }} />

@@ -42,6 +42,7 @@ const ViewCart = () => {
   }, [customerId, dispatch]);
 
   const handleRemoveItem = (itemId, extras, note) => {
+    console.log("Removing item with note:", note);
     dispatch(removeFromCart({ customerId, itemId, extras, note }));
   };
 
@@ -131,7 +132,7 @@ const ViewCart = () => {
                     className="remove-item-icon"
                     style={{ color: "094067" }}
                     onClick={() =>
-                      handleRemoveItem(item.itemId, item.extras, item.note)
+                      handleRemoveItem(item.itemId, item.extras, item.notes)
                     }
                   />
                 </Button>
@@ -150,10 +151,10 @@ const ViewCart = () => {
                 <QuantityInputField
                   quantity={item.quantity}
                   onIncrease={() =>
-                    handleIncreaseQuantity(item.itemId, item.extras, item.note)
+                    handleIncreaseQuantity(item.itemId, item.extras, item.notes)
                   }
                   onDecrease={() =>
-                    handleDecreaseQuantity(item.itemId, item.extras, item.note)
+                    handleDecreaseQuantity(item.itemId, item.extras, item.notes)
                   }
                 />
               </Col>
