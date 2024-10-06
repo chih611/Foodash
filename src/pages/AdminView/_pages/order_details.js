@@ -13,7 +13,7 @@ const OrderDetails = ({ orderId }) => {
 
   useEffect(() => {
     dispatch(fetchOrderDetailList(orderId));
-  }, [orderId]);
+  }, []);
 
   //Get data
   const orderDetailList = useSelector(

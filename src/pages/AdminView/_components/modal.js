@@ -1,9 +1,8 @@
 import { Button, Modal } from "react-bootstrap";
-import OrderDetails from "../_pages/order_details";
+import React from "react";
 
-const CustomModal = ({ setShow, show, selectedId }) => {
+const CustomModal = ({ setShow, show, selectedId, children }) => {
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
   return (
     <Modal
       show={show}
@@ -19,7 +18,7 @@ const CustomModal = ({ setShow, show, selectedId }) => {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <OrderDetails orderId={selectedId} />
+        {children && React.cloneElement(children, { orderId: selectedId })}
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={handleClose}>

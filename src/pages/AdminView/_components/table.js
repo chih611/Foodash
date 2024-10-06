@@ -2,7 +2,7 @@ import { Button, Table } from "react-bootstrap";
 import CustomModal from "./modal";
 import { useState } from "react";
 
-const CustomTable = ({ headers, records }) => {
+const CustomTable = ({ headers, records, children }) => {
   const [show, setShow] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
 
@@ -49,7 +49,9 @@ const CustomTable = ({ headers, records }) => {
           ))}
         </tbody>
       </Table>
-      <CustomModal setShow={setShow} show={show} selectedId={selectedId} />
+      <CustomModal setShow={setShow} show={show} selectedId={selectedId}>
+        {children}
+      </CustomModal>
     </>
   );
 };

@@ -3,6 +3,7 @@ import { Tab } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchOrderList } from "../../../../store/actions/orderAction";
 import CustomTable from "../_components/table";
+import OrderDetails from "./order_details";
 
 const Order = (props) => {
   const dispatch = useDispatch();
@@ -27,7 +28,9 @@ const Order = (props) => {
   return (
     <>
       <Tab.Pane {...props}>
-        <CustomTable headers={headers} records={records} />
+        <CustomTable headers={headers} records={records}>
+          <OrderDetails {...props} />
+        </CustomTable>
       </Tab.Pane>
     </>
   );
