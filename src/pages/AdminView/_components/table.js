@@ -1,6 +1,4 @@
 import { Button, Form, Table } from "react-bootstrap";
-import CustomModal from "./modal";
-import { useState } from "react";
 
 const CustomTable = ({ headers, records, handleRecordDoubleClick }) => {
   return (
@@ -16,7 +14,7 @@ const CustomTable = ({ headers, records, handleRecordDoubleClick }) => {
         <thead>
           <tr>
             {Array.from({ length: 1 }).map((_, index) =>
-              headers?.map((header) => (
+              headers[0]?.map((header) => (
                 <th className=" bg-pressed-color text-light text-center text-nowrap">
                   {header.replace(/_/g, " ")}
                 </th>

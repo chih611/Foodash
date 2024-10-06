@@ -1,4 +1,4 @@
-import { Container, Form, Navbar } from "react-bootstrap";
+import { Button, Col, Form, InputGroup, Navbar, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import CustomTable from "../_components/table";
 import { fetchOrderDetailList } from "../../../../store/actions/orderDetailAction";
@@ -8,7 +8,6 @@ const OrderDetails = ({ orderId }) => {
   let records = [];
   let headers = [];
 
-  const customColumns = [""];
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -21,26 +20,39 @@ const OrderDetails = ({ orderId }) => {
   );
   //Get colunms of headers name
   if (orderDetailList) {
-    orderDetailList[0].fields?.map((e) => {
-      headers.push(e.name);
+    orderDetailList.map((item) => {
+      headers.push(Object.keys(item));
     });
-    orderDetailList[0].rows?.map((e) => {
-      records.push(e);
-    });
+    records = orderDetailList;
   }
 
   return (
     <>
-      <Navbar className="bg-body-tertiary">
-        <Container>
-          <Navbar.Brand href="#home">Navbar with text</Navbar.Brand>
-          <Navbar.Toggle />
-          <Navbar.Collapse className="justify-content-end">
-            <Navbar.Text>
-              Signed in as: <a href="#login">Mark Otto</a>
-            </Navbar.Text>
-          </Navbar.Collapse>
-        </Container>
+      <Navbar className="bg-body-tertiary justify-content-between">
+        <Form inline>
+          <InputGroup>
+            <InputGroup.Text id="basic-addon1">@</InputGroup.Text>
+            <Form.Control
+              placeholder="Username"
+              aria-label="Username"
+              aria-describedby="basic-addon1"
+            />
+          </InputGroup>
+        </Form>
+        <Form inline>
+          <Row>
+            <Col xs="auto">
+              <Form.Control
+                type="text"
+                placeholder="Search"
+                className=" mr-sm-2"
+              />
+            </Col>
+            <Col xs="auto">
+              <Button type="submit">Submit</Button>
+            </Col>
+          </Row>
+        </Form>
       </Navbar>
       <CustomTable headers={headers} records={records} />
     </>

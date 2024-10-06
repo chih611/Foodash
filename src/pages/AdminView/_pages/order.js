@@ -21,12 +21,10 @@ const Order = (props) => {
   const orderList = useSelector((state) => state.order.ordersList);
   //Get colunms of headers name
   if (orderList) {
-    orderList[0].fields?.map((e) => {
-      headers.push(e.name);
+    orderList.map((item) => {
+      headers.push(Object.keys(item));
     });
-    orderList[0].rows?.map((e) => {
-      records.push(e);
-    });
+    records = orderList;
   }
 
   const handleRecordDoubleClick = ({ ORDER_ID }) => {

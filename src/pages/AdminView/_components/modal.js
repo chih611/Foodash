@@ -21,11 +21,8 @@ const CustomModal = ({ setShow, show, selectedId, children }) => {
         {children && React.cloneElement(children, { orderId: selectedId })}
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
-          Cancel
-        </Button>
         <Button className="bg-pressed-color text-light" onClick={handleClose}>
-          Save Changes
+          Close
         </Button>
       </Modal.Footer>
     </Modal>
