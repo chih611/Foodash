@@ -1,15 +1,8 @@
-import { Button, Table } from "react-bootstrap";
+import { Button, Form, Table } from "react-bootstrap";
 import CustomModal from "./modal";
 import { useState } from "react";
 
-const CustomTable = ({ headers, records, children }) => {
-  const [show, setShow] = useState(false);
-  const [selectedId, setSelectedId] = useState(null);
-
-  const handleRecordClick = (id) => {
-    setSelectedId(id);
-    setShow(true);
-  };
+const CustomTable = ({ headers, records, handleRecordDoubleClick }) => {
   return (
     <>
       <Table
@@ -24,7 +17,9 @@ const CustomTable = ({ headers, records, children }) => {
           <tr>
             {Array.from({ length: 1 }).map((_, index) =>
               headers?.map((header) => (
-                <th className=" bg-pressed-color text-light">{header}</th>
+                <th className=" bg-pressed-color text-light text-center text-nowrap">
+                  {header.replace(/_/g, " ")}
+                </th>
               ))
             )}
           </tr>
@@ -37,8 +32,10 @@ const CustomTable = ({ headers, records, children }) => {
                   <td key={j}>
                     <Button
                       variant="link"
-                      onClick={() => handleRecordClick(e.ORDER_ID)}
-                      className="text-decoration-none text-pressed-color"
+                      onDoubleClick={() =>
+                        handleRecordDoubleClick && handleRecordDoubleClick(e)
+                      }
+                      className="text-decoration-none text-pressed-color text-nowrap"
                     >
                       {value}
                     </Button>
@@ -49,9 +46,6 @@ const CustomTable = ({ headers, records, children }) => {
           ))}
         </tbody>
       </Table>
-      <CustomModal setShow={setShow} show={show} selectedId={selectedId}>
-        {children}
-      </CustomModal>
     </>
   );
 };

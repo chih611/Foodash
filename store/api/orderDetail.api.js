@@ -7,7 +7,6 @@ export const fetchOrderDetailListAPI = async (orderId) => {
   try {
     const response = await axios.get(`${BASE_URL}/order_details/${orderId}`);
     let data = response.data;
-    console.log("api", data);
     if (!Array.isArray(data)) {
       data = [data];
     }

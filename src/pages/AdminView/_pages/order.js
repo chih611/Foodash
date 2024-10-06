@@ -1,11 +1,15 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Tab } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchOrderList } from "../../../../store/actions/orderAction";
 import CustomTable from "../_components/table";
 import OrderDetails from "./order_details";
+import CustomModal from "../_components/modal";
 
 const Order = (props) => {
+  const [show, setShow] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
+
   const dispatch = useDispatch();
   let headers = [];
   let records = [];
@@ -25,12 +29,22 @@ const Order = (props) => {
     });
   }
 
+  const handleRecordDoubleClick = ({ ORDER_ID }) => {
+    setSelectedId(ORDER_ID);
+    setShow(true);
+  };
+
   return (
     <>
       <Tab.Pane {...props}>
-        <CustomTable headers={headers} records={records}>
+        <CustomTable
+          headers={headers}
+          records={records}
+          handleRecordDoubleClick={handleRecordDoubleClick}
+        />
+        <CustomModal setShow={setShow} show={show} selectedId={selectedId}>
           <OrderDetails {...props} />
-        </CustomTable>
+        </CustomModal>
       </Tab.Pane>
     </>
   );
