@@ -5,7 +5,7 @@ import AccountCircleRounded from "@mui/icons-material/AccountCircleRounded";
 import ArrowRightRounded from "@mui/icons-material/ArrowRightRounded";
 import LocalPhoneOutlined from "@mui/icons-material/LocalPhoneOutlined";
 import AccessTimeOutlined from "@mui/icons-material/AccessTimeOutlined"; //clock
-
+import { useSelector } from "react-redux";
 import AddLocationAltRounded from "@mui/icons-material/AddLocationAltRounded";
 import { Button } from "react-bootstrap";
 
@@ -15,16 +15,7 @@ const DetailForm = ({ pickup, setPickup }) => {
   const [contact, setContact] = useState("");
   const [delivery, setDelivery] = useState("");
 
-  //   useEffect(() => {
-  //     async function fetchData() {
-  //       const response = await fetch('your-api-url');
-  //       const data = await response.json();
-  //       // Assuming to update `contact` with this data
-  //       setContact(data);
-  //     }
-
-  //     fetchData();
-  //   }, []);
+  const customer = useSelector((state) => state.customer.profile);
 
   return (
     <div>
@@ -37,7 +28,11 @@ const DetailForm = ({ pickup, setPickup }) => {
 
       <div className="w-100 d-flex mb-3 ">
         <input
-          placeholder="your full name"
+          placeholder={
+            customer
+              ? `${customer.LAST_NAME} ${customer.FIRST_NAME}`
+              : "your full name"
+          }
           value={receiver}
           onChange={(e) => setReceiverName(e.target.value)}
           className="form_item1"
@@ -55,7 +50,11 @@ const DetailForm = ({ pickup, setPickup }) => {
 
       <div className="w-100 d-flex mb-3 ">
         <input
-          placeholder="Search for an address"
+          placeholder={
+            customer
+              ? `${customer.ADDRESS} - ${customer.CITY} - ${customer.STATE} - ${customer.POSTCODE}`
+              : "Search for an address"
+          }
           value={address}
           onChange={(e) => setAddress(e.target.value)}
           className="form_item1"
@@ -72,7 +71,7 @@ const DetailForm = ({ pickup, setPickup }) => {
       </div>
       <div className="w-100 d-flex mb-3 ">
         <input
-          placeholder="+61 "
+          placeholder={customer ? `${customer.PHONE_NUMBER}` : "+61"}
           value={contact}
           onChange={(e) => setContact(e.target.value)}
           className="form_item1"

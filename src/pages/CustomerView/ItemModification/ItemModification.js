@@ -78,17 +78,24 @@ const ItemModification = () => {
       totalPrice: calculateTotal(),
     };
 
-    // Check if the item with the same extras and note already exists in the cart
+    // Check if the item with the same itemId, extras, and note already exists in the cart
     const existingItem = cartItems.find(
       (item) =>
         item.itemId === modifiedItem.itemId &&
         JSON.stringify(item.extras) === JSON.stringify(modifiedItem.extras) &&
-        item.notes === modifiedItem.notes
+        (item.notes || "").trim() === (modifiedItem.notes || "").trim() // handle null or empty notes case
     );
 
     if (existingItem) {
       // If the item exists, increase the quantity
-      dispatch(increaseQuantity({ customerId, itemId: existingItem.itemId }));
+      dispatch(
+        increaseQuantity({
+          customerId,
+          itemId: existingItem.itemId,
+          extras: existingItem.extras,
+          note: existingItem.notes,
+        })
+      );
     } else {
       // If the item doesn't exist, add it to the cart
       dispatch(addToCart({ customerId, item: modifiedItem }));

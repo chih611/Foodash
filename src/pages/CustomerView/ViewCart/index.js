@@ -5,7 +5,8 @@ import QuantityInputField from "./QuantityInputContainer";
 import ClearIcon from "@mui/icons-material/Clear";
 import PrimaryButton from "./PrimaryButton";
 import NavBarCheckOut from "../CheckOut/_NavBarCheckOut";
-import Inventory2Outlined from "@mui/icons-material/Inventory2Outlined";
+import ClearAllIcon from "@mui/icons-material/ClearAll";
+import PaymentIcon from "@mui/icons-material/Payment";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchCartByCustomerId,
@@ -42,11 +43,12 @@ const ViewCart = () => {
   }, [customerId, dispatch]);
 
   const handleRemoveItem = (itemId, extras, note) => {
+    console.log("Removing item with note:", note);
     dispatch(removeFromCart({ customerId, itemId, extras, note }));
   };
 
   const handleIncreaseQuantity = (itemId, extras, note) => {
-    console.log("Increase quantity", itemId);
+    console.log("Increase quantity", itemId, extras, note);
     dispatch(increaseQuantity({ customerId, itemId, extras, note }));
   };
 
@@ -55,11 +57,13 @@ const ViewCart = () => {
   };
 
   const handleDecreaseQuantity = (itemId, extras, note) => {
+    console.log("Decreasing quantity for:", itemId, extras, note); // Debugging log
+
     // Find the specific item by itemId, extras, and note
     const currentItem = cartItems.find((item) => {
       const extrasMatch =
         JSON.stringify(item.extras) === JSON.stringify(extras);
-      const notesMatch = (item.note || "").trim() === (note || "").trim();
+      const notesMatch = (item.notes || "").trim() === (note || "").trim();
       return item.itemId === itemId && extrasMatch && notesMatch;
     });
 
@@ -131,7 +135,7 @@ const ViewCart = () => {
                     className="remove-item-icon"
                     style={{ color: "094067" }}
                     onClick={() =>
-                      handleRemoveItem(item.itemId, item.extras, item.note)
+                      handleRemoveItem(item.itemId, item.extras, item.notes)
                     }
                   />
                 </Button>
@@ -150,10 +154,10 @@ const ViewCart = () => {
                 <QuantityInputField
                   quantity={item.quantity}
                   onIncrease={() =>
-                    handleIncreaseQuantity(item.itemId, item.extras, item.note)
+                    handleIncreaseQuantity(item.itemId, item.extras, item.notes)
                   }
                   onDecrease={() =>
-                    handleDecreaseQuantity(item.itemId, item.extras, item.note)
+                    handleDecreaseQuantity(item.itemId, item.extras, item.notes)
                   }
                 />
               </Col>
@@ -179,7 +183,23 @@ const ViewCart = () => {
           </Col>
         </Row>
       ))}
-      <PrimaryButton text="Clear Cart" onClick={handleClearCart} />
+      <Row className="view-cart-footer">
+        <Col xs={5}>
+          <PrimaryButton
+            icon={ClearAllIcon}
+            variant="red"
+            text="Clear Cart"
+            onClick={handleClearCart}
+          />
+        </Col>
+        <Col xs={7}>
+          <PrimaryButton
+            text="Proceed to Checkout"
+            icon={PaymentIcon}
+            onClick={() => router.push("/CustomerView/CheckOut")}
+          />
+        </Col>
+      </Row>
     </Container>
   );
 };
