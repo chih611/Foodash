@@ -8,13 +8,14 @@ import loggerMiddleware from "./middleware/loggerMiddleware"; // Logger middlewa
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage"; // Use localStorage for persistence
 import { combineReducers } from "redux";
-import orderReducer from "./slices/orderSlice"; // Admin slice
+import orderReducer from "./slices/orderSlice";
+import orderDetailReducer from "./slices/orderDetailSlice";
 
 // Persist config for redux-persist
 const persistConfig = {
   key: "root",
   storage,
-  blacklist: ["order"],
+  blacklist: ["order", "orderDetail"],
 };
 
 // Combine all the reducers
@@ -25,6 +26,7 @@ const rootReducer = combineReducers({
   items: itemsReducer,
   category: categoryReducer,
   order: orderReducer,
+  orderDetail: orderDetailReducer,
 });
 
 // Create the persisted reducer

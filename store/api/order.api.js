@@ -12,3 +12,12 @@ export const fetchOrderListAPI = async () => {
   }
   return data;
 };
+
+export const fetchOrderLisByIdAPI = async (orderId) => {
+  const response = await axios.get(`${BASE_URL}/order/${orderId}`);
+  let data = response.data;
+  if (!Array.isArray(data)) {
+    data = [data];
+  }
+  return data;
+};
