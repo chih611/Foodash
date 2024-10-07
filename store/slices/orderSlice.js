@@ -1,9 +1,9 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { fetchOrderList } from "../actions/orderAction";
-import { clearCategoryFilter } from "./categorySlice";
+import { createSlice } from "@reduxjs/toolkit";
+import { fetchOrderList, fetchOrderListById } from "../actions/orderAction";
 
 const initialState = {
   ordersList: null,
+  orderById: null,
   status: null,
   error: null,
 };
@@ -18,11 +18,21 @@ const orderSlice = createSlice({
         state.status = "loading";
       })
       .addCase(fetchOrderList.fulfilled, (state, action) => {
-        console.log(state.items);
         state.ordersList = action.payload;
         state.status = "succeeded";
       })
       .addCase(fetchOrderList.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error || { message: "Fetching API is failed!" };
+      })
+      .addCase(fetchOrderListById.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchOrderListById.fulfilled, (state, action) => {
+        state.orderById = action.payload;
+        state.status = "succeeded";
+      })
+      .addCase(fetchOrderListById.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error || { message: "Fetching API is failed!" };
       });
