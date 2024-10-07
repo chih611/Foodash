@@ -1,16 +1,15 @@
-import { Button, Col, Form, InputGroup, Navbar, Row } from "react-bootstrap";
+import { Button, Col, Form, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 
 import CustomTable from "../_components/table";
 import { fetchOrderDetailList } from "../../../../store/actions/orderDetailAction";
 import { fetchOrderListById } from "../../../../store/actions/orderAction";
 import { btn } from "../_styles";
 
-const OrderDetails = ({ orderId }) => {
+const OrderDetails = ({ orderId, setShow }) => {
   let recordsOrderDetails = [];
   let headersOrderDetails = [];
-  let orderHeaders = [];
 
   const dispatch = useDispatch();
 
@@ -24,11 +23,6 @@ const OrderDetails = ({ orderId }) => {
   );
   const order = useSelector((state) => state.order.orderById);
 
-  if (order) {
-    order.map((item) => {
-      orderHeaders = Object.keys(item);
-    });
-  }
   if (orderDetailList) {
     orderDetailList.map((item) => {
       headersOrderDetails.push(Object.keys(item));
@@ -36,45 +30,39 @@ const OrderDetails = ({ orderId }) => {
     recordsOrderDetails = orderDetailList;
   }
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setShow(false);
+  };
   return (
     <>
-      <Navbar className="bg-body-tertiary justify-content-between">
-        <Form inline>
-          <Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
-            <Form.Label column sm="4">
-              {orderHeaders.find((e) => e === "Full Name")}
-            </Form.Label>
-            <Col sm="8">
-              {order?.map((e, i) => (
-                <Form.Control
-                  type="text"
-                  placeholder="Fullname"
-                  aria-label="Fullname"
-                  aria-describedby="order"
-                  value={e["Full Name"]}
-                  readOnly
-                />
-              ))}
-            </Col>
+      <Form onSubmit={handleSubmit}>
+        {order?.map((e, i) => (
+          <Form.Group as={Row} className="" controlId="formPlaintextEmail">
+            {Object.entries(e).map(([key, value], index) => (
+              <>
+                <Col lg="6" className="mt-3">
+                  <Form.Label key={`label-${index}`}>{key}</Form.Label>
+                  <Form.Control
+                    key={`input-${index}`}
+                    type="text"
+                    aria-describedby="order"
+                    value={value}
+                    readOnly
+                  />
+                </Col>
+              </>
+            ))}
           </Form.Group>
-        </Form>
-        <Form inline>
-          <Row>
-            <Col xs="auto">
-              <Form.Control
-                type="text"
-                placeholder="Search"
-                className=" mr-sm-2"
-              />
-            </Col>
-            <Col xs="auto">
-              <Button type="submit" className={btn}>
-                Save
-              </Button>
-            </Col>
-          </Row>
-        </Form>
-      </Navbar>
+        ))}
+        <Form.Group as={Row} controlId="formPlaintextEmail">
+          <Col className="mb-3 d-flex flex-column">
+            <Button type="submit" className={`${btn} mt-3 align-self-end`}>
+              Save
+            </Button>
+          </Col>
+        </Form.Group>
+      </Form>
       <CustomTable
         headers={headersOrderDetails}
         records={recordsOrderDetails}

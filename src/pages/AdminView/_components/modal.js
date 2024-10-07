@@ -11,6 +11,7 @@ const CustomModal = ({ setShow, show, selectedId, children }) => {
       aria-labelledby="example-custom-modal-styling-title"
       size="xl"
       animation
+      fullscreen="lg-down"
     >
       <Modal.Header closeButton className="bg-pressed-color text-light">
         <Modal.Title id="example-custom-modal-styling-title">
@@ -18,7 +19,11 @@ const CustomModal = ({ setShow, show, selectedId, children }) => {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        {children && React.cloneElement(children, { orderId: selectedId })}
+        {children &&
+          React.cloneElement(children, {
+            orderId: selectedId,
+            setShow: setShow,
+          })}
       </Modal.Body>
       <Modal.Footer>
         <Button className="bg-pressed-color text-light" onClick={handleClose}>
