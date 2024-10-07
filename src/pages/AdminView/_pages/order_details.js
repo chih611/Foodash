@@ -1,43 +1,62 @@
 import { Button, Col, Form, InputGroup, Navbar, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import CustomTable from "../_components/table";
-import { fetchOrderDetailList } from "../../../../store/actions/orderDetailAction";
 import { useEffect } from "react";
 
+import CustomTable from "../_components/table";
+import { fetchOrderDetailList } from "../../../../store/actions/orderDetailAction";
+import { fetchOrderListById } from "../../../../store/actions/orderAction";
+import { btn } from "../_styles";
+
 const OrderDetails = ({ orderId }) => {
-  let records = [];
-  let headers = [];
+  let recordsOrderDetails = [];
+  let headersOrderDetails = [];
+  let orderHeaders = [];
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchOrderDetailList(orderId));
+    dispatch(fetchOrderListById(orderId));
   }, []);
 
-  //Get data
   const orderDetailList = useSelector(
     (state) => state.orderDetail.orderDetailList
   );
-  //Get colunms of headers name
+  const order = useSelector((state) => state.order.orderById);
+
+  if (order) {
+    order.map((item) => {
+      orderHeaders = Object.keys(item);
+    });
+  }
   if (orderDetailList) {
     orderDetailList.map((item) => {
-      headers.push(Object.keys(item));
+      headersOrderDetails.push(Object.keys(item));
     });
-    records = orderDetailList;
+    recordsOrderDetails = orderDetailList;
   }
 
   return (
     <>
       <Navbar className="bg-body-tertiary justify-content-between">
         <Form inline>
-          <InputGroup>
-            <InputGroup.Text id="basic-addon1">@</InputGroup.Text>
-            <Form.Control
-              placeholder="Username"
-              aria-label="Username"
-              aria-describedby="basic-addon1"
-            />
-          </InputGroup>
+          <Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
+            <Form.Label column sm="4">
+              {orderHeaders.find((e) => e === "Full Name")}
+            </Form.Label>
+            <Col sm="8">
+              {order?.map((e, i) => (
+                <Form.Control
+                  type="text"
+                  placeholder="Fullname"
+                  aria-label="Fullname"
+                  aria-describedby="order"
+                  value={e["Full Name"]}
+                  readOnly
+                />
+              ))}
+            </Col>
+          </Form.Group>
         </Form>
         <Form inline>
           <Row>
@@ -49,12 +68,17 @@ const OrderDetails = ({ orderId }) => {
               />
             </Col>
             <Col xs="auto">
-              <Button type="submit">Submit</Button>
+              <Button type="submit" className={btn}>
+                Save
+              </Button>
             </Col>
           </Row>
         </Form>
       </Navbar>
-      <CustomTable headers={headers} records={records} />
+      <CustomTable
+        headers={headersOrderDetails}
+        records={recordsOrderDetails}
+      />
     </>
   );
 };

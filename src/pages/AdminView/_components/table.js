@@ -16,7 +16,7 @@ const CustomTable = ({ headers, records, handleRecordDoubleClick }) => {
             {Array.from({ length: 1 }).map((_, index) =>
               headers[0]?.map((header) => (
                 <th className=" bg-pressed-color text-light text-center text-nowrap">
-                  {header.replace(/_/g, " ")}
+                  {header}
                 </th>
               ))
             )}

@@ -27,8 +27,8 @@ const Order = (props) => {
     records = orderList;
   }
 
-  const handleRecordDoubleClick = ({ ORDER_ID }) => {
-    setSelectedId(ORDER_ID);
+  const handleRecordDoubleClick = ({ ID }) => {
+    setSelectedId(ID);
     setShow(true);
   };
 
