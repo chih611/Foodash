@@ -68,11 +68,6 @@ export const addToCart = createAsyncThunk(
     try {
       const { cartItems, cartId } = getState().cart;
 
-      // Debugging logs
-      console.log("Current cartId:", cartId);
-      console.log("Customer ID:", customerId);
-      console.log("Item to add:", item);
-
       // Handle the case for guest users (customerId is null)
       if (!customerId) {
         const updatedCartItems = [...cartItems, item].filter(
@@ -94,7 +89,6 @@ export const addToCart = createAsyncThunk(
           updatedCartItems,
           cartTotal
         );
-        console.log("Cart updated successfully:", result); // Debugging log
         return { cartItems: updatedCartItems, cartId };
       }
 
@@ -102,10 +96,8 @@ export const addToCart = createAsyncThunk(
       const newCartItems = [item];
       const cartTotal = item.price * item.quantity;
       const newCart = await createNewCart(customerId, newCartItems, cartTotal);
-      console.log("New cart created:", newCart); // Debugging log
       return { cartItems: newCartItems, cartId: newCart.CART_ID };
     } catch (error) {
-      console.error("Error in addToCart:", error.message); // Debugging log
       return rejectWithValue(error.response?.data?.message || error.message);
     }
   }

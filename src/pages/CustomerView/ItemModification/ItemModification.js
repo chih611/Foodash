@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Container, Row, Col, Badge } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -20,7 +20,7 @@ const ItemModification = () => {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  // Local state for extras
+  // Local state for extras and notes
   const [extras, setExtras] = useState({
     Bacon: false,
     Ham: false,
@@ -43,7 +43,7 @@ const ItemModification = () => {
     );
   }
 
-  // Handle checkbox changes
+  // Handle checkbox changes for extras
   const handleCheckboxChange = (e) => {
     const { name, checked } = e.target;
     setExtras((prevExtras) => ({
@@ -52,11 +52,12 @@ const ItemModification = () => {
     }));
   };
 
+  // Handle note input changes
   const handleNoteChange = (e) => {
-    setNote(e.target.value);
+    setNote(e.target.value); // Trimming note on input change
   };
 
-  // Calculate the total price
+  // Calculate the total price based on extras
   const calculateTotal = () => {
     const basePrice = selectedItem ? selectedItem.PRICE || 13.5 : 13.5;
     const extrasCost = Object.keys(extras).reduce(
@@ -66,28 +67,43 @@ const ItemModification = () => {
     return basePrice + extrasCost;
   };
 
-  // Add the item to the cart
+  // Add the item to the cart or increase its quantity
+  // Add the item to the cart or increase its quantity
   const handleAddToCart = () => {
     const modifiedItem = {
-      itemId: selectedItem.ITEM_ID, // Assuming ITEM_ID is the unique identifier for the item
+      itemId: selectedItem.ITEM_ID,
       itemName: selectedItem.ITEM_NAME,
       price: calculateTotal(),
       quantity: 1,
       extras: extras,
-      notes: note,
+      notes: note.trim(), // Ensure the note is trimmed
       totalPrice: calculateTotal(),
     };
 
-    // Check if the item with the same itemId, extras, and note already exists in the cart
+    console.log("Modified item:", modifiedItem); // Debugging log
+
+    // Helper function to sort the keys of an object
+    const sortObjectKeys = (obj) => {
+      return Object.keys(obj)
+        .sort()
+        .reduce((result, key) => {
+          result[key] = obj[key];
+          return result;
+        }, {});
+    };
+
+    // Find if the same item with the same extras and notes exists in the cart
     const existingItem = cartItems.find(
       (item) =>
         item.itemId === modifiedItem.itemId &&
-        JSON.stringify(item.extras) === JSON.stringify(modifiedItem.extras) &&
-        (item.notes || "").trim() === (modifiedItem.notes || "").trim() // handle null or empty notes case
+        JSON.stringify(sortObjectKeys(item.extras)) ===
+          JSON.stringify(sortObjectKeys(modifiedItem.extras)) && // Compare extras
+        (item.notes || "").trim() === modifiedItem.notes
     );
 
     if (existingItem) {
-      // If the item exists, increase the quantity
+      // If the item exists, dispatch increaseQuantity
+      console.log("Increasing quantity for:", existingItem.itemId);
       dispatch(
         increaseQuantity({
           customerId,
@@ -97,10 +113,12 @@ const ItemModification = () => {
         })
       );
     } else {
-      // If the item doesn't exist, add it to the cart
+      // If the item doesn't exist, dispatch addToCart
+      console.log("Adding new item to cart:", modifiedItem);
       dispatch(addToCart({ customerId, item: modifiedItem }));
     }
 
+    // Navigate to cart view after adding the item
     router.push("/CustomerView/ViewCart");
   };
 
@@ -192,6 +210,7 @@ const ItemModification = () => {
         </Col>
       </Row>
 
+      {/* Note Section */}
       <Row className="my-4">
         <Col>
           <h2>Note</h2>
@@ -204,7 +223,8 @@ const ItemModification = () => {
           />
         </Col>
       </Row>
-      {/* Add to Cart */}
+
+      {/* Add to Cart Button */}
       <Row className="my-4">
         <PrimaryButton
           onClick={handleAddToCart}
