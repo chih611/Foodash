@@ -4,7 +4,7 @@ const icon_style = `fs-7`;
 const logout_btn = `d-flex justify-content-center btn-logout`;
 
 
-//Order details modal
+//Order details page
 const btn = `bg-pressed-color text-light`;
 
 export { nav_style, icon_style, custom_dropdown, logout_btn,btn };

@@ -2,15 +2,37 @@ import { Button, Col, Form, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import React, { useEffect } from "react";
 
-import CustomTable from "../_components/table";
+import CustomTable from "../_components/backup_table";
 import { fetchOrderDetailList } from "../../../../store/actions/orderDetailAction";
 import { fetchOrderListById } from "../../../../store/actions/orderAction";
 import { btn } from "../_styles";
+import { CustomInput } from "../_components/input";
 
 const OrderDetails = ({ orderId, setShow }) => {
   let recordsOrderDetails = [];
   let headersOrderDetails = [];
-
+  const readOnlyFields = ["Full Name"];
+  const textBoxFields = [
+    "Full Name",
+    "Duedate",
+    "Recipient",
+    "Address",
+    "Phone",
+    "Email",
+    "Deliver",
+    "Payment",
+    "Taxes",
+    "Delivery Fee",
+    "Service Fee",
+    "UTENSIL",
+    "Giftwrap",
+    "Promotion",
+    "Subtotal",
+    "ORDER_ITEM_ID",
+    "Total",
+    "Create Date",
+  ];
+  const dropDownFields = ["Status"];
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -39,20 +61,19 @@ const OrderDetails = ({ orderId, setShow }) => {
       <Form onSubmit={handleSubmit}>
         {order?.map((e, i) => (
           <Form.Group as={Row} className="" controlId="formPlaintextEmail">
-            {Object.entries(e).map(([key, value], index) => (
-              <>
-                <Col lg="6" className="mt-3">
-                  <Form.Label key={`label-${index}`}>{key}</Form.Label>
-                  <Form.Control
-                    key={`input-${index}`}
-                    type="text"
-                    aria-describedby="order"
-                    value={value}
-                    readOnly
-                  />
-                </Col>
-              </>
-            ))}
+            {Object.entries(e).map(
+              ([key, value], index) =>
+                textBoxFields.includes(key) && (
+                  <Col lg="6" className="mt-3">
+                    <CustomInput
+                      keyInput={key}
+                      value={value}
+                      index={index}
+                      readOnlyFields={readOnlyFields}
+                    />
+                  </Col>
+                )
+            )}
           </Form.Group>
         ))}
         <Form.Group as={Row} controlId="formPlaintextEmail">
