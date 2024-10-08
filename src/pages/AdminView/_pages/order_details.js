@@ -1,16 +1,22 @@
 import { Button, Col, Form, Row } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
-import React, { useEffect } from "react";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
 
-import CustomTable from "../_components/backup_table";
+import CustomTable from "../_components/table";
 import { fetchOrderDetailList } from "../../../../store/actions/orderDetailAction";
-import { fetchOrderListById } from "../../../../store/actions/orderAction";
+import {
+  fetchOrderList,
+  fetchOrderListById,
+} from "../../../../store/actions/orderAction";
 import { btn } from "../_styles";
 import { CustomInput } from "../_components/input";
+import { CustomDropBox } from "../_components/dropbox";
+import axios from "axios";
 
 const OrderDetails = ({ orderId, setShow }) => {
   let recordsOrderDetails = [];
   let headersOrderDetails = [];
+  const dateTimeFields = ["Duedate", "Create Date"];
   const readOnlyFields = ["Full Name"];
   const textBoxFields = [
     "Full Name",
@@ -33,8 +39,11 @@ const OrderDetails = ({ orderId, setShow }) => {
     "Create Date",
   ];
   const dropDownFields = ["Status"];
-
   const dispatch = useDispatch();
+  const BACKEND_PORT = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_PORT;
+  const BASE_URL = `http://localhost:${BACKEND_PORT}`;
+
+  const [status, setStatus] = useState(false);
 
   useEffect(() => {
     dispatch(fetchOrderDetailList(orderId));
@@ -42,7 +51,8 @@ const OrderDetails = ({ orderId, setShow }) => {
   }, []);
 
   const orderDetailList = useSelector(
-    (state) => state.orderDetail.orderDetailList
+    (state) => state.orderDetail.orderDetailList,
+    shallowEqual
   );
   const order = useSelector((state) => state.order.orderById);
 
@@ -55,7 +65,21 @@ const OrderDetails = ({ orderId, setShow }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setShow(false);
+
+    try {
+      const response = await axios.put(`${BASE_URL}/order/update/${orderId}`, {
+        status: status,
+      });
+
+      if (response.status === 200) {
+        setShow(false);
+        dispatch(fetchOrderList());
+      } else {
+        return rejectWithValue("Failed to update customer");
+      }
+    } catch (error) {
+      console.error("Error updating data", error);
+    }
   };
   return (
     <>
@@ -65,31 +89,28 @@ const OrderDetails = ({ orderId, setShow }) => {
             {Object.entries(e).map(([key, value], index) => {
               return (
                 <>
-                  {textBoxFields.includes(key) && (
+                  {textBoxFields.includes(key) ? (
                     <Col lg="6" className="mt-3">
                       <CustomInput
                         keyInput={key}
                         value={value}
                         index={index}
                         readOnlyFields={readOnlyFields}
+                        dateTimeFields={dateTimeFields}
                       />
                     </Col>
-                  )}
-                  {dropDownFields.includes(key) && (
+                  ) : null}
+                  {dropDownFields.includes(key) ? (
                     <Col lg="6" className="mt-3">
-                      <Form.Label key={`label-${index}`} className="fw-bold">
-                        {key}
-                      </Form.Label>
-                      <Form.Select
-                        aria-label="Default select example"
-                        size="sm"
-                      >
-                        <option value="pending">Pending</option>
-                        <option value="delivered">Delivered</option>
-                        <option value="canceled">Canceled</option>
-                      </Form.Select>
+                      <CustomDropBox
+                        keyDropbox={key}
+                        value={value}
+                        index={index}
+                        setStatus={setStatus}
+                        status={status}
+                      />
                     </Col>
-                  )}
+                  ) : null}
                 </>
               );
             })}
@@ -110,20 +131,5 @@ const OrderDetails = ({ orderId, setShow }) => {
     </>
   );
 };
-
-// dropDownFields.includes(key) && (
-//   <Col lg="6" className="mt-3">
-//     <Form.Label key={`label-${index}`} className="fw-bold">
-//       {key}
-//     </Form.Label>
-//     <Form.Control
-//       key={`input-${index}`}
-//       type="dropdown"
-//       aria-describedby="order"
-//       value={value}
-//       plaintext={readOnlyFields.includes(key)}
-//     />
-//   </Col>
-//   )
 
 export default OrderDetails;
