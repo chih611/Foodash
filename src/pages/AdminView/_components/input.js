@@ -12,6 +12,7 @@ export const CustomInput = ({ keyInput, index, value, readOnlyFields }) => {
         aria-describedby="order"
         value={value}
         plaintext={readOnlyFields.includes(keyInput)}
+        size="sm"
       />
     </>
   );

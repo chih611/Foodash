@@ -33,6 +33,7 @@ const OrderDetails = ({ orderId, setShow }) => {
     "Create Date",
   ];
   const dropDownFields = ["Status"];
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -61,19 +62,37 @@ const OrderDetails = ({ orderId, setShow }) => {
       <Form onSubmit={handleSubmit}>
         {order?.map((e, i) => (
           <Form.Group as={Row} className="" controlId="formPlaintextEmail">
-            {Object.entries(e).map(
-              ([key, value], index) =>
-                textBoxFields.includes(key) && (
-                  <Col lg="6" className="mt-3">
-                    <CustomInput
-                      keyInput={key}
-                      value={value}
-                      index={index}
-                      readOnlyFields={readOnlyFields}
-                    />
-                  </Col>
-                )
-            )}
+            {Object.entries(e).map(([key, value], index) => {
+              return (
+                <>
+                  {textBoxFields.includes(key) && (
+                    <Col lg="6" className="mt-3">
+                      <CustomInput
+                        keyInput={key}
+                        value={value}
+                        index={index}
+                        readOnlyFields={readOnlyFields}
+                      />
+                    </Col>
+                  )}
+                  {dropDownFields.includes(key) && (
+                    <Col lg="6" className="mt-3">
+                      <Form.Label key={`label-${index}`} className="fw-bold">
+                        {key}
+                      </Form.Label>
+                      <Form.Select
+                        aria-label="Default select example"
+                        size="sm"
+                      >
+                        <option value="pending">Pending</option>
+                        <option value="delivered">Delivered</option>
+                        <option value="canceled">Canceled</option>
+                      </Form.Select>
+                    </Col>
+                  )}
+                </>
+              );
+            })}
           </Form.Group>
         ))}
         <Form.Group as={Row} controlId="formPlaintextEmail">
@@ -91,5 +110,20 @@ const OrderDetails = ({ orderId, setShow }) => {
     </>
   );
 };
+
+// dropDownFields.includes(key) && (
+//   <Col lg="6" className="mt-3">
+//     <Form.Label key={`label-${index}`} className="fw-bold">
+//       {key}
+//     </Form.Label>
+//     <Form.Control
+//       key={`input-${index}`}
+//       type="dropdown"
+//       aria-describedby="order"
+//       value={value}
+//       plaintext={readOnlyFields.includes(key)}
+//     />
+//   </Col>
+//   )
 
 export default OrderDetails;
