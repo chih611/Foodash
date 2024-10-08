@@ -11,6 +11,15 @@
 // Import component-specific styles
 @use 'components/button';
 @use 'components/gallery';
+@use 'components/admin_modal';
+@use 'components/navbar.scss';
+@use 'components/form.scss';
+@use 'components/special.scss';
+@use 'components/filters.scss';
+@use 'components/header.scss';
+@use 'components/sideBar.scss';
+
+//Import pages-specific styles
 @use 'components/landingMenu';
 @use 'components/landingAbout.scss';
 @use 'components/landingContact.scss';
@@ -20,16 +29,10 @@
 @use "components/itemDetails.scss";
 @use "components/itemModification.scss";
 @use "components/homeFilterBar.scss";
-@use 'components/navbar.scss';
-@use 'components/form.scss';
-@use 'components/special.scss';
-@use 'components/filters.scss';
 @use 'components/section.scss';
 @use 'components/item.scss';
 @use 'components/boughtbefore.scss';
 @use 'components/profile.scss';
 @use 'components/marketing.scss';
 @use 'components/reminder.scss';
-@use 'components/header.scss';
-@use 'components/sideBar.scss';
 @use 'components/viewCart.scss';

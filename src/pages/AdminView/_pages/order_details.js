@@ -1,4 +1,4 @@
-import { Button, Col, Form, Row } from "react-bootstrap";
+import { Accordion, Button, Col, Form, Row } from "react-bootstrap";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
 
@@ -17,7 +17,7 @@ const OrderDetails = ({ orderId, setShow }) => {
   let recordsOrderDetails = [];
   let headersOrderDetails = [];
   const dateTimeFields = ["Duedate", "Create Date"];
-  const readOnlyFields = ["Full Name"];
+  const readOnlyFields = ["Full Name", "Phone", "Address", "Email"];
   const textBoxFields = [
     "Full Name",
     "Duedate",
@@ -38,6 +38,7 @@ const OrderDetails = ({ orderId, setShow }) => {
     "Total",
     "Create Date",
   ];
+  const personalInfo = ["Full Name", "Phone", "Address", "Email"];
   const dropDownFields = ["Status"];
   const dispatch = useDispatch();
   const BACKEND_PORT = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_PORT;
@@ -81,40 +82,99 @@ const OrderDetails = ({ orderId, setShow }) => {
       console.error("Error updating data", error);
     }
   };
+
   return (
     <>
       <Form onSubmit={handleSubmit}>
         {order?.map((e, i) => (
-          <Form.Group as={Row} className="" controlId="formPlaintextEmail">
-            {Object.entries(e).map(([key, value], index) => {
-              return (
-                <>
-                  {textBoxFields.includes(key) ? (
-                    <Col lg="6" className="mt-3">
-                      <CustomInput
-                        keyInput={key}
-                        value={value}
-                        index={index}
-                        readOnlyFields={readOnlyFields}
-                        dateTimeFields={dateTimeFields}
-                      />
-                    </Col>
-                  ) : null}
-                  {dropDownFields.includes(key) ? (
-                    <Col lg="6" className="mt-3">
-                      <CustomDropBox
-                        keyDropbox={key}
-                        value={value}
-                        index={index}
-                        setStatus={setStatus}
-                        status={status}
-                      />
-                    </Col>
-                  ) : null}
-                </>
-              );
-            })}
-          </Form.Group>
+          <>
+            <Accordion defaultActiveKey={["0"]} alwaysOpen>
+              <Accordion.Item eventKey="0">
+                <Accordion.Header>Customer Infomation</Accordion.Header>
+                <Accordion.Body>
+                  <Form.Group
+                    as={Row}
+                    className=""
+                    controlId="formPlaintextEmail"
+                  >
+                    {Object.entries(e).map(([key, value], index) => {
+                      return (
+                        <>
+                          {textBoxFields.includes(key) &&
+                          personalInfo.includes(key) ? (
+                            <Col lg="6" className="mt-3">
+                              <CustomInput
+                                keyInput={key}
+                                value={value}
+                                index={index}
+                                readOnlyFields={readOnlyFields}
+                                dateTimeFields={dateTimeFields}
+                              />
+                            </Col>
+                          ) : null}
+                          {dropDownFields.includes(key) &&
+                          personalInfo.includes(key) ? (
+                            <Col lg="6" className="mt-3">
+                              <CustomDropBox
+                                keyDropbox={key}
+                                value={value}
+                                index={index}
+                                setStatus={setStatus}
+                                status={status}
+                              />
+                            </Col>
+                          ) : null}
+                        </>
+                      );
+                    })}
+                  </Form.Group>
+                </Accordion.Body>
+              </Accordion.Item>
+            </Accordion>
+            <Accordion defaultActiveKey={["0"]} alwaysOpen>
+              <Accordion.Item eventKey="0" className="mt-3">
+                <Accordion.Header>Order information</Accordion.Header>
+                <Accordion.Body>
+                  <Form.Group
+                    as={Row}
+                    className=""
+                    controlId="formPlaintextEmail"
+                  >
+                    {Object.entries(e).map(([key, value], index) => {
+                      return (
+                        <>
+                          {textBoxFields.includes(key) &&
+                          !personalInfo.includes(key) ? (
+                            <Col lg="6" className="mt-3">
+                              <CustomInput
+                                keyInput={key}
+                                value={value}
+                                index={index}
+                                readOnlyFields={readOnlyFields}
+                                dateTimeFields={dateTimeFields}
+                              />
+                            </Col>
+                          ) : null}
+                          {dropDownFields.includes(key) &&
+                          !personalInfo.includes(key) ? (
+                            <Col lg="6" className="mt-3">
+                              <CustomDropBox
+                                keyDropbox={key}
+                                value={value}
+                                index={index}
+                                setStatus={setStatus}
+                                status={status}
+                              />
+                            </Col>
+                          ) : null}
+                        </>
+                      );
+                    })}
+                  </Form.Group>
+                </Accordion.Body>
+              </Accordion.Item>
+            </Accordion>
+          </>
         ))}
         <Form.Group as={Row} controlId="formPlaintextEmail">
           <Col className="mb-3 d-flex flex-column">
