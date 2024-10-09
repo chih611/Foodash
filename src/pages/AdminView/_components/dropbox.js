@@ -1,9 +1,17 @@
 import { useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
 
-export const CustomDropBox = ({ value, keyDropbox, index, status, setStatus }) => {
+export const CustomDropBox = ({
+  value,
+  keyDropbox,
+  index,
+  status,
+  setStatus,
+  setShowSaveBtn,
+}) => {
   const handleSelectChange = (event) => {
     setStatus(event.target.value);
+    setShowSaveBtn(true);
   };
   return (
     <>

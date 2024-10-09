@@ -45,6 +45,7 @@ const OrderDetails = ({ orderId, setShow }) => {
   const BASE_URL = `http://localhost:${BACKEND_PORT}`;
 
   const [status, setStatus] = useState(false);
+  const [showSaveBtn, setShowSaveBtn] = useState(false);
 
   useEffect(() => {
     dispatch(fetchOrderDetailList(orderId));
@@ -56,6 +57,7 @@ const OrderDetails = ({ orderId, setShow }) => {
     shallowEqual
   );
   const order = useSelector((state) => state.order.orderById);
+  const statusOrderFetching = useSelector((state) => state.order.status);
 
   if (orderDetailList) {
     orderDetailList.map((item) => {
@@ -98,6 +100,7 @@ const OrderDetails = ({ orderId, setShow }) => {
               dateTimeFields={dateTimeFields}
               readOnlyFields={readOnlyFields}
               Row={Row}
+              statusFetching={statusOrderFetching}
             />
             <OrderInformation
               e={e}
@@ -108,17 +111,20 @@ const OrderDetails = ({ orderId, setShow }) => {
               dropDownFields={dropDownFields}
               dateTimeFields={dateTimeFields}
               readOnlyFields={readOnlyFields}
+              setShowSaveBtn={setShowSaveBtn}
               Row={Row}
             />
           </>
         ))}
-        <Form.Group as={Row} controlId="formPlaintextEmail">
-          <Col className="mb-3 d-flex flex-column">
-            <Button type="submit" className={`${btn} mt-3 align-self-end`}>
-              Save
-            </Button>
-          </Col>
-        </Form.Group>
+        {showSaveBtn ? (
+          <Form.Group as={Row} controlId="formPlaintextEmail">
+            <Col className="mb-3 d-flex flex-column">
+              <Button type="submit" className={`${btn} mt-3 align-self-end`}>
+                Save
+              </Button>
+            </Col>
+          </Form.Group>
+        ) : null}
       </Form>
       <CustomTable
         headers={headersOrderDetails}

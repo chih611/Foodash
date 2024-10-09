@@ -12,6 +12,7 @@ export const PersonalDetail = ({
   dateTimeFields,
   readOnlyFields,
   Row,
+  statusFetching,
 }) => (
   <>
     <Accordion defaultActiveKey={["0"]} alwaysOpen>
@@ -30,6 +31,7 @@ export const PersonalDetail = ({
                         index={index}
                         readOnlyFields={readOnlyFields}
                         dateTimeFields={dateTimeFields}
+                        statusFetching={statusFetching}
                       />
                     </Col>
                   ) : null}

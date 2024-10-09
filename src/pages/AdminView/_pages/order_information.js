@@ -11,6 +11,7 @@ export const OrderInformation = ({
   dropDownFields,
   dateTimeFields,
   readOnlyFields,
+  setShowSaveBtn,
   Row,
 }) => (
   <>
@@ -43,6 +44,7 @@ export const OrderInformation = ({
                         index={index}
                         setStatus={setStatus}
                         status={status}
+                        setShowSaveBtn={setShowSaveBtn}
                       />
                     </Col>
                   ) : null}

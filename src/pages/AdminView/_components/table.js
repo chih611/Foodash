@@ -41,9 +41,11 @@ const CustomTable = ({
                       }
                       className="text-decoration-none text-pressed-color text-nowrap"
                     >
-                      {customFields?.includes(key)
-                        ? moment(value).format("yyyy-MM-DD")
-                        : value}
+                      {value
+                        ? customFields?.includes(key)
+                          ? moment(value).format("yyyy-MM-DD")
+                          : value
+                        : "-"}
                     </Button>
                   </td>
                 ))
