@@ -1,4 +1,4 @@
-import { Accordion, Button, Col, Form, Row } from "react-bootstrap";
+import { Button, Col, Form, Row } from "react-bootstrap";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
 
@@ -9,9 +9,9 @@ import {
   fetchOrderListById,
 } from "../../../../store/actions/orderAction";
 import { btn } from "../_styles";
-import { CustomInput } from "../_components/input";
-import { CustomDropBox } from "../_components/dropbox";
 import axios from "axios";
+import { PersonalDetail } from "./personal_information";
+import { OrderInformation } from "./order_information";
 
 const OrderDetails = ({ orderId, setShow }) => {
   let recordsOrderDetails = [];
@@ -88,92 +88,28 @@ const OrderDetails = ({ orderId, setShow }) => {
       <Form onSubmit={handleSubmit}>
         {order?.map((e, i) => (
           <>
-            <Accordion defaultActiveKey={["0"]} alwaysOpen>
-              <Accordion.Item eventKey="0">
-                <Accordion.Header>Customer Infomation</Accordion.Header>
-                <Accordion.Body>
-                  <Form.Group
-                    as={Row}
-                    className=""
-                    controlId="formPlaintextEmail"
-                  >
-                    {Object.entries(e).map(([key, value], index) => {
-                      return (
-                        <>
-                          {textBoxFields.includes(key) &&
-                          personalInfo.includes(key) ? (
-                            <Col lg="6" className="mt-3">
-                              <CustomInput
-                                keyInput={key}
-                                value={value}
-                                index={index}
-                                readOnlyFields={readOnlyFields}
-                                dateTimeFields={dateTimeFields}
-                              />
-                            </Col>
-                          ) : null}
-                          {dropDownFields.includes(key) &&
-                          personalInfo.includes(key) ? (
-                            <Col lg="6" className="mt-3">
-                              <CustomDropBox
-                                keyDropbox={key}
-                                value={value}
-                                index={index}
-                                setStatus={setStatus}
-                                status={status}
-                              />
-                            </Col>
-                          ) : null}
-                        </>
-                      );
-                    })}
-                  </Form.Group>
-                </Accordion.Body>
-              </Accordion.Item>
-            </Accordion>
-            <Accordion defaultActiveKey={["0"]} alwaysOpen>
-              <Accordion.Item eventKey="0" className="mt-3">
-                <Accordion.Header>Order information</Accordion.Header>
-                <Accordion.Body>
-                  <Form.Group
-                    as={Row}
-                    className=""
-                    controlId="formPlaintextEmail"
-                  >
-                    {Object.entries(e).map(([key, value], index) => {
-                      return (
-                        <>
-                          {textBoxFields.includes(key) &&
-                          !personalInfo.includes(key) ? (
-                            <Col lg="6" className="mt-3">
-                              <CustomInput
-                                keyInput={key}
-                                value={value}
-                                index={index}
-                                readOnlyFields={readOnlyFields}
-                                dateTimeFields={dateTimeFields}
-                              />
-                            </Col>
-                          ) : null}
-                          {dropDownFields.includes(key) &&
-                          !personalInfo.includes(key) ? (
-                            <Col lg="6" className="mt-3">
-                              <CustomDropBox
-                                keyDropbox={key}
-                                value={value}
-                                index={index}
-                                setStatus={setStatus}
-                                status={status}
-                              />
-                            </Col>
-                          ) : null}
-                        </>
-                      );
-                    })}
-                  </Form.Group>
-                </Accordion.Body>
-              </Accordion.Item>
-            </Accordion>
+            <PersonalDetail
+              e={e}
+              status={status}
+              setStatus={setStatus}
+              textBoxFields={textBoxFields}
+              personalInfo={personalInfo}
+              dropDownFields={dropDownFields}
+              dateTimeFields={dateTimeFields}
+              readOnlyFields={readOnlyFields}
+              Row={Row}
+            />
+            <OrderInformation
+              e={e}
+              status={status}
+              setStatus={setStatus}
+              textBoxFields={textBoxFields}
+              personalInfo={personalInfo}
+              dropDownFields={dropDownFields}
+              dateTimeFields={dateTimeFields}
+              readOnlyFields={readOnlyFields}
+              Row={Row}
+            />
           </>
         ))}
         <Form.Group as={Row} controlId="formPlaintextEmail">
