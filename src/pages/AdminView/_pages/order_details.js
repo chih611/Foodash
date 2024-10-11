@@ -1,34 +1,67 @@
-import { Button, Col, Form, InputGroup, Navbar, Row } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { Button, Col, Form, Row } from "react-bootstrap";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
 
 import CustomTable from "../_components/table";
 import { fetchOrderDetailList } from "../../../../store/actions/orderDetailAction";
-import { fetchOrderListById } from "../../../../store/actions/orderAction";
+import {
+  fetchOrderList,
+  fetchOrderListById,
+} from "../../../../store/actions/orderAction";
 import { btn } from "../_styles";
+import axios from "axios";
+import { PersonalDetail } from "./personal_information";
+import { OrderInformation } from "./order_information";
 
-const OrderDetails = ({ orderId }) => {
+const OrderDetails = ({ Id, setOpen }) => {
   let recordsOrderDetails = [];
   let headersOrderDetails = [];
-  let orderHeaders = [];
-
+  const dateTimeFields = ["Duedate", "Create Date"];
+  const readOnlyFields = ["Full Name", "Phone", "Address", "Email"];
+  const textBoxFields = [
+    "Full Name",
+    "Duedate",
+    "Recipient",
+    "Address",
+    "Phone",
+    "Email",
+    "Deliver",
+    "Payment",
+    "Taxes",
+    "Delivery Fee",
+    "Service Fee",
+    "UTENSIL",
+    "Giftwrap",
+    "Promotion",
+    "Subtotal",
+    "ORDER_ITEM_ID",
+    "Total",
+    "Create Date",
+  ];
+  const personalInfo = ["Full Name", "Phone", "Address", "Email"];
+  const dropDownFields = ["Status"];
   const dispatch = useDispatch();
+  const BACKEND_PORT = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_PORT;
+  const BASE_URL = `http://localhost:${BACKEND_PORT}`;
+
+  const [switchOptions, setSwitchOptions] = useState(false);
+  const [showSaveBtn, setShowSaveBtn] = useState(false);
 
   useEffect(() => {
-    dispatch(fetchOrderDetailList(orderId));
-    dispatch(fetchOrderListById(orderId));
+    dispatch(fetchOrderDetailList(Id));
+    dispatch(fetchOrderListById(Id));
   }, []);
 
   const orderDetailList = useSelector(
-    (state) => state.orderDetail.orderDetailList
+    (state) => state.orderDetail.orderDetailList,
+    shallowEqual
   );
   const order = useSelector((state) => state.order.orderById);
+  const statusOrderFetching = useSelector((state) => state.order.status);
+  const statusOrderDetailFetching = useSelector(
+    (state) => state.orderDetail.status
+  );
 
-  if (order) {
-    order.map((item) => {
-      orderHeaders = Object.keys(item);
-    });
-  }
   if (orderDetailList) {
     orderDetailList.map((item) => {
       headersOrderDetails.push(Object.keys(item));
@@ -36,48 +69,71 @@ const OrderDetails = ({ orderId }) => {
     recordsOrderDetails = orderDetailList;
   }
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.put(`${BASE_URL}/order/update/${Id}`, {
+        status: switchOptions,
+      });
+
+      if (response.status === 200) {
+        setOpen(false);
+        dispatch(fetchOrderList());
+      } else {
+        return rejectWithValue("Failed to update customer");
+      }
+    } catch (error) {
+      console.error("Error updating data", error);
+    }
+  };
+
   return (
     <>
-      <Navbar className="bg-body-tertiary justify-content-between">
-        <Form inline>
-          <Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
-            <Form.Label column sm="4">
-              {orderHeaders.find((e) => e === "Full Name")}
-            </Form.Label>
-            <Col sm="8">
-              {order?.map((e, i) => (
-                <Form.Control
-                  type="text"
-                  placeholder="Fullname"
-                  aria-label="Fullname"
-                  aria-describedby="order"
-                  value={e["Full Name"]}
-                  readOnly
-                />
-              ))}
-            </Col>
-          </Form.Group>
-        </Form>
-        <Form inline>
-          <Row>
-            <Col xs="auto">
-              <Form.Control
-                type="text"
-                placeholder="Search"
-                className=" mr-sm-2"
-              />
-            </Col>
-            <Col xs="auto">
-              <Button type="submit" className={btn}>
+      <Form onSubmit={handleSubmit}>
+        {order?.map((e, i) => (
+          <>
+            <PersonalDetail
+              e={e}
+              switchOptions={switchOptions}
+              setSwitchOptions={setSwitchOptions}
+              textBoxFields={textBoxFields}
+              personalInfo={personalInfo}
+              dropDownFields={dropDownFields}
+              dateTimeFields={dateTimeFields}
+              readOnlyFields={readOnlyFields}
+              Row={Row}
+              statusFetching={statusOrderFetching}
+            />
+            <OrderInformation
+              e={e}
+              switchOptions={switchOptions}
+              setSwitchOptions={setSwitchOptions}
+              textBoxFields={textBoxFields}
+              personalInfo={personalInfo}
+              dropDownFields={dropDownFields}
+              dateTimeFields={dateTimeFields}
+              readOnlyFields={readOnlyFields}
+              setShowSaveBtn={setShowSaveBtn}
+              Row={Row}
+              statusFetching={statusOrderFetching}
+            />
+          </>
+        ))}
+        {showSaveBtn ? (
+          <Form.Group as={Row} controlId="formPlaintextEmail">
+            <Col className="mb-3 d-flex flex-column">
+              <Button type="submit" className={`${btn} mt-3 align-self-end`}>
                 Save
               </Button>
             </Col>
-          </Row>
-        </Form>
-      </Navbar>
+          </Form.Group>
+        ) : null}
+      </Form>
       <CustomTable
         headers={headersOrderDetails}
         records={recordsOrderDetails}
+        statusFetching={statusOrderDetailFetching}
       />
     </>
   );

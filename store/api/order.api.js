@@ -21,3 +21,13 @@ export const fetchOrderLisByIdAPI = async (orderId) => {
   }
   return data;
 };
+
+export const fetchOrderLisByCustomerNameAPI = async (full_name) => {
+  const response = await axios.get(`${BASE_URL}/order/customer/${full_name}`);
+  let data = response.data;
+  if (!Array.isArray(data)) {
+    data = [data];
+  }
+  return data;
+};
+

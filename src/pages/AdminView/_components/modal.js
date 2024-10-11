@@ -1,29 +1,47 @@
 import { Button, Modal } from "react-bootstrap";
 import React from "react";
 
-const CustomModal = ({ setShow, show, selectedId, children }) => {
-  const handleClose = () => setShow(false);
+const CustomModal = ({
+  setOpen,
+  open,
+  selectedId,
+  children,
+  showCancelBtn,
+  showOKBtn,
+  headerTitle,
+}) => {
+  const handleClose = () => setOpen(false);
   return (
     <Modal
-      show={show}
-      onHide={() => setShow(false)}
+      show={open}
+      onHide={() => setOpen(false)}
       dialogClassName="modal-90w"
       aria-labelledby="example-custom-modal-styling-title"
       size="xl"
       animation
+      fullscreen="lg-down"
     >
       <Modal.Header closeButton className="bg-pressed-color text-light">
         <Modal.Title id="example-custom-modal-styling-title">
-          Order {selectedId}
+          {headerTitle} {selectedId}
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        {children && React.cloneElement(children, { orderId: selectedId })}
+        {children &&
+          React.cloneElement(children, {
+            Id: selectedId,
+            setOpen: setOpen,
+          })}
       </Modal.Body>
       <Modal.Footer>
         <Button className="bg-pressed-color text-light" onClick={handleClose}>
-          Close
+          {showCancelBtn ? "Cancel" : "Close"}
         </Button>
+        {showOKBtn ? (
+          <Button className="bg-pressed-color text-light" onClick={handleClose}>
+            OK
+          </Button>
+        ) : null}
       </Modal.Footer>
     </Modal>
   );
