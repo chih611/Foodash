@@ -14,6 +14,7 @@ const HomeContent = () => {
   const searchQuery = router.query.search || ""; // Fetch search query from URL
 
   const { items, searchResults, status } = useSelector((state) => state.items);
+  console.log("items", items);
   const categoryItems = useSelector(selectCategoryItems);
 
   useEffect(() => {

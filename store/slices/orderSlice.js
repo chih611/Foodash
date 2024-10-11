@@ -3,6 +3,7 @@ import {
   fetchOrderLisByCustomerName,
   fetchOrderList,
   fetchOrderListById,
+  createOrder,
 } from "../actions/orderAction";
 
 const initialState = {
@@ -51,6 +52,17 @@ const orderSlice = createSlice({
       .addCase(fetchOrderLisByCustomerName.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error || { message: "Fetching API is failed!" };
+      })
+      .addCase(createOrder.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(createOrder.fulfilled, (state, action) => {
+        state.order = action.payload;
+        state.status = "succeeded";
+      })
+      .addCase(createOrder.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error || { message: "Creating order is failed!" };
       });
   },
 });
