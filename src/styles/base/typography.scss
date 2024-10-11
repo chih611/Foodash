@@ -58,6 +58,14 @@ body {
   color: colors.$text-color;
 }
 
+.subtitle_admin {
+  font-family: $font-stack;
+  font-size: 20px;
+  font-weight: 500;
+  color: colors.$pressed-color !important;
+  text-decoration: none;
+}
+
 .sidebar-box {
   font-family: $font-stack;
   font-size: 16px;

@@ -1,0 +1,27 @@
+.date-range-picker-container {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  width: 300px !important;
+}
+
+.custom-date-range-picker {
+  display: flex !important;
+  flex-direction: row !important;
+  gap: 10px; /* Adjust the gap as needed */
+  width: 300px !important;
+}
+
+.custom-wrapper {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center;
+  width: 300px !important;
+}
+
+.date-range-picker-container div[data-type="day"],
+.date-range-picker-container div[data-type="month"],
+.date-range-picker-container div[data-type="year"] {
+  margin: 0 5px; /* Adjust the margin as needed */
+  /* Add any other custom styles you need */
+}
