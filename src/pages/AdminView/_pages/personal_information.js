@@ -4,8 +4,8 @@ import { CustomDropBox } from "../_components/dropbox";
 
 export const PersonalDetail = ({
   e,
-  status,
-  setStatus,
+  setSwitchOptions,
+  switchOptions,
   textBoxFields,
   personalInfo,
   dropDownFields,
@@ -26,7 +26,7 @@ export const PersonalDetail = ({
                   {textBoxFields.includes(key) && personalInfo.includes(key) ? (
                     <Col lg="6" className="mt-3">
                       <CustomInput
-                        keyInput={key}
+                        title={key}
                         value={value}
                         index={index}
                         readOnlyFields={readOnlyFields}
@@ -39,11 +39,12 @@ export const PersonalDetail = ({
                   personalInfo.includes(key) ? (
                     <Col lg="6" className="mt-3">
                       <CustomDropBox
-                        keyDropbox={key}
+                        title={key}
                         value={value}
                         index={index}
-                        setStatus={setStatus}
-                        status={status}
+                        switchOptions={switchOptions}
+                        setSwitchOptions={setSwitchOptions}
+                        statusFetching={statusFetching}
                       />
                     </Col>
                   ) : null}

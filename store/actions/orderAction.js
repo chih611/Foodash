@@ -9,12 +9,11 @@ export const fetchOrderList = createAsyncThunk(
   "order/fetchOrderList",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await new Promise(
-        (resolve) =>
-          setTimeout(async () => {
-            const data = await fetchOrderListAPI(); // Replace with your actual API call
-            resolve(data);
-          }, 500) // 3 seconds delay
+      const response = await new Promise((resolve) =>
+        setTimeout(async () => {
+          const data = await fetchOrderListAPI();
+          resolve(data);
+        }, 500)
       );
       return response;
     } catch (error) {

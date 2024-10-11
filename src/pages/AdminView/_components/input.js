@@ -2,7 +2,7 @@ import moment from "moment";
 import { Form, Placeholder } from "react-bootstrap";
 
 export const CustomInput = ({
-  keyInput,
+  title,
   index,
   value,
   readOnlyFields,
@@ -23,7 +23,7 @@ export const CustomInput = ({
       ) : (
         <>
           <Form.Label key={`label-${index}`} className="fw-bold">
-            {keyInput}
+            {title}
           </Form.Label>
           <Form.Control
             key={`input-${index}`}
@@ -31,12 +31,12 @@ export const CustomInput = ({
             aria-describedby="order"
             value={
               value
-                ? dateTimeFields?.includes(keyInput)
+                ? dateTimeFields?.includes(title)
                   ? moment(value).format("yyyy-MM-DD")
                   : value
                 : "-"
             }
-            plaintext={readOnlyFields?.includes(keyInput)}
+            plaintext={readOnlyFields?.includes(title)}
             size="sm"
           />
         </>

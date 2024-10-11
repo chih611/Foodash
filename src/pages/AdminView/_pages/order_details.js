@@ -13,7 +13,7 @@ import axios from "axios";
 import { PersonalDetail } from "./personal_information";
 import { OrderInformation } from "./order_information";
 
-const OrderDetails = ({ orderId, setShow }) => {
+const OrderDetails = ({ Id, setOpen }) => {
   let recordsOrderDetails = [];
   let headersOrderDetails = [];
   const dateTimeFields = ["Duedate", "Create Date"];
@@ -44,12 +44,12 @@ const OrderDetails = ({ orderId, setShow }) => {
   const BACKEND_PORT = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_PORT;
   const BASE_URL = `http://localhost:${BACKEND_PORT}`;
 
-  const [status, setStatus] = useState(false);
+  const [switchOptions, setSwitchOptions] = useState(false);
   const [showSaveBtn, setShowSaveBtn] = useState(false);
 
   useEffect(() => {
-    dispatch(fetchOrderDetailList(orderId));
-    dispatch(fetchOrderListById(orderId));
+    dispatch(fetchOrderDetailList(Id));
+    dispatch(fetchOrderListById(Id));
   }, []);
 
   const orderDetailList = useSelector(
@@ -58,6 +58,9 @@ const OrderDetails = ({ orderId, setShow }) => {
   );
   const order = useSelector((state) => state.order.orderById);
   const statusOrderFetching = useSelector((state) => state.order.status);
+  const statusOrderDetailFetching = useSelector(
+    (state) => state.orderDetail.status
+  );
 
   if (orderDetailList) {
     orderDetailList.map((item) => {
@@ -70,12 +73,12 @@ const OrderDetails = ({ orderId, setShow }) => {
     e.preventDefault();
 
     try {
-      const response = await axios.put(`${BASE_URL}/order/update/${orderId}`, {
-        status: status,
+      const response = await axios.put(`${BASE_URL}/order/update/${Id}`, {
+        status: switchOptions,
       });
 
       if (response.status === 200) {
-        setShow(false);
+        setOpen(false);
         dispatch(fetchOrderList());
       } else {
         return rejectWithValue("Failed to update customer");
@@ -92,8 +95,8 @@ const OrderDetails = ({ orderId, setShow }) => {
           <>
             <PersonalDetail
               e={e}
-              status={status}
-              setStatus={setStatus}
+              switchOptions={switchOptions}
+              setSwitchOptions={setSwitchOptions}
               textBoxFields={textBoxFields}
               personalInfo={personalInfo}
               dropDownFields={dropDownFields}
@@ -104,8 +107,8 @@ const OrderDetails = ({ orderId, setShow }) => {
             />
             <OrderInformation
               e={e}
-              status={status}
-              setStatus={setStatus}
+              switchOptions={switchOptions}
+              setSwitchOptions={setSwitchOptions}
               textBoxFields={textBoxFields}
               personalInfo={personalInfo}
               dropDownFields={dropDownFields}
@@ -113,6 +116,7 @@ const OrderDetails = ({ orderId, setShow }) => {
               readOnlyFields={readOnlyFields}
               setShowSaveBtn={setShowSaveBtn}
               Row={Row}
+              statusFetching={statusOrderFetching}
             />
           </>
         ))}
@@ -129,6 +133,7 @@ const OrderDetails = ({ orderId, setShow }) => {
       <CustomTable
         headers={headersOrderDetails}
         records={recordsOrderDetails}
+        statusFetching={statusOrderDetailFetching}
       />
     </>
   );

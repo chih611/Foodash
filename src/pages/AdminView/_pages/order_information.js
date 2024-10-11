@@ -4,8 +4,8 @@ import { CustomDropBox } from "../_components/dropbox";
 
 export const OrderInformation = ({
   e,
-  status,
-  setStatus,
+  switchOptions,
+  setSwitchOptions,
   textBoxFields,
   personalInfo,
   dropDownFields,
@@ -13,6 +13,7 @@ export const OrderInformation = ({
   readOnlyFields,
   setShowSaveBtn,
   Row,
+  statusFetching,
 }) => (
   <>
     <Accordion defaultActiveKey={["0"]} alwaysOpen className="mt-3">
@@ -27,11 +28,12 @@ export const OrderInformation = ({
                   !personalInfo.includes(key) ? (
                     <Col lg="6" className="mt-3">
                       <CustomInput
-                        keyInput={key}
+                        title={key}
                         value={value}
                         index={index}
                         readOnlyFields={readOnlyFields}
                         dateTimeFields={dateTimeFields}
+                        statusFetching={statusFetching}
                       />
                     </Col>
                   ) : null}
@@ -39,12 +41,13 @@ export const OrderInformation = ({
                   !personalInfo.includes(key) ? (
                     <Col lg="6" className="mt-3">
                       <CustomDropBox
-                        keyDropbox={key}
+                        title={key}
                         value={value}
                         index={index}
-                        setStatus={setStatus}
-                        status={status}
+                        setSwitchOptions={setSwitchOptions}
+                        switchOptions={switchOptions}
                         setShowSaveBtn={setShowSaveBtn}
+                        statusFetching={statusFetching}
                       />
                     </Col>
                   ) : null}
