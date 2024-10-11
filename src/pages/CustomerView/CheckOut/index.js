@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
-import Link from "next/link";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import React, { useState } from "react";
+import { Container, Row } from "react-bootstrap";
 import NavBarCheckOut from "./_NavBarCheckOut";
 import HomeDirectionLink from "../HomePage/HomeDirectionLink/HomeDirectionLink";
 import OrderSummary from "./_itemSummary";
@@ -12,9 +11,16 @@ import { createOrder } from "../../../../store/actions/orderAction"; // Import a
 import { createOrderDetail } from "../../../../store/actions/orderDetailAction";
 import PaymentIcon from "@mui/icons-material/Payment";
 import PrimaryButton from "../ViewCart/PrimaryButton";
+
 const Checkout = () => {
   const [pickup, setPickup] = useState(false);
   const [promoValue, setPromoValue] = useState(0); // Promo value state
+  const [recipientDetails, setRecipientDetails] = useState({
+    name: "",
+    address: "",
+    contact: "",
+  }); // Recipient details state
+
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -40,17 +46,47 @@ const Checkout = () => {
   const utensil = fees.find((fee) => fee.id === 3)?.price || 0;
   const giftWrap = fees.find((fee) => fee.id === 4)?.price || 0;
   const cartTotal =
-    cartSubtotal + fees.reduce((acc, fee) => acc + fee.price, 0);
+    cartSubtotal + fees.reduce((acc, fee) => acc + fee.price, 0) - promoValue;
+
+  const createOrderItemsHandler = async (orderId, cartItems) => {
+    try {
+      // Step 2: Create the order details
+      const orderDetailPromises = cartItems.map(async (item) => {
+        console.log("OrderId :" + orderId);
+        const orderDetailPayload = {
+          ORDER_ID: orderId,
+          UNIT_PRICE: item.price,
+          TOTAL: item.price * item.quantity,
+          QUANTITY: item.quantity,
+          LABEL_ID: item.labelId, // Assuming you have this in your items
+          NOTES: item.notes, // If available
+          ITEM_ID: item.itemId,
+        };
+
+        console.log("Order Detail Payload:", orderDetailPayload); // Debugging
+
+        return dispatch(createOrderDetail(orderDetailPayload)).unwrap();
+      });
+
+      // Wait for all order details to be created
+      await Promise.all(orderDetailPromises);
+
+      console.log("Order items created successfully");
+    } catch (error) {
+      console.error("Error creating the order items:", error);
+      throw error; // Throw the error to handle it in the main function
+    }
+  };
 
   const createOrderHandler = async (
     customerId,
-    customerProfile,
     cartSubtotal,
     cartTotal,
     deliveryFee,
     serviceFee,
     utensil,
     giftWrap,
+    recipientDetails,
     pickup
   ) => {
     try {
@@ -58,9 +94,11 @@ const Checkout = () => {
       const orderPayload = {
         CUSTOMER_ID: customerId,
         DUEDATE: new Date().toISOString().split("T")[0], // You can customize the date
-        RECIPIENT: `${customerProfile.FIRST_NAME} ${customerProfile.LAST_NAME}`,
-        ADDRESS: customerProfile.ADDRESS,
-        PHONE: customerProfile.PHONE_NUMBER,
+        RECIPIENT:
+          recipientDetails.name ||
+          `${customerProfile.FIRST_NAME} ${customerProfile.LAST_NAME}`,
+        ADDRESS: recipientDetails.address || customerProfile.ADDRESS,
+        PHONE: recipientDetails.contact || customerProfile.PHONE_NUMBER,
         EMAIL: customerProfile.EMAIL,
         DELIVER: pickup ? 0 : 1, // 0 for pickup, 1 for delivery
         PAYMENT: "Credit",
@@ -69,7 +107,7 @@ const Checkout = () => {
         SERVICE_FEE: serviceFee,
         UTENSIL: utensil,
         GIFTWRAP: giftWrap,
-        PROMO: promoValue, // You can handle promo logic here
+        PROMO: promoValue, // Promo value
         SUBTOTAL: cartSubtotal,
         ORDER_ITEM_ID: null, // This will be filled in by the order details
         CREATED_DATE: new Date().toISOString().split("T")[0],
@@ -102,48 +140,18 @@ const Checkout = () => {
     }
   };
 
-  const createOrderItemsHandler = async (orderId, cartItems) => {
-    try {
-      // Step 2: Create the order details
-      const orderDetailPromises = cartItems.map(async (item) => {
-        console.log("OrderId :" + orderId);
-        const orderDetailPayload = {
-          ORDER_ID: orderId,
-          UNIT_PRICE: item.price,
-          TOTAL: item.price * item.quantity,
-          QUANTITY: item.quantity,
-          LABEL_ID: item.labelId, // Assuming you have this in your items
-          NOTES: item.notes, // If available
-          ITEM_ID: item.itemId,
-        };
-
-        console.log("Order Detail Payload:", orderDetailPayload); // Debugging
-
-        return dispatch(createOrderDetail(orderDetailPayload)).unwrap();
-      });
-
-      // Wait for all order details to be created
-      await Promise.all(orderDetailPromises);
-
-      console.log("Order items created successfully");
-    } catch (error) {
-      console.error("Error creating the order items:", error);
-      throw error; // Throw the error to handle it in the main function
-    }
-  };
-
   const handlePlaceOrder = async () => {
     try {
       // Step 1: Create the order and obtain the order ID
       const orderId = await createOrderHandler(
         customerId,
-        customerProfile,
         cartSubtotal,
         cartTotal,
         deliveryFee,
         serviceFee,
         utensil,
         giftWrap,
+        recipientDetails, // Pass the form input here
         pickup
       );
 
@@ -167,26 +175,17 @@ const Checkout = () => {
           className="px-3 px-md-5 py-5"
           style={{ marginTop: "24px" }}
         >
-          <div
-            className="navBar text-center mb-5"
-            style={{ marginBottom: "150px" }}
-          >
+          <div className="navBar text-center mb-5">
             <h1>Shipping Information</h1>
           </div>
           <Row>
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d12624.53948738401!2d145.03831394999997!3d-37.71651195!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sau!4v1726732205221!5m2!1sen!2sau"
-              width="400"
-              height="300"
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              style={{ borderRadius: "50px", border: "0" }}
-            ></iframe>
-          </Row>
-
-          <Row className="w-100 justify-content-center">
-            <DetailForm pickup={pickup} setPickup={setPickup} />
+            <DetailForm
+              pickup={pickup}
+              setPickup={setPickup}
+              setRecipientDetails={setRecipientDetails} // Pass setRecipientDetails to DetailForm
+              customerProfile={customerProfile} // Pass customerProfile to DetailForm
+              recipientDetails={recipientDetails} // Pass recipientDetails to DetailForm
+            />
           </Row>
 
           {/* Order Summary Section */}
@@ -203,7 +202,7 @@ const Checkout = () => {
                 pickup={pickup}
                 fees={fees}
                 setPromoValue={setPromoValue}
-              />{" "}
+              />
             </div>
           </Row>
 
