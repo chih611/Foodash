@@ -10,7 +10,8 @@ import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
 import { createOrder } from "../../../../store/actions/orderAction"; // Import actions
 import { createOrderDetail } from "../../../../store/actions/orderDetailAction";
-import { ContactlessOutlined } from "@mui/icons-material";
+import PaymentIcon from "@mui/icons-material/Payment";
+import PrimaryButton from "../ViewCart/PrimaryButton";
 const Checkout = () => {
   const [pickup, setPickup] = useState(false);
   const [address, setAddress] = useState("");
@@ -165,9 +166,7 @@ const Checkout = () => {
           >
             <h1>Shipping Information</h1>
           </div>
-
-          {/* Mobile View */}
-          <div className="d-flex justify-content-center ">
+          <Row>
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d12624.53948738401!2d145.03831394999997!3d-37.71651195!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sau!4v1726732205221!5m2!1sen!2sau"
               width="400"
@@ -177,42 +176,37 @@ const Checkout = () => {
               referrerPolicy="no-referrer-when-downgrade"
               style={{ borderRadius: "50px", border: "0" }}
             ></iframe>
-          </div>
+          </Row>
 
-          <div className="d-flex justify-content-center  my-5 mx-4">
+          <Row className="w-100 justify-content-center">
             <DetailForm pickup={pickup} setPickup={setPickup} />
-          </div>
+          </Row>
 
           {/* Order Summary Section */}
-          <div
-            className="d-flex align-items-center  my-5 mx-4"
-            style={{ borderTop: "1px solid #03588C " }}
-          >
-            <OrderSummary />
-          </div>
+          <Row className="w-100 justify-content-center">
+            <div style={{ borderTop: "1px solid #03588C " }}>
+              <OrderSummary />
+            </div>
+          </Row>
 
           {/* Payment Method Section */}
-          <div
-            className="d-flex justify-content-center  my-4 mx-4"
-            style={{ borderTop: "1px solid #90B4CE " }}
-          >
-            <AddPayment pickup={pickup} />
-          </div>
+          <Row className="w-100 justify-content-center">
+            <div style={{ borderTop: "1px solid #90B4CE " }}>
+              <AddPayment pickup={pickup} />
+            </div>
+          </Row>
 
           {/* Pay Now Button */}
           <Row
             className="w-100 justify-content-center"
             style={{ marginTop: "24px" }}
           >
-            <Col xs={12}>
-              <Button
-                variant="primary"
-                className="w-100"
-                onClick={handlePlaceOrder}
-              >
-                Pay Now
-              </Button>
-            </Col>
+            <PrimaryButton
+              icon={PaymentIcon}
+              onClick={handlePlaceOrder}
+              disabled={cartItems.length === 0}
+              text="Pay Now"
+            ></PrimaryButton>
           </Row>
         </Container>
       </div>
