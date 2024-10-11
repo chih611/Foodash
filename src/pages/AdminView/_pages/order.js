@@ -5,20 +5,24 @@ import { fetchOrderList } from "../../../../store/actions/orderAction";
 import CustomTable from "../_components/table";
 import OrderDetails from "./order_details";
 import CustomModal from "../_components/modal";
+import { ConfirmationAlert } from "./confirmation_alert";
 
 const Order = (props) => {
   const [show, setShow] = useState(false);
+  const [alertConfirm, setAlertConfirm] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
-
   const dispatch = useDispatch();
   let headers = [];
   let records = [];
+  const customFields = ["Duedate", "Create Date"];
+
   useEffect(() => {
     dispatch(fetchOrderList());
   }, []);
 
   //Get data
   const orderList = useSelector((state) => state.order.ordersList);
+  const statusOrderFetching = useSelector((state) => state.order.status);
   //Get colunms of headers name
   if (orderList) {
     orderList.map((item) => {
@@ -32,6 +36,11 @@ const Order = (props) => {
     setShow(true);
   };
 
+  const confirmRemoveSingleClick = ({ ID }) => {
+    setSelectedId(ID);
+    setAlertConfirm(true);
+  };
+
   return (
     <>
       <Tab.Pane {...props}>
@@ -39,9 +48,27 @@ const Order = (props) => {
           headers={headers}
           records={records}
           handleRecordDoubleClick={handleRecordDoubleClick}
+          confirmRemoveSingleClick={confirmRemoveSingleClick}
+          customFields={customFields}
+          statusFetching={statusOrderFetching}
         />
-        <CustomModal setShow={setShow} show={show} selectedId={selectedId}>
+        <CustomModal
+          setOpen={setShow}
+          open={show}
+          selectedId={selectedId}
+          headerTitle="Order"
+        >
           <OrderDetails {...props} />
+        </CustomModal>
+        <CustomModal
+          setOpen={setAlertConfirm}
+          open={alertConfirm}
+          selectedId={selectedId}
+          showCancelBtn={true}
+          showOKBtn={true}
+          headerTitle="Order"
+        >
+          <ConfirmationAlert {...props} elementName="order" />
         </CustomModal>
       </Tab.Pane>
     </>

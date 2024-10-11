@@ -1,8 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchOrderList, fetchOrderListById } from "../actions/orderAction";
+import {
+  fetchOrderLisByCustomerName,
+  fetchOrderList,
+  fetchOrderListById,
+} from "../actions/orderAction";
 
 const initialState = {
   ordersList: null,
+  orderListByName: null,
   orderById: null,
   status: null,
   error: null,
@@ -11,7 +16,7 @@ const initialState = {
 const orderSlice = createSlice({
   name: "order",
   initialState,
-  reducers: {},
+  // reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchOrderList.pending, (state) => {
@@ -33,6 +38,17 @@ const orderSlice = createSlice({
         state.status = "succeeded";
       })
       .addCase(fetchOrderListById.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error || { message: "Fetching API is failed!" };
+      })
+      .addCase(fetchOrderLisByCustomerName.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchOrderLisByCustomerName.fulfilled, (state, action) => {
+        state.orderListByName = action.payload;
+        state.status = "succeeded";
+      })
+      .addCase(fetchOrderLisByCustomerName.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error || { message: "Fetching API is failed!" };
       });

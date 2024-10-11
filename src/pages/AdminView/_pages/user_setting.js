@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Tab, Pagination } from "react-bootstrap";
-import TableContent from "../_components/custom_table";
+import TableContent from "../_components/bk_table";
 import SearchBar from "../_components/searchbar";
 import initialData from "../_data"; // Import the data from data.js
 
