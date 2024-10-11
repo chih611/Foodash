@@ -2,6 +2,7 @@ import { Button, Modal } from "react-bootstrap";
 import React from "react";
 
 const CustomModal = ({
+  handleOk,
   setOpen,
   open,
   selectedId,
@@ -11,6 +12,7 @@ const CustomModal = ({
   headerTitle,
 }) => {
   const handleClose = () => setOpen(false);
+
   return (
     <Modal
       show={open}
@@ -38,7 +40,10 @@ const CustomModal = ({
           {showCancelBtn ? "Cancel" : "Close"}
         </Button>
         {showOKBtn ? (
-          <Button className="bg-pressed-color text-light" onClick={handleClose}>
+          <Button
+            className="bg-pressed-color text-light"
+            onClick={(e) => handleOk(e, selectedId)}
+          >
             OK
           </Button>
         ) : null}

@@ -6,12 +6,15 @@ import CustomTable from "../_components/table";
 import OrderDetails from "./order_details";
 import CustomModal from "../_components/modal";
 import { ConfirmationAlert } from "./confirmation_alert";
+import axios from "axios";
 
 const Order = (props) => {
   const [show, setShow] = useState(false);
   const [alertConfirm, setAlertConfirm] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
   const dispatch = useDispatch();
+  const BACKEND_PORT = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_PORT;
+  const BASE_URL = `http://localhost:${BACKEND_PORT}`;
   let headers = [];
   let records = [];
   const customFields = ["Duedate", "Create Date"];
@@ -41,6 +44,23 @@ const Order = (props) => {
     setAlertConfirm(true);
   };
 
+  const handleOk = async (e, selectedId) => {
+    e.preventDefault();
+    setAlertConfirm(false);
+    try {
+      const response = await axios.delete(
+        `${BASE_URL}/order/delete/${selectedId}`
+      );
+
+      if (response.status === 200) {
+        dispatch(fetchOrderList());
+      } else {
+        return rejectWithValue("Failed to update data!");
+      }
+    } catch (error) {
+      console.error("Error updating data", error);
+    }
+  };
   return (
     <>
       <Tab.Pane {...props}>
@@ -61,6 +81,7 @@ const Order = (props) => {
           <OrderDetails {...props} />
         </CustomModal>
         <CustomModal
+          handleOk={handleOk}
           setOpen={setAlertConfirm}
           open={alertConfirm}
           selectedId={selectedId}
