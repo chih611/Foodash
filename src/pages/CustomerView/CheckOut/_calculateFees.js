@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Button } from "react-bootstrap";
 
-const AddPayment = ({ pickup }) => {
+const AddPayment = ({ pickup, fees, setPromoValue }) => {
   const cartItems = useSelector((state) => state.cart.cartItems);
 
   const cartTotal = cartItems
@@ -10,15 +10,8 @@ const AddPayment = ({ pickup }) => {
     .reduce((acc, item) => acc + item.price * item.quantity, 0);
 
   const [total, setTotal] = useState(cartTotal);
-
   const [promo, setPromo] = useState("");
   const [appliedPromo, setAppliedPromo] = useState(null);
-  const [fees, setFees] = useState([
-    { id: 1, name: "Delivery Fee", price: 6.99 },
-    { id: 2, name: "Service Fee", price: 2.99 },
-    { id: 3, name: "Utensil", price: 1.99 },
-    { id: 4, name: "Gift Wrap", price: 5.5 },
-  ]);
 
   useEffect(() => {
     // Ensure all fee prices are numbers before summing
@@ -27,12 +20,16 @@ const AddPayment = ({ pickup }) => {
       0
     );
     const discountAmount = appliedPromo ? appliedPromo.discountAmount : 0;
+
+    // Set promo value to be used in the order payload
+    setPromoValue(discountAmount); // This will pass the promo value to the parent (Checkout component)
+
     const newTotal = Math.max(
       0,
       parseFloat(cartTotal) + feesTotal - discountAmount
     );
     setTotal(newTotal);
-  }, [fees, appliedPromo, cartTotal, pickup]);
+  }, [fees, appliedPromo, cartTotal, pickup, setPromoValue]);
 
   const handlePromoApply = () => {
     // Mock promo code validation
@@ -54,6 +51,7 @@ const AddPayment = ({ pickup }) => {
 
   const removePromo = () => {
     setAppliedPromo(null);
+    setPromoValue(0); // Reset promo value when promo is removed
   };
 
   return (

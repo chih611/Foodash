@@ -14,7 +14,7 @@ import PaymentIcon from "@mui/icons-material/Payment";
 import PrimaryButton from "../ViewCart/PrimaryButton";
 const Checkout = () => {
   const [pickup, setPickup] = useState(false);
-  const [address, setAddress] = useState("");
+  const [promoValue, setPromoValue] = useState(0); // Promo value state
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -24,16 +24,23 @@ const Checkout = () => {
   const customerId = customerProfile?.CUSTOMER_ID || null;
 
   // Example of fees and total logic
-  const deliveryFee = 6.99;
-  const serviceFee = 2.99;
-  const utensil = 1.99;
-  const giftWrap = 5.5;
+  const fees = [
+    { id: 1, name: "Delivery Fee", price: 6.99 },
+    { id: 2, name: "Service Fee", price: 2.99 },
+    { id: 3, name: "Utensil", price: 1.99 },
+    { id: 4, name: "Gift Wrap", price: 5.5 },
+  ];
   const cartSubtotal = cartItems.reduce(
     (acc, item) => acc + item.price * item.quantity,
     0
   );
+
+  const deliveryFee = fees.find((fee) => fee.id === 1)?.price || 0;
+  const serviceFee = fees.find((fee) => fee.id === 2)?.price || 0;
+  const utensil = fees.find((fee) => fee.id === 3)?.price || 0;
+  const giftWrap = fees.find((fee) => fee.id === 4)?.price || 0;
   const cartTotal =
-    cartSubtotal + deliveryFee + serviceFee + utensil + giftWrap;
+    cartSubtotal + fees.reduce((acc, fee) => acc + fee.price, 0);
 
   const createOrderHandler = async (
     customerId,
@@ -62,7 +69,7 @@ const Checkout = () => {
         SERVICE_FEE: serviceFee,
         UTENSIL: utensil,
         GIFTWRAP: giftWrap,
-        PROMO: 0, // You can handle promo logic here
+        PROMO: promoValue, // You can handle promo logic here
         SUBTOTAL: cartSubtotal,
         ORDER_ITEM_ID: null, // This will be filled in by the order details
         CREATED_DATE: new Date().toISOString().split("T")[0],
@@ -192,7 +199,11 @@ const Checkout = () => {
           {/* Payment Method Section */}
           <Row className="w-100 justify-content-center">
             <div style={{ borderTop: "1px solid #90B4CE " }}>
-              <AddPayment pickup={pickup} />
+              <AddPayment
+                pickup={pickup}
+                fees={fees}
+                setPromoValue={setPromoValue}
+              />{" "}
             </div>
           </Row>
 
