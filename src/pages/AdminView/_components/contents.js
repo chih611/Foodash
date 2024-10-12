@@ -15,7 +15,7 @@ const Contents = () => {
         <Report eventKey="Home" />
         <Order eventKey="Order" />
         <Inventory eventKey="Inventory" />
-        <Product eventKey="Product" />
+        <Product eventKey="Product" /> 
         <Marketing eventKey="Marketing" />
         <Profile eventKey="Profile" />
         <Reminder eventKey="Reminder" />

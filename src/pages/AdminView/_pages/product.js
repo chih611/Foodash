@@ -1,107 +1,85 @@
-import { useState } from "react";
-import { Tab, Pagination } from "react-bootstrap";
-import TableContent from "../_components/bk_table";
-import SearchBar from "../_components/searchbar";
-import initialData from "../_data"; // Import the data from data.js
+import { useEffect, useState } from "react";
+import { Tab } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import CustomTable from "../_components/table";
+import OrderDetails from "./order_details";
+import CustomModal from "../_components/modal";
+import { fetchItems } from "../../../../store/slices/itemsSlice";
 
 const Product = (props) => {
-  const headers = [
-    "ID",
-    "NAME",
-    "ADDRESS",
-    "PHONE_NUMBER",
-    "Product_DETAILS",
-    "STATUS",
-  ];
+  const [show, setShow] = useState(false);
+  // const [alertConfirm, setAlertConfirm] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
+  const dispatch = useDispatch();
+  let headers = [];
+  let records = [];
+  const customFields = ["Duedate", "Create Date"];
 
-  const [tableData, setTableData] = useState(initialData); // Use imported data
-  const [currentPage, setCurrentPage] = useState(1);
-  const rowsPerPage = 11;
-
-  const totalPages = Math.ceil(tableData.length / rowsPerPage);
-
-  const paginatedData = tableData.slice(
-    (currentPage - 1) * rowsPerPage,
-    currentPage * rowsPerPage
-  );
-
-  const handleSearch = (searchTerm, category, status) => {
-    const filteredData = initialData.filter((item) => {
-      const matchesSearch = item.NAME.toLowerCase().includes(
-        searchTerm.toLowerCase()
-      );
-      const matchesCategory = category
-        ? item.Product_DETAILS.toLowerCase().includes(category.toLowerCase())
-        : true;
-      const matchesStatus = status ? item.STATUS === status : true;
-      return matchesSearch && matchesCategory && matchesStatus;
+  //Get data
+  useEffect(() => {
+    dispatch(fetchItems()); // Fetch all items initially
+  }, [dispatch]);
+  const { items, searchResults, status } = useSelector((state) => state.items);
+  //Get colunms of headers name
+  console.log(items);
+  if (items) {
+    items.map((item) => {
+      headers.push(Object.keys(item));
     });
-    setTableData(filteredData);
+    records = items;
+  }
+
+  const handleRecordDoubleClick = ({ ID }) => {
+    setSelectedId(ID);
+    setShow(true);
   };
 
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-  };
+  // const handleOk = async (e, selectedId) => {
+  //   e.preventDefault();
+  //   setAlertConfirm(false);
+  //   try {
+  //     const response = await axios.delete(
+  //       `${BASE_URL}/order/delete/${selectedId}`
+  //     );
 
-  const renderPaginationItems = () => {
-    let items = [];
-    for (let i = 1; i <= totalPages; i++) {
-      items.push(
-        <Pagination.Item
-          key={i}
-          active={i === currentPage}
-          onClick={() => handlePageChange(i)}
-        >
-          {i}
-        </Pagination.Item>
-      );
-    }
-    return items;
-  };
-
+  //     if (response.status === 200) {
+  //       dispatch(fetchOrderList());
+  //     } else {
+  //       return rejectWithValue("Failed to update data!");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error updating data", error);
+  //   }
+  // };
   return (
     <>
       <Tab.Pane {...props}>
-        <div
-          className="bProduct mb-2 p-1 me-5 rounded-4 d-flex justify-content-end align-items-center"
-          style={{
-            backgroundColor: "#EBF5FD",
-            minHeight: "auto",
-            padding: "0.5rem",
-          }} // Adjust padding as needed
+        <CustomTable
+          headers={headers}
+          records={records}
+          handleRecordDoubleClick={handleRecordDoubleClick}
+          customFields={customFields}
+          statusFetching={status}
+        />
+        <CustomModal
+          setOpen={setShow}
+          open={show}
+          selectedId={selectedId}
+          headerTitle="Product"
         >
-          <SearchBar
-            onSearch={handleSearch}
-            categories={["T-Shirts", "Laptop", "Books", "Phone", "Notebooks"]}
-            statuses={["COMPLETED", "IN PROGRESS"]}
-          />
-        </div>
-
-        <div
-          className="bProduct p-2 pt-2 me-5 rounded-4"
-          style={{ backgroundColor: "#EBF5FD" }}
+          <OrderDetails {...props} />
+        </CustomModal>
+        {/* <CustomModal
+          handleOk={handleOk}
+          setOpen={setAlertConfirm}
+          open={alertConfirm}
+          selectedId={selectedId}
+          showCancelBtn={true}
+          showOKBtn={true}
+          headerTitle="Order"
         >
-          <TableContent headers={headers} data={paginatedData} />
-          <Pagination className="justify-content-center mt-3">
-            <Pagination.First
-              onClick={() => handlePageChange(1)}
-              disabled={currentPage === 1}
-            />
-            <Pagination.Prev
-              onClick={() => handlePageChange(currentPage - 1)}
-              disabled={currentPage === 1}
-            />
-            {renderPaginationItems()}
-            <Pagination.Next
-              onClick={() => handlePageChange(currentPage + 1)}
-              disabled={currentPage === totalPages}
-            />
-            <Pagination.Last
-              onClick={() => handlePageChange(totalPages)}
-              disabled={currentPage === totalPages}
-            />
-          </Pagination>
-        </div>
+          <ConfirmationAlert {...props} elementName="order" />
+        </CustomModal> */}
       </Tab.Pane>
     </>
   );
