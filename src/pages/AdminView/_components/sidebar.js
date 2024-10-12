@@ -6,6 +6,8 @@ import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import FastfoodIcon from "@mui/icons-material/Fastfood";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 
 import { nav_style, icon_style, logout_btn } from "../_styles";
 import Contents from "./contents";
@@ -47,7 +49,7 @@ const SideBar = ({ handleSelect }) => {
                     product <ChevronRightIcon />
                   </Nav.Link>
                 </Nav.Item>
-                {/* <Accordion flush>
+                <Accordion flush>
                   <Accordion.Item eventKey="0">
                     <Accordion.Header className={nav_style}>
                       <AddCircleOutlineIcon />
@@ -71,13 +73,13 @@ const SideBar = ({ handleSelect }) => {
                       </Nav.Item>
                     </Accordion.Body>
                   </Accordion.Item>
-                </Accordion> */}
-                {/* <Nav.Item>
+                </Accordion>
+                <Nav.Item>
                   <Nav.Link className={nav_style} eventKey="User setting">
                     <PeopleAltIcon />
                     user setting <ChevronRightIcon />
                   </Nav.Link>
-                </Nav.Item> */}
+                </Nav.Item>
               </Nav>
             </Col>
             <Col className={logout_btn}>
