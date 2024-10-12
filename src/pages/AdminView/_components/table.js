@@ -71,14 +71,7 @@ const CustomTable = ({
           </tbody>
         </Table>
       ) : (
-        <Table
-          striped
-          bordered
-          hover
-          size="sm"
-          responsive
-          className="rounded-start-2"
-        >
+        <Table striped hover size="sm" responsive className="rounded-start-2">
           <thead>
             <tr>
               {Array.from({ length: 1 }).map((_, index) =>
