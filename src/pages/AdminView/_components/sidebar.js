@@ -6,9 +6,8 @@ import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import FastfoodIcon from "@mui/icons-material/Fastfood";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
-
+import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import { nav_style, icon_style, logout_btn } from "../_styles";
 import Contents from "./contents";
 
@@ -37,43 +36,17 @@ const SideBar = ({ handleSelect }) => {
                   </Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                  <Nav.Link className={nav_style} eventKey="Inventory">
-                    <InventoryIcon />
-                    inventory
-                    <ChevronRightIcon />
-                  </Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
                   <Nav.Link className={nav_style} eventKey="Product">
                     <FastfoodIcon />
                     product <ChevronRightIcon />
                   </Nav.Link>
                 </Nav.Item>
-                <Accordion flush>
-                  <Accordion.Item eventKey="0">
-                    <Accordion.Header className={nav_style}>
-                      <AddCircleOutlineIcon />
-                      CRM <ChevronRightIcon />
-                    </Accordion.Header>
-                    <Accordion.Body>
-                      <Nav.Item>
-                        <Nav.Link className={nav_style} eventKey="Marketing">
-                          marketing <ChevronRightIcon />
-                        </Nav.Link>
-                      </Nav.Item>
-                      <Nav.Item>
-                        <Nav.Link className={nav_style} eventKey="Profile">
-                          profile <ChevronRightIcon />
-                        </Nav.Link>
-                      </Nav.Item>
-                      <Nav.Item>
-                        <Nav.Link className={nav_style} eventKey="Reminder">
-                          reminder <ChevronRightIcon />
-                        </Nav.Link>
-                      </Nav.Item>
-                    </Accordion.Body>
-                  </Accordion.Item>
-                </Accordion>
+                <Nav.Item>
+                  <Nav.Link className={nav_style} eventKey="Profile">
+                    <AccountBoxIcon />
+                    profile <ChevronRightIcon />
+                  </Nav.Link>
+                </Nav.Item>
                 <Nav.Item>
                   <Nav.Link className={nav_style} eventKey="User setting">
                     <PeopleAltIcon />
