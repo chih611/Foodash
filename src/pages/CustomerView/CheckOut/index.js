@@ -9,6 +9,10 @@ import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
 import { createOrder } from "../../../../store/actions/orderAction"; // Import actions
 import { createOrderDetail } from "../../../../store/actions/orderDetailAction";
+import {
+  checkIfCustomerExists,
+  createCustomer,
+} from "../../../../store/slices/customerSlice"; // Updated import
 import PaymentIcon from "@mui/icons-material/Payment";
 import PrimaryButton from "../ViewCart/PrimaryButton";
 
@@ -19,6 +23,7 @@ const Checkout = () => {
     name: "",
     address: "",
     contact: "",
+    email: "", // Added email to recipient details
   }); // Recipient details state
 
   const dispatch = useDispatch();
@@ -26,7 +31,7 @@ const Checkout = () => {
 
   // Fetch the necessary data from your Redux store or state
   const cartItems = useSelector((state) => state.cart.cartItems);
-  const customerProfile = useSelector((state) => state.customer.profile);
+  const customerProfile = useSelector((state) => state.customer.profile); // Check for logged-in customer
   const customerId = customerProfile?.CUSTOMER_ID || null;
 
   // Example of fees and total logic
@@ -47,6 +52,121 @@ const Checkout = () => {
   const giftWrap = fees.find((fee) => fee.id === 4)?.price || 0;
   const cartTotal =
     cartSubtotal + fees.reduce((acc, fee) => acc + fee.price, 0) - promoValue;
+
+  // Function to get or create customer ID
+  const checkCustomerId = async (recipientDetails) => {
+    try {
+      let finalCustomerId = customerId; // Use logged-in customer ID if available
+
+      if (!finalCustomerId) {
+        // Check if no customer is logged in (i.e., guest checkout)
+        try {
+          const existingCustomer = await checkIfCustomerExists(
+            "user", // Checking for user first
+            recipientDetails.email,
+            recipientDetails.contact
+          );
+
+          if (existingCustomer?.data) {
+            finalCustomerId = existingCustomer.data.CUSTOMER_ID;
+            console.log(
+              "Existing customer found, using customerId:",
+              finalCustomerId
+            );
+          }
+        } catch (error) {
+          if (error.response && error.response.status === 404) {
+            console.log("Customer not found, creating a new guest customer...");
+
+            // Create the guest customer if not found
+            const guestCustomerData = {
+              firstName: recipientDetails.name.split(" ")[0],
+              lastName: recipientDetails.name.split(" ")[1] || "",
+              email: recipientDetails.email || null, // Email from recipient details
+              phoneNumber: recipientDetails.contact || null, // Phone number from recipient details
+              address: recipientDetails.address || null,
+              customerType: "guest", // Set as guest
+            };
+
+            const newCustomerResponse = await dispatch(
+              createCustomer(guestCustomerData)
+            ).unwrap();
+
+            finalCustomerId = newCustomerResponse.customerId; // Ensure we use the customerId returned from backend
+          } else {
+            console.error("Error checking for customer:", error);
+            throw error;
+          }
+        }
+      }
+
+      return finalCustomerId;
+    } catch (error) {
+      console.error("Error in checkCustomerId:", error);
+      throw error;
+    }
+  };
+
+  const createOrderHandler = async (
+    finalCustomerId,
+    cartSubtotal,
+    cartTotal,
+    deliveryFee,
+    serviceFee,
+    utensil,
+    giftWrap,
+    recipientDetails,
+    pickup,
+    promoValue // Pass promoValue if you have one
+  ) => {
+    try {
+      // Construct the order payload
+      const orderPayload = {
+        CUSTOMER_ID: finalCustomerId,
+        DUEDATE: new Date().toISOString().split("T")[0], // You can customize the date
+        RECIPIENT: recipientDetails.name,
+        ADDRESS: recipientDetails.address,
+        PHONE: recipientDetails.contact,
+        EMAIL: recipientDetails.email,
+        DELIVER: pickup ? 0 : 1, // 0 for pickup, 1 for delivery
+        PAYMENT: "Credit",
+        TAXES: 10, // Example taxes
+        DELIVERY_FEE: deliveryFee,
+        SERVICE_FEE: serviceFee,
+        UTENSIL: utensil,
+        GIFTWRAP: giftWrap,
+        PROMO: promoValue, // Promo value
+        SUBTOTAL: cartSubtotal,
+        ORDER_ITEM_ID: null, // This will be filled in by the order details
+        CREATED_DATE: new Date().toISOString().split("T")[0],
+        TOTAL: cartTotal,
+        NOTES: "Please deliver ASAP", // You can customize the notes
+        STATUS: "Pending", // Set the order status
+      };
+
+      console.log("Order Payload:", orderPayload);
+
+      // Step 1: Create the order and wait for it to complete
+      const orderResponse = await dispatch(
+        createOrder({ orderData: orderPayload })
+      ).unwrap();
+
+      // Get the returned ORDER_ID from the response
+      const orderId = orderResponse.ORDER_ID; // Ensure the API returns the new ORDER_ID
+
+      // Check if the orderId is valid
+      if (!orderId) {
+        throw new Error("Failed to create order: ORDER_ID not returned");
+      }
+
+      console.log("Order ID obtained:", orderId); // Debugging
+
+      return orderId; // Return the ORDER_ID
+    } catch (error) {
+      console.error("Error creating the order:", error);
+      throw error; // Throw the error to handle it in the main function
+    }
+  };
 
   const createOrderItemsHandler = async (orderId, cartItems) => {
     try {
@@ -78,73 +198,14 @@ const Checkout = () => {
     }
   };
 
-  const createOrderHandler = async (
-    customerId,
-    cartSubtotal,
-    cartTotal,
-    deliveryFee,
-    serviceFee,
-    utensil,
-    giftWrap,
-    recipientDetails,
-    pickup
-  ) => {
-    try {
-      // Construct the order payload
-      const orderPayload = {
-        CUSTOMER_ID: customerId,
-        DUEDATE: new Date().toISOString().split("T")[0], // You can customize the date
-        RECIPIENT:
-          recipientDetails.name ||
-          `${customerProfile.FIRST_NAME} ${customerProfile.LAST_NAME}`,
-        ADDRESS: recipientDetails.address || customerProfile.ADDRESS,
-        PHONE: recipientDetails.contact || customerProfile.PHONE_NUMBER,
-        EMAIL: customerProfile.EMAIL,
-        DELIVER: pickup ? 0 : 1, // 0 for pickup, 1 for delivery
-        PAYMENT: "Credit",
-        TAXES: 10, // Example taxes
-        DELIVERY_FEE: deliveryFee,
-        SERVICE_FEE: serviceFee,
-        UTENSIL: utensil,
-        GIFTWRAP: giftWrap,
-        PROMO: promoValue, // Promo value
-        SUBTOTAL: cartSubtotal,
-        ORDER_ITEM_ID: null, // This will be filled in by the order details
-        CREATED_DATE: new Date().toISOString().split("T")[0],
-        TOTAL: cartTotal,
-        NOTES: "Please deliver ASAP", // You can customize the notes
-        STATUS: "pending", // Set the order status
-      };
-
-      console.log("Order Payload:", orderPayload);
-
-      // Step 1: Create the order and wait for it to complete
-      const orderResponse = await dispatch(
-        createOrder({ orderData: orderPayload })
-      ).unwrap();
-
-      // Get the returned ORDER_ID from the response
-      const orderId = orderResponse.ORDER_ID; // Ensure the API returns the new ORDER_ID
-
-      // Check if the orderId is valid
-      if (!orderId) {
-        throw new Error("Failed to create order: ORDER_ID not returned");
-      }
-
-      console.log("Order ID obtained:", orderId); // Debugging
-
-      return orderId; // Return the ORDER_ID
-    } catch (error) {
-      console.error("Error creating the order:", error);
-      throw error; // Throw the error to handle it in the main function
-    }
-  };
-
   const handlePlaceOrder = async () => {
     try {
-      // Step 1: Create the order and obtain the order ID
+      // Step 1: Get or create customer ID
+      const finalCustomerId = await checkCustomerId(recipientDetails);
+
+      // Step 2: Create the order and obtain the order ID
       const orderId = await createOrderHandler(
-        customerId,
+        finalCustomerId,
         cartSubtotal,
         cartTotal,
         deliveryFee,
@@ -152,13 +213,14 @@ const Checkout = () => {
         utensil,
         giftWrap,
         recipientDetails, // Pass the form input here
-        pickup
+        pickup,
+        promoValue // Pass promo value here
       );
 
-      // Step 2: Create the order items using the obtained order ID
+      // Step 3: Create the order items using the obtained order ID
       await createOrderItemsHandler(orderId, cartItems);
 
-      // Step 3: Redirect to a success page or confirmation page
+      // Step 4: Redirect to a success page or confirmation page
     } catch (error) {
       console.error("Error placing the order:", error);
       alert("An error occurred while placing the order. Please try again.");

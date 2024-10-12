@@ -7,7 +7,7 @@ const BASE_URL = `http://localhost:${BACKEND_PORT}`;
 /* Utility Functions */
 
 // Check if the customer already exists
-const checkIfCustomerExists = async (type, email, phoneNumber) => {
+export const checkIfCustomerExists = async (type, email, phoneNumber) => {
   if (type === "user") {
     return await axios.get(`${BASE_URL}/customer/email/${email}`);
   } else {
