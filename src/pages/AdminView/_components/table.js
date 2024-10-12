@@ -1,7 +1,6 @@
 import moment from "moment";
 import {
   Button,
-  Container,
   FloatingLabel,
   Form,
   Navbar,
@@ -158,8 +157,11 @@ const CustomTable = ({
             <thead>
               <tr>
                 {Array.from({ length: 1 }).map((_, index) =>
-                  headers[0]?.map((header) => (
-                    <th className=" bg-pressed-color text-light text-center text-nowrap">
+                  headers[0]?.map((header, j) => (
+                    <th
+                      key={j}
+                      className=" bg-pressed-color text-light text-center text-nowrap"
+                    >
                       {header}
                     </th>
                   ))
