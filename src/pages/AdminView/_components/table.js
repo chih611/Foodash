@@ -6,7 +6,7 @@ const CustomTable = ({
   headers,
   records,
   handleRecordDoubleClick,
-  confirmRemoveSingleClick,
+  handleRemoveSingleClick,
   customFields,
   statusFetching,
 }) => {
@@ -71,14 +71,7 @@ const CustomTable = ({
           </tbody>
         </Table>
       ) : (
-        <Table
-          striped
-          bordered
-          hover
-          size="sm"
-          responsive
-          className="rounded-start-2"
-        >
+        <Table striped hover size="sm" responsive className="rounded-start-2">
           <thead>
             <tr>
               {Array.from({ length: 1 }).map((_, index) =>
@@ -88,9 +81,11 @@ const CustomTable = ({
                   </th>
                 ))
               )}
-              <th className=" bg-pressed-color text-light text-center text-nowrap">
-                <DeleteIcon />
-              </th>
+              {handleRemoveSingleClick ? (
+                <th className=" bg-pressed-color text-light text-center text-nowrap">
+                  <DeleteIcon />
+                </th>
+              ) : null}
             </tr>
           </thead>
           <tbody>
@@ -115,17 +110,17 @@ const CustomTable = ({
                     </td>
                   ))
                 )}
-                <td className="text-decoration-none text-pressed-color text-nowrap text-center">
-                  {" "}
-                  <Button
-                    className="text-decoration-none bg-pressed-color text-nowrap text-white"
-                    onClick={() =>
-                      confirmRemoveSingleClick && confirmRemoveSingleClick(e)
-                    }
-                  >
-                    <DeleteIcon />
-                  </Button>
-                </td>
+                {handleRemoveSingleClick ? (
+                  <td className="text-decoration-none text-pressed-color text-nowrap text-center">
+                    {" "}
+                    <Button
+                      className="text-decoration-none bg-pressed-color text-nowrap text-white"
+                      onClick={() => handleRemoveSingleClick(e)}
+                    >
+                      <DeleteIcon />
+                    </Button>
+                  </td>
+                ) : null}
               </tr>
             ))}
           </tbody>

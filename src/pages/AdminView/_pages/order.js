@@ -5,11 +5,10 @@ import { fetchOrderList } from "../../../../store/actions/orderAction";
 import CustomTable from "../_components/table";
 import OrderDetails from "./order_details";
 import CustomModal from "../_components/modal";
-import { ConfirmationAlert } from "./confirmation_alert";
 
 const Order = (props) => {
   const [show, setShow] = useState(false);
-  const [alertConfirm, setAlertConfirm] = useState(false);
+  // const [alertConfirm, setAlertConfirm] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
   const dispatch = useDispatch();
   let headers = [];
@@ -36,11 +35,23 @@ const Order = (props) => {
     setShow(true);
   };
 
-  const confirmRemoveSingleClick = ({ ID }) => {
-    setSelectedId(ID);
-    setAlertConfirm(true);
-  };
+  // const handleOk = async (e, selectedId) => {
+  //   e.preventDefault();
+  //   setAlertConfirm(false);
+  //   try {
+  //     const response = await axios.delete(
+  //       `${BASE_URL}/order/delete/${selectedId}`
+  //     );
 
+  //     if (response.status === 200) {
+  //       dispatch(fetchOrderList());
+  //     } else {
+  //       return rejectWithValue("Failed to update data!");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error updating data", error);
+  //   }
+  // };
   return (
     <>
       <Tab.Pane {...props}>
@@ -48,7 +59,6 @@ const Order = (props) => {
           headers={headers}
           records={records}
           handleRecordDoubleClick={handleRecordDoubleClick}
-          confirmRemoveSingleClick={confirmRemoveSingleClick}
           customFields={customFields}
           statusFetching={statusOrderFetching}
         />
@@ -60,7 +70,8 @@ const Order = (props) => {
         >
           <OrderDetails {...props} />
         </CustomModal>
-        <CustomModal
+        {/* <CustomModal
+          handleOk={handleOk}
           setOpen={setAlertConfirm}
           open={alertConfirm}
           selectedId={selectedId}
@@ -69,7 +80,7 @@ const Order = (props) => {
           headerTitle="Order"
         >
           <ConfirmationAlert {...props} elementName="order" />
-        </CustomModal>
+        </CustomModal> */}
       </Tab.Pane>
     </>
   );
