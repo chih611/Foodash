@@ -71,101 +71,133 @@ const Report = (props) => {
   // No need in react bootstrap cux it can handle by itself
   
 
-  return ( 
+  return (
     <>
       <Tab.Pane
         {...props}
         className="g-4 bg-2nd-color mt-1 px-3 py-3 rounded-4"
       >
-        
         <Row className="m-3 justify-content-around">
           <Col lg={7}>
             <Card className="rounded-4 mb-4">
               <Card.Body>
-                <Card.Title className="subtitle_admin mb-3" >Sales By Category</Card.Title>
-                <Button variant = 'primary'>
-                  View Report
-                </Button> 
-                <label className="font-medium text-gray-700 ms-4">This month: {getMonthName(startDate)}</label> 
-                
-                  <div className="d-flex my-2 justify-content-around" style={{borderBottom: 'solid 1px #90B4CE'}}>
-                      <div className="my-3">
-                        
-                        <p className="mb-3 subtitle_admin d-flex">Product
-                            <button> <SwapVertRounded/> </button>
-                        </p>
-                        {categories.map(cate => (
-                          <p  className="subtitle text-center" key={cate.id}>{cate.name}</p>
-                        ))}
-                      </div>
-                      <div className="my-3">
-                        <p className="mb-3 subtitle_admin">Total
-                          <button> <SwapVertRounded/> </button>
-                        </p>
-                        {categories.map(cate => (
-                          <p className="subtitle" key={cate.id}>{cate.total}</p>
-                        ))}
-                      </div>
-                      <div className="my-3">
-                        <p className="mb-3 subtitle_admin">Sold 
-                          <button> <SwapVertRounded/> </button>
-                        </p>
-                        {categories.map(cate => (
-                          <p className="subtitle" key={cate.id}>{cate.sold}</p>
-                        ))}
-                      </div>
-                      <div className="my-3">
-                        <p className="mb-3 subtitle_admin">Stock
-                          <button> <SwapVertRounded/> </button>
-                        </p>
-                        {categories.map(cate => (
-                          <p className="subtitle" key={cate.id}>{cate.stock}</p>
-                        ))}
-                      </div>
-                      <div className="my-3 ">
-                        <p className="mb-3 subtitle_admin">Left
-                          <button> <SwapVertRounded/> </button>
-                        </p>
-                        {categories.map(cate => (
-                          <p className="subtitle" key={cate.id}>{cate.expired}</p>
-                        ))}
-                      </div>
-                  </div>           
-                
+                <Card.Title className="subtitle_admin mb-3">
+                  Sales By Category
+                </Card.Title>
+                <Button variant="primary">View Report</Button>
+                <label className="font-medium text-gray-700 ms-4">
+                  This month: {getMonthName(startDate)}
+                </label>
+
+                <div
+                  className="d-flex my-2 justify-content-around"
+                  style={{ borderBottom: "solid 1px #90B4CE" }}
+                >
+                  <div className="my-3">
+                    <p className="mb-3 subtitle_admin d-flex">
+                      Product
+                      <button>
+                        {" "}
+                        <SwapVertRounded />{" "}
+                      </button>
+                    </p>
+                    {categories.map((cate) => (
+                      <p className="subtitle text-center" key={cate.id}>
+                        {cate.name}
+                      </p>
+                    ))}
+                  </div>
+                  <div className="my-3">
+                    <p className="mb-3 subtitle_admin">
+                      Total
+                      <button>
+                        {" "}
+                        <SwapVertRounded />{" "}
+                      </button>
+                    </p>
+                    {categories.map((cate) => (
+                      <p className="subtitle" key={cate.id}>
+                        {cate.total}
+                      </p>
+                    ))}
+                  </div>
+                  <div className="my-3">
+                    <p className="mb-3 subtitle_admin">
+                      Sold
+                      <button>
+                        {" "}
+                        <SwapVertRounded />{" "}
+                      </button>
+                    </p>
+                    {categories.map((cate) => (
+                      <p className="subtitle" key={cate.id}>
+                        {cate.sold}
+                      </p>
+                    ))}
+                  </div>
+                  <div className="my-3">
+                    <p className="mb-3 subtitle_admin">
+                      Stock
+                      <button>
+                        {" "}
+                        <SwapVertRounded />{" "}
+                      </button>
+                    </p>
+                    {categories.map((cate) => (
+                      <p className="subtitle" key={cate.id}>
+                        {cate.stock}
+                      </p>
+                    ))}
+                  </div>
+                  <div className="my-3 ">
+                    <p className="mb-3 subtitle_admin">
+                      Left
+                      <button>
+                        {" "}
+                        <SwapVertRounded />{" "}
+                      </button>
+                    </p>
+                    {categories.map((cate) => (
+                      <p className="subtitle" key={cate.id}>
+                        {cate.expired}
+                      </p>
+                    ))}
+                  </div>
+                </div>
               </Card.Body>
             </Card>
           </Col>
           <Col lg={5}>
             <Card className="rounded-4">
               <Card.Body>
-                <Card.Title className="subtitle_admin">Sales By Item</Card.Title>
-                <Dropdown className ='my-3'>
-                    <Dropdown.Toggle variant="primary" id="dropdown-basic">
-                      This month
-                    </Dropdown.Toggle>
+                <Card.Title className="subtitle_admin">
+                  Sales By Item
+                </Card.Title>
+                <Dropdown className="my-3">
+                  <Dropdown.Toggle variant="primary" id="dropdown-basic">
+                    This month
+                  </Dropdown.Toggle>
 
-                    <Dropdown.Menu>
-                      <Dropdown.Item href="#/action-1">This Week</Dropdown.Item>
-                      <Dropdown.Item href="#/action-2">This Quater</Dropdown.Item>
-                      <Dropdown.Item href="#/action-3">This Year</Dropdown.Item>
-                    </Dropdown.Menu>
-                  </Dropdown>
+                  <Dropdown.Menu>
+                    <Dropdown.Item href="#/action-1">This Week</Dropdown.Item>
+                    <Dropdown.Item href="#/action-2">This Quater</Dropdown.Item>
+                    <Dropdown.Item href="#/action-3">This Year</Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
                 <Card.Text className="my-3">
-                  
-                    {items.map(item => (
+                  {/* {items.map(item => (
                       <div className="my-3 d-flex justify-content-between" key={item.id}> 
                           <p className="subtitle mx-4" >{item.image}</p>
                           <p className="subtitle mx-4" >{item.name}</p>
                           <p className="subtitle mx-4" key={item.id}>{item.sale}</p>
                       </div>  
-                    ))}
-                      
+                    ))} */}
                 </Card.Text>
               </Card.Body>
             </Card>
           </Col>
-      </Row>
-      <Row xs={1} md={2} className="m-3 justify-content-around">
+        </Row>
+        <Row xs={1} md={2} className="m-3 justify-content-around">
           <Col lg={4}>
             <Card className="rounded-4">
               <Card.Body>
@@ -181,7 +213,9 @@ const Report = (props) => {
           <Col lg={8}>
             <Card className="rounded-4">
               <Card.Body>
-                <Card.Title className="subtitle_admin">Order Management</Card.Title>
+                <Card.Title className="subtitle_admin">
+                  Order Management
+                </Card.Title>
                 {/* <div className="date-range-picker-container w-100">
                     <input type = "date" 
                           // value = {startDate} 
