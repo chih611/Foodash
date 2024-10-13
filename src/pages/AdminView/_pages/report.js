@@ -1,7 +1,11 @@
 import { Card, Col, Container, Row, Tab, Dropdown, Button } from "react-bootstrap";
 import { useState, useEffect } from "react";
 
+import Link from "next/link";
+
 import SwapVertRounded from "@mui/icons-material/SwapVertRounded";
+import FilterListOutlined from "@mui/icons-material/FilterListOutlined";
+// import { ReportCategory } from "./reportCategory";
 
 
 const Report = (props) => {
@@ -22,10 +26,10 @@ const Report = (props) => {
   ];
 
   const orders = [
-    {id: '147', status: 'new', order_date: '08.10.2024'},
-    {id: '148', status: 'new', order_date: '08.10.2024'},
-    {id: '149', status: 'new', order_date: '09.10.2024'},
-    {id: '150', status: 'new', order_date: '10.10.2024'}
+    {id: '147', status: 'new', create_date: '08.10.2024'},
+    {id: '148', status: 'new', create_date: '08.10.2024'},
+    {id: '149', status: 'new', create_date: '09.10.2024'},
+    {id: '150', status: 'new', create_date: '10.10.2024'}
   ] 
   // sorted by date
 
@@ -42,33 +46,9 @@ const Report = (props) => {
     setEndDate(e.target.value);
   };
 
-  // useEffect(() => {
-  //   const now = new Date();
-  //   const firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-  //   const lastDayOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
-
-  //   setStartDate(formatDate(firstDayOfMonth));
-  //   setEndDate(formatDate(lastDayOfMonth));
-  // }, []);
-
-  // const formatDate = (date) => {
-  //   return date.toISOString().split('T')[0];
-  // };
-
-  // to display recent month for catergory report
   const getMonthName = (date) => {
     return new Date().toLocaleString('default', { month: 'long' });
   };  
-  // useEffect(() => {
-  //   // If using Bootstrap 5, you might need to initialize dropdowns
-  //   if (typeof bootstrap !== 'undefined') {
-  //     var dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'))
-  //     var dropdownList = dropdownElementList.map(function (dropdownToggleEl) {
-  //       return new bootstrap.Dropdown(dropdownToggleEl)
-  //     })
-  //   }
-  // }, []); 
-  // No need in react bootstrap cux it can handle by itself
   
 
   return ( 
@@ -79,65 +59,44 @@ const Report = (props) => {
       >
         
         <Row className="m-3 justify-content-around">
+          {/* Report Sale by category */}
           <Col lg={7}>
             <Card className="rounded-4 mb-4">
               <Card.Body>
                 <Card.Title className="subtitle_admin mb-3" >Sales By Category</Card.Title>
-                <Button variant = 'primary'>
-                  View Report
-                </Button> 
+                <Link href="./AdminView/_pages/reportCategory">
+                  <Button variant = 'primary' >
+                  
+                    View Report
+                  </Button> 
+                </Link>
+                
                 <label className="font-medium text-gray-700 ms-4">This month: {getMonthName(startDate)}</label> 
                 
-                  <div className="d-flex my-2 justify-content-around" style={{borderBottom: 'solid 1px #90B4CE'}}>
-                      <div className="my-3">
-                        
-                        <p className="mb-3 subtitle_admin d-flex">Product
-                            <button> <SwapVertRounded/> </button>
+                <div className="d-flex my-2 justify-content-around" style={{borderBottom: 'solid 1px #90B4CE'}}>
+                    {['Product', 'Total', 'Sold', 'Stock', 'Expired'].map((header, index) => (
+                      <div key={index} className="my-3">
+                        <p className="mb-3 subtitle_admin">
+                          {header}
+                          <button> <SwapVertRounded /> </button>
                         </p>
-                        {categories.map(cate => (
-                          <p  className="subtitle text-center" key={cate.id}>{cate.name}</p>
+                        {categories.map((cate) => (
+                          <p className="subtitle text-center" key={cate.id}>
+                            {index === 0 ? cate.name : index === 1 ? cate.total : index === 2 ? cate.sold : index === 3 ? cate.expired : cate.expired}
+                          </p>
                         ))}
                       </div>
-                      <div className="my-3">
-                        <p className="mb-3 subtitle_admin">Total
-                          <button> <SwapVertRounded/> </button>
-                        </p>
-                        {categories.map(cate => (
-                          <p className="subtitle" key={cate.id}>{cate.total}</p>
-                        ))}
-                      </div>
-                      <div className="my-3">
-                        <p className="mb-3 subtitle_admin">Sold 
-                          <button> <SwapVertRounded/> </button>
-                        </p>
-                        {categories.map(cate => (
-                          <p className="subtitle" key={cate.id}>{cate.sold}</p>
-                        ))}
-                      </div>
-                      <div className="my-3">
-                        <p className="mb-3 subtitle_admin">Stock
-                          <button> <SwapVertRounded/> </button>
-                        </p>
-                        {categories.map(cate => (
-                          <p className="subtitle" key={cate.id}>{cate.stock}</p>
-                        ))}
-                      </div>
-                      <div className="my-3 ">
-                        <p className="mb-3 subtitle_admin">Left
-                          <button> <SwapVertRounded/> </button>
-                        </p>
-                        {categories.map(cate => (
-                          <p className="subtitle" key={cate.id}>{cate.expired}</p>
-                        ))}
-                      </div>
-                  </div>           
+                    ))}
+                  </div>    
                 
               </Card.Body>
             </Card>
           </Col>
+
+          {/* Report sale by Items */}
           <Col lg={5}>
-            <Card className="rounded-4">
-              <Card.Body>
+            <Card className="rounded-4" >
+              <Card.Body >
                 <Card.Title className="subtitle_admin">Sales By Item</Card.Title>
                 <Dropdown className ='my-3'>
                     <Dropdown.Toggle variant="primary" id="dropdown-basic">
@@ -153,7 +112,7 @@ const Report = (props) => {
                 <Card.Text className="my-3">
                   
                     {items.map(item => (
-                      <div className="my-3 d-flex justify-content-between" key={item.id}> 
+                      <div className="my-3 d-flex justify-content-between" key={item.id} > 
                           <p className="subtitle mx-4" >{item.image}</p>
                           <p className="subtitle mx-4" >{item.name}</p>
                           <p className="subtitle mx-4" key={item.id}>{item.sale}</p>
@@ -166,15 +125,26 @@ const Report = (props) => {
           </Col>
       </Row>
       <Row xs={1} md={2} className="m-3 justify-content-around">
+        {/* Notify the new order or upcoming order */}
           <Col lg={4}>
             <Card className="rounded-4">
               <Card.Body>
-                <Card.Title className="subtitle_admin">Processing</Card.Title>
-                <Card.Text>
-                  This is a longer card with supporting text below as a natural
-                  lead-in to additional content. This content is a little bit
-                  longer.
-                </Card.Text>
+                <Card.Title className="subtitle_admin">New Orders</Card.Title>
+                <div className="d-flex my-2 justify-content-around" style={{borderBottom: 'solid 1px #90B4CE'}}>
+                    {['Order ID', 'Status', 'Created Date'].map((header, index) => (
+                      <div key={index} className="my-3">
+                        <p className="mb-3 subtitle">
+                          {header}
+                          <button mb-2> <FilterListOutlined /> </button>
+                        </p>
+                        {orders.map((order) => (
+                          <p className="subtitle text-center" key={order.id}>
+                            {index === 0 ? order.id : index === 1 ? order.status : index === 2 ? order.create_date : cate.create_date}
+                          </p>
+                        ))}
+                      </div>
+                    ))}
+                </div>
               </Card.Body>
             </Card>
           </Col>
@@ -182,22 +152,8 @@ const Report = (props) => {
             <Card className="rounded-4">
               <Card.Body>
                 <Card.Title className="subtitle_admin">Order Management</Card.Title>
-                {/* <div className="date-range-picker-container w-100">
-                    <input type = "date" 
-                          // value = {startDate} 
-                          
-                    />
-                    <span className="subttitle mx-3">to</span>
-                    <input type = "date" 
-                          // value = {endDate} 
-                          
-                    />
-                  </div> */}
-                <Card.Text>
-                  This is a longer card with supporting text below as a natural
-                  lead-in to additional content. This content is a little bit
-                  longer.
-                </Card.Text>
+                
+                {/* <ReportCategory/> */}
               </Card.Body>
             </Card>
           </Col>
