@@ -9,6 +9,16 @@ import { useRouter } from "next/router";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 
+// Function to format the date to DD/MM/YYYY
+const formatDate = (dateString) => {
+  if (!dateString) return "";
+  const date = new Date(dateString);
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const year = date.getFullYear();
+  return `${day}/${month}/${year}`;
+};
+
 const Confirm = () => {
   const [showOffcanvas, setShowOffcanvas] = useState(false);
   const handleToggle = () => setShowOffcanvas(!showOffcanvas);
@@ -80,8 +90,12 @@ const Confirm = () => {
         </div>
 
         <div className="text-center my-4">
-          <p className="subtitle my-1">Order Date: {orderData?.Create_Date}</p>
-          <p className="subtitle my-1">Delivery Date: {orderData?.Duedate}</p>
+          <p className="subtitle my-1">
+            Order Date: {formatDate(orderData["Create Date"])}
+          </p>
+          <p className="subtitle my-1">
+            Delivery Date: {formatDate(orderData?.Duedate)}
+          </p>
         </div>
 
         <div
@@ -98,9 +112,6 @@ const Confirm = () => {
             </ConfirmLayout>
           </div>
         </div>
-
-        {/* Display Order Items */}
-        {/* You can map through the order items and display them here */}
 
         <div className="text-center m-5">
           <button className="button-2" onClick={generatePDF}>
