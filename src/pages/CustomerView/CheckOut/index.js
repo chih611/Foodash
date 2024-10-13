@@ -72,17 +72,28 @@ const Checkout = () => {
       let finalCustomerId = customerId;
       if (!finalCustomerId) {
         try {
-          const existingCustomer = await checkIfCustomerExists(
+          const existingCustomerByEmail = await checkIfCustomerExists(
             "user",
             recipientDetails.email,
+            null
+          );
+
+          const existingCustomerByPhone = await checkIfCustomerExists(
+            "user",
+            null,
             recipientDetails.contact
           );
 
-          if (existingCustomer?.data) {
-            finalCustomerId = existingCustomer.data.CUSTOMER_ID;
+          if (existingCustomerByEmail?.data && existingCustomerByPhone?.data) {
+            finalCustomerId = existingCustomerByEmail.data.CUSTOMER_ID;
+          } else if (existingCustomerByEmail?.data) {
+            finalCustomerId = existingCustomerByEmail.data.CUSTOMER_ID;
+          } else if (existingCustomerByPhone?.data) {
+            finalCustomerId = existingCustomerByPhone.data.CUSTOMER_ID;
           }
         } catch (error) {
           if (error.response && error.response.status === 404) {
+            // 404 error means customer does not exist, proceed to create guest customer
             const guestCustomerData = {
               firstName: recipientDetails.name.split(" ")[0],
               lastName: recipientDetails.name.split(" ")[1] || "",

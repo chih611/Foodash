@@ -108,6 +108,28 @@ const DetailForm = ({
       {/* Add Contact */}
       <div className="d-flex w-100 mt-3">
         <LocalPhoneOutlined className="standard-icon" />
+        <p className="subtitle ms-2">Email</p>
+      </div>
+      <div className="w-100 d-flex mb-3 ">
+        <input
+          name="email"
+          placeholder="Enter Email"
+          className="form_item1"
+          {...register("email", {
+            required: "Email is required",
+          })}
+          onChange={handleInputChange} // Update state on change
+        />
+        <button type="submit">
+          <ArrowRightRounded className="standard-icon" />
+        </button>
+      </div>
+      {errors.contact && (
+        <p className="text-danger">{errors.contact.message}</p>
+      )}
+
+      <div className="d-flex w-100 mt-3">
+        <LocalPhoneOutlined className="standard-icon" />
         <p className="subtitle ms-2">Contact</p>
       </div>
       <div className="w-100 d-flex mb-3 ">
