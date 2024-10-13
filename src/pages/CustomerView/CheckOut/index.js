@@ -199,7 +199,7 @@ const Checkout = () => {
       );
 
       await createOrderItemsHandler(orderId, cartItems);
-      router.push("/CustomerView/CheckOut/Confirm");
+      router.push(`/CustomerView/CheckOut/Confirm?orderId=${orderId}`);
     } catch (error) {
       alert("An error occurred while placing the order. Please try again.");
     }
