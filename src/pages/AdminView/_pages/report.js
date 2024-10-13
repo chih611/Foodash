@@ -51,13 +51,12 @@ const Report = (props) => {
   };  
   
 
-  return ( 
+  return (
     <>
       <Tab.Pane
         {...props}
         className="g-4 bg-2nd-color mt-1 px-3 py-3 rounded-4"
       >
-        
         <Row className="m-3 justify-content-around">
           {/* Report Sale by category */}
           <Col lg={7}>
@@ -88,7 +87,6 @@ const Report = (props) => {
                       </div>
                     ))}
                   </div>    
-                
               </Card.Body>
             </Card>
           </Col>
@@ -97,7 +95,10 @@ const Report = (props) => {
           <Col lg={5}>
             <Card className="rounded-4" >
               <Card.Body >
-                <Card.Title className="subtitle_admin">Sales By Item</Card.Title>
+                <Card.Title className="subtitle_admin">
+                  Sales By Item
+                  
+                </Card.Title>
                 <Dropdown className ='my-3'>
                     <Dropdown.Toggle variant="primary" id="dropdown-basic">
                       This month
@@ -113,19 +114,15 @@ const Report = (props) => {
                   
                     {items.map(item => (
                       <div className="my-3 d-flex justify-content-between" key={item.id} > 
-                          <p className="subtitle mx-4" >{item.image}</p>
-                          <p className="subtitle mx-4" >{item.name}</p>
-                          <p className="subtitle mx-4" key={item.id}>{item.sale}</p>
-                      </div>  
-                    ))}
-                      
                 </Card.Text>
               </Card.Body>
             </Card>
           </Col>
       </Row>
+
       <Row xs={1} md={2} className="m-3 justify-content-around">
         {/* Notify the new order or upcoming order */}
+
           <Col lg={4}>
             <Card className="rounded-4">
               <Card.Body>
@@ -153,7 +150,6 @@ const Report = (props) => {
               <Card.Body>
                 <Card.Title className="subtitle_admin">Order Management</Card.Title>
                 
-                {/* <ReportCategory/> */}
               </Card.Body>
             </Card>
           </Col>
