@@ -3,7 +3,6 @@ import { useForm } from "react-hook-form";
 import AccountCircleRounded from "@mui/icons-material/AccountCircleRounded";
 import ArrowRightRounded from "@mui/icons-material/ArrowRightRounded";
 import LocalPhoneOutlined from "@mui/icons-material/LocalPhoneOutlined";
-import AccessTimeOutlined from "@mui/icons-material/AccessTimeOutlined"; //clock
 import AddLocationAltRounded from "@mui/icons-material/AddLocationAltRounded";
 
 const DetailForm = ({
@@ -27,6 +26,7 @@ const DetailForm = ({
         }`,
       address: recipientDetails.address || customerProfile?.ADDRESS || "",
       contact: recipientDetails.contact || customerProfile?.PHONE_NUMBER || "",
+      email: recipientDetails.email || customerProfile?.EMAIL || "",
     },
   });
 
@@ -40,6 +40,7 @@ const DetailForm = ({
         }`,
       address: recipientDetails.address || customerProfile?.ADDRESS || "",
       contact: recipientDetails.contact || customerProfile?.PHONE_NUMBER || "",
+      email: recipientDetails.email || customerProfile?.EMAIL || "",
     });
   }, [customerProfile, recipientDetails, reset]);
 
@@ -48,6 +49,7 @@ const DetailForm = ({
       name: data.name,
       address: data.address,
       contact: data.contact,
+      email: data.email,
     });
   };
 
@@ -69,6 +71,7 @@ const DetailForm = ({
 
       <div className="w-100 d-flex mb-3 ">
         <input
+          name="name"
           placeholder="Enter recipient name"
           className="form_item1"
           {...register("name", { required: "Recipient name is required" })}
@@ -88,6 +91,7 @@ const DetailForm = ({
 
       <div className="w-100 d-flex mb-3 ">
         <input
+          name="address"
           placeholder="Enter delivery address"
           className="form_item1"
           {...register("address", { required: "Address is required" })}
@@ -108,6 +112,7 @@ const DetailForm = ({
       </div>
       <div className="w-100 d-flex mb-3 ">
         <input
+          name="contact"
           placeholder="Enter contact number"
           className="form_item1"
           {...register("contact", {
@@ -129,29 +134,19 @@ const DetailForm = ({
 
       {/* Add Delivery Option */}
       <div className="d-flex w-100 my-2">
-        <AccessTimeOutlined className="standard-icon" />
         <p className="subtitle ms-2">Delivery Method</p>
       </div>
 
       <div className="w-100 d-flex my-2">
         <button type="button" onClick={() => setPickup(false)}>
           <div className={!pickup ? "button-3 bg-headline-color" : "button-3"}>
-            <p className="button-title-text my-1 ">Delivery</p>
-            <p className={pickup ? "text-headline-color" : "text-light"}>
-              {" "}
-              within 48 hours
-            </p>
+            <p className="button-title-text my-1">Delivery</p>
           </div>
         </button>
 
         <button type="button" onClick={() => setPickup(true)}>
           <div className={pickup ? "button-3 bg-headline-color" : "button-3"}>
             <p className="button-title-text my-1">Pick Up</p>
-            <div
-              className={pickup ? "text-light" : "d-flex text-headline-color"}
-            >
-              <p>Select available slot</p>
-            </div>
           </div>
         </button>
       </div>

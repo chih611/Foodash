@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Row } from "react-bootstrap";
 import NavBarCheckOut from "./_NavBarCheckOut";
 import HomeDirectionLink from "../HomePage/HomeDirectionLink/HomeDirectionLink";
@@ -7,32 +7,46 @@ import AddPayment from "./_calculateFees";
 import DetailForm from "./_recipientForm";
 import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
-import { createOrder } from "../../../../store/actions/orderAction"; // Import actions
+import { createOrder } from "../../../../store/actions/orderAction";
 import { createOrderDetail } from "../../../../store/actions/orderDetailAction";
 import {
   checkIfCustomerExists,
   createCustomer,
-} from "../../../../store/slices/customerSlice"; // Updated import
+} from "../../../../store/slices/customerSlice";
 import PaymentIcon from "@mui/icons-material/Payment";
 import PrimaryButton from "../ViewCart/PrimaryButton";
 
 const Checkout = () => {
   const [pickup, setPickup] = useState(false);
-  const [promoValue, setPromoValue] = useState(0); // Promo value state
+  const [promoValue, setPromoValue] = useState(0);
   const [recipientDetails, setRecipientDetails] = useState({
     name: "",
     address: "",
     contact: "",
-    email: "", // Added email to recipient details
-  }); // Recipient details state
+    email: "",
+  });
 
   const dispatch = useDispatch();
   const router = useRouter();
 
-  // Fetch the necessary data from your Redux store or state
+  // Fetch customer profile and cart items from Redux store
   const cartItems = useSelector((state) => state.cart.cartItems);
-  const customerProfile = useSelector((state) => state.customer.profile); // Check for logged-in customer
+  const customerProfile = useSelector((state) => state.customer.profile);
   const customerId = customerProfile?.CUSTOMER_ID || null;
+
+  // Prefill recipient details with customer profile if logged in
+  useEffect(() => {
+    if (customerProfile) {
+      setRecipientDetails({
+        name: `${customerProfile.FIRST_NAME || ""} ${
+          customerProfile.LAST_NAME || ""
+        }`,
+        address: customerProfile.ADDRESS || "",
+        contact: customerProfile.PHONE_NUMBER || "",
+        email: customerProfile.EMAIL || "",
+      });
+    }
+  }, [customerProfile]);
 
   // Example of fees and total logic
   const fees = [
@@ -45,7 +59,6 @@ const Checkout = () => {
     (acc, item) => acc + item.price * item.quantity,
     0
   );
-
   const deliveryFee = fees.find((fee) => fee.id === 1)?.price || 0;
   const serviceFee = fees.find((fee) => fee.id === 2)?.price || 0;
   const utensil = fees.find((fee) => fee.id === 3)?.price || 0;
@@ -56,45 +69,35 @@ const Checkout = () => {
   // Function to get or create customer ID
   const checkCustomerId = async (recipientDetails) => {
     try {
-      let finalCustomerId = customerId; // Use logged-in customer ID if available
-
+      let finalCustomerId = customerId;
       if (!finalCustomerId) {
-        // Check if no customer is logged in (i.e., guest checkout)
         try {
           const existingCustomer = await checkIfCustomerExists(
-            "user", // Checking for user first
+            "user",
             recipientDetails.email,
             recipientDetails.contact
           );
 
           if (existingCustomer?.data) {
             finalCustomerId = existingCustomer.data.CUSTOMER_ID;
-            console.log(
-              "Existing customer found, using customerId:",
-              finalCustomerId
-            );
           }
         } catch (error) {
           if (error.response && error.response.status === 404) {
-            console.log("Customer not found, creating a new guest customer...");
-
-            // Create the guest customer if not found
             const guestCustomerData = {
               firstName: recipientDetails.name.split(" ")[0],
               lastName: recipientDetails.name.split(" ")[1] || "",
-              email: recipientDetails.email || null, // Email from recipient details
-              phoneNumber: recipientDetails.contact || null, // Phone number from recipient details
+              email: recipientDetails.email || null,
+              phoneNumber: recipientDetails.contact || null,
               address: recipientDetails.address || null,
-              customerType: "guest", // Set as guest
+              customerType: "guest",
             };
 
             const newCustomerResponse = await dispatch(
               createCustomer(guestCustomerData)
             ).unwrap();
 
-            finalCustomerId = newCustomerResponse.customerId; // Ensure we use the customerId returned from backend
+            finalCustomerId = newCustomerResponse.customerId;
           } else {
-            console.error("Error checking for customer:", error);
             throw error;
           }
         }
@@ -102,7 +105,6 @@ const Checkout = () => {
 
       return finalCustomerId;
     } catch (error) {
-      console.error("Error in checkCustomerId:", error);
       throw error;
     }
   };
@@ -117,93 +119,72 @@ const Checkout = () => {
     giftWrap,
     recipientDetails,
     pickup,
-    promoValue // Pass promoValue if you have one
+    promoValue
   ) => {
     try {
-      // Construct the order payload
       const orderPayload = {
         CUSTOMER_ID: finalCustomerId,
-        DUEDATE: new Date().toISOString().split("T")[0], // You can customize the date
+        DUEDATE: new Date().toISOString().split("T")[0],
         RECIPIENT: recipientDetails.name,
         ADDRESS: recipientDetails.address,
         PHONE: recipientDetails.contact,
         EMAIL: recipientDetails.email,
-        DELIVER: pickup ? 0 : 1, // 0 for pickup, 1 for delivery
+        DELIVER: pickup ? 0 : 1,
         PAYMENT: "Credit",
-        TAXES: 10, // Example taxes
+        TAXES: 10,
         DELIVERY_FEE: deliveryFee,
         SERVICE_FEE: serviceFee,
         UTENSIL: utensil,
         GIFTWRAP: giftWrap,
-        PROMO: promoValue, // Promo value
+        PROMO: promoValue,
         SUBTOTAL: cartSubtotal,
-        ORDER_ITEM_ID: null, // This will be filled in by the order details
+        ORDER_ITEM_ID: null,
         CREATED_DATE: new Date().toISOString().split("T")[0],
         TOTAL: cartTotal,
-        NOTES: "Please deliver ASAP", // You can customize the notes
-        STATUS: "Pending", // Set the order status
+        NOTES: "Please deliver ASAP",
+        STATUS: "Pending",
       };
 
-      console.log("Order Payload:", orderPayload);
-
-      // Step 1: Create the order and wait for it to complete
       const orderResponse = await dispatch(
         createOrder({ orderData: orderPayload })
       ).unwrap();
 
-      // Get the returned ORDER_ID from the response
-      const orderId = orderResponse.ORDER_ID; // Ensure the API returns the new ORDER_ID
-
-      // Check if the orderId is valid
+      const orderId = orderResponse.ORDER_ID;
       if (!orderId) {
         throw new Error("Failed to create order: ORDER_ID not returned");
       }
 
-      console.log("Order ID obtained:", orderId); // Debugging
-
-      return orderId; // Return the ORDER_ID
+      return orderId;
     } catch (error) {
-      console.error("Error creating the order:", error);
-      throw error; // Throw the error to handle it in the main function
+      throw error;
     }
   };
 
   const createOrderItemsHandler = async (orderId, cartItems) => {
     try {
-      // Step 2: Create the order details
       const orderDetailPromises = cartItems.map(async (item) => {
-        console.log("OrderId :" + orderId);
         const orderDetailPayload = {
           ORDER_ID: orderId,
           UNIT_PRICE: item.price,
           TOTAL: item.price * item.quantity,
           QUANTITY: item.quantity,
-          LABEL_ID: item.labelId, // Assuming you have this in your items
-          NOTES: item.notes, // If available
+          LABEL_ID: item.labelId,
+          NOTES: item.notes,
           ITEM_ID: item.itemId,
         };
-
-        console.log("Order Detail Payload:", orderDetailPayload); // Debugging
 
         return dispatch(createOrderDetail(orderDetailPayload)).unwrap();
       });
 
-      // Wait for all order details to be created
       await Promise.all(orderDetailPromises);
-
-      console.log("Order items created successfully");
     } catch (error) {
-      console.error("Error creating the order items:", error);
-      throw error; // Throw the error to handle it in the main function
+      throw error;
     }
   };
 
   const handlePlaceOrder = async () => {
     try {
-      // Step 1: Get or create customer ID
       const finalCustomerId = await checkCustomerId(recipientDetails);
-
-      // Step 2: Create the order and obtain the order ID
       const orderId = await createOrderHandler(
         finalCustomerId,
         cartSubtotal,
@@ -212,17 +193,14 @@ const Checkout = () => {
         serviceFee,
         utensil,
         giftWrap,
-        recipientDetails, // Pass the form input here
+        recipientDetails,
         pickup,
-        promoValue // Pass promo value here
+        promoValue
       );
 
-      // Step 3: Create the order items using the obtained order ID
       await createOrderItemsHandler(orderId, cartItems);
-
-      // Step 4: Redirect to a success page or confirmation page
+      router.push("/CustomerView/CheckOut/Confirm");
     } catch (error) {
-      console.error("Error placing the order:", error);
       alert("An error occurred while placing the order. Please try again.");
     }
   };
@@ -231,57 +209,49 @@ const Checkout = () => {
     <div>
       <NavBarCheckOut />
       <HomeDirectionLink />
-      <div>
-        <Container
-          fluid
-          className="px-3 px-md-5 py-5"
+      <Container
+        fluid
+        className="px-3 px-md-5 py-5"
+        style={{ marginTop: "24px" }}
+      >
+        <div className="navBar text-center mb-5">
+          <h1>Shipping Information</h1>
+        </div>
+        <Row>
+          <DetailForm
+            pickup={pickup}
+            setPickup={setPickup}
+            setRecipientDetails={setRecipientDetails}
+            customerProfile={customerProfile}
+            recipientDetails={recipientDetails}
+          />
+        </Row>
+        <Row className="w-100 justify-content-center">
+          <div style={{ borderTop: "1px solid #03588C " }}>
+            <OrderSummary />
+          </div>
+        </Row>
+        <Row className="w-100 justify-content-center">
+          <div style={{ borderTop: "1px solid #90B4CE " }}>
+            <AddPayment
+              pickup={pickup}
+              fees={fees}
+              setPromoValue={setPromoValue}
+            />
+          </div>
+        </Row>
+        <Row
+          className="w-100 justify-content-center"
           style={{ marginTop: "24px" }}
         >
-          <div className="navBar text-center mb-5">
-            <h1>Shipping Information</h1>
-          </div>
-          <Row>
-            <DetailForm
-              pickup={pickup}
-              setPickup={setPickup}
-              setRecipientDetails={setRecipientDetails} // Pass setRecipientDetails to DetailForm
-              customerProfile={customerProfile} // Pass customerProfile to DetailForm
-              recipientDetails={recipientDetails} // Pass recipientDetails to DetailForm
-            />
-          </Row>
-
-          {/* Order Summary Section */}
-          <Row className="w-100 justify-content-center">
-            <div style={{ borderTop: "1px solid #03588C " }}>
-              <OrderSummary />
-            </div>
-          </Row>
-
-          {/* Payment Method Section */}
-          <Row className="w-100 justify-content-center">
-            <div style={{ borderTop: "1px solid #90B4CE " }}>
-              <AddPayment
-                pickup={pickup}
-                fees={fees}
-                setPromoValue={setPromoValue}
-              />
-            </div>
-          </Row>
-
-          {/* Pay Now Button */}
-          <Row
-            className="w-100 justify-content-center"
-            style={{ marginTop: "24px" }}
-          >
-            <PrimaryButton
-              icon={PaymentIcon}
-              onClick={handlePlaceOrder}
-              disabled={cartItems.length === 0}
-              text="Pay Now"
-            ></PrimaryButton>
-          </Row>
-        </Container>
-      </div>
+          <PrimaryButton
+            icon={PaymentIcon}
+            onClick={handlePlaceOrder}
+            disabled={cartItems.length === 0}
+            text="Pay Now"
+          />
+        </Row>
+      </Container>
     </div>
   );
 };
