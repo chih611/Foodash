@@ -63,7 +63,7 @@ const Report = (props) => {
             <Card className="rounded-4 mb-4">
               <Card.Body>
                 <Card.Title className="subtitle_admin mb-3" >Sales By Category</Card.Title>
-                <Link href="./AdminView/_pages/reportCategory">
+                <Link href="AdminView/ReportCategory">
                   <Button variant = 'primary' >
                   
                     View Report
