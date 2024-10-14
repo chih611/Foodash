@@ -64,19 +64,24 @@ const ReportCategory = (props) => {
     setResetRows(rows); // Reset the table to show all rows
   };
 
+  //Function: calculate total number of sold items
+  const countSoldItems = () => {
+    return rows.reduce((total, row) => total + parseInt(row.sold, 10), 0);
+  };
+
 
   // Function to filter by categoty
-  // const filterByCategory = columns.filter(column => {
+  // const filterByCategory = rows.filter(row => {
+  //   const rowCategory = new String(row.category);
 
-  // })
+
+  // });
       
   
   return (
       <>
       
-      <div className="m-3 p-3">
-        
-
+      <div className="m-3 p-3">        
         {/* Funtions: Filter by Date and display total number of item sold */}
         <div 
             className="m-2 p-2 d-flex justify-content-between"
@@ -98,14 +103,11 @@ const ReportCategory = (props) => {
               />
               <button className="btn btn-secondary mx-3 mb-1" onClick={handleReset}>Clear</button>
           </div>
-
-          <p className="subtitle_admin">Total Number of Item Sold: 489</p>
-          
+          <p className="subtitle_admin">Total Number of Item Sold: {countSoldItems()}</p>          
         </div>
 
 
         {/* Table content: inc sale data regarding to report format */}
-
         <div 
             className="m-2 p-1 flex flex-col gap-3"
             style={{
