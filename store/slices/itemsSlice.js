@@ -47,6 +47,7 @@ const itemsSlice = createSlice({
   initialState: {
     items: [],
     searchResults: [],
+    selectedItem: null,
     status: "idle",
     error: null,
   },

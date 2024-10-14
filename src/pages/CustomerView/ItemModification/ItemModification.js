@@ -227,6 +227,7 @@ const ItemModification = () => {
       {/* Add to Cart Button */}
       <Row className="my-4">
         <PrimaryButton
+          variant="primary"
           onClick={handleAddToCart}
           icon={Inventory2OutlinedIcon}
           text={`Add 1 to cart - $${calculateTotal().toFixed(2)}`}
