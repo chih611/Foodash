@@ -12,9 +12,10 @@
 
 .product-card {
   border: 1px solid #8f5652 !important;
-  border-radius: 25px !important;
+  border-radius: 35px !important;
   padding: 8px; // Reduced padding inside the card
   padding-top: 40px; // Reduced padding for the top section
+  margin: 40px 0px;
   transition: all 0.3s ease;
   height: 210px !important;
   position: relative;
@@ -26,8 +27,10 @@
 
   .card-img-container {
     position: absolute;
-    top: -30px; // Moved the image container higher to reduce space
+    top: -65px !important; // Moved the image container higher to reduce space
     left: 50%;
+    width: 163px;
+    height: 163px;
     transform: translateX(-50%);
     display: flex;
     justify-content: center;
@@ -63,7 +66,7 @@
     font-size: 14px;
     color: colors.$text-color;
     margin-top: 70px; // Reduced margin to pull title closer to the rating
-    margin-bottom: 4px;
+    margin-bottom: 5px;
     text-align: center;
   }
 
