@@ -51,13 +51,12 @@ const Report = (props) => {
   };  
   
 
-  return ( 
+  return (
     <>
       <Tab.Pane
         {...props}
         className="g-4 bg-2nd-color mt-1 px-3 py-3 rounded-4"
       >
-        
         <Row className="m-3 justify-content-around">
           {/* Report Sale by category */}
           <Col lg={7}>
@@ -103,12 +102,12 @@ const Report = (props) => {
                       This month
                     </Dropdown.Toggle>
 
-                    <Dropdown.Menu>
-                      <Dropdown.Item href="#/action-1">This Week</Dropdown.Item>
-                      <Dropdown.Item href="#/action-2">This Quater</Dropdown.Item>
-                      <Dropdown.Item href="#/action-3">This Year</Dropdown.Item>
-                    </Dropdown.Menu>
-                  </Dropdown>
+                  <Dropdown.Menu>
+                    <Dropdown.Item href="#/action-1">This Week</Dropdown.Item>
+                    <Dropdown.Item href="#/action-2">This Quater</Dropdown.Item>
+                    <Dropdown.Item href="#/action-3">This Year</Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
                 <Card.Text className="my-3">
                   
                     {items.map(item => (
