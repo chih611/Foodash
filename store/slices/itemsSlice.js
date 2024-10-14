@@ -57,12 +57,30 @@ export const searchItemsByName = createAsyncThunk(
   }
 );
 
+export const getItemModificationAndLabel = createAsyncThunk(
+  "items/getItemModificationAndLabel",
+  async (itemId, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(
+        `${BASE_URL}/items/modification/${itemId}`
+      );
+      console.log("Item modification and label response:", response.data);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response ? error.response.data : error.message
+      );
+    }
+  }
+);
+
 const itemsSlice = createSlice({
   name: "items",
   initialState: {
     items: [],
     searchResults: [],
     selectedItem: null,
+    selectedItemModifications: [],
     status: "idle",
     error: null,
   },
@@ -111,6 +129,19 @@ const itemsSlice = createSlice({
         state.status = "failed";
         state.error = action.error || {
           message: "Error fetching item by ID",
+        };
+      })
+      .addCase(getItemModificationAndLabel.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(getItemModificationAndLabel.fulfilled, (state, action) => {
+        state.selectedItemModifications = action.payload;
+        state.status = "succeeded";
+      })
+      .addCase(getItemModificationAndLabel.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error || {
+          message: "Error fetching item modifications and labels",
         };
       });
   },

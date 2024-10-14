@@ -6,7 +6,10 @@ import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import PrimaryButton from "../ViewCart/PrimaryButton";
-import { getItemById } from "../../../../store/slices/itemsSlice";
+import {
+  getItemById,
+  getItemModificationAndLabel,
+} from "../../../../store/slices/itemsSlice";
 import { useRouter } from "next/router";
 
 const ItemsInformation = () => {
@@ -19,12 +22,16 @@ const ItemsInformation = () => {
   useEffect(() => {
     if (itemId) {
       dispatch(getItemById(itemId));
+      dispatch(getItemModificationAndLabel(itemId));
     }
   }, [itemId, dispatch]);
 
   // Get the selected item from Redux
   const selectedItem = useSelector((state) => state.items.selectedItem);
-
+  const selectedItemModifications = useSelector(
+    (state) => state.items.selectedItemModifications
+  );
+  console.log("selectedItemModifications", selectedItemModifications);
   if (!selectedItem) {
     return (
       <div className="item-information">
@@ -54,7 +61,9 @@ const ItemsInformation = () => {
       : selectedItem.LABELS;
 
   const handleAddToCart = () => {
-    router.push("/CustomerView/ItemModification/ItemModification");
+    router.push(
+      "/CustomerView/ItemModification/?itemId=" + selectedItem.ITEM_ID
+    );
   };
 
   return (
