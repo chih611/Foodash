@@ -117,7 +117,6 @@ const Report = (props) => {
                           <p className="subtitle mx-4" key={item.id}>{item.sale}</p>
                       </div>  
                     ))}
-                      
                 </Card.Text>
               </Card.Body>
             </Card>
