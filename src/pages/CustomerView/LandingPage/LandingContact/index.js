@@ -39,7 +39,7 @@ const LandingContact = () => {
               <PrimaryButton
                 icon={NotificationsNoneIcon}
                 text="Subscribe Us"
-                inverted={true}
+                variant="inverted"
               />
             </Col>
 

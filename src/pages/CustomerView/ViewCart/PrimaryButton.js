@@ -33,7 +33,7 @@ const PrimaryButton = ({ onClick, text, icon: Icon, variant = "primary" }) => {
                   ? "#007bff"
                   : variant === "red"
                   ? "#ef4565"
-                  : "#0056b3",
+                  : "#ecbf9c",
             }}
           />
         </IconContainer>

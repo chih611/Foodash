@@ -36,7 +36,7 @@ const ItemModification = () => {
         <Row>
           <Col>
             <h2>No item selected</h2>
-            <Link href="/CustomerView/HomePage/HomePage">Go back to home</Link>
+            <Link href="/CustomerView/HomePage/">Go back to home</Link>
           </Col>
         </Row>
       </Container>
