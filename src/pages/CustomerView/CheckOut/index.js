@@ -69,38 +69,51 @@ const Checkout = () => {
   // Function to get or create customer ID
   const checkCustomerId = async (recipientDetails) => {
     try {
-      let finalCustomerId = customerId;
+      let finalCustomerId = customerId; // Use logged-in customer ID if available
+
       if (!finalCustomerId) {
+        // Check if no customer is logged in (i.e., guest checkout)
+        let existingCustomer = null;
+
         try {
-          const existingCustomerByEmail = await checkIfCustomerExists(
-            "user",
-            recipientDetails.email,
-            null
-          );
+          // Check by email
+          if (recipientDetails.email) {
+            existingCustomer = await checkIfCustomerExists(
+              "user",
+              recipientDetails.email,
+              null
+            );
+          }
 
-          const existingCustomerByPhone = await checkIfCustomerExists(
-            "user",
-            null,
-            recipientDetails.contact
-          );
+          // If no customer is found by email, check by contact
+          if (!existingCustomer?.data && recipientDetails.contact) {
+            existingCustomer = await checkIfCustomerExists(
+              "user",
+              null,
+              recipientDetails.contact
+            );
+          }
 
-          if (existingCustomerByEmail?.data && existingCustomerByPhone?.data) {
-            finalCustomerId = existingCustomerByEmail.data.CUSTOMER_ID;
-          } else if (existingCustomerByEmail?.data) {
-            finalCustomerId = existingCustomerByEmail.data.CUSTOMER_ID;
-          } else if (existingCustomerByPhone?.data) {
-            finalCustomerId = existingCustomerByPhone.data.CUSTOMER_ID;
+          // If either email or contact exists, use the customer ID
+          if (existingCustomer?.data) {
+            finalCustomerId = existingCustomer.data.CUSTOMER_ID;
+            console.log(
+              "Existing customer found, using customerId:",
+              finalCustomerId
+            );
           }
         } catch (error) {
           if (error.response && error.response.status === 404) {
-            // 404 error means customer does not exist, proceed to create guest customer
+            console.log("Customer not found, creating a new guest customer...");
+
+            // Create the guest customer if not found
             const guestCustomerData = {
               firstName: recipientDetails.name.split(" ")[0],
               lastName: recipientDetails.name.split(" ")[1] || "",
-              email: recipientDetails.email || null,
-              phoneNumber: recipientDetails.contact || null,
+              email: recipientDetails.email || null, // Email from recipient details
+              phoneNumber: recipientDetails.contact || null, // Phone number from recipient details
               address: recipientDetails.address || null,
-              customerType: "guest",
+              customerType: "guest", // Set as guest
             };
 
             const newCustomerResponse = await dispatch(
@@ -109,6 +122,7 @@ const Checkout = () => {
 
             finalCustomerId = newCustomerResponse.customerId;
           } else {
+            console.error("Error checking for customer:", error);
             throw error;
           }
         }
@@ -116,6 +130,7 @@ const Checkout = () => {
 
       return finalCustomerId;
     } catch (error) {
+      console.error("Error in checkCustomerId:", error);
       throw error;
     }
   };

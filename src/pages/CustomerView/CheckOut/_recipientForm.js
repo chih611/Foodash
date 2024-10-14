@@ -4,6 +4,7 @@ import AccountCircleRounded from "@mui/icons-material/AccountCircleRounded";
 import ArrowRightRounded from "@mui/icons-material/ArrowRightRounded";
 import LocalPhoneOutlined from "@mui/icons-material/LocalPhoneOutlined";
 import AddLocationAltRounded from "@mui/icons-material/AddLocationAltRounded";
+import EmailIcon from "@mui/icons-material/Email";
 
 const DetailForm = ({
   pickup,
@@ -107,7 +108,7 @@ const DetailForm = ({
 
       {/* Add Contact */}
       <div className="d-flex w-100 mt-3">
-        <LocalPhoneOutlined className="standard-icon" />
+        <EmailIcon className="standard-icon" />
         <p className="subtitle ms-2">Email</p>
       </div>
       <div className="w-100 d-flex mb-3 ">
