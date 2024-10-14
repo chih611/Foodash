@@ -15,7 +15,7 @@ import orderDetailReducer from "./slices/orderDetailSlice";
 const persistConfig = {
   key: "root",
   storage,
-  blacklist: ["order", "orderDetail", "items"],
+  blacklist: ["order", "orderDetail"],
 };
 
 // Combine all the reducers

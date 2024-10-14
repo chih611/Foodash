@@ -1,14 +1,26 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
 import { Col, Row, Nav, Container, Button } from "react-bootstrap";
 import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import PrimaryButton from "../ViewCart/PrimaryButton";
+import { getItemById } from "../../../../store/slices/itemsSlice";
 import { useRouter } from "next/router";
 
 const ItemsInformation = () => {
   const router = useRouter();
+  const itemId = router.query.itemId;
+
+  const dispatch = useDispatch();
+
+  // Fetch the item details by itemId
+  useEffect(() => {
+    if (itemId) {
+      dispatch(getItemById(itemId));
+    }
+  }, [itemId, dispatch]);
 
   // Get the selected item from Redux
   const selectedItem = useSelector((state) => state.items.selectedItem);

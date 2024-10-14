@@ -14,9 +14,10 @@ const HomeItemContainer = ({ item }) => {
   const handleAddToCart = () => {
     // Dispatch the selected item to Redux
     dispatch(selectItems(item));
+    const itemId = item.ITEM_ID || 1;
 
     // Navigate to the item details page
-    router.push("/CustomerView/ItemDetails/ItemDetails");
+    router.push("/CustomerView/ItemDetails/?itemId=" + itemId);
   };
 
   return (

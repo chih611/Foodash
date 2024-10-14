@@ -25,6 +25,21 @@ export const fetchItems = createAsyncThunk(
   }
 );
 
+export const getItemById = createAsyncThunk(
+  "items/getItemById",
+  async (itemId, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(`${BASE_URL}/item/${itemId}`);
+      console.log(response.data);
+      return response[0].data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response ? error.response.data : error.message
+      );
+    }
+  }
+);
+
 // Search items by name thunk
 export const searchItemsByName = createAsyncThunk(
   "items/searchItemsByName",
@@ -83,6 +98,19 @@ const itemsSlice = createSlice({
         state.status = "failed";
         state.error = action.error || {
           message: "Error searching items by name",
+        };
+      })
+      .addCase(getItemById.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(getItemById.fulfilled, (state, action) => {
+        state.selectedItem = action.payload;
+        state.status = "succeeded";
+      })
+      .addCase(getItemById.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error || {
+          message: "Error fetching item by ID",
         };
       });
   },
