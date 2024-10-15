@@ -25,8 +25,13 @@ const HomePageNavBar = () => {
         backgroundRepeat: "no-repeat",
       }}
     >
-      <Navbar bg="white" expand="lg" className="border-bottom" fixed="top">
-        <Container fluid className="  px-md-5 py-md-4">
+      <Navbar
+        bg="white"
+        expand="lg"
+        className="border-bottom navBar-body"
+        fixed="top"
+      >
+        <Container fluid className="  navBar-body  px-md-5 py-md-4">
           {/* Mobile Layout */}
           <Row className="w-100 align-items-center d-lg-none">
             {/* Logo (3 columns) */}
