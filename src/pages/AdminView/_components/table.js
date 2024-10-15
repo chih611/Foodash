@@ -72,15 +72,13 @@ const CustomTable = ({
   const totalPages = Math.ceil(filteredData?.length / itemsPerPage);
   const paginationItems = [];
   const showEllipsis = (start, end) => {
-    for (let i = 1; i <= totalPages; i++) {
+    for (let i = start; i <= end; i++) {
       paginationItems.push(
         <Pagination.Item
           key={i}
           active={i === currentPage}
           onClick={() => handlePageChange(i)}
-          linkClassName={
-            i === currentPage ? " bg-pressed-color text-light" : ""
-          }
+          linkClassName={i === currentPage ? "bg-pressed-color text-light" : ""}
         >
           {i}
         </Pagination.Item>
