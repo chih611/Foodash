@@ -1,6 +1,12 @@
 @use '../abstract/colors' as colors;
 @use '../abstract/mixins' as mixins;
 
+
+.navBar-body{
+  background-image:"url(/man-is-standing-by-grill-cooking-food-pan.jpg" !important ;
+
+}
+
 .main_navbar{
     padding: 16px;
     background-color: colors.$bg-color;

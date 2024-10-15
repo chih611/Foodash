@@ -90,9 +90,7 @@ const HomeContent = () => {
                         border: "none",
                         padding: "0",
                       }}
-                      onClick={() =>
-                        router.push("/CustomerView/HomePage/HomePage")
-                      }
+                      onClick={() => router.push("/CustomerView/HomePage/")}
                     >
                       Go back to the homepage
                     </button>
