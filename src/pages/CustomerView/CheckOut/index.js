@@ -48,7 +48,6 @@ const Checkout = () => {
     }
   }, [customerProfile]);
 
-  // Example of fees and total logic
   const fees = [
     { id: 1, name: "Delivery Fee", price: 6.99 },
     { id: 2, name: "Service Fee", price: 2.99 },
@@ -66,17 +65,14 @@ const Checkout = () => {
   const cartTotal =
     cartSubtotal + fees.reduce((acc, fee) => acc + fee.price, 0) - promoValue;
 
-  // Function to get or create customer ID
   const checkCustomerId = async (recipientDetails) => {
     try {
       let finalCustomerId = customerId; // Use logged-in customer ID if available
 
       if (!finalCustomerId) {
-        // Check if no customer is logged in (i.e., guest checkout)
         let existingCustomer = null;
 
         try {
-          // Check by email
           if (recipientDetails.email) {
             existingCustomer = await checkIfCustomerExists(
               "user",
@@ -85,7 +81,6 @@ const Checkout = () => {
             );
           }
 
-          // If no customer is found by email, check by contact
           if (!existingCustomer?.data && recipientDetails.contact) {
             existingCustomer = await checkIfCustomerExists(
               "user",
@@ -94,35 +89,25 @@ const Checkout = () => {
             );
           }
 
-          // If either email or contact exists, use the customer ID
           if (existingCustomer?.data) {
             finalCustomerId = existingCustomer.data.CUSTOMER_ID;
-            console.log(
-              "Existing customer found, using customerId:",
-              finalCustomerId
-            );
           }
         } catch (error) {
           if (error.response && error.response.status === 404) {
-            console.log("Customer not found, creating a new guest customer...");
-
-            // Create the guest customer if not found
             const guestCustomerData = {
               firstName: recipientDetails.name.split(" ")[0],
               lastName: recipientDetails.name.split(" ")[1] || "",
-              email: recipientDetails.email || null, // Email from recipient details
-              phoneNumber: recipientDetails.contact || null, // Phone number from recipient details
+              email: recipientDetails.email || null,
+              phoneNumber: recipientDetails.contact || null,
               address: recipientDetails.address || null,
-              customerType: "guest", // Set as guest
+              customerType: "guest",
             };
 
             const newCustomerResponse = await dispatch(
               createCustomer(guestCustomerData)
             ).unwrap();
-
             finalCustomerId = newCustomerResponse.customerId;
           } else {
-            console.error("Error checking for customer:", error);
             throw error;
           }
         }
@@ -174,8 +159,8 @@ const Checkout = () => {
       const orderResponse = await dispatch(
         createOrder({ orderData: orderPayload })
       ).unwrap();
-
       const orderId = orderResponse.ORDER_ID;
+
       if (!orderId) {
         throw new Error("Failed to create order: ORDER_ID not returned");
       }
@@ -194,7 +179,7 @@ const Checkout = () => {
           UNIT_PRICE: item.price,
           TOTAL: item.price * item.quantity,
           QUANTITY: item.quantity,
-          LABEL_ID: item.labelId,
+          LABEL_ID: item.labelId, // <-- LABEL_ID is passed here
           NOTES: item.notes,
           ITEM_ID: item.itemId,
           MODIFICATION: item.extras,

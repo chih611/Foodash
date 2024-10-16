@@ -5,7 +5,6 @@ import {
   addToCart,
   increaseQuantity,
 } from "../../../../store/slices/cartSlice";
-import { getAllLabels } from "../../../../store/slices/itemsSlice";
 import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
 import PrimaryButton from "../ViewCart/_PrimaryButton";
 import Image from "next/image";
@@ -26,7 +25,10 @@ const ItemModification = () => {
 
   // Local state for extras, selected label, and note
   const [extras, setExtras] = useState({});
-  const [selectedLabels, setSelectedLabels] = useState({});
+  const [selectedLabels, setSelectedLabels] = useState({
+    labelId: null,
+    labelName: "",
+  });
   const [note, setNote] = useState("");
 
   // Set modifications into the state when selectedItemModifications is available
@@ -64,21 +66,20 @@ const ItemModification = () => {
   };
 
   // Handle checkbox changes for labels (single choice behavior)
-  const handleLabelCheckboxChange = (e) => {
+  const handleLabelCheckboxChange = (e, label) => {
     const { name, checked } = e.target;
     if (checked) {
       // Uncheck all other labels and check only the current one
-      const updatedLabels = Object.keys(selectedLabels).reduce((acc, label) => {
-        acc[label] = label === name; // Only keep the selected label checked
-        return acc;
-      }, {});
-      setSelectedLabels(updatedLabels);
+      setSelectedLabels({
+        labelId: label.LABEL_ID, // Store the label ID
+        labelName: name, // Store the label name
+      });
     } else {
-      // Allow unchecking the selected label if needed
-      setSelectedLabels((prevLabels) => ({
-        ...prevLabels,
-        [name]: false,
-      }));
+      // If unchecked, clear the label selection
+      setSelectedLabels({
+        labelId: null,
+        labelName: "",
+      });
     }
   };
 
@@ -91,7 +92,7 @@ const ItemModification = () => {
   const calculateTotal = () => {
     const basePrice = selectedItem ? selectedItem.UNIT_PRICE || 13.5 : 13.5;
     const extrasCost = Object.keys(extras).reduce(
-      (total, extra) => (extras[extra] ? total + 0 : total), // Add $3 for each selected extra
+      (total, extra) => (extras[extra] ? total + 0 : total), // Add extra price if applicable
       0
     );
     return basePrice + extrasCost;
@@ -105,7 +106,8 @@ const ItemModification = () => {
       price: calculateTotal(),
       quantity: 1,
       extras: extras,
-      labels: selectedLabels, // Include selected labels
+      labelId: selectedLabels.labelId, // <-- LABEL_ID is passed here
+      labels: selectedLabels.labelName,
       notes: note.trim(),
       totalPrice: calculateTotal(),
     };
@@ -219,7 +221,6 @@ const ItemModification = () => {
                   <Col xs={3} className="d-flex align-items-center">
                     <label htmlFor={mod.MODIFICATION} className="custom-label">
                       <Row className="extra-item-name">{mod.MODIFICATION}</Row>
-                      <br></br>
                     </label>
                   </Col>
                   <Col xs={8} />
@@ -245,7 +246,7 @@ const ItemModification = () => {
           <h2>Labels</h2>
           {optionLabels
             ? optionLabels
-                .filter((label) => label.LABEL_NAME !== "croissant_labels")
+                .filter((label) => label.LABEL_NAME !== "croissant_labels") // Exclude "croissant_labels"
                 .map((label, index) => (
                   <Row key={index} className="label-checkbox-row">
                     <Col xs={3} className="d-flex align-items-center">
@@ -256,7 +257,6 @@ const ItemModification = () => {
                         <Row className="label-item-name">
                           {label.LABEL_NAME}
                         </Row>
-                        <br></br>
                       </label>
                     </Col>
                     <Col xs={8} />
@@ -265,8 +265,8 @@ const ItemModification = () => {
                         type="checkbox"
                         id={label.LABEL_NAME}
                         name={label.LABEL_NAME}
-                        checked={selectedLabels[label.LABEL_NAME]}
-                        onChange={handleLabelCheckboxChange}
+                        checked={selectedLabels.labelName === label.LABEL_NAME}
+                        onChange={(e) => handleLabelCheckboxChange(e, label)} // Pass label object here
                         className="custom-checkbox"
                       />
                     </Col>

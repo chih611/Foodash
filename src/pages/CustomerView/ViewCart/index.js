@@ -194,11 +194,8 @@ const ViewCart = () => {
             <Row>
               <p>
                 Label:{" "}
-                {item.labels
-                  ? Object.entries(item.labels)
-                      .filter(([_, isSelected]) => isSelected)
-                      .map(([label]) => label)
-                      .join(", ")
+                {item.labels // Only display the labels
+                  ? item.labels
                   : "No labels selected"}
               </p>
             </Row>
