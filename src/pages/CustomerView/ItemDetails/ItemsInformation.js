@@ -31,7 +31,7 @@ const ItemsInformation = () => {
   const selectedItemModifications = useSelector(
     (state) => state.items.selectedItemModifications
   );
-  console.log("selectedItemModifications", selectedItemModifications);
+
   if (!selectedItem) {
     return (
       <div className="item-information">
@@ -50,10 +50,18 @@ const ItemsInformation = () => {
     );
   }
 
-  const parsedIngredients =
-    typeof selectedItem.INGREDIENTS === "string"
-      ? JSON.parse(selectedItem.INGREDIENTS)
-      : selectedItem.INGREDIENTS;
+  // Ensure that we're correctly parsing the modifications and ingredients
+  const parsedModifications = selectedItemModifications.map((mod) => ({
+    modification: mod.MODIFICATION,
+    ingredients: mod.INGREDIENTS,
+  }));
+
+  // Render only the ingredients for the current modification in the loop
+  const renderModifications = parsedModifications.map((mod, index) => (
+    <div key={index}>
+      <strong>{mod.modification}</strong>: {mod.ingredients.join(", ")}
+    </div>
+  ));
 
   const parsedLabels =
     typeof selectedItem.LABELS === "string"
@@ -117,16 +125,7 @@ const ItemsInformation = () => {
             </p>
 
             <h5 className="ingredients-title">Ingredients & Recipes</h5>
-            <Row className="ingredients-list">
-              {parsedIngredients &&
-                Object.entries(parsedIngredients).map(
-                  ([ingredient, amount], index) => (
-                    <Col key={index}>
-                      {ingredient}: {amount}
-                    </Col>
-                  )
-                )}
-            </Row>
+            <Row className="ingredients-list">{renderModifications}</Row>
 
             <Row className="action-buttons mt-3">
               <Col xs={5} md={5}>

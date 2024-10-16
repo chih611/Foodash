@@ -39,7 +39,7 @@ const HomePageNavBar = () => {
               <Link href="/CustomerView/HomePage" legacyBehavior passHref>
                 <a>
                   <Image
-                    src="/Foodash_logo.png"
+                    src="/WCC_LOGO.png"
                     alt="Logo"
                     width={150} // Adjust width as needed
                     height={62} // Adjust height as needed
@@ -110,7 +110,7 @@ const HomePageNavBar = () => {
               <Link href="/CustomerView/HomePage" legacyBehavior passHref>
                 <a>
                   <Image
-                    src="/Foodash_logo.png"
+                    src="/WCC_LOGO.png"
                     alt="Logo"
                     width={199}
                     height={62}

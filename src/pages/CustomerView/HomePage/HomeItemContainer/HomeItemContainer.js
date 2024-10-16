@@ -1,11 +1,15 @@
 import React from "react";
 import { Col, Row, Card, Button } from "react-bootstrap";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import { selectItems } from "../../../../../store/slices/itemsSlice";
+import {
+  selectItems,
+  clearSelectedItemModifications,
+} from "../../../../../store/slices/itemsSlice";
 import { useRouter } from "next/router";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { useDispatch } from "react-redux";
 import StarIcon from "@mui/icons-material/Star";
+import { clear } from "i/lib/inflections";
 
 const HomeItemContainer = ({ item }) => {
   const router = useRouter();
@@ -13,6 +17,7 @@ const HomeItemContainer = ({ item }) => {
 
   const handleAddToCart = () => {
     // Dispatch the selected item to Redux
+    dispatch(clearSelectedItemModifications());
     dispatch(selectItems(item));
     const itemId = item.ITEM_ID || 1;
 
@@ -26,7 +31,7 @@ const HomeItemContainer = ({ item }) => {
         <div className="card-img-container">
           <Card.Img
             variant="top"
-            src="https://via.placeholder.com/150"
+            src="/birthdaycake_cate.jpg"
             className="product-image"
           />
         </div>

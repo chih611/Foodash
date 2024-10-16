@@ -91,6 +91,9 @@ const itemsSlice = createSlice({
     selectItems: (state, action) => {
       state.selectedItem = action.payload; // Set the selected item
     },
+    clearSelectedItemModifications: (state) => {
+      state.selectedItemModifications = []; // Clear the selected item modifications
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -147,5 +150,9 @@ const itemsSlice = createSlice({
   },
 });
 
-export const { clearSearchResults, selectItems } = itemsSlice.actions;
+export const {
+  clearSearchResults,
+  selectItems,
+  clearSelectedItemModifications,
+} = itemsSlice.actions;
 export default itemsSlice.reducer;
