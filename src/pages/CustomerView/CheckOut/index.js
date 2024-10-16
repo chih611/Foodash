@@ -197,6 +197,7 @@ const Checkout = () => {
           LABEL_ID: item.labelId,
           NOTES: item.notes,
           ITEM_ID: item.itemId,
+          MODIFICATION: item.extras,
         };
 
         return dispatch(createOrderDetail(orderDetailPayload)).unwrap();

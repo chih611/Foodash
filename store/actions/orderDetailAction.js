@@ -8,7 +8,16 @@ const BASE_URL = `http://localhost:${BACKEND_PORT}`;
 export const createOrderDetail = createAsyncThunk(
   "orderDetail/createOrderDetail",
   async (
-    { ORDER_ID, UNIT_PRICE, TOTAL, QUANTITY, LABEL_ID, NOTES, ITEM_ID },
+    {
+      ORDER_ID,
+      UNIT_PRICE,
+      TOTAL,
+      QUANTITY,
+      LABEL_ID,
+      NOTES,
+      ITEM_ID,
+      MODIFICATION,
+    },
     { rejectWithValue }
   ) => {
     try {
@@ -20,6 +29,7 @@ export const createOrderDetail = createAsyncThunk(
         LABEL_ID,
         NOTES,
         ITEM_ID,
+        MODIFICATION,
       });
       return response.data;
     } catch (error) {
