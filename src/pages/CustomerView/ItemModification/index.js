@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Badge } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -6,7 +6,6 @@ import {
   increaseQuantity,
 } from "../../../../store/slices/cartSlice";
 import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
-
 import PrimaryButton from "../ViewCart/_PrimaryButton";
 import Image from "next/image";
 import Link from "next/link";
@@ -16,19 +15,31 @@ const ItemModification = () => {
   // Access selectedItem from Redux
   const { cartItems } = useSelector((state) => state.cart);
   const selectedItem = useSelector((state) => state.items.selectedItem);
+  const selectedItemModifications = useSelector(
+    (state) => state.items.selectedItemModifications
+  );
   const customerProfile = useSelector((state) => state.customer.profile);
   const customerId = customerProfile?.CUSTOMER_ID || null;
   const dispatch = useDispatch();
   const router = useRouter();
 
   // Local state for extras and notes
-  const [extras, setExtras] = useState({
-    Bacon: false,
-    Ham: false,
-    Egg: false,
-    Tomatoes: false,
-  });
+  const [extras, setExtras] = useState({});
   const [note, setNote] = useState("");
+
+  // Set modifications into the state when selectedItemModifications is available
+  useEffect(() => {
+    if (selectedItemModifications.length > 0) {
+      const initialExtrasState = selectedItemModifications.reduce(
+        (acc, mod) => {
+          acc[mod.MODIFICATION] = false; // Set each modification to false initially
+          return acc;
+        },
+        {}
+      );
+      setExtras(initialExtrasState); // Initialize the extras state with modifications
+    }
+  }, [selectedItemModifications]); // Run this when selectedItemModifications changes
 
   // Ensure selectedItem is available
   if (!selectedItem) {
@@ -49,7 +60,7 @@ const ItemModification = () => {
     const { name, checked } = e.target;
     setExtras((prevExtras) => ({
       ...prevExtras,
-      [name]: checked,
+      [name]: checked, // Update the checked state for the modification
     }));
   };
 
@@ -62,13 +73,12 @@ const ItemModification = () => {
   const calculateTotal = () => {
     const basePrice = selectedItem ? selectedItem.PRICE || 13.5 : 13.5;
     const extrasCost = Object.keys(extras).reduce(
-      (total, extra) => (extras[extra] ? total + 3 : total),
+      (total, extra) => (extras[extra] ? total + 0 : total), // Add $3 for each selected extra
       0
     );
     return basePrice + extrasCost;
   };
 
-  // Add the item to the cart or increase its quantity
   // Add the item to the cart or increase its quantity
   const handleAddToCart = () => {
     const modifiedItem = {
@@ -158,7 +168,7 @@ const ItemModification = () => {
             }}
           >
             <Image
-              src={selectedItem.image || ""}
+              src={selectedItem.image || "/birthdaycake_cate.jpg"}
               alt={selectedItem.ITEM_NAME}
               layout="fill"
             />
@@ -186,28 +196,30 @@ const ItemModification = () => {
       {/* Extras Section */}
       <Row className="my-4">
         <Col>
-          <h2>Extras</h2>
-          {Object.keys(extras).map((extra, index) => (
-            <Row key={index} className="extra-checkbox-row">
-              <Col xs={3} className="d-flex align-items-center">
-                <label htmlFor={extra} className="custom-label">
-                  <Row className="extra-item-name">{extra}</Row>
-                  <Row>+ $3.00</Row>
-                </label>
-              </Col>
-              <Col xs={8} />
-              <Col xs={1} className="d-flex align-items-center">
-                <input
-                  type="checkbox"
-                  id={extra}
-                  name={extra}
-                  checked={extras[extra]}
-                  onChange={handleCheckboxChange}
-                  className="custom-checkbox"
-                />
-              </Col>
-            </Row>
-          ))}
+          <h2>Options</h2>
+          {selectedItemModifications
+            ? selectedItemModifications.map((mod, index) => (
+                <Row key={index} className="extra-checkbox-row">
+                  <Col xs={3} className="d-flex align-items-center">
+                    <label htmlFor={mod.MODIFICATION} className="custom-label">
+                      <Row className="extra-item-name">{mod.MODIFICATION}</Row>
+                      <Row>+ $3.00</Row>
+                    </label>
+                  </Col>
+                  <Col xs={8} />
+                  <Col xs={1} className="d-flex align-items-center">
+                    <input
+                      type="checkbox"
+                      id={mod.MODIFICATION}
+                      name={mod.MODIFICATION}
+                      checked={extras[mod.MODIFICATION]}
+                      onChange={handleCheckboxChange}
+                      className="custom-checkbox"
+                    />
+                  </Col>
+                </Row>
+              ))
+            : "No modifications available"}
         </Col>
       </Row>
 

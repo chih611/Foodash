@@ -108,7 +108,7 @@ const ItemsInformation = () => {
                       <Nav.Link className="category-tab">{label}</Nav.Link>
                     </Nav.Item>
                   ))
-                : `No labels available`}
+                : ``}
             </Nav>
 
             <div className="price-section">

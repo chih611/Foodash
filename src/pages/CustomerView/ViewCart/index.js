@@ -168,13 +168,13 @@ const ViewCart = () => {
               </Col>
             </Row>
             <Row>
-              <p>Extras:</p>
+              <p>Options:</p>
               <ul>
-                {Object.entries(item.extras).map(([key, value]) => (
-                  <li key={key}>
-                    {key}: {value ? "Yes" : "No"}
-                  </li>
-                ))}
+                {Object.entries(item.extras)
+                  .filter(([key, value]) => value)
+                  .map(([key, value]) => (
+                    <li key={key}>{key}</li>
+                  ))}
               </ul>
             </Row>
             <Row>
