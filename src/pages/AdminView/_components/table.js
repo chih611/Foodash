@@ -9,7 +9,8 @@ import {
   Table,
 } from "react-bootstrap";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { SwapVertRounded } from "@mui/icons-material";
 
 const CustomTable = ({
   headers,
@@ -28,27 +29,56 @@ const CustomTable = ({
       .includes(searchTerm.toLowerCase())
   );
 
+  //sort data
+  const [sortConfig, setSortConfig] = useState({
+    key: null,
+    direction: "ascending",
+  });
+
+  const handleSort = (key) => {
+    let direction = "ascending";
+    if (sortConfig.key === key && sortConfig.direction === "ascending") {
+      direction = "descending";
+    }
+    setSortConfig({ key, direction });
+  };
+
+  const sortedData = useMemo(() => {
+    let sortableItems = [...filteredData];
+    if (sortConfig.key !== null) {
+      sortableItems.sort((a, b) => {
+        if (a[sortConfig.key] < b[sortConfig.key]) {
+          return sortConfig.direction === "ascending" ? -1 : 1;
+        }
+        if (a[sortConfig.key] > b[sortConfig.key]) {
+          return sortConfig.direction === "ascending" ? 1 : -1;
+        }
+        return 0;
+      });
+    }
+    return sortableItems;
+  }, [filteredData, sortConfig]);
+
+  //pagination
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredData?.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = sortedData?.slice(indexOfFirstItem, indexOfLastItem);
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
   const totalPages = Math.ceil(filteredData?.length / itemsPerPage);
   const paginationItems = [];
   const showEllipsis = (start, end) => {
-    for (let i = 1; i <= totalPages; i++) {
+    for (let i = start; i <= end; i++) {
       paginationItems.push(
         <Pagination.Item
           key={i}
           active={i === currentPage}
           onClick={() => handlePageChange(i)}
-          linkClassName={
-            i === currentPage ? " bg-pressed-color text-light" : ""
-          }
+          linkClassName={i === currentPage ? "bg-pressed-color text-light" : ""}
         >
           {i}
         </Pagination.Item>
@@ -163,6 +193,13 @@ const CustomTable = ({
                       className=" bg-pressed-color text-light text-center text-nowrap"
                     >
                       {header}
+                      <Button
+                        variant="link"
+                        className="bg-pressed-color text-light"
+                        onClick={() => handleSort(header)}
+                      >
+                        <SwapVertRounded />
+                      </Button>
                     </th>
                   ))
                 )}
@@ -181,10 +218,7 @@ const CustomTable = ({
                       <td key={j} className=" text-center">
                         <Button
                           variant="link"
-                          onDoubleClick={() =>
-                            handleRecordDoubleClick &&
-                            handleRecordDoubleClick(e)
-                          }
+                          onDoubleClick={() => handleRecordDoubleClick(e)}
                           className="text-decoration-none text-pressed-color text-nowrap"
                         >
                           {value

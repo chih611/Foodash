@@ -1,8 +1,8 @@
 import { Accordion, Col, Form } from "react-bootstrap";
-import { CustomInput } from "../_components/input";
-import { CustomDropBox } from "../_components/dropbox";
+import CustomInput from "../_components/input";
+import CustomDropBox from "../_components/dropbox";
 
-export const PersonalDetail = ({
+const PersonalDetail = ({
   e,
   setSwitchOptions,
   switchOptions,
@@ -13,7 +13,7 @@ export const PersonalDetail = ({
   readOnlyFields,
   Row,
   statusFetching,
-}) => (
+}) => {
   <>
     <Accordion defaultActiveKey={["0"]} alwaysOpen>
       <Accordion.Item eventKey="0">
@@ -55,5 +55,7 @@ export const PersonalDetail = ({
         </Accordion.Body>
       </Accordion.Item>
     </Accordion>
-  </>
-);
+  </>;
+};
+
+export default PersonalDetail;

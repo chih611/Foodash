@@ -5,7 +5,7 @@ import { addToCart } from "../../../../store/slices/cartSlice";
 import { useDispatch } from "react-redux";
 import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
 
-import PrimaryButton from "../ViewCart/PrimaryButton";
+import PrimaryButton from "../ViewCart/_PrimaryButton";
 import Image from "next/image";
 import Link from "next/link";
 

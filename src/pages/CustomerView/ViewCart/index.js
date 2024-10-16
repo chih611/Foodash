@@ -8,9 +8,9 @@ import {
   InputGroup,
   FormControl,
 } from "react-bootstrap";
-import QuantityInputField from "./QuantityInputContainer";
+// import QuantityInputField from "./_QuantityInputContainer";
 import ClearIcon from "@mui/icons-material/Clear";
-import PrimaryButton from "./PrimaryButton";
+import PrimaryButton from "./_PrimaryButton";
 import NavBarCheckOut from "../CheckOut/_NavBarCheckOut";
 import Inventory2Outlined from "@mui/icons-material/Inventory2Outlined";
 const ViewCart = () => {
@@ -116,11 +116,11 @@ const ViewCart = () => {
             </Row>
             <Row>
               <Col xs={3}>
-                <QuantityInputField
+                {/* <QuantityInputField
                   quantity={item.quantity}
                   onIncrease={() => increaseQuantity(item.id)}
                   onDecrease={() => decreaseQuantity(item.id)}
-                />
+                /> */}
               </Col>
               <Col xs={7}></Col>
               <Col xs={2}>
@@ -149,13 +149,13 @@ const ViewCart = () => {
             <h3 className="subtotal-text">Subtotal: ${subtotal}</h3>
           </Col>
           <Col xs={10}></Col>
-          <Col xs={12} className="text-right mt-3 ms-3" >
-            <Link href = "/CustomerView/CheckOut">
-              <PrimaryButton                
-                  text="Check out now"
-                  icon={Inventory2Outlined} // Pass the icon component                
-                />{" "}          
-            </Link>            
+          <Col xs={12} className="text-right mt-3 ms-3">
+            <Link href="/CustomerView/CheckOut">
+              <PrimaryButton
+                text="Check out now"
+                icon={Inventory2Outlined} // Pass the icon component
+              />{" "}
+            </Link>
           </Col>
         </Row>
       </div>

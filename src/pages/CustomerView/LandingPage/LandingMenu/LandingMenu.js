@@ -2,7 +2,7 @@ import React from "react";
 import LandingNavBar from "../LandingNavBar/LandingNavBar";
 import Link from "next/link";
 import { Container, Row, Col, Button } from "react-bootstrap";
-import PrimaryButton from "../../ViewCart/PrimaryButton";
+import PrimaryButton from "../../ViewCart/_PrimaryButton";
 import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
 
 const LandingMenu = () => {
