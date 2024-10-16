@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
 import { Form, Placeholder } from "react-bootstrap";
 
-export const CustomDropBox = ({
+const CustomDropBox = ({
   value,
   title,
   index,
@@ -44,3 +43,5 @@ export const CustomDropBox = ({
     </>
   );
 };
+
+export default CustomDropBox;

@@ -1,18 +1,8 @@
 import React, { useState, useRef } from "react";
 import Link from "next/link";
-import {
-  Container,
-  Row,
-  Col,
-  Navbar,
-  Nav,
-  Button,
-  Offcanvas,
-} from "react-bootstrap";
-import Image from "next/image";
+import { Button } from "react-bootstrap";
 import NavBarCheckOut from "./_NavBarCheckOut";
-import CheckCircleRounded from "@mui/icons-material/CheckCircleRounded";
-import { ConfirmLayout } from "./CheckOutStyle";
+import ConfirmLayout from "./CheckOutStyle";
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 

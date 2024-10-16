@@ -1,4 +1,4 @@
-export const ConfirmationAlert = ({ Id, elementName }) => {
+const ConfirmationAlert = ({ Id, elementName }) => {
   return (
     <>
       <p>
@@ -7,3 +7,4 @@ export const ConfirmationAlert = ({ Id, elementName }) => {
     </>
   );
 };
+export default ConfirmationAlert;
