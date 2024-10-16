@@ -12,7 +12,7 @@ const AdminLayout = () => {
 
   return (
     <Tab.Container id="left-tabs-example" defaultActiveKey="Home">
-      <Container fluid>
+      <Container fluid> 
         <Header breadcrumb={breadcrumb} handleSelect={handleSelect} />
         <SideBar handleSelect={handleSelect} setbreadcrumb={setbreadcrumb} />
       </Container>

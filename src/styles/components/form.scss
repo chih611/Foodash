@@ -66,3 +66,18 @@
   }
 }
 
+.form-date-input-blue-color {
+  border: 1px solid colors.$element-color !important; /* Only bottom border in primary color */
+  border-radius: 10px; /* Remove rounded corners */
+  padding: 5px;
+  color: colors.$text-color !important;
+  height: 40px;
+  background-color: none !important;
+
+
+  &:hover {
+    background-color: colors.$hover-color;
+    color: white;
+    border: none;
+  }
+}
