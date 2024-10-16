@@ -18,7 +18,7 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 const Header = ({ breadcrumb, handleSelect }) => {
   return (
     <>
-      <Row className="align-items-center admin-header">
+      <Row className="align-items-center admin-header my-3">
         <Col>
           <Navbar.Brand href="#home">
             {" "}

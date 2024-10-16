@@ -1,25 +1,26 @@
 import { useState, useEffect } from "react";
-import { Card, Col, Container, Row, Tab, Dropdown, Button } from "react-bootstrap";
+import { Card, Col, Container, Row, Tab, Dropdown, Button, InputGroup } from "react-bootstrap";
 import Link from "next/link";
 import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, getKeyValue} from "@nextui-org/react";
 import FilterListOutlined from "@mui/icons-material/FilterListOutlined"
-import {DateRangePicker} from "@nextui-org/react";
+import {DateRangePicker, Input} from "@nextui-org/react";
 import SearchBar from "../_components/searchbar";
 
 const ReportCategory = (props) => {
 
   // create table view, using map and prop item later from database 
   const rows = [
-    {key: "1", category: "Drink", sold: "120", date: "02/01/2024", sales: "154.23", tax: "15.4", refund: "0", discount: "0", netsales: "174.23", status: "Active", },
-    {key: "2", category: "Eat", sold: "120", date: "02/01/2024", sales: "154.23", tax: "15.4", refund: "0", discount: "0", netsales: "174.23", status: "Active", },
-    {key: "3", category: "Coffee", sold: "120", date: "02/01/2024", sales: "154.23", tax: "15.4", refund: "0", discount: "0", netsales: "174.23", status: "Active", },
-    {key: "14", category: "Food", sold: "120", date: "02/01/2024", sales: "154.23", tax: "15.4", refund: "2.67", discount: "0", netsales: "164.23", status: "Active", },
-    {key: "5", category: "Others", sold: "120", date: "02/01/2024", sales: "154.23", tax: "15.4", refund: "2.67", discount: "0", netsales: "174.23", status: "Active", },
+    {key: "1", category: "Drink", item: "Mini Croissant", sold: "120", date: "02/01/2024", sales: "154.23", tax: "15.4", refund: "0", discount: "0", netsales: "174.23", status: "Active", },
+    {key: "2", category: "Eat",item: "Mini Croissant", sold: "120", date: "02/01/2024", sales: "154.23", tax: "15.4", refund: "0", discount: "0", netsales: "174.23", status: "Active", },
+    {key: "3", category: "Coffee", item: "Mini Croissant", sold: "120", date: "02/01/2024", sales: "154.23", tax: "15.4", refund: "0", discount: "0", netsales: "174.23", status: "Active", },
+    {key: "14", category: "Food", item: "Mini Croissant", sold: "120", date: "02/01/2024", sales: "154.23", tax: "15.4", refund: "2.67", discount: "0", netsales: "164.23", status: "Active", },
+    {key: "5", category: "Others", item: "Mini Croissant", sold: "120", date: "02/01/2024", sales: "154.23", tax: "15.4", refund: "2.67", discount: "0", netsales: "174.23", status: "Active", },
   ];
 
   const columns = [
     { key: "category", label: "Category",  },
-    { key: "sold", label: "Item_Sold", },
+    { key: "item", label: "Item",  },
+    { key: "sold", label: "Sold", },
     { key: "date", label: "Date", },
     { key: "sales", label: "Sales", },
     { key: "tax", label: "Tax", },
@@ -80,7 +81,6 @@ const ReportCategory = (props) => {
   
   return (
       <>
-      
       <div className="m-3 p-3">        
         {/* Funtions: Filter by Date and display total number of item sold */}
         <div 
@@ -90,20 +90,20 @@ const ReportCategory = (props) => {
               minHeight: "auto",
               border: "20px solid #EBF5FD", borderRadius: "30px"}} >
 
-          <h5> Sales by Category </h5>
+          <p className="subtitle_admin"> SALES BY CATEGORY </p>
           <div >
-              <input type = "date" 
+              <input type = "date" className="form-date-input-blue-color"
                     value={startDate}
                     onChange={(e) => setStartDate(e.target.value)}
               />
               <span className="subtitle mx-3">to</span>
-              <input type = "date" 
+              <input type = "date" className="form-date-input-blue-color"
                      value={endDate}
                      onChange={(e) => setEndDate(e.target.value)} 
               />
               <button className="btn btn-secondary mx-3 mb-1" onClick={handleReset}>Clear</button>
           </div>
-          <p className="subtitle_admin">Total Number of Item Sold: {countSoldItems()}</p>          
+          <h5>Total Number of Item Sold: {countSoldItems()}</h5>          
         </div>
 
 
