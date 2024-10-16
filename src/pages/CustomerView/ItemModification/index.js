@@ -71,7 +71,7 @@ const ItemModification = () => {
 
   // Calculate the total price based on extras
   const calculateTotal = () => {
-    const basePrice = selectedItem ? selectedItem.PRICE || 13.5 : 13.5;
+    const basePrice = selectedItem ? selectedItem.UNIT_PRICE || 13.5 : 13.5;
     const extrasCost = Object.keys(extras).reduce(
       (total, extra) => (extras[extra] ? total + 0 : total), // Add $3 for each selected extra
       0
@@ -196,14 +196,14 @@ const ItemModification = () => {
       {/* Extras Section */}
       <Row className="my-4">
         <Col>
-          <h2>Options</h2>
+          <h2>Variety</h2>
           {selectedItemModifications
             ? selectedItemModifications.map((mod, index) => (
                 <Row key={index} className="extra-checkbox-row">
                   <Col xs={3} className="d-flex align-items-center">
                     <label htmlFor={mod.MODIFICATION} className="custom-label">
                       <Row className="extra-item-name">{mod.MODIFICATION}</Row>
-                      <Row>+ $3.00</Row>
+                      <br></br>
                     </label>
                   </Col>
                   <Col xs={8} />
