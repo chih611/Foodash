@@ -42,39 +42,39 @@ const ViewCart = () => {
     }
   }, [customerId, dispatch]);
 
-  const handleRemoveItem = (itemId, extras, note) => {
+  const handleRemoveItem = (itemId, extras, labels, note) => {
     console.log("Removing item with note:", note);
-    dispatch(removeFromCart({ customerId, itemId, extras, note }));
+    dispatch(removeFromCart({ customerId, itemId, extras, labels, note }));
   };
 
-  const handleIncreaseQuantity = (itemId, extras, note) => {
-    console.log("Increase quantity", itemId, extras, note);
-    dispatch(increaseQuantity({ customerId, itemId, extras, note }));
+  const handleIncreaseQuantity = (itemId, extras, labels, note) => {
+    console.log("Increase quantity", itemId, extras, labels, note);
+    dispatch(increaseQuantity({ customerId, itemId, extras, labels, note }));
   };
 
   const handleClearCart = () => {
     dispatch(clearCartItems({ customerId, cartId }));
   };
 
-  const handleDecreaseQuantity = (itemId, extras, note) => {
-    console.log("Decreasing quantity for:", itemId, extras, note); // Debugging log
+  const handleDecreaseQuantity = (itemId, extras, labels, note) => {
+    console.log("Decreasing quantity for:", itemId, extras, labels, note);
 
-    // Find the specific item by itemId, extras, and note
     const currentItem = cartItems.find((item) => {
       const extrasMatch =
         JSON.stringify(item.extras) === JSON.stringify(extras);
+      const labelsMatch =
+        JSON.stringify(item.labels) === JSON.stringify(labels);
       const notesMatch = (item.notes || "").trim() === (note || "").trim();
-      return item.itemId === itemId && extrasMatch && notesMatch;
+      return item.itemId === itemId && extrasMatch && labelsMatch && notesMatch;
     });
 
-    // If the item exists, handle decreasing or removing it based on its quantity
     if (currentItem) {
       if (currentItem.quantity === 1) {
-        // If quantity is 1, remove the item
-        dispatch(removeFromCart({ customerId, itemId, extras, note }));
+        dispatch(removeFromCart({ customerId, itemId, extras, labels, note }));
       } else {
-        // Otherwise, decrease the quantity
-        dispatch(decreaseQuantity({ customerId, itemId, extras, note }));
+        dispatch(
+          decreaseQuantity({ customerId, itemId, extras, labels, note })
+        );
       }
     }
   };
@@ -107,9 +107,8 @@ const ViewCart = () => {
     );
   }
 
-  // Calculate total locally
   const total = cartItems
-    .filter((item) => item !== null) // Ensure null items are filtered out
+    .filter((item) => item !== null)
     .reduce((acc, item) => acc + item.price * item.quantity, 0)
     .toFixed(2);
 
@@ -135,7 +134,12 @@ const ViewCart = () => {
                     className="remove-item-icon"
                     style={{ color: "094067" }}
                     onClick={() =>
-                      handleRemoveItem(item.itemId, item.extras, item.notes)
+                      handleRemoveItem(
+                        item.itemId,
+                        item.extras,
+                        item.labels,
+                        item.notes
+                      )
                     }
                   />
                 </Button>
@@ -154,10 +158,20 @@ const ViewCart = () => {
                 <QuantityInputField
                   quantity={item.quantity}
                   onIncrease={() =>
-                    handleIncreaseQuantity(item.itemId, item.extras, item.notes)
+                    handleIncreaseQuantity(
+                      item.itemId,
+                      item.extras,
+                      item.labels,
+                      item.notes
+                    )
                   }
                   onDecrease={() =>
-                    handleDecreaseQuantity(item.itemId, item.extras, item.notes)
+                    handleDecreaseQuantity(
+                      item.itemId,
+                      item.extras,
+                      item.labels,
+                      item.notes
+                    )
                   }
                 />
               </Col>
@@ -168,7 +182,7 @@ const ViewCart = () => {
               </Col>
             </Row>
             <Row>
-              <p>Options:</p>
+              <p>Variety:</p>
               <ul>
                 {Object.entries(item.extras)
                   .filter(([key, value]) => value)
@@ -177,6 +191,18 @@ const ViewCart = () => {
                   ))}
               </ul>
             </Row>
+            <Row>
+              <p>
+                Label:{" "}
+                {item.labels
+                  ? Object.entries(item.labels)
+                      .filter(([_, isSelected]) => isSelected)
+                      .map(([label]) => label)
+                      .join(", ")
+                  : "No labels selected"}
+              </p>
+            </Row>
+
             <Row>
               <p>notes: {item.notes}</p>
             </Row>

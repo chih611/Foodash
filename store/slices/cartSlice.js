@@ -26,16 +26,6 @@ const updateExistingCart = async (cartId, customerId, cartItems, cartTotal) => {
   return response.data;
 };
 
-// Function to check if a cart exists for the customer
-const checkCartExists = async (customerId) => {
-  try {
-    const response = await axios.get(`${BASE_URL}/cart/customer/${customerId}`);
-    return response.data;
-  } catch (error) {
-    return null; // Return null if no cart found
-  }
-};
-
 /* Async Thunks */
 
 // Fetch cart by customer ID
@@ -68,61 +58,75 @@ export const addToCart = createAsyncThunk(
     try {
       const { cartItems, cartId } = getState().cart;
 
-      // Handle the case for guest users (customerId is null)
+      // Handle guest users (customerId is null)
       if (!customerId) {
         const updatedCartItems = [...cartItems, item].filter(
           (item) => item !== null
-        ); // Ensure no null items
+        );
         return { cartItems: updatedCartItems, cartId: null };
       }
 
-      // If cart already exists for this customer
+      // Check if the same item (considering extras, notes, and labels) already exists
+      const existingItem = cartItems.find(
+        (cartItem) =>
+          cartItem.itemId === item.itemId &&
+          JSON.stringify(cartItem.extras) === JSON.stringify(item.extras) &&
+          JSON.stringify(cartItem.labels) === JSON.stringify(item.labels) &&
+          (cartItem.notes || "").trim() === (item.notes || "").trim()
+      );
+
+      if (existingItem) {
+        // If item exists, increase its quantity
+        existingItem.quantity += item.quantity;
+      } else {
+        // If item doesn't exist, add as new
+        cartItems.push(item);
+      }
+
+      const cartTotal = cartItems.reduce(
+        (total, item) => total + item.price * item.quantity,
+        0
+      );
+
       if (cartId) {
-        const updatedCartItems = [...cartItems, item];
-        const cartTotal = updatedCartItems.reduce(
-          (total, item) => total + item.price * item.quantity,
-          0
-        );
         const result = await updateExistingCart(
           cartId,
           customerId,
-          updatedCartItems,
+          cartItems,
           cartTotal
         );
-        return { cartItems: updatedCartItems, cartId };
+        return { cartItems, cartId };
       }
 
-      // Create a new cart if none exists
-      const newCartItems = [item];
-      const cartTotal = item.price * item.quantity;
-      const newCart = await createNewCart(customerId, newCartItems, cartTotal);
-      return { cartItems: newCartItems, cartId: newCart.CART_ID };
+      const newCart = await createNewCart(customerId, cartItems, cartTotal);
+      return { cartItems, cartId: newCart.CART_ID };
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
     }
   }
 );
 
+// Increase item quantity
 export const increaseQuantity = createAsyncThunk(
   "cart/increaseQuantity",
   async (
-    { customerId, itemId, extras = {}, note = "" },
+    { customerId, itemId, extras = {}, labels = {}, note = "" },
     { getState, rejectWithValue }
   ) => {
     try {
       const { cartItems, cartId } = getState().cart;
 
-      // Map through cart items and increase the quantity of the specified item, considering extras and notes
+      // Increase the quantity of the specified item, considering extras, notes, and labels
       const updatedCartItems = cartItems.map((cartItem) => {
         const extrasMatch =
-          JSON.stringify(cartItem.extras || {}) ===
-          JSON.stringify(extras || {});
+          JSON.stringify(cartItem.extras || {}) === JSON.stringify(extras);
+        const labelsMatch =
+          JSON.stringify(cartItem.labels || {}) === JSON.stringify(labels);
         const notesMatch =
           (cartItem.notes || "").trim() === (note || "").trim();
         const itemIdMatch = cartItem.itemId === itemId;
 
-        // Increase the quantity only for the matching item
-        if (extrasMatch && notesMatch && itemIdMatch) {
+        if (itemIdMatch && extrasMatch && labelsMatch && notesMatch) {
           return { ...cartItem, quantity: cartItem.quantity + 1 };
         }
         return cartItem;
@@ -152,34 +156,27 @@ export const increaseQuantity = createAsyncThunk(
   }
 );
 
+// Remove item from cart
 export const removeFromCart = createAsyncThunk(
   "cart/removeFromCart",
   async (
-    { customerId, itemId, extras = {}, note = "" },
+    { customerId, itemId, extras = {}, labels = {}, note = "" },
     { getState, rejectWithValue }
   ) => {
     try {
       const { cartItems, cartId } = getState().cart;
 
-      // Log the state of cartItems before the removal process
-      console.log("Current cart items before removal:", cartItems);
-      console.log("Attempting to remove item:", { itemId, extras, note });
-
-      // Improved comparison logic for extras and note
       const updatedCartItems = cartItems.filter((cartItem) => {
         const extrasMatch =
-          JSON.stringify(cartItem.extras || {}) ===
-          JSON.stringify(extras || {});
+          JSON.stringify(cartItem.extras || {}) === JSON.stringify(extras);
+        const labelsMatch =
+          JSON.stringify(cartItem.labels || {}) === JSON.stringify(labels);
         const notesMatch =
           (cartItem.notes || "").trim() === (note || "").trim();
         const itemIdMatch = cartItem.itemId === itemId;
 
-        // Remove only the matching item with the same extras AND notes
-        return !(extrasMatch && notesMatch && itemIdMatch);
+        return !(extrasMatch && labelsMatch && notesMatch && itemIdMatch);
       });
-
-      // Log the updated cart after removal attempt
-      console.log("Updated cart items after removal:", updatedCartItems);
 
       const cartTotal = updatedCartItems.reduce(
         (total, item) => total + item.price * item.quantity,
@@ -197,54 +194,52 @@ export const removeFromCart = createAsyncThunk(
           updatedCartItems,
           cartTotal
         );
-        console.log("Cart updated successfully:", result);
         return { cartItems: updatedCartItems, cartId };
       }
     } catch (error) {
-      console.error("Error in removeFromCart:", error.message);
       return rejectWithValue(error.response?.data?.message || error.message);
     }
   }
 );
 
+// Decrease item quantity
 export const decreaseQuantity = createAsyncThunk(
   "cart/decreaseQuantity",
   async (
-    { customerId, itemId, extras = {}, note = "" },
+    { customerId, itemId, extras = {}, labels = {}, note = "" },
     { getState, rejectWithValue, dispatch }
   ) => {
     try {
       const { cartItems, cartId } = getState().cart;
 
-      // Find the target item
       const targetItem = cartItems.find((cartItem) => {
         const extrasMatch =
-          JSON.stringify(cartItem.extras || {}) ===
-          JSON.stringify(extras || {});
+          JSON.stringify(cartItem.extras || {}) === JSON.stringify(extras);
+        const labelsMatch =
+          JSON.stringify(cartItem.labels || {}) === JSON.stringify(labels);
         const notesMatch =
           (cartItem.notes || "").trim() === (note || "").trim();
         const itemIdMatch = cartItem.itemId === itemId;
 
-        return extrasMatch && notesMatch && itemIdMatch;
+        return extrasMatch && labelsMatch && notesMatch && itemIdMatch;
       });
 
-      // If the item exists and its quantity is 1, remove it instead of decreasing
       if (targetItem && targetItem.quantity === 1) {
         return dispatch(
-          removeFromCart({ customerId, itemId, extras, note })
+          removeFromCart({ customerId, itemId, extras, labels, note })
         ).unwrap();
       }
 
-      // Otherwise, proceed to decrease the quantity
       const updatedCartItems = cartItems.map((cartItem) => {
         const extrasMatch =
-          JSON.stringify(cartItem.extras || {}) ===
-          JSON.stringify(extras || {});
+          JSON.stringify(cartItem.extras || {}) === JSON.stringify(extras);
+        const labelsMatch =
+          JSON.stringify(cartItem.labels || {}) === JSON.stringify(labels);
         const notesMatch =
           (cartItem.notes || "").trim() === (note || "").trim();
         const itemIdMatch = cartItem.itemId === itemId;
 
-        if (extrasMatch && notesMatch && itemIdMatch) {
+        if (extrasMatch && labelsMatch && notesMatch && itemIdMatch) {
           return { ...cartItem, quantity: cartItem.quantity - 1 };
         }
         return cartItem;
@@ -259,7 +254,6 @@ export const decreaseQuantity = createAsyncThunk(
         return { cartItems: updatedCartItems, cartId: null };
       }
 
-      // If a cartId exists, update the cart in the backend
       if (cartId) {
         const result = await updateExistingCart(
           cartId,
@@ -267,25 +261,21 @@ export const decreaseQuantity = createAsyncThunk(
           updatedCartItems,
           cartTotal
         );
-        console.log("Cart updated successfully:", result); // Debugging log
         return { cartItems: updatedCartItems, cartId };
       }
 
-      // Handle cases where there's no cartId
       return { cartItems: updatedCartItems, cartId: null };
     } catch (error) {
-      console.error("Error in decreaseQuantity:", error.message); // Debugging log
       return rejectWithValue(error.response?.data?.message || error.message);
     }
   }
 );
 
+// Clear cart items
 export const clearCartItems = createAsyncThunk(
   "cart/clearCartItems",
   async ({ customerId, cartId }, { getState, rejectWithValue }) => {
     try {
-      const { cart } = getState();
-
       const updatedCartItems = [];
       const cartTotal = 0;
 
@@ -299,27 +289,25 @@ export const clearCartItems = createAsyncThunk(
         updatedCartItems,
         cartTotal
       );
-
-      console.log("Cart cleared successfully:", result.data);
       return { cartItems: updatedCartItems, cartId };
     } catch (error) {
-      console.error("Error clearing cart:", error.message);
       return rejectWithValue(error.response?.data?.message || error.message);
     }
   }
 );
 
+// Selector to get the total cart value
 export const getCartTotal = (state) => {
   if (!state.cart.cartItems || state.cart.cartItems.length === 0) {
     return 0;
   }
-  return state.cart.cartItems
-    .filter((item) => item !== null)
-    .reduce((total, item) => {
-      return total + item.price * item.quantity;
-    }, 0);
+  return state.cart.cartItems.reduce(
+    (total, item) => total + item.price * item.quantity,
+    0
+  );
 };
 
+// Slice definition
 const cartSlice = createSlice({
   name: "cart",
   initialState: {
@@ -361,18 +349,6 @@ const cartSlice = createSlice({
         state.status = "failed";
         state.error = action.payload;
       })
-      .addCase(removeFromCart.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(removeFromCart.fulfilled, (state, action) => {
-        state.cartItems = action.payload.cartItems;
-        state.cartId = action.payload.cartId;
-        state.status = "succeeded";
-      })
-      .addCase(removeFromCart.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.payload;
-      })
       .addCase(increaseQuantity.pending, (state) => {
         state.status = "loading";
       })
@@ -382,6 +358,18 @@ const cartSlice = createSlice({
         state.status = "succeeded";
       })
       .addCase(increaseQuantity.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      })
+      .addCase(removeFromCart.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(removeFromCart.fulfilled, (state, action) => {
+        state.cartItems = action.payload.cartItems;
+        state.cartId = action.payload.cartId;
+        state.status = "succeeded";
+      })
+      .addCase(removeFromCart.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload;
       })

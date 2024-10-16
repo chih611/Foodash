@@ -5,6 +5,7 @@ import {
   addToCart,
   increaseQuantity,
 } from "../../../../store/slices/cartSlice";
+import { getAllLabels } from "../../../../store/slices/itemsSlice";
 import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
 import PrimaryButton from "../ViewCart/_PrimaryButton";
 import Image from "next/image";
@@ -12,7 +13,6 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 
 const ItemModification = () => {
-  // Access selectedItem from Redux
   const { cartItems } = useSelector((state) => state.cart);
   const selectedItem = useSelector((state) => state.items.selectedItem);
   const selectedItemModifications = useSelector(
@@ -20,11 +20,13 @@ const ItemModification = () => {
   );
   const customerProfile = useSelector((state) => state.customer.profile);
   const customerId = customerProfile?.CUSTOMER_ID || null;
+  const optionLabels = useSelector((state) => state.items.labels);
   const dispatch = useDispatch();
   const router = useRouter();
 
-  // Local state for extras and notes
+  // Local state for extras, selected label, and note
   const [extras, setExtras] = useState({});
+  const [selectedLabels, setSelectedLabels] = useState({});
   const [note, setNote] = useState("");
 
   // Set modifications into the state when selectedItemModifications is available
@@ -39,21 +41,18 @@ const ItemModification = () => {
       );
       setExtras(initialExtrasState); // Initialize the extras state with modifications
     }
-  }, [selectedItemModifications]); // Run this when selectedItemModifications changes
+  }, [selectedItemModifications]);
 
-  // Ensure selectedItem is available
-  if (!selectedItem) {
-    return (
-      <Container className="py-5 item-modification-container">
-        <Row>
-          <Col>
-            <h2>No item selected</h2>
-            <Link href="/CustomerView/HomePage/">Go back to home</Link>
-          </Col>
-        </Row>
-      </Container>
-    );
-  }
+  // Set up labels in state when optionLabels is available
+  useEffect(() => {
+    if (optionLabels.length > 0) {
+      const initialLabelsState = optionLabels.reduce((acc, label) => {
+        acc[label.LABEL_NAME] = false;
+        return acc;
+      }, {});
+      setSelectedLabels(initialLabelsState);
+    }
+  }, [optionLabels]); // Run this when optionLabels changes
 
   // Handle checkbox changes for extras
   const handleCheckboxChange = (e) => {
@@ -62,6 +61,25 @@ const ItemModification = () => {
       ...prevExtras,
       [name]: checked, // Update the checked state for the modification
     }));
+  };
+
+  // Handle checkbox changes for labels (single choice behavior)
+  const handleLabelCheckboxChange = (e) => {
+    const { name, checked } = e.target;
+    if (checked) {
+      // Uncheck all other labels and check only the current one
+      const updatedLabels = Object.keys(selectedLabels).reduce((acc, label) => {
+        acc[label] = label === name; // Only keep the selected label checked
+        return acc;
+      }, {});
+      setSelectedLabels(updatedLabels);
+    } else {
+      // Allow unchecking the selected label if needed
+      setSelectedLabels((prevLabels) => ({
+        ...prevLabels,
+        [name]: false,
+      }));
+    }
   };
 
   // Handle note input changes
@@ -87,15 +105,15 @@ const ItemModification = () => {
       price: calculateTotal(),
       quantity: 1,
       extras: extras,
-      notes: note.trim(), // Ensure the note is trimmed
+      labels: selectedLabels, // Include selected labels
+      notes: note.trim(),
       totalPrice: calculateTotal(),
     };
 
     console.log("Modified item:", modifiedItem); // Debugging log
 
-    // Helper function to sort the keys of an object
     const sortObjectKeys = (obj) => {
-      return Object.keys(obj)
+      return Object.keys(obj || {})
         .sort()
         .reduce((result, key) => {
           result[key] = obj[key];
@@ -103,39 +121,37 @@ const ItemModification = () => {
         }, {});
     };
 
-    // Find if the same item with the same extras and notes exists in the cart
     const existingItem = cartItems.find(
       (item) =>
         item.itemId === modifiedItem.itemId &&
         JSON.stringify(sortObjectKeys(item.extras)) ===
-          JSON.stringify(sortObjectKeys(modifiedItem.extras)) && // Compare extras
+          JSON.stringify(sortObjectKeys(modifiedItem.extras)) &&
+        JSON.stringify(sortObjectKeys(item.labels)) ===
+          JSON.stringify(sortObjectKeys(modifiedItem.labels)) && // Compare labels
         (item.notes || "").trim() === modifiedItem.notes
     );
 
     if (existingItem) {
-      // If the item exists, dispatch increaseQuantity
       console.log("Increasing quantity for:", existingItem.itemId);
       dispatch(
         increaseQuantity({
           customerId,
           itemId: existingItem.itemId,
           extras: existingItem.extras,
+          labels: existingItem.labels, // Pass labels for comparison
           note: existingItem.notes,
         })
       );
     } else {
-      // If the item doesn't exist, dispatch addToCart
       console.log("Adding new item to cart:", modifiedItem);
       dispatch(addToCart({ customerId, item: modifiedItem }));
     }
 
-    // Navigate to cart view after adding the item
     router.push("/CustomerView/ViewCart");
   };
 
   return (
     <Container className="py-5 item-modification-container">
-      {/* Breadcrumb */}
       <Row>
         <Col>
           <nav aria-label="breadcrumb">
@@ -220,6 +236,43 @@ const ItemModification = () => {
                 </Row>
               ))
             : "No modifications available"}
+        </Col>
+      </Row>
+
+      {/* Labels Section */}
+      <Row className="my-4">
+        <Col>
+          <h2>Labels</h2>
+          {optionLabels
+            ? optionLabels
+                .filter((label) => label.LABEL_NAME !== "croissant_labels")
+                .map((label, index) => (
+                  <Row key={index} className="label-checkbox-row">
+                    <Col xs={3} className="d-flex align-items-center">
+                      <label
+                        htmlFor={label.LABEL_NAME}
+                        className="custom-label"
+                      >
+                        <Row className="label-item-name">
+                          {label.LABEL_NAME}
+                        </Row>
+                        <br></br>
+                      </label>
+                    </Col>
+                    <Col xs={8} />
+                    <Col xs={1} className="d-flex align-items-center">
+                      <input
+                        type="checkbox"
+                        id={label.LABEL_NAME}
+                        name={label.LABEL_NAME}
+                        checked={selectedLabels[label.LABEL_NAME]}
+                        onChange={handleLabelCheckboxChange}
+                        className="custom-checkbox"
+                      />
+                    </Col>
+                  </Row>
+                ))
+            : "No labels available"}
         </Col>
       </Row>
 

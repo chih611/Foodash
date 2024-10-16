@@ -9,6 +9,7 @@ import PrimaryButton from "../ViewCart/_PrimaryButton";
 import {
   getItemById,
   getItemModificationAndLabel,
+  getAllLabels,
 } from "../../../../store/slices/itemsSlice";
 import { useRouter } from "next/router";
 
@@ -23,6 +24,7 @@ const ItemsInformation = () => {
     if (itemId) {
       dispatch(getItemById(itemId));
       dispatch(getItemModificationAndLabel(itemId));
+      dispatch(getAllLabels());
     }
   }, [itemId, dispatch]);
 

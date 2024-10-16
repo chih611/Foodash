@@ -74,10 +74,39 @@ export const getItemModificationAndLabel = createAsyncThunk(
   }
 );
 
+export const getAllLabels = createAsyncThunk(
+  "items/getAllLabels",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(`${BASE_URL}/items/labels`);
+      console.log("All labels response:", response.data);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response ? error.response.data : error.message
+      );
+    }
+  }
+);
+export const getItemsLabel = createAsyncThunk(
+  "items/getItemsLabel",
+  async (itemId, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(`${BASE_URL}/items/label/${itemId}`);
+      console.log("Item label response:", response.data);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response ? error.response.data : error.message
+      );
+    }
+  }
+);
 const itemsSlice = createSlice({
   name: "items",
   initialState: {
     items: [],
+    labels: [],
     searchResults: [],
     selectedItem: null,
     selectedItemModifications: [],
@@ -145,6 +174,32 @@ const itemsSlice = createSlice({
         state.status = "failed";
         state.error = action.error || {
           message: "Error fetching item modifications and labels",
+        };
+      })
+      .addCase(getItemsLabel.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(getItemsLabel.fulfilled, (state, action) => {
+        state.labels = action.payload;
+        state.status = "succeeded";
+      })
+      .addCase(getItemsLabel.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error || {
+          message: "Error fetching item label",
+        };
+      })
+      .addCase(getAllLabels.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(getAllLabels.fulfilled, (state, action) => {
+        state.labels = action.payload;
+        state.status = "succeeded";
+      })
+      .addCase(getAllLabels.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error || {
+          message: "Error fetching all labels",
         };
       });
   },
