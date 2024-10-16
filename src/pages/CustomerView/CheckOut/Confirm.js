@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Button } from "react-bootstrap";
 import NavBarCheckOut from "./_NavBarCheckOut";
 import { useSelector, useDispatch } from "react-redux";
-import { ConfirmLayout } from "./CheckOutStyle";
+import ConfirmLayout from "./CheckOutStyle";
 import { getOrderById } from "../../../../store/actions/orderAction";
 import { useRouter } from "next/router";
 import jsPDF from "jspdf";

@@ -14,7 +14,7 @@ import {
   createCustomer,
 } from "../../../../store/slices/customerSlice";
 import PaymentIcon from "@mui/icons-material/Payment";
-import PrimaryButton from "../ViewCart/PrimaryButton";
+import PrimaryButton from "../ViewCart/_PrimaryButton";
 
 const Checkout = () => {
   const [pickup, setPickup] = useState(false);

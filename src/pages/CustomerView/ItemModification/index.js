@@ -6,7 +6,8 @@ import {
   increaseQuantity,
 } from "../../../../store/slices/cartSlice";
 import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
-import PrimaryButton from "../ViewCart/PrimaryButton";
+
+import PrimaryButton from "../ViewCart/_PrimaryButton";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";

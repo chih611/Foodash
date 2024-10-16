@@ -2,7 +2,7 @@
 import styled from "styled-components";
 
 // Main Primary Button Container
-export const PrimaryButtonContainer = styled.button`
+const PrimaryButtonContainer = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -27,7 +27,7 @@ export const PrimaryButtonContainer = styled.button`
 `;
 
 // Inverted style for the button
-export const InvertedButtonContainer = styled(PrimaryButtonContainer)`
+const InvertedButtonContainer = styled(PrimaryButtonContainer)`
   background-color: #fff; // White background
   color: #f38b3c; // Orange text
   border: 2px solid #f38b3c; // Orange border
@@ -38,10 +38,10 @@ export const InvertedButtonContainer = styled(PrimaryButtonContainer)`
   }
 `;
 
-export const RedButtonContainer = styled(PrimaryButtonContainer)`
-  background-color: #fff;
-  color: #ef4565; // Red text
-  border: 2px solid #ef4565; // Red border
+const RedButtonContainer = styled(PrimaryButtonContainer)`
+  background-color: #fff; // White background
+  color: #ef4565; // Blue text
+  border: 2px solid #ef4565; // Blue border
 
   &:hover {
     background-color: #ef4565; // Red background on hover
@@ -50,7 +50,7 @@ export const RedButtonContainer = styled(PrimaryButtonContainer)`
 `;
 
 // Icon container
-export const IconContainer = styled.div`
+const IconContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -60,3 +60,10 @@ export const IconContainer = styled.div`
   height: 30px;
   margin-right: 10px; // Space between the icon and the text
 `;
+
+export default {
+  PrimaryButtonContainer,
+  InvertedButtonContainer,
+  RedButtonContainer,
+  IconContainer,
+};

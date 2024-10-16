@@ -1,31 +1,26 @@
 // PrimaryButton.jsx
 import React from "react";
-import {
-  PrimaryButtonContainer,
-  InvertedButtonContainer,
-  RedButtonContainer,
-  IconContainer,
-} from "./PrimaryButtonStyle"; // Import styled components
+import styles from "../../../styles/_PrimaryButtonStyle"; // Import styled components
 
 const PrimaryButton = ({ onClick, text, icon: Icon, variant = "primary" }) => {
   let ButtonComponent;
   switch (variant) {
     case "inverted":
-      ButtonComponent = InvertedButtonContainer;
+      ButtonComponent = styles.InvertedButtonContainer;
       break;
     case "red":
-      ButtonComponent = RedButtonContainer;
+      ButtonComponent = styles.RedButtonContainer;
       break;
     case "primary":
     default:
-      ButtonComponent = PrimaryButtonContainer;
+      ButtonComponent = styles.PrimaryButtonContainer;
       break;
   }
 
   return (
     <ButtonComponent onClick={onClick}>
       {Icon && (
-        <IconContainer>
+        <styles.IconContainer>
           <Icon
             style={{
               color:
@@ -36,7 +31,7 @@ const PrimaryButton = ({ onClick, text, icon: Icon, variant = "primary" }) => {
                   : "#ecbf9c",
             }}
           />
-        </IconContainer>
+        </styles.IconContainer>
       )}
       {text}
     </ButtonComponent>

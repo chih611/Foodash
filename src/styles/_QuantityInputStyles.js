@@ -1,8 +1,7 @@
-// QuantityInputStyle.js
 import styled from "styled-components";
 
 // Styled container for the quantity input section
-export const QuantityInputContainer = styled.div`
+const QuantityInputContainer = styled.div`
   display: flex;
   align-items: center;
   border-radius: 4px;
@@ -12,7 +11,7 @@ export const QuantityInputContainer = styled.div`
 `;
 
 // Styled button for increase and decrease actions
-export const QuantityButton = styled.button`
+const QuantityButton = styled.button`
   background-color: #fff;
   border: 2px solid #094067;
   color: #094067;
@@ -39,7 +38,7 @@ export const QuantityButton = styled.button`
 `;
 
 // Styled input field to display the quantity
-export const QuantityInputField = styled.input`
+const QuantityInputField = styled.input`
   width: 40px;
   text-align: center;
   border: none;
@@ -50,3 +49,5 @@ export const QuantityInputField = styled.input`
   box-shadow: none;
   font-size: 16px;
 `;
+
+export default { QuantityInputContainer, QuantityButton, QuantityInputField };

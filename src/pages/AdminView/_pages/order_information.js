@@ -1,8 +1,8 @@
 import { Accordion, Col, Form } from "react-bootstrap";
-import { CustomInput } from "../_components/input";
-import { CustomDropBox } from "../_components/dropbox";
+import CustomInput from "../_components/input";
+import CustomDropBox from "../_components/dropbox";
 
-export const OrderInformation = ({
+const OrderInformation = ({
   e,
   switchOptions,
   setSwitchOptions,
@@ -14,7 +14,7 @@ export const OrderInformation = ({
   setShowSaveBtn,
   Row,
   statusFetching,
-}) => (
+}) => {
   <>
     <Accordion defaultActiveKey={["0"]} alwaysOpen className="mt-3">
       <Accordion.Item eventKey="0">
@@ -58,5 +58,7 @@ export const OrderInformation = ({
         </Accordion.Body>
       </Accordion.Item>
     </Accordion>
-  </>
-);
+  </>;
+};
+
+export default OrderInformation;

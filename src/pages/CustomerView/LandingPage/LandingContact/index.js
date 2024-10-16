@@ -6,7 +6,7 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 import LandingNavBar from "../LandingNavBar/LandingNavBar";
 import LandingMenu from "../LandingMenu/LandingMenu";
 import Image from "next/image";
-import PrimaryButton from "../../ViewCart/PrimaryButton";
+import PrimaryButton from "../../ViewCart/_PrimaryButton";
 import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 

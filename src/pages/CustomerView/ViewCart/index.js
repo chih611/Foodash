@@ -1,9 +1,8 @@
 import React, { useEffect } from "react";
 import Link from "next/link";
 import { Container, Row, Col, Button } from "react-bootstrap";
-import QuantityInputField from "./QuantityInputContainer";
 import ClearIcon from "@mui/icons-material/Clear";
-import PrimaryButton from "./PrimaryButton";
+import PrimaryButton from "./_PrimaryButton";
 import NavBarCheckOut from "../CheckOut/_NavBarCheckOut";
 import ClearAllIcon from "@mui/icons-material/ClearAll";
 import PaymentIcon from "@mui/icons-material/Payment";
@@ -16,6 +15,7 @@ import {
   clearCartItems,
 } from "../../../../store/slices/cartSlice";
 import { useRouter } from "next/router";
+import QuantityInputField from "./_QuantityInputContainer";
 
 const ViewCart = () => {
   const dispatch = useDispatch();
