@@ -62,13 +62,12 @@ const HomePageNavBar = () => {
               >
                 <a className="d-flex align-items-center text-decoration-none">
                   <div className="account-button me-2">
-                    <PermIdentityOutlined sx={{ color: "#025373" }} />
+                    <PermIdentityOutlined sx={{ color: "#fffffe" }} />
                   </div>
                   <div>
-                    <p className="subtitle mb-0">
+                    <p className="subtitle--navBar mb-0">
                       Hi, {customerProfile ? customerProfile.LAST_NAME : "User"}
-                    </p>{" "}
-                    {/* Display the customer's first name or "User" if not signed in */}
+                    </p>
                   </div>
                 </a>
               </Link>
@@ -77,8 +76,8 @@ const HomePageNavBar = () => {
             {/* Cart amount */}
             <Col xs={2} className="d-flex flex-row-reverse bd-highlight">
               <div className="text-end">
-                <p className="subtitle mb-0">Amount:</p>
-                <p className="subtitle mb-0">${cartTotal.toFixed(2)}</p>
+                <p className="subtitle--navBar mb-0">Amount:</p>
+                <p className="subtitle--navBar mb-0">${cartTotal.toFixed(2)}</p>
               </div>
             </Col>
 
@@ -87,7 +86,7 @@ const HomePageNavBar = () => {
               <Link href="/CustomerView/ViewCart/" legacyBehavior passHref>
                 <a>
                   <div className="cart-button me-2">
-                    <ShoppingCartOutlinedIcon sx={{ color: "#025373" }} />
+                    <ShoppingCartOutlinedIcon sx={{ color: "#fffffe" }} />
                   </div>
                 </a>
               </Link>
@@ -145,10 +144,10 @@ const HomePageNavBar = () => {
               >
                 <a className="d-flex align-items-center text-decoration-none">
                   <div className="account-button me-2">
-                    <PermIdentityOutlined sx={{ color: "#025373" }} />
+                    <PermIdentityOutlined sx={{ color: "#fffffe" }} />
                   </div>
                   <div>
-                    <p className="subtitle mb-0">
+                    <p className="subtitle--navBar mb-0">
                       Hi, {customerProfile ? customerProfile.LAST_NAME : "User"}
                     </p>{" "}
                     {/* Display the customer's first name or "User" if not signed in */}
@@ -160,8 +159,8 @@ const HomePageNavBar = () => {
             {/* Cart amount */}
             <Col xs={12} md={1} className="d-flex flex-column align-items-end">
               <div className="text-end">
-                <p className="subtitle mb-0">Amount:</p>
-                <p className="subtitle mb-0">${cartTotal.toFixed(2)}</p>
+                <p className="subtitle--navBar mb-0">Amount:</p>
+                <p className="subtitle--navBar mb-0">${cartTotal.toFixed(2)}</p>
               </div>
             </Col>
 
@@ -173,8 +172,8 @@ const HomePageNavBar = () => {
             >
               <Link href="/CustomerView/ViewCart/" legacyBehavior passHref>
                 <a>
-                  <div className="cart-button me-2">
-                    <ShoppingCartOutlinedIcon sx={{ color: "#025373" }} />
+                  <div className="account-button me-2">
+                    <ShoppingCartOutlinedIcon sx={{ color: "#fffffe" }} />
                   </div>
                 </a>
               </Link>

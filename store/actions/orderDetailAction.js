@@ -3,7 +3,7 @@ import { fetchOrderDetailListAPI } from "../api/orderDetail.api";
 import axios from "axios";
 
 const BACKEND_PORT = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_PORT;
-const BASE_URL = `http://localhost:${BACKEND_PORT}`;
+const BASE_URL = `http://localhost:8080`;
 
 export const createOrderDetail = createAsyncThunk(
   "orderDetail/createOrderDetail",

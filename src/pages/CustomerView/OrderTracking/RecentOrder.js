@@ -14,7 +14,7 @@ const RecentOrder = () => {
     <div className="filters-section mb-3">
       {/* Desktop View */}
       <Row
-        className="align-items-center w-100 d-none d-lg-flex "
+        className="align-items-center w-100 d-flex "
         style={{ marginTop: "24px" }}
       >
         <Col xs={12} md={2} className="mb-2 align-items-center">

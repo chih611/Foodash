@@ -20,7 +20,11 @@ const initialState = {
 const orderSlice = createSlice({
   name: "order",
   initialState,
-  // reducers: {},
+  reducers: {
+    clearOrderByCustomerId: (state) => {
+      state.orderListByCustomerId = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchOrderList.pending, (state) => {
@@ -97,4 +101,5 @@ const orderSlice = createSlice({
 });
 
 // export const { ordersList, status, error } = orderSlice.actions;
+export const { clearOrderByCustomerId } = orderSlice.actions;
 export default orderSlice.reducer;

@@ -1,120 +1,90 @@
+import { useState } from "react";
 import Link from "next/link";
-import { Container, Row, Col, Button } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import { Row, Col, Button } from "react-bootstrap";
 import CircleRounded from "@mui/icons-material/CircleRounded";
 import KeyboardArrowDownRounded from "@mui/icons-material/KeyboardArrowDownRounded";
 
-const OrderList = () => {
-  const orderByCustomer = useSelector(
-    (state) => state.order.orderListByCustomerId
-  );
+// Helper function to format the date
+const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  return new Intl.DateTimeFormat("en-GB").format(date); // Formats date to DD/MM/YYYY
+};
 
-  if (!orderByCustomer || orderByCustomer.length === 0) {
-    return (
-      <div>
-        <h1>No Orders</h1>
-      </div>
-    );
+const OrderList = ({ orders, onOrderDoubleClick }) => {
+  const [visibleOrders, setVisibleOrders] = useState(5); // State to control how many orders to show
+
+  if (!orders || orders.length === 0) {
+    return <div>No Orders</div>;
   }
+
+  // Function to show all orders
+  const handleShowAll = () => {
+    setVisibleOrders(orders.length); // Set visibleOrders to total length of orders array
+  };
 
   return (
     <div className="filters-section my-3">
-      {orderByCustomer.map((order) => (
+      {orders.slice(0, visibleOrders).map((order) => (
         <Row
           key={order.ORDER_ID}
-          className="w-100 align-items-center d-none d-lg-flex"
-          style={{ marginTop: "24px" }}
+          className="w-100 align-items-center d-flex"
+          style={{ marginTop: "24px", cursor: "pointer" }}
+          onDoubleClick={() => onOrderDoubleClick(order.ORDER_ID)} // Double-click event
         >
-          {/* List of orders in this account */}
-
           {/* 1st column: Date */}
           <Col xs={12} md={3} className="mb-2">
-            <Link href={"/"} legacyBehavior passHref>
-              <a className="text-decoration-none">
-                <div className="align-items-center w-100">
-                  <p className="subtitle w-100 text-center">{order.DUEDATE}</p>
-                </div>
-                {/* Link apis to database in here after for above <p> </p> sector */}
-              </a>
-            </Link>
+            <div className="align-items-center w-100">
+              <p className="subtitle w-100 text-center">
+                {formatDate(order.DUEDATE)} {/* Reformatted date */}
+              </p>
+            </div>
           </Col>
 
           {/* 2nd column: OrderID */}
           <Col xs={12} md={3} className="mb-2">
-            <Link href={"/"} legacyBehavior passHref>
-              <a className="text-decoration-none">
-                <div className="align-items-center w-100">
-                  <p className="subtitle w-100 text-center">{order.ORDER_ID}</p>
-                </div>
-                {/* Link apis to database in here after for above <p> </p> sector */}
-              </a>
-            </Link>
+            <div className="align-items-center w-100">
+              <p className="subtitle w-100 text-center">{order.ORDER_ID}</p>
+            </div>
           </Col>
 
           {/* 3rd column: Amount */}
           <Col xs={12} md={3} className="mb-2">
-            <Link href={"/"} legacyBehavior passHref>
-              <a className="text-decoration-none">
-                <div className="align-items-center w-100">
-                  <p className="subtitle w-100 text-center">${order.TOTAL}</p>
-                </div>
-                {/* Link apis to database in here after for above <p> </p> sector */}
-              </a>
-            </Link>
+            <div className="align-items-center w-100">
+              <p className="subtitle w-100 text-center">${order.TOTAL}</p>
+            </div>
           </Col>
 
           {/* Final column: Status */}
           <Col xs={12} md={3} className="d-flex align-items-center mb-2">
-            <Link href={"/"} legacyBehavior passHref>
-              <a
-                className="d-flex align-items-center text-decoration-none w-100"
-                style={{
-                  padding: "10px", // Optional padding
-                  borderRadius: "5px", // Optional rounded edges
-                }}
-              >
-                <div className="align-items-center flex-column text-decoration-none w-100">
-                  {/* Icon and text pair 1 */}
-                  <div className="d-flex align-items-center mb-2 ms-5">
-                    <CircleRounded
-                      className="mb-2 me-3"
-                      sx={{ color: "#ef4565" }}
-                    />
-                    {/* {add color status} */}
-                    <p className="subtitle mb-2">{order.STATUS}</p>
-                  </div>
-
-                  {/* Icon and text pair 2 */}
-                  {/* <div className="d-flex align-items-center mb-2 ms-5">
-                    <CircleRounded className="mb-1 me-3" />
-                    <p className="subtitle mb-1">Completed</p>
-                  </div> */}
-                </div>
-              </a>
-            </Link>
+            <div className="align-items-center flex-column text-decoration-none w-100">
+              <div className="d-flex align-items-center mb-2 ms-5">
+                <CircleRounded
+                  className="mb-2 me-3"
+                  sx={{ color: "#ef4565" }}
+                />
+                <p className="subtitle mb-2">{order.STATUS}</p>
+              </div>
+            </div>
           </Col>
         </Row>
       ))}
 
-      <div className="w-100 align-items-center d-none d-lg-flex">
-        <Button
-          className="w-100 align-items-center d-none d-lg-flex"
-          style={{
-            backgroundColor: "#ffffff",
-            border: "none",
-            color: "#094067",
-          }}
-        >
-          <KeyboardArrowDownRounded className="w-100 align-items-center" />
-        </Button>
-      </div>
-
-      <Row
-        className="w-100 align-items-center d-none d-lg-flex"
-        style={{ marginTop: "24px", borderTop: "1px solid #90B4CE" }}
-      >
-        <h4 className="mt-4 mb-0">Recent Order</h4>
-      </Row>
+      {/* Show more button if there are more orders to show */}
+      {visibleOrders < orders.length && (
+        <div className="w-100 align-items-center d-flex justify-content-center mt-4">
+          <Button
+            className="w-100 d-flex justify-content-center align-items-center"
+            style={{
+              backgroundColor: "#ffffff",
+              border: "none",
+              color: "#094067",
+            }}
+            onClick={handleShowAll} // Show all orders when clicked
+          >
+            <KeyboardArrowDownRounded className="w-100 align-items-center" />
+          </Button>
+        </div>
+      )}
     </div>
   );
 };
