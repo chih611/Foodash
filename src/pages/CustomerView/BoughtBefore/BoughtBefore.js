@@ -1,9 +1,8 @@
 import React from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
-import Section from './Section';
+import Section from "./Section";
 
-
-function BoughtBefore() {
+const BoughtBefore = () => {
   return (
     <Container className="bought-before-container">
       <main>
@@ -15,6 +14,6 @@ function BoughtBefore() {
       </main>
     </Container>
   );
-}
+};
 
 export default BoughtBefore;

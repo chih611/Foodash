@@ -3,6 +3,7 @@ import {
   fetchOrderLisByIdAPI,
   fetchOrderListAPI,
   fetchOrderLisByCustomerNameAPI,
+  fetchOrderByCustomerIdAPI,
 } from "../api/order.api";
 import axios from "axios";
 
@@ -29,6 +30,19 @@ export const getOrderById = createAsyncThunk(
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
+    }
+  }
+);
+
+export const fetchOrderByCustomerId = createAsyncThunk(
+  "order/fetchOrderByCustomerId",
+  async (customerId, { rejectWithValue }) => {
+    try {
+      return await fetchOrderByCustomerIdAPI(customerId);
+    } catch (error) {
+      return rejectWithValue(
+        error.response ? error.response.data : error.message
+      );
     }
   }
 );
