@@ -13,7 +13,7 @@ const PersonalDetail = ({
   readOnlyFields,
   Row,
   statusFetching,
-}) => {
+}) => (
   <>
     <Accordion defaultActiveKey={["0"]} alwaysOpen>
       <Accordion.Item eventKey="0">
@@ -55,7 +55,6 @@ const PersonalDetail = ({
         </Accordion.Body>
       </Accordion.Item>
     </Accordion>
-  </>;
-};
-
+  </>
+);
 export default PersonalDetail;
