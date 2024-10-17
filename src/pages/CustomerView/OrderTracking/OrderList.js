@@ -81,17 +81,14 @@ const OrderList = () => {
                       sx={{ color: "#ef4565" }}
                     />
                     {/* {add color status} */}
-                    <p className="subtitle mb-2">
-                      {/* {status} */}
-                      Delivering
-                    </p>
+                    <p className="subtitle mb-2">{order.STATUS}</p>
                   </div>
 
                   {/* Icon and text pair 2 */}
-                  <div className="d-flex align-items-center mb-2 ms-5">
+                  {/* <div className="d-flex align-items-center mb-2 ms-5">
                     <CircleRounded className="mb-1 me-3" />
                     <p className="subtitle mb-1">Completed</p>
-                  </div>
+                  </div> */}
                 </div>
               </a>
             </Link>
