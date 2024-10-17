@@ -9,6 +9,24 @@ const RecentOrder = () => {
     (state) => state.order.orderListByCustomerId
   );
   const recentOrder = orderByCustomer[orderByCustomer.length - 1];
+
+  // Calculate the estimated arrival time
+  const estimateArrival = recentOrder
+    ? new Date(recentOrder.DUEDATE) - new Date()
+    : null;
+
+  // Convert the difference to a human-readable format
+  const getReadableTime = (milliseconds) => {
+    const totalMinutes = Math.floor(milliseconds / 60000);
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = totalMinutes % 60;
+    return `${hours} hours and ${minutes} minutes`;
+  };
+
+  const readableEstimateArrival = estimateArrival
+    ? getReadableTime(estimateArrival)
+    : "N/A";
+
   console.log(recentOrder);
   return (
     <div className="filters-section mb-3">
@@ -27,7 +45,7 @@ const RecentOrder = () => {
 
         <Col xs={12} md={3} className="mb-2 align-items-center ">
           <p className="subtitle mb-0 d-flex w-100">
-            Estimated arrival in: 30-40 minutes{" "}
+            Estimated arrival in: {readableEstimateArrival}
           </p>
         </Col>
       </Row>
