@@ -52,21 +52,26 @@ export const fetchCartByCustomerId = createAsyncThunk(
 );
 
 // Thunk to add an item to the cart
+// Thunk to add an item to the cart
 export const addToCart = createAsyncThunk(
   "cart/addToCart",
   async ({ customerId, item }, { getState, rejectWithValue }) => {
     try {
       const { cartItems, cartId } = getState().cart;
 
+      console.log("addToCart triggered for customerId:", customerId);
+
       // Handle guest users (customerId is null)
       if (!customerId) {
+        console.log("Handling as guest user");
         const updatedCartItems = [...cartItems, item].filter(
           (item) => item !== null
         );
         return { cartItems: updatedCartItems, cartId: null };
       }
 
-      // Check if the same item (considering extras, notes, and labels) already exists
+      // Log cart items and check for existing item
+      console.log("Handling logged-in user, cartId:", cartId);
       const existingItem = cartItems.find(
         (cartItem) =>
           cartItem.itemId === item.itemId &&
@@ -75,32 +80,44 @@ export const addToCart = createAsyncThunk(
           (cartItem.notes || "").trim() === (item.notes || "").trim()
       );
 
+      let updatedCartItems;
       if (existingItem) {
-        // If item exists, increase its quantity
-        existingItem.quantity += item.quantity;
+        // Create a new array, don't modify original state
+        updatedCartItems = cartItems.map((cartItem) =>
+          cartItem === existingItem
+            ? { ...cartItem, quantity: cartItem.quantity + item.quantity }
+            : cartItem
+        );
       } else {
-        // If item doesn't exist, add as new
-        cartItems.push(item);
+        // Append new item immutably
+        updatedCartItems = [...cartItems, item];
       }
 
-      const cartTotal = cartItems.reduce(
+      const cartTotal = updatedCartItems.reduce(
         (total, item) => total + item.price * item.quantity,
         0
       );
 
       if (cartId) {
+        console.log("Updating existing cart for cartId:", cartId);
         const result = await updateExistingCart(
           cartId,
           customerId,
-          cartItems,
+          updatedCartItems,
           cartTotal
         );
-        return { cartItems, cartId };
+        return { cartItems: updatedCartItems, cartId };
       }
 
-      const newCart = await createNewCart(customerId, cartItems, cartTotal);
-      return { cartItems, cartId: newCart.CART_ID };
+      console.log("Creating a new cart for customerId:", customerId);
+      const newCart = await createNewCart(
+        customerId,
+        updatedCartItems,
+        cartTotal
+      );
+      return { cartItems: updatedCartItems, cartId: newCart.CART_ID };
     } catch (error) {
+      console.error("Error in addToCart:", error);
       return rejectWithValue(error.response?.data?.message || error.message);
     }
   }
