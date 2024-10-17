@@ -88,6 +88,11 @@ const OrderTracking = () => {
           <Col className="w-100 d-flex justify-content-center">
             <OrderFilter />
           </Col>
+          <Col className="w-100 d-flex justify-content-center">
+            <Row>
+              <OrderList />
+            </Row>{" "}
+          </Col>
         </Row>
       </div>
     </div>
