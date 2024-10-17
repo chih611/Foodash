@@ -13,8 +13,8 @@ import Contents from "./contents";
 const SideBar = ({ handleSelect }) => {
   return (
     <>
-      <Row className="admin-main">
-        <Col lg={2} className="">
+      <Row className="admin-main m-2">
+        <Col lg={2} className="my-2">
           <Row className="flex-column justify-content-between side-bar">
             <Col>
               <Nav
@@ -55,11 +55,13 @@ const SideBar = ({ handleSelect }) => {
                     user setting <ChevronRightIcon />
                   </Nav.Link>
                 </Nav.Item>
+                <div className="my-3"></div> 
+                <Button className={styles.nav_style}>LOG OUT</Button>
               </Nav>
             </Col>
-            <Col className={styles.logout_btn}>
+            {/* <Col className={styles.logout_btn}>
               <Button>LOG OUT</Button>
-            </Col>
+            </Col> */}
           </Row>
         </Col>
         <Col lg={10}>
