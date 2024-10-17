@@ -41,8 +41,7 @@ const OrderDetails = ({ Id, setOpen }) => {
   const personalInfo = ["Full Name", "Phone", "Address", "Email"];
   const dropDownFields = ["Status"];
   const dispatch = useDispatch();
-  const BACKEND_PORT = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_PORT;
-  const BASE_URL = `http://localhost:${BACKEND_PORT}`;
+  const BASE_URL = `https://${process.env.NEXT_PUBLIC_REACT_APP_BACKEND_ADDRESS}`;
 
   const [switchOptions, setSwitchOptions] = useState(false);
   const [showSaveBtn, setShowSaveBtn] = useState(false);

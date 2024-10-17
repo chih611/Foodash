@@ -14,7 +14,7 @@ const OrderInformation = ({
   setShowSaveBtn,
   Row,
   statusFetching,
-}) => {
+}) => (
   <>
     <Accordion defaultActiveKey={["0"]} alwaysOpen className="mt-3">
       <Accordion.Item eventKey="0">
@@ -58,7 +58,7 @@ const OrderInformation = ({
         </Accordion.Body>
       </Accordion.Item>
     </Accordion>
-  </>;
-};
+  </>
+);
 
 export default OrderInformation;

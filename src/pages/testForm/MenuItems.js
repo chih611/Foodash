@@ -13,7 +13,9 @@ const MenuItems = () => {
 
   const fetchTodos = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/item");
+      const response = await axios.get(
+        `https://${process.env.NEXT_PUBLIC_REACT_APP_BACKEND_ADDRESS}/item`
+      );
       setItems(response.data.rows);
       console.log(response);
     } catch (error) {
