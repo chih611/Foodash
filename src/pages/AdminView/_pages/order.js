@@ -13,7 +13,7 @@ const Order = (props) => {
   const dispatch = useDispatch();
   let headers = [];
   let records = [];
-  const customFields = ["Duedate", "Create Date"];
+  const datetimeFields = ["Duedate", "Create Date"];
 
   useEffect(() => {
     dispatch(fetchOrderList());
@@ -59,7 +59,7 @@ const Order = (props) => {
           headers={headers}
           records={records}
           handleRecordDoubleClick={handleRecordDoubleClick}
-          customFields={customFields}
+          datetimeFields={datetimeFields}
           statusFetching={statusOrderFetching}
         />
         <CustomModal

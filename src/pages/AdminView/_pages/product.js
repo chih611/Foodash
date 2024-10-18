@@ -58,7 +58,7 @@ const Product = (props) => {
           headers={headers}
           records={records}
           handleRecordDoubleClick={handleRecordDoubleClick}
-          customFields={customFields}
+          datetimeFields={customFields}
           statusFetching={status}
         />
         <CustomModal
