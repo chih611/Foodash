@@ -46,7 +46,6 @@ export const fetchBoughtBeforeByCustomerId = createAsyncThunk(
     try {
       // Fetch orders by customer ID
       const orders = await fetchOrderByCustomerIdAPI(customerId);
-      console.log("Orders:", orders);
 
       if (!orders || orders.length === 0) {
         return [];
@@ -55,7 +54,6 @@ export const fetchBoughtBeforeByCustomerId = createAsyncThunk(
       // Fetch order details for each order to gather all items
       let allItems = [];
       for (const order of orders) {
-        console.log("Order:", order.ORDER_ID);
         const response = await axios.get(
           `${BASE_URL}/order_details/${order.ORDER_ID}`
         );
@@ -70,8 +68,6 @@ export const fetchBoughtBeforeByCustomerId = createAsyncThunk(
           });
         }
       }
-
-      console.log("All Items:", allItems);
 
       // Use a Map to ensure uniqueness based on `Product Name`
       const uniqueItemsMap = new Map();
