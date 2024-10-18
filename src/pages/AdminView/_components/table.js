@@ -17,7 +17,8 @@ const CustomTable = ({
   records,
   handleRecordDoubleClick,
   handleRemoveSingleClick,
-  customFields,
+  datetimeFields,
+  objectFields,
   statusFetching,
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -218,12 +219,24 @@ const CustomTable = ({
                       <td key={j} className=" text-center">
                         <Button
                           variant="link"
-                          onDoubleClick={() => handleRecordDoubleClick(e)}
+                          onDoubleClick={() =>
+                            handleRecordDoubleClick &&
+                            handleRecordDoubleClick(e)
+                          }
                           className="text-decoration-none text-pressed-color text-nowrap"
                         >
                           {value
-                            ? customFields?.includes(key)
+                            ? datetimeFields?.includes(key)
                               ? moment(value).format("yyyy-MM-DD")
+                              : objectFields?.includes(key)
+                              ? Object.entries(value).map(([key, vl], k) =>
+                                  vl === true ? (
+                                    <>
+                                      <span>{key}</span>
+                                      <br />
+                                    </>
+                                  ) : null
+                                )
                               : value
                             : "-"}
                         </Button>

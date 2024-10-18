@@ -40,6 +40,8 @@ const OrderDetails = ({ Id, setOpen }) => {
   ];
   const personalInfo = ["Full Name", "Phone", "Address", "Email"];
   const dropDownFields = ["Status"];
+  const objectFields = ["Modification"];
+
   const dispatch = useDispatch();
   const BASE_URL = `https://${process.env.NEXT_PUBLIC_REACT_APP_BACKEND_ADDRESS}`;
 
@@ -136,6 +138,7 @@ const OrderDetails = ({ Id, setOpen }) => {
         headers={headersOrderDetails}
         records={recordsOrderDetails}
         statusFetching={statusOrderDetailFetching}
+        objectFields={objectFields}
       />
     </>
   );
