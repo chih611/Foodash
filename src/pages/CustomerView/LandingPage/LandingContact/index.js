@@ -1,132 +1,86 @@
 // components/LandingContact.js
-
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import LandingNavBar from "../LandingNavBar/LandingNavBar";
 import LandingMenu from "../LandingMenu/LandingMenu";
 import Image from "next/image";
 import PrimaryButton from "../../ViewCart/_PrimaryButton";
-import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
+import HomeOutlined from "@mui/icons-material/HomeOutlined";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
+import PhoneForwardedRounded from "@mui/icons-material/PhoneForwardedRounded";
+import NotificationsActiveRounded from "@mui/icons-material/NotificationsActiveRounded";
+
+import MailchimpSubscribe from 'react-mailchimp-subscribe';
+
 
 const LandingContact = () => {
+  const MAILCHIMP_URL = process.env.NEXT_PUBLIC_MAILCHIMP_URL;
+  const [email, setEmail] = useState('')
   return (
-    <div className="landing-contact-container">
+    <div className="landing-contact">
       <LandingNavBar />
-      <LandingMenu />
-      <footer className="landing-contact py-4">
-        <Container>
-          <Row className="align-items-center">
+      {/* <LandingMenu /> */}           
+        <Container style={{marginTop: '150px'}} className="landing-contact">
+          {/* Contact Information: Adress, Working Hours, Email, Phone */}
+          <Row className="justify-content-between">
+            <p className="heading_white mt-3">Get in touch</p>
+            <Col xs={12} md={3} className="justify-content-center m-3 text-right">
+              <HomeOutlined className="contact-button my-3" />
+              <p>Working Hours:
+              <p>We open from 9:00 to 17:00<p>Monday to Friday</p></p></p>
+              <p>Deliver between 8am to 3pm<p>within 5km incur a flat rate of $25</p></p>
+              <p>Pick up is available between<p>7:30am and 3pm, Monday to Friday</p></p>
+            </Col>
+            <Col xs={12} md={4} className="m-3 text-right">
+              <PhoneForwardedRounded className="contact-button my-3" />
+              <p>p: 0498 576 005</p>
+              <p>e: catering@foodcollective.org.au </p> 
+              <p>Building A: <p> Pacific Epping, Cooper Sts, Epping</p></p>  
+              <p>Building B: <p>Melbourne Polytechnic, Cnr Dalton Rd</p> </p>        
+
+            </Col>
+
             {/* Logo and Order/Subscribe Buttons */}
-            <Col
-              xs={12}
-              md={6}
-              className="d-flex align-items-center justify-content-center justify-content-md-start"
-            >
-              <Image
-                src="/logo.png"
-                alt="Foodash Logo"
-                width={100}
-                height={50}
+            <Col xs={12} md={4} className="m-2 mt-3">
+              <NotificationsActiveRounded className="contact-button my-3"/>
+              <MailchimpSubscribe
+                url={MAILCHIMP_URL}
+                render={({ subscribe, status, message }) => (
+                  <div className="subscribe-form">
+                    <input
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="Enter your email"
+                      className="form-control my-3"
+                      required
+                    />
+                    <PrimaryButton
+                      icon={NotificationsNoneIcon}
+                      text="Subscribe Us"
+                      inverted={true}
+                      onClick={() => {
+                        subscribe({ EMAIL: email });
+                      }}
+                    />
+                    {/* Displaying status messages */}
+                    {status === "sending" && <div>Sending...</div>}
+                    {status === "error" && <div style={{ color: "red" }} dangerouslySetInnerHTML={{ __html: message }} />}
+                    {status === "success" && <div style={{ color: "green" }}>Subscribed successfully!</div>}
+                  </div>
+                )}
               />
-
-              <PrimaryButton
-                icon={Inventory2OutlinedIcon}
-                text="Order now"
-                className="me-3"
-              />
-              <PrimaryButton
-                icon={NotificationsNoneIcon}
-                text="Subscribe Us"
-                inverted={true}
-              />
-            </Col>
-
-            {/* Contact Information */}
-            <Col xs={12} md={3} className="contact-info mt-4 mt-md-0">
-              <p className="subtitle">
-                <i className="bi bi-telephone"></i> 03 9401 6666
-              </p>
-              <p className="subtitle">Monday and Friday, 9 am to 5 pm</p>
-              <p className="subtitle">
-                Shop 11 Pacific Epping, Epping, Victoria, 3076
-              </p>
-            </Col>
-
-            {/* Navigation Links */}
-            <Col
-              xs={12}
-              md={3}
-              className="footer-links text-center text-md-end mt-4 mt-md-0"
-            >
-              <Row>
-                <p className="subtitle">
-                  {" "}
-                  <Link
-                    href="/CustomerView/LandingPage/LandingSpecial/LandingSpecial"
-                    className="subtitle"
-                  >
-                    {" "}
-                    Menu
-                  </Link>
-                </p>
-              </Row>
-              <Row>
-                <p className="subtitle">
-                  {" "}
-                  <Link
-                    href="/CustomerView/LandingPage/LandingSpecial/LandingSpecial"
-                    className="subtitle"
-                  >
-                    Recipe
-                  </Link>
-                </p>
-              </Row>
-              <Row>
-                <p className="subtitle">
-                  {" "}
-                  <Link
-                    href="/CustomerView/LandingPage/LandingSpecial/LandingSpecial"
-                    className="subtitle"
-                  >
-                    Location
-                  </Link>
-                </p>
-              </Row>
-              <Row>
-                <p className="subtitle">
-                  {" "}
-                  <Link
-                    href="/CustomerView/LandingPage/LandingSpecial/LandingSpecial"
-                    className="subtitle"
-                  >
-                    About Us
-                  </Link>
-                </p>
-              </Row>
-              <Row>
-                <p className="subtitle">
-                  {" "}
-                  <Link
-                    href="/CustomerView/LandingPage/LandingSpecial/LandingSpecial"
-                    className="subtitle"
-                  >
-                    Contact Us
-                  </Link>
-                </p>
-              </Row>
             </Col>
           </Row>
 
           {/* Copyright Section */}
-          <Row className="mt-4">
+          <Row>
             <Col className="text-center">
               <p>&copy; 2024 Whittlesea Community Connections.</p>
             </Col>
           </Row>
         </Container>
-      </footer>
     </div>
   );
 };
