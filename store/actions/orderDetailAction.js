@@ -56,28 +56,35 @@ export const fetchBoughtBeforeByCustomerId = createAsyncThunk(
       let allItems = [];
       for (const order of orders) {
         console.log("Order:", order.ORDER_ID);
-
-        // Fetch order details for this specific order
         const response = await axios.get(
           `${BASE_URL}/order_details/${order.ORDER_ID}`
         );
         const orderDetails = response.data;
 
-        console.log("Order Details:", order.ORDER_ID, orderDetails);
-        allItems = [...allItems, ...orderDetails];
-        console.log("All Items:", allItems);
+        // Ensure only objects are added to allItems
+        if (Array.isArray(orderDetails)) {
+          orderDetails.forEach((item) => {
+            if (item && typeof item === "object" && !Array.isArray(item)) {
+              allItems.push(item);
+            }
+          });
+        }
       }
 
-      // Use a Map to ensure uniqueness based on ITEM_ID
+      console.log("All Items:", allItems);
+
+      // Use a Map to ensure uniqueness based on `Product Name`
       const uniqueItemsMap = new Map();
       allItems.forEach((item) => {
-        if (!uniqueItemsMap.has(item.ITEM_ID)) {
-          uniqueItemsMap.set(item.ITEM_ID, item);
+        // Ensure `Product` (or a unique field) is used to track duplicates
+        if (item && item.Product && !uniqueItemsMap.has(item.Product)) {
+          uniqueItemsMap.set(item.Product, item);
         }
       });
 
       // Convert the Map back to an array
       const uniqueItems = Array.from(uniqueItemsMap.values());
+      console.log("Unique Items:", uniqueItems);
       return uniqueItems;
     } catch (error) {
       return rejectWithValue(
