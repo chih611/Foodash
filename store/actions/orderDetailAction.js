@@ -55,10 +55,17 @@ export const fetchBoughtBeforeByCustomerId = createAsyncThunk(
       // Fetch order details for each order to gather all items
       let allItems = [];
       for (const order of orders) {
-        const orderDetails = await dispatch(
-          fetchOrderDetailListAPI(order.ORDER_ID)
-        ).unwrap();
+        console.log("Order:", order.ORDER_ID);
+
+        // Fetch order details for this specific order
+        const response = await axios.get(
+          `${BASE_URL}/order_details/${order.ORDER_ID}`
+        );
+        const orderDetails = response.data;
+
+        console.log("Order Details:", order.ORDER_ID, orderDetails);
         allItems = [...allItems, ...orderDetails];
+        console.log("All Items:", allItems);
       }
 
       // Use a Map to ensure uniqueness based on ITEM_ID
