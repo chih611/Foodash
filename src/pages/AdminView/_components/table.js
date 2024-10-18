@@ -8,6 +8,7 @@ import {
   Placeholder,
   Table,
 } from "react-bootstrap";
+// bg-pressed-color text-light
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useMemo, useState } from "react";
 import { SwapVertRounded } from "@mui/icons-material";
@@ -20,6 +21,7 @@ const CustomTable = ({
   datetimeFields,
   objectFields,
   statusFetching,
+  customTableColor,
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const filteredData = records?.filter((item) =>
@@ -124,22 +126,22 @@ const CustomTable = ({
         >
           <thead>
             <tr>
-              <th className=" bg-pressed-color text-light">
+              <th className={customTableColor}>
                 <Placeholder as="p" animation="glow">
                   <Placeholder xs={6} />
                 </Placeholder>
               </th>
-              <th className=" bg-pressed-color text-light">
+              <th className={customTableColor}>
                 <Placeholder as="p" animation="glow">
                   <Placeholder xs={6} />
                 </Placeholder>
               </th>
-              <th className=" bg-pressed-color text-light">
+              <th className={customTableColor}>
                 <Placeholder as="p" animation="glow">
                   <Placeholder xs={6} />
                 </Placeholder>
               </th>
-              <th className=" bg-pressed-color text-light">
+              <th className={customTableColor}>
                 <Placeholder as="p" animation="glow">
                   <Placeholder xs={6} />
                 </Placeholder>
@@ -191,12 +193,17 @@ const CustomTable = ({
                   headers[0]?.map((header, j) => (
                     <th
                       key={j}
-                      className=" bg-pressed-color text-light text-center text-nowrap"
+                      className={
+                        customTableColor + " text-light text-center text-nowrap"
+                      }
                     >
                       {header}
                       <Button
                         variant="link"
-                        className="bg-pressed-color text-light"
+                        className={
+                          customTableColor +
+                          " text-light text-center text-nowrap"
+                        }
                         onClick={() => handleSort(header)}
                       >
                         <SwapVertRounded />
@@ -205,7 +212,11 @@ const CustomTable = ({
                   ))
                 )}
                 {handleRemoveSingleClick ? (
-                  <th className=" bg-pressed-color text-light text-center text-nowrap">
+                  <th
+                    className={
+                      customTableColor + " text-light text-center text-nowrap"
+                    }
+                  >
                     <DeleteIcon />
                   </th>
                 ) : null}
@@ -223,7 +234,7 @@ const CustomTable = ({
                             handleRecordDoubleClick &&
                             handleRecordDoubleClick(e)
                           }
-                          className="text-decoration-none text-pressed-color text-nowrap"
+                          className="text-decoration-none text-dark text-nowrap"
                         >
                           {value
                             ? datetimeFields?.includes(key)

@@ -94,7 +94,7 @@ export const fetchOrderDetailList = createAsyncThunk(
   "orderDetail/fetchOrderDetailList",
   async (orderId, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${BASE_URL}/order_detail/${orderId}`);
+      const response = await axios.get(`${BASE_URL}/order_details/${orderId}`);
       return response.data;
     } catch (error) {
       return rejectWithValue(

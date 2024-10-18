@@ -14,11 +14,14 @@ const OrderInformation = ({
   setShowSaveBtn,
   Row,
   statusFetching,
+  customOrderInformationColor,
 }) => (
   <>
     <Accordion defaultActiveKey={["0"]} alwaysOpen className="mt-3">
       <Accordion.Item eventKey="0">
-        <Accordion.Header>Order Infomation</Accordion.Header>
+        <Accordion.Header className={customOrderInformationColor}>
+          Order Infomation
+        </Accordion.Header>
         <Accordion.Body>
           <Form.Group as={Row} className="" controlId="formPlaintextEmail">
             {Object.entries(e).map(([key, value], index) => {
