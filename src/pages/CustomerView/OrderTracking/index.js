@@ -9,6 +9,7 @@ import { useSelector, useDispatch } from "react-redux";
 import OrderFilter from "./OrderFilter";
 import OrderFilter_desktop from "./OrderrFilter_desktop";
 import RecentOrder from "./RecentOrder";
+import PrimaryButton from "../ViewCart/_PrimaryButton";
 import CustomModal from "@/pages/AdminView/_components/modal";
 import OrderDetails from "@/pages/AdminView/_pages/order_details";
 const OrderTracking = () => {
@@ -98,11 +99,11 @@ const OrderTracking = () => {
         {/* Back to home button */}
         <Row className="w-100 my-5">
           <Link href="/CustomerView/HomePage" legacyBehavior passHref>
-            <a className="w-100">
-              <Button variant="primary" className="w-100">
-                Back to Home
-              </Button>
-            </a>
+            <PrimaryButton
+              variant="primary"
+              text="Back to Home"
+              className="w-100 text-decoration-none"
+            />
           </Link>
         </Row>
       </div>

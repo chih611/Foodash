@@ -26,7 +26,7 @@ const HomeItemContainer = ({ item }) => {
   };
 
   return (
-    <Col xs={6} md={3} className="my-3">
+    <Col xs={6} md={6} lg={3} className="my-3">
       <Card className="product-card">
         <div className="card-img-container">
           <Card.Img

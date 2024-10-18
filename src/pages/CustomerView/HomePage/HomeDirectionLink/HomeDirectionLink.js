@@ -111,11 +111,7 @@ const HomeDirectionLink = () => {
                 router.pathname === "/bought-before" ? "active" : ""
               }`}
             >
-              <Link
-                href="/CustomerView/BoughtBefore/BoughtBefore"
-                passHref
-                legacyBehavior
-              >
+              <Link href="/CustomerView/BoughtBefore" passHref legacyBehavior>
                 <a className="nav-link">
                   <div className="indicator-button">
                     <Row className="align-items-center">
@@ -242,16 +238,10 @@ const HomeDirectionLink = () => {
           <Col
             md={2}
             className={`text-center ${
-              router.pathname === "/CustomerView/BoughtBefore/BoughtBefore"
-                ? "active"
-                : ""
+              router.pathname === "/CustomerView/BoughtBefore" ? "active" : ""
             }`}
           >
-            <Link
-              href="/CustomerView/BoughtBefore/BoughtBefore"
-              passHref
-              legacyBehavior
-            >
+            <Link href="/CustomerView/BoughtBefore" passHref legacyBehavior>
               <a className="nav-link">
                 <div className="indicator-button">
                   <Row className="align-items-center">

@@ -32,7 +32,7 @@ const OrderList = ({ orders, onOrderDoubleClick }) => {
           onDoubleClick={() => onOrderDoubleClick(order.ORDER_ID)} // Double-click event
         >
           {/* 1st column: Date */}
-          <Col xs={12} md={3} className="mb-2">
+          <Col xs={3} md={3} className="mb-2">
             <div className="align-items-center w-100">
               <p className="subtitle w-100 text-center">
                 {formatDate(order.DUEDATE)} {/* Reformatted date */}
@@ -41,22 +41,22 @@ const OrderList = ({ orders, onOrderDoubleClick }) => {
           </Col>
 
           {/* 2nd column: OrderID */}
-          <Col xs={12} md={3} className="mb-2">
+          <Col xs={2} md={3} className="mb-2">
             <div className="align-items-center w-100">
               <p className="subtitle w-100 text-center">{order.ORDER_ID}</p>
             </div>
           </Col>
 
           {/* 3rd column: Amount */}
-          <Col xs={12} md={3} className="mb-2">
+          <Col xs={3} md={3} className="mb-2">
             <div className="align-items-center w-100">
               <p className="subtitle w-100 text-center">${order.TOTAL}</p>
             </div>
           </Col>
 
           {/* Final column: Status */}
-          <Col xs={12} md={3} className="d-flex align-items-center mb-2">
-            <div className="align-items-center flex-column text-decoration-none w-100">
+          <Col xs={4} md={3} className="d-flex align-items-center mb-2">
+            <div className="text-decoration-none w-100">
               <div className="d-flex align-items-center mb-2 ms-5">
                 <CircleRounded
                   className="mb-2 me-3"
