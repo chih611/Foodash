@@ -1,17 +1,15 @@
-import React from "react";
-import { Container, Row, Col, Button } from "react-bootstrap";
-import { useState, useEffect } from "react";
-import { ArrowBackRounded } from "@mui/icons-material";
-import Link from "next/link";
-import Section from "./Section";
-import HomeItemContainer from "../HomePage/HomeItemContainer/HomeItemContainer";
+import React, { useEffect } from "react";
+import { Container, Row, Col } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import { fetchOrderByCustomerId } from "../../../../store/actions/orderAction";
 import { fetchBoughtBeforeByCustomerId } from "../../../../store/actions/orderDetailAction";
+import { fetchItems } from "../../../../store/slices/itemsSlice"; // Fetch all items to cross-reference
 import HomeDirectionLink from "../HomePage/HomeDirectionLink/HomeDirectionLink";
 import HomePageNavBar from "../HomePage/HomePageNavBar";
-import Home from "@/pages";
+import HomeItemContainer from "../HomePage/HomeItemContainer/HomeItemContainer";
+import Link from "next/link";
+import { ArrowBackRounded } from "@mui/icons-material";
 
 const BoughtBefore = () => {
   const customerId = useSelector(
@@ -24,6 +22,7 @@ const BoughtBefore = () => {
     if (customerId) {
       dispatch(fetchOrderByCustomerId(customerId));
       dispatch(fetchBoughtBeforeByCustomerId(customerId));
+      dispatch(fetchItems()); // Fetch all items to use for mapping
     }
   }, [customerId, dispatch]);
 
@@ -31,9 +30,21 @@ const BoughtBefore = () => {
     (state) => state.order.orderListByCustomerId
   );
   const uniqueItems = useSelector((state) => state.orderDetail.uniqueItems);
-  console.log("Customer ID :" + customerId);
+  const allItems = useSelector((state) => state.items.items); // Assume items list has ITEM_ID, ITEM_NAME, and UNIT_PRICE
+  console.log(uniqueItems);
+  console.log(allItems);
+  // Helper function to merge data based on ITEM_ID
+  const getFullItemDetails = (uniqueItem) => {
+    const completeItem = allItems.find(
+      (item) => item.ITEM_NAME === uniqueItem.Product
+    );
 
-  console.log("Customer bought before :" + uniqueItems);
+    return completeItem ? { ...uniqueItem, ...completeItem } : uniqueItem;
+  };
+
+  // Generate the final array of items with merged data
+  const mergedItems = uniqueItems.map(getFullItemDetails);
+  console.log(mergedItems);
 
   if (!orderByCustomer || orderByCustomer.length === 0) {
     return (
@@ -69,10 +80,13 @@ const BoughtBefore = () => {
           <div className="col-md-7">
             <h1>Bought Before</h1>
           </div>
-        </Row>{" "}
-        <Section className="title" title="Deli and Fresh Meats" />
-        <Section className="title" title="Party Platters" />
-        <Section className="title" title="Flowers and Extras" />
+        </Row>
+        <Row>
+          {/* Pass the merged items to HomeItemContainer */}
+          {mergedItems.map((item, index) => (
+            <HomeItemContainer key={index} item={item} />
+          ))}
+        </Row>
       </main>
     </Container>
   );
