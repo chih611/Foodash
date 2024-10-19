@@ -15,10 +15,6 @@ const Order = (props) => {
   let records = [];
   const datetimeFields = ["Duedate", "Create Date"];
 
-  useEffect(() => {
-    dispatch(fetchOrderList());
-  }, []);
-
   //Get data
   const orderList = useSelector((state) => state.order.ordersList);
   const statusOrderFetching = useSelector((state) => state.order.status);
@@ -54,7 +50,7 @@ const Order = (props) => {
   // };
   return (
     <>
-      <Tab.Pane {...props}>
+      <Tab.Pane {...props} className="g-4 bg-2nd-color m-2 px-3 py-3 rounded-4">
         <CustomTable
           headers={headers}
           records={records}

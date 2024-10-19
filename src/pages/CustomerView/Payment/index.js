@@ -20,7 +20,7 @@ const Payment = () => {
     console.log("Payment token:", token);
     try {
       const response = await axios.post(
-        `const BASE_URL = "https://${process.env.NEXT_PUBLIC_REACT_APP_BACKEND_ADDRESS}"/payment/create`,
+        `${process.env.NEXT_PUBLIC_REACT_APP_BACKEND_ADDRESS}/payment/create`,
         {
           sourceId: token.token,
         }

@@ -4,7 +4,7 @@ import axios from "axios";
 import { fetchItemListAPI } from "../api/item.api";
 
 // Define base URL with dynamic backend port from the environment variable
-const BASE_URL = `https://${process.env.NEXT_PUBLIC_REACT_APP_BACKEND_ADDRESS}`;
+const BASE_URL = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_ADDRESS;
 
 // Fetch items thunk
 export const fetchItems = createAsyncThunk(

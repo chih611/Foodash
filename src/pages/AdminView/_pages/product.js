@@ -21,7 +21,6 @@ const Product = (props) => {
   }, [dispatch]);
   const { items, searchResults, status } = useSelector((state) => state.items);
   //Get colunms of headers name
-  console.log(items);
   if (items) {
     items.map((item) => {
       headers.push(Object.keys(item));

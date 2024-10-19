@@ -22,7 +22,7 @@ const Header = ({ breadcrumb, handleSelect }) => {
         <Col>
           <Navbar.Brand href="#home">
             {" "}
-            <Image src="Foodash_logo.png" className="w-50" />
+            <Image src="/Foodash_logo.png" className="w-50" />
           </Navbar.Brand>
         </Col>
         <Col>
