@@ -98,7 +98,7 @@ const CalendarTracking = (props) => {
       <CustomModal
         setOpen={setShowModal}
         open={showModal}
-        selectedId={selectedEvent.Id}
+        selectedId={selectedEvent?.Id}
         headerTitle="Order"
       >
         <OrderDetails {...props} />
