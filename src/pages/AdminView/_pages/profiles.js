@@ -222,7 +222,6 @@ const Profile = (props) => {
 
   return (
     <Tab.Pane {...props}>
-      <h1 className="crm-title">CRM_Profile</h1>
       <div className="crm-container">
         <div className="d-flex justify-content-between align-items-center mb-4">
           <h1 className="crm-title">Customer List</h1>

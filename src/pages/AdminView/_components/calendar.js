@@ -111,7 +111,7 @@ const CalendarTracking = () => {
         date={currentDate}
         step={60}
         showMultiDayTimes
-        style={{ height: "70vh" }}
+        style={{ height: "80vh" }}
         onSelectEvent={handleEventClick} // Add event handler for clicks
         eventPropGetter={eventStyleGetter} // Add event style customization
         toolbar={false} // Disable default toolbar
