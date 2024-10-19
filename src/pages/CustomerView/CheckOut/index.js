@@ -13,14 +13,13 @@ import {
   checkIfCustomerExists,
   createCustomer,
 } from "../../../../store/slices/customerSlice";
-import { clearCart } from "../../../../store/slices/cartSlice";
+import { clearCartItems } from "../../../../store/slices/cartSlice"; // Update here
 import PaymentIcon from "@mui/icons-material/Payment";
 import PrimaryButton from "../ViewCart/_PrimaryButton";
 
 const Checkout = () => {
   const [pickup, setPickup] = useState(false);
   const [promoValue, setPromoValue] = useState(0);
-  const [scheduledDate, setScheduledDate] = useState(""); // New state for scheduled date
   const [recipientDetails, setRecipientDetails] = useState({
     name: "",
     address: "",
@@ -33,6 +32,7 @@ const Checkout = () => {
 
   // Fetch customer profile and cart items from Redux store
   const cartItems = useSelector((state) => state.cart.cartItems);
+  const cartId = useSelector((state) => state.cart.cartId);
   const customerProfile = useSelector((state) => state.customer.profile);
   const customerId = customerProfile?.CUSTOMER_ID || null;
 
@@ -132,13 +132,12 @@ const Checkout = () => {
     giftWrap,
     recipientDetails,
     pickup,
-    promoValue,
-    scheduledDate // Added to payload
+    promoValue
   ) => {
     try {
       const orderPayload = {
         CUSTOMER_ID: finalCustomerId,
-        DUEDATE: scheduledDate || new Date().toISOString().split("T")[0], // Use scheduled date if available
+        DUEDATE: new Date().toISOString().split("T")[0],
         RECIPIENT: recipientDetails.name,
         ADDRESS: recipientDetails.address,
         PHONE: recipientDetails.contact,
@@ -210,12 +209,14 @@ const Checkout = () => {
         giftWrap,
         recipientDetails,
         pickup,
-        promoValue,
-        scheduledDate // Pass scheduled date
+        promoValue
       );
 
       await createOrderItemsHandler(orderId, cartItems);
-      await dispatch(clearCart());
+
+      // Updated clearCart logic to use clearCartItems thunk
+      await dispatch(clearCartItems({ customerId: finalCustomerId, cartId }));
+
       router.push(`/CustomerView/CheckOut/Confirm?orderId=${orderId}`);
     } catch (error) {
       alert("An error occurred while placing the order. Please try again.");
@@ -241,7 +242,6 @@ const Checkout = () => {
             setRecipientDetails={setRecipientDetails}
             customerProfile={customerProfile}
             recipientDetails={recipientDetails}
-            setScheduledDate={setScheduledDate} // Pass setScheduledDate to form
           />
         </Row>
         <Row className="w-100 justify-content-center">

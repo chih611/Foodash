@@ -149,8 +149,7 @@ const HomePageNavBar = () => {
                   <div>
                     <p className="subtitle--navBar mb-0">
                       Hi, {customerProfile ? customerProfile.LAST_NAME : "User"}
-                    </p>{" "}
-                    {/* Display the customer's first name or "User" if not signed in */}
+                    </p>
                   </div>
                 </a>
               </Link>

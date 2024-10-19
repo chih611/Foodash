@@ -28,7 +28,12 @@ const NavBarCheckOut = () => {
         marginBottom: "150px",
       }}
     >
-      <Navbar bg="white" expand="lg" className="border-bottom" fixed="top">
+      <Navbar
+        bg="white"
+        expand="lg"
+        className="border-bottom navBar-body"
+        fixed="top"
+      >
         <Container fluid className="px-md-5 py-md-4">
           {/* Mobile Layout */}
 
@@ -37,8 +42,8 @@ const NavBarCheckOut = () => {
             <Col xs={1} className="d-flex justify-content-start">
               <Link href="/CustomerView/HomePage" legacyBehavior passHref>
                 <a>
-                  <div className="me-2">
-                    <ArrowBackRounded sx={{ color: "#90B4CE" }} />
+                  <div className="account-button me-2">
+                    <ArrowBackRounded sx={{ color: "#fffffe" }} />
                   </div>
                 </a>
               </Link>
@@ -47,7 +52,7 @@ const NavBarCheckOut = () => {
             {/* Logo (6 columns) */}
             <Col xs={6} className="d-flex justify-content-center">
               <Image
-                src="/Foodash_logo.png"
+                src="/WCC_LOGO.png"
                 alt="Logo"
                 width={150} // Adjust width as needed
                 height={50} // Adjust height as needed
@@ -69,7 +74,7 @@ const NavBarCheckOut = () => {
               >
                 <a>
                   <div className="account-button me-2">
-                    <PermIdentityOutlined sx={{ color: "#025373" }} />
+                    <PermIdentityOutlined sx={{ color: "#fffffe" }} />
                   </div>
                 </a>
               </Link>
@@ -81,9 +86,9 @@ const NavBarCheckOut = () => {
           <Row className="w-100 d-none d-lg-flex">
             <Col xs={12} md={1} className="d-flex align-items-center">
               <Link href="/CustomerView/HomePage" legacyBehavior passHref>
-                <a className="me-2">
-                  <ArrowBackRounded sx={{ color: "#90B4CE" }} />
-                </a>
+                <div className="account-button me-2">
+                  <ArrowBackRounded sx={{ color: "#fffffe" }} />
+                </div>
               </Link>
             </Col>
 
@@ -92,7 +97,7 @@ const NavBarCheckOut = () => {
               <Link href="/CustomerView/HomePage" legacyBehavior passHref>
                 <a>
                   <Image
-                    src="/Foodash_logo.png"
+                    src="/WCC_LOGO.png"
                     alt="Logo"
                     width={200} // Adjust width as needed
                     height={50} // Adjust height as needed
@@ -119,9 +124,9 @@ const NavBarCheckOut = () => {
                 legacyBehavior
                 passHref
               >
-                <a className="cart-button me-2">
-                  <PermIdentityOutlined sx={{ color: "#025373" }} />
-                </a>
+                <div className="account-button me-2">
+                  <PermIdentityOutlined sx={{ color: "#fffffe" }} />
+                </div>
               </Link>
             </Col>
           </Row>
