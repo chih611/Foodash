@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import AccountCircleRounded from "@mui/icons-material/AccountCircleRounded";
 import ArrowRightRounded from "@mui/icons-material/ArrowRightRounded";
 import LocalPhoneOutlined from "@mui/icons-material/LocalPhoneOutlined";
 import AddLocationAltRounded from "@mui/icons-material/AddLocationAltRounded";
 import EmailIcon from "@mui/icons-material/Email";
+import EventIcon from "@mui/icons-material/Event";
 
 const DetailForm = ({
   pickup,
@@ -12,6 +13,7 @@ const DetailForm = ({
   setRecipientDetails,
   customerProfile,
   recipientDetails, // Add recipientDetails prop
+  setScheduledDate, // New prop for scheduling date
 }) => {
   const {
     register,
@@ -70,7 +72,7 @@ const DetailForm = ({
         <p className="subtitle ms-2">Recipient Name</p>
       </div>
 
-      <div className="w-100 d-flex mb-3 ">
+      <div className="w-100 d-flex mb-3">
         <input
           name="name"
           placeholder="Enter recipient name"
@@ -90,7 +92,7 @@ const DetailForm = ({
         <p className="subtitle ms-2">Address</p>
       </div>
 
-      <div className="w-100 d-flex mb-3 ">
+      <div className="w-100 d-flex mb-3">
         <input
           name="address"
           placeholder="Enter delivery address"
@@ -106,12 +108,12 @@ const DetailForm = ({
         <p className="text-danger">{errors.address.message}</p>
       )}
 
-      {/* Add Contact */}
+      {/* Add Email */}
       <div className="d-flex w-100 mt-3">
         <EmailIcon className="standard-icon" />
         <p className="subtitle ms-2">Email</p>
       </div>
-      <div className="w-100 d-flex mb-3 ">
+      <div className="w-100 d-flex mb-3">
         <input
           name="email"
           placeholder="Enter Email"
@@ -125,15 +127,14 @@ const DetailForm = ({
           <ArrowRightRounded className="standard-icon" />
         </button>
       </div>
-      {errors.contact && (
-        <p className="text-danger">{errors.contact.message}</p>
-      )}
+      {errors.email && <p className="text-danger">{errors.email.message}</p>}
 
+      {/* Add Contact */}
       <div className="d-flex w-100 mt-3">
         <LocalPhoneOutlined className="standard-icon" />
         <p className="subtitle ms-2">Contact</p>
       </div>
-      <div className="w-100 d-flex mb-3 ">
+      <div className="w-100 d-flex mb-3">
         <input
           name="contact"
           placeholder="Enter contact number"
@@ -172,6 +173,19 @@ const DetailForm = ({
             <p className="button-title-text my-1">Pick Up</p>
           </div>
         </button>
+      </div>
+
+      {/* Scheduled Delivery Date */}
+      <div className="d-flex w-100 mt-3">
+        <EventIcon className="standard-icon" />
+        <p className="subtitle ms-2">Scheduled Delivery Date</p>
+      </div>
+      <div className="w-100 d-flex mb-3">
+        <input
+          type="date"
+          className="form_item1"
+          onChange={(e) => setScheduledDate(e.target.value)}
+        />
       </div>
     </form>
   );

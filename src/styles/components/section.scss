@@ -12,11 +12,24 @@
     font-size: 22px;
     font-weight: bold;
     margin: 10px 0px 40px 10px;
-    padding-bottom: 5px; /* Adds space between the text and the line */
-    border-bottom: 2px solid #90B4CE; /* Add the line under the title */
-    display: inline-block; /* Ensures the line does not extend the full width */
+    padding-bottom: 10px; // Adds space between the text and the line
+    width: 100%; // Make the title take the full width of its container
+    border-bottom: 2px solid #90B4CE; // Full-width bottom line
+    position: relative; // Prepare for adding a shadow element
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); // Adds a shadow beneath the line
+
+    &:after {
+      content: ""; // Creates a pseudo-element for the bottom line
+      display: block;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%; // Extend the line across the entire title width
+      height: 1px; // Thickness of the line
+      background-color: #90B4CE;
+      box-shadow: 0 0px 0px rgba(0, 0, 0, 0.1); // Adds the shadow under the line
+    }
   }
-  
 
   .row {
     margin: 0;
