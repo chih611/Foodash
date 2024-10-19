@@ -23,7 +23,7 @@
 
   &:hover {
     text-decoration: none;
-    color: colors.$hover-color; // Use hover color for hover state
+    color: colors.$headline-color  !important; // Use hover color for hover state
   }
 
   &.active .indicator-button {

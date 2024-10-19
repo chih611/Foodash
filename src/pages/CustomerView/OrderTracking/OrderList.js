@@ -1,5 +1,4 @@
 import { useState } from "react";
-import Link from "next/link";
 import { Row, Col, Button } from "react-bootstrap";
 import CircleRounded from "@mui/icons-material/CircleRounded";
 import KeyboardArrowDownRounded from "@mui/icons-material/KeyboardArrowDownRounded";
@@ -8,6 +7,48 @@ import KeyboardArrowDownRounded from "@mui/icons-material/KeyboardArrowDownRound
 const formatDate = (dateString) => {
   const date = new Date(dateString);
   return new Intl.DateTimeFormat("en-GB").format(date); // Formats date to DD/MM/YYYY
+};
+
+// Helper function to determine status color
+const getStatusColor = (status) => {
+  switch (status.toLowerCase()) {
+    case "completed":
+      return "#808080"; // gray
+    case "created":
+    case "pending":
+    case "paid":
+      return "#4CAF50"; // green
+    case "refund":
+    case "cancelled":
+      return "#ef4565"; // red
+    case "quote":
+      return "#FFD700"; // yellow
+    case "in progress":
+      return "#2196F3"; // blue
+    default:
+      return "#808080"; // Default gray for unknown status
+  }
+};
+
+// Helper function to determine background color for the badge
+const getStatusBackgroundColor = (status) => {
+  switch (status.toLowerCase()) {
+    case "completed":
+      return "#d3d3d3"; // light gray
+    case "created":
+    case "pending":
+    case "paid":
+      return "#e8f5e9"; // light green
+    case "refund":
+    case "cancelled":
+      return "#ffe6e6"; // light red
+    case "quote":
+      return "#fff9e1"; // light yellow
+    case "in progress":
+      return "#e3f2fd"; // light blue
+    default:
+      return "#f0f0f0"; // Default light gray
+  }
 };
 
 const OrderList = ({ orders, onOrderDoubleClick }) => {
@@ -56,14 +97,19 @@ const OrderList = ({ orders, onOrderDoubleClick }) => {
 
           {/* Final column: Status */}
           <Col xs={4} md={3} className="d-flex align-items-center mb-2">
-            <div className="text-decoration-none w-100">
-              <div className="d-flex align-items-center mb-2 ms-5">
-                <CircleRounded
-                  className="mb-2 me-3"
-                  sx={{ color: "#ef4565" }}
-                />
-                <p className="subtitle mb-2">{order.STATUS}</p>
-              </div>
+            <div
+              className="text-decoration-none w-100 d-flex align-items-center justify-content-center"
+              style={{
+                backgroundColor: getStatusBackgroundColor(order.STATUS),
+                color: getStatusColor(order.STATUS),
+                padding: "4px 8px",
+                borderRadius: "12px",
+                fontWeight: "bold",
+                minWidth: "80px",
+                textAlign: "center",
+              }}
+            >
+              {order.STATUS.toUpperCase()}
             </div>
           </Col>
         </Row>
