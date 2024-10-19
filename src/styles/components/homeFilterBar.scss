@@ -15,7 +15,14 @@
   border-color: #8f5652 !important;
 }
 
-.custom-filter-button:hover, .custom-clear-button:hover {
-  background-color: #f5e5e4 !important; /* Light background on hover */
+.custom-filter-button:hover,
+.custom-filter-button:active,
+.custom-filter-button.show,
+.custom-clear-button:hover,
+.custom-clear-button:active,
+.custom-clear-button.show {
+  background-color: #f5e5e4 !important; /* Light background on hover & active */
   border-color: #8f5652 !important;
+  color: #8f5652 !important;
 }
+

@@ -9,10 +9,6 @@ import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
 import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
 import ContentPasteOutlinedIcon from "@mui/icons-material/ContentPasteOutlined";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
-import PrimaryButton from "../../ViewCart/_PrimaryButton";
-import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
-import SortOutlinedIcon from "@mui/icons-material/SortOutlined";
-import SortByAlphaOutlinedIcon from "@mui/icons-material/SortByAlphaOutlined";
 
 const HomeDirectionLink = () => {
   const router = useRouter();
@@ -21,11 +17,17 @@ const HomeDirectionLink = () => {
   const handleOffcanvasToggle = () => setShowOffcanvas(!showOffcanvas);
   const handleOffcanvasClose = () => setShowOffcanvas(false);
 
+  const getLinkStyle = (path) => {
+    return router.pathname === path
+      ? { color: "#ef4565", fontWeight: "bold" }
+      : { color: "#025373" };
+  };
+
   return (
     <div className="container">
       {/* Offcanvas button for small screens */}
       <Button
-        className="toggle-direction-link  d-md-none"
+        className="toggle-direction-link d-md-none"
         variant="primary"
         onClick={handleOffcanvasToggle}
       >
@@ -43,13 +45,12 @@ const HomeDirectionLink = () => {
         </Offcanvas.Header>
         <Offcanvas.Body>
           <Nav className="flex-column">
-            <Col
-              className={`text-center ${
-                router.pathname === "/" ? "active" : ""
-              }`}
-            >
-              <Link href="/" passHref legacyBehavior>
-                <a className="nav-link">
+            <Col className="text-center">
+              <Link href="/CustomerView/HomePage/" passHref legacyBehavior>
+                <a
+                  className="nav-link"
+                  style={getLinkStyle("/CustomerView/HomePage/")}
+                >
                   <div className="indicator-button">
                     <Row className="align-items-center">
                       <Col xs={3}>
@@ -63,17 +64,16 @@ const HomeDirectionLink = () => {
                 </a>
               </Link>
             </Col>
-            <Col
-              className={`text-center ${
-                router.pathname === "/special" ? "active" : ""
-              }`}
-            >
+            <Col className="text-center">
               <Link
                 href="/CustomerView/Special/Special"
                 passHref
                 legacyBehavior
               >
-                <a className="nav-link">
+                <a
+                  className="nav-link"
+                  style={getLinkStyle("/CustomerView/Special/Special")}
+                >
                   <div className="indicator-button">
                     <Row className="align-items-center">
                       <Col xs={3}>
@@ -87,13 +87,9 @@ const HomeDirectionLink = () => {
                 </a>
               </Link>
             </Col>
-            <Col
-              className={`text-center ${
-                router.pathname === "/favorites" ? "active" : ""
-              }`}
-            >
+            <Col className="text-center">
               <Link href="/favorites" passHref legacyBehavior>
-                <a className="nav-link">
+                <a className="nav-link" style={getLinkStyle("/favorites")}>
                   <div className="indicator-button">
                     <Row className="align-items-center">
                       <Col xs={3}>
@@ -107,13 +103,12 @@ const HomeDirectionLink = () => {
                 </a>
               </Link>
             </Col>
-            <Col
-              className={`text-center ${
-                router.pathname === "/bought-before" ? "active" : ""
-              }`}
-            >
+            <Col className="text-center">
               <Link href="/CustomerView/BoughtBefore" passHref legacyBehavior>
-                <a className="nav-link">
+                <a
+                  className="nav-link"
+                  style={getLinkStyle("/CustomerView/BoughtBefore")}
+                >
                   <div className="indicator-button">
                     <Row className="align-items-center">
                       <Col xs={2}>
@@ -125,13 +120,12 @@ const HomeDirectionLink = () => {
                 </a>
               </Link>
             </Col>
-            <Col
-              className={`text-center ${
-                router.pathname === "/orders" ? "active" : ""
-              }`}
-            >
-              <Link href="/CustomerView/OrderTracking/" passHref legacyBehavior>
-                <a className="nav-link">
+            <Col className="text-center">
+              <Link href="/CustomerView/OrderTracking" passHref legacyBehavior>
+                <a
+                  className="nav-link"
+                  style={getLinkStyle("/CustomerView/OrderTracking")}
+                >
                   <div className="indicator-button">
                     <Row className="align-items-center">
                       <Col xs={3}>
@@ -145,13 +139,12 @@ const HomeDirectionLink = () => {
                 </a>
               </Link>
             </Col>
-            <Col
-              className={`text-center ${
-                router.pathname === "/menu-planning" ? "active" : ""
-              }`}
-            >
+            <Col className="text-center">
               <Link href="/CustomerView/Menu" passHref legacyBehavior>
-                <a className="nav-link">
+                <a
+                  className="nav-link"
+                  style={getLinkStyle("/CustomerView/Menu")}
+                >
                   <div className="indicator-button">
                     <Row className="align-items-center">
                       <Col xs={2}>
@@ -172,12 +165,12 @@ const HomeDirectionLink = () => {
       {/* Regular navigation for larger screens */}
       <div className="home-direction-link d-none d-md-block">
         <Nav className="row justify-content-center custom-nav">
-          <Col
-            md={2}
-            className={`text-center ${router.pathname === "/" ? "active" : ""}`}
-          >
-            <Link href="/" passHref legacyBehavior>
-              <a className="nav-link">
+          <Col md={2} className="text-center">
+            <Link href="/CustomerView/HomePage/" passHref legacyBehavior>
+              <a
+                className="nav-link"
+                style={getLinkStyle("/CustomerView/HomePage/")}
+              >
                 <div className="indicator-button">
                   <Row className="align-items-center">
                     <Col xs={3}>
@@ -192,14 +185,12 @@ const HomeDirectionLink = () => {
             </Link>
           </Col>
 
-          <Col
-            md={2}
-            className={`text-center ${
-              router.pathname === "/special" ? "active" : ""
-            }`}
-          >
+          <Col md={2} className="text-center">
             <Link href="/CustomerView/Special/Special" passHref legacyBehavior>
-              <a className="nav-link">
+              <a
+                className="nav-link"
+                style={getLinkStyle("/CustomerView/Special/Special")}
+              >
                 <div className="indicator-button">
                   <Row className="align-items-center">
                     <Col xs={3}>
@@ -214,14 +205,9 @@ const HomeDirectionLink = () => {
             </Link>
           </Col>
 
-          <Col
-            md={2}
-            className={`text-center ${
-              router.pathname === "/favorites" ? "active" : ""
-            }`}
-          >
+          <Col md={2} className="text-center">
             <Link href="/favorites" passHref legacyBehavior>
-              <a className="nav-link">
+              <a className="nav-link" style={getLinkStyle("/favorites")}>
                 <div className="indicator-button">
                   <Row className="align-items-center">
                     <Col xs={3}>
@@ -236,14 +222,12 @@ const HomeDirectionLink = () => {
             </Link>
           </Col>
 
-          <Col
-            md={2}
-            className={`text-center ${
-              router.pathname === "/CustomerView/BoughtBefore" ? "active" : ""
-            }`}
-          >
+          <Col md={2} className="text-center">
             <Link href="/CustomerView/BoughtBefore" passHref legacyBehavior>
-              <a className="nav-link">
+              <a
+                className="nav-link"
+                style={getLinkStyle("/CustomerView/BoughtBefore")}
+              >
                 <div className="indicator-button">
                   <Row className="align-items-center">
                     <Col xs={2}>
@@ -256,14 +240,12 @@ const HomeDirectionLink = () => {
             </Link>
           </Col>
 
-          <Col
-            md={2}
-            className={`text-center ${
-              router.pathname === "/orders" ? "active" : ""
-            }`}
-          >
+          <Col md={2} className="text-center">
             <Link href="/CustomerView/OrderTracking" passHref legacyBehavior>
-              <a className="nav-link">
+              <a
+                className="nav-link"
+                style={getLinkStyle("/CustomerView/OrderTracking")}
+              >
                 <div className="indicator-button">
                   <Row className="align-items-center">
                     <Col xs={3}>
@@ -278,14 +260,12 @@ const HomeDirectionLink = () => {
             </Link>
           </Col>
 
-          <Col
-            md={2}
-            className={`text-center ${
-              router.pathname === "/menu-planning" ? "active" : ""
-            }`}
-          >
+          <Col md={2} className="text-center">
             <Link href="/CustomerView/Menu" passHref legacyBehavior>
-              <a className="nav-link">
+              <a
+                className="nav-link"
+                style={getLinkStyle("/CustomerView/Menu")}
+              >
                 <div className="indicator-button">
                   <Row className="align-items-center">
                     <Col xs={2}>

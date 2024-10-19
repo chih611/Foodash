@@ -85,7 +85,7 @@ const HomePageNavBar = () => {
             <Col xs={2} className="d-flex flex-column align-items-end">
               <Link href="/CustomerView/ViewCart/" legacyBehavior passHref>
                 <a>
-                  <div className="cart-button me-2">
+                  <div className="account-button me-2">
                     <ShoppingCartOutlinedIcon sx={{ color: "#fffffe" }} />
                   </div>
                 </a>
