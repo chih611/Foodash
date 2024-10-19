@@ -5,11 +5,15 @@ const BASE_URL = `http://localhost:8080`;
 
 export const fetchItemsByCategory = createAsyncThunk(
   "category/fetchItemsByCategory",
-  async (categoryId) => {
-    const response = await axios.get(
-      `${BASE_URL}/items/category/${categoryId}`
-    );
-    return response.data;
+  async (categoryId, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(
+        `${BASE_URL}/items/category/${categoryId}`
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data.message);
+    }
   }
 );
 
@@ -17,6 +21,7 @@ export const fetchAllCategories = createAsyncThunk(
   "category/fetchAllCategories",
   async () => {
     const response = await axios.get(`${BASE_URL}/category`);
+    console.log(response.data);
     return response.data;
   }
 );

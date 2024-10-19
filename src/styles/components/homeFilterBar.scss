@@ -1,3 +1,21 @@
 .filters-section {
   margin-bottom: 30px;
 }
+  
+.custom-filter-button {
+  color: #5f6c7b !important;
+  border-color: #8f5652 !important;
+  border-radius: 15px !important;
+
+  
+}
+
+.custom-clear-button {
+  color: #5f6c7b !important;
+  border-color: #8f5652 !important;
+}
+
+.custom-filter-button:hover, .custom-clear-button:hover {
+  background-color: #f5e5e4 !important; /* Light background on hover */
+  border-color: #8f5652 !important;
+}
