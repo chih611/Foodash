@@ -30,6 +30,16 @@ const ReportCategory = (props) => {
     
   ];
 
+  const sales_summary = [
+    {id: '1', name: 'Product Sales', amount: '$4,618.46'},
+    {id: '2', name: 'Items', amount: '$4,618.46'},
+    {id: '3', name: 'Tax', amount: '$461,94'},
+    {id: '4', name: 'Gift Card Sales', amount: '$0.00'},
+    {id: '5', name: 'Refunds by Amount', amount: '-$5.00'},
+    {id: '6', name: 'Gross Sales', amount: '$5,080.40'},
+    {id: '7', name: 'Total', amount: '$5.074.90'},
+  ];
+
   // set up date range picker
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
@@ -81,62 +91,79 @@ const ReportCategory = (props) => {
   
   return (
       <>
-      <div className="m-3 p-3">        
-        {/* Funtions: Filter by Date and display total number of item sold */}
-        <div 
-            className="m-2 p-2 d-flex justify-content-between"
-            style={{
-              backgroundColor: "#EBF5FD",
-              minHeight: "auto",
-              border: "20px solid #EBF5FD", borderRadius: "30px"}} >
-
-          <p className="subtitle_admin"> SALES BY CATEGORY </p>
-          <div >
-              <input type = "date" className="form-date-input-blue-color"
-                    value={startDate}
-                    onChange={(e) => setStartDate(e.target.value)}
-              />
-              <span className="subtitle mx-3">to</span>
-              <input type = "date" className="form-date-input-blue-color"
-                     value={endDate}
-                     onChange={(e) => setEndDate(e.target.value)} 
-              />
-              <button className="btn btn-secondary mx-3 mb-1" onClick={handleReset}>Clear</button>
-          </div>
-          <h5>Total Number of Item Sold: {countSoldItems()}</h5>          
-        </div>
-
-
-        {/* Table content: inc sale data regarding to report format */}
-        <div 
-            className="m-2 p-1 flex flex-col gap-3"
-            style={{
-              border: "20px solid #EBF5FD", borderRadius: "40px"}}
+      <div className=" d-flex m-3 p-3" > 
+        {/* Report Sales Item */}
+        <div className="col-md-3" 
+             style={{border: "10px solid #EBF5FD", borderRadius: "30px"}}
         >
+          <p className="subtitle_admin m-3"> Report Summary </p>
+          {sales_summary.map(item => (
+              <div className="m-3 d-flex justify-content-between" key={item.id} > 
+                  <p className="subtitle" >{item.name}</p>
+                  <p className="subtitle " >{item.amount}</p>
+              </div>  
+          ))}
 
-          <Table 
-            aria-label="Sale Report by Category" 
-            style={{ width: '100%', margin: '30px 0'}}>
-
-              <TableHeader columns={columns}>
-                {(column) => 
-                  <TableColumn key={column.key}>
-                    <p className="subtitle_admin">{column.label} <FilterListOutlined className="ms-2"/></p>                    
-                  </TableColumn>}
-              </TableHeader>
-
-              <TableBody items={filteredRows}>
-                {(item) => (
-                  <TableRow key={item.key}>
-                    {(columnKey) => 
-                      <TableCell >
-                        <p className="subtitle ms-1">{getKeyValue(item, columnKey)}</p>
-                      </TableCell>}
-                  </TableRow>
-                )}
-              </TableBody>
-          </Table>
         </div>
+        <div className="col-md-9">      
+          {/* Filter Funtions: by Date and display total number of item sold */}
+          <div 
+              className="m-2 p-2 d-flex justify-content-between"
+              style={{
+                backgroundColor: "#EBF5FD",
+                minHeight: "auto",
+                border: "20px solid #EBF5FD", borderRadius: "30px"}} >
+
+            <p className="subtitle_admin"> SALES BY CATEGORY </p>
+            <div >
+                <input type = "date" className="form-date-input-blue-color"
+                      value={startDate}
+                      onChange={(e) => setStartDate(e.target.value)}
+                />
+                <span className="subtitle mx-3">to</span>
+                <input type = "date" className="form-date-input-blue-color"
+                      value={endDate}
+                      onChange={(e) => setEndDate(e.target.value)} 
+                />
+                <button className="btn btn-secondary mx-3 mb-1" onClick={handleReset}>Clear</button>
+            </div>
+            <h5>Total Number of Item Sold: {countSoldItems()}</h5>          
+          </div>
+
+
+          {/* Table content: inc sale data regarding to report format */}
+          <div 
+              className="m-2 p-1 flex flex-col gap-3"
+              style={{
+                border: "20px solid #EBF5FD", borderRadius: "40px"}}
+          >
+
+            <Table 
+              aria-label="Sale Report by Category" 
+              style={{ width: '100%', margin: '30px 0'}}>
+
+                <TableHeader columns={columns}>
+                  {(column) => 
+                    <TableColumn key={column.key}>
+                      {/* <FilterListOutlined className="ms-1"/>     */}
+                      <p className="subtitle_admin">{column.label}</p>        
+                              
+                    </TableColumn>}
+                </TableHeader>
+
+                <TableBody items={filteredRows}>
+                  {(item) => (
+                    <TableRow key={item.key}>
+                      {(columnKey) => 
+                        <TableCell >
+                          <p className="subtitle ms-1">{getKeyValue(item, columnKey)}</p>
+                        </TableCell>}
+                    </TableRow>
+                  )}
+                </TableBody>
+            </Table>
+          </div>
+        </div> 
       </div>
       </>
     );
