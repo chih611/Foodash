@@ -5,9 +5,9 @@ const BASE_URL = `http://localhost:8080`;
 
 export const fetchItemsByCategory = createAsyncThunk(
   "category/fetchItemsByCategory",
-  async (categoryName) => {
+  async (categoryId) => {
     const response = await axios.get(
-      `${BASE_URL}/items/category/${categoryName}`
+      `${BASE_URL}/items/category/${categoryId}`
     );
     return response.data;
   }
