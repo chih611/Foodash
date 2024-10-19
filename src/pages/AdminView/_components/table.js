@@ -120,7 +120,7 @@ const CustomTable = ({
           hover
           size="sm"
           responsive
-          className="rounded-start-2 "
+          style={{ borderRadius: "20px", overflow: "hidden" }}
         >
           <thead>
             <tr>
@@ -173,18 +173,23 @@ const CustomTable = ({
         </Table>
       ) : (
         <>
-          <Navbar className="bg-body-tertiary">
-            <FloatingLabel controlId="floatingInput" label="Search ...">
-              <Form.Control
-                type="text"
-                placeholder="Search ..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </FloatingLabel>
-          </Navbar>
+          <FloatingLabel controlId="floatingInput" label="Search ...">
+            <Form.Control
+              type="text"
+              placeholder="Search ..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="rounded-4 mb-3"
+            />
+          </FloatingLabel>
 
-          <Table striped hover size="sm" responsive className="rounded-start-2">
+          <Table
+            striped
+            hover
+            size="sm"
+            responsive
+            style={{ borderRadius: "20px", overflow: "hidden" }}
+          >
             <thead>
               <tr>
                 {Array.from({ length: 1 }).map((_, index) =>

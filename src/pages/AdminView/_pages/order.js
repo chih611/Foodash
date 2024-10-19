@@ -54,7 +54,7 @@ const Order = (props) => {
   // };
   return (
     <>
-      <Tab.Pane {...props}>
+      <Tab.Pane {...props} className="g-4 bg-2nd-color m-2 px-3 py-3 rounded-4">
         <CustomTable
           headers={headers}
           records={records}

@@ -35,9 +35,7 @@ const CalendarTracking = ({ orders }) => {
   ];
 
   // Function to filter only events that are due or created in the current month
-  //   const filterEventsForCurrentMonth = () =>
-
-  const filteredEvents = () => {
+  const filterEventsForCurrentMonth = () => {
     const firstDayOfMonth = moment(currentDate).startOf("month").toDate();
     const lastDayOfMonth = moment(currentDate).endOf("month").toDate();
 
@@ -67,6 +65,8 @@ const CalendarTracking = ({ orders }) => {
       return acc;
     }, []);
   };
+
+  const filteredEvents = filterEventsForCurrentMonth();
 
   // Handle event click
   const handleEventClick = (event) => {
@@ -108,12 +108,12 @@ const CalendarTracking = ({ orders }) => {
       <Calendar
         localizer={localizer}
         events={filteredEvents}
-        // defaultView={view} // Use the dynamic view state
-        // defaultDate={currentDate}
-        // step={60}
-        // showMultiDayTimes
-        className="calendar_heigh"
-        // onSelectEvent={handleEventClick} // Add event handler for clicks
+        defaultView={view} // Use the dynamic view state
+        defaultDate={currentDate}
+        step={60}
+        showMultiDayTimes
+        style={{ height: "70vh" }}
+        onSelectEvent={handleEventClick} // Add event handler for clicks
         eventPropGetter={eventStyleGetter} // Add event style customization
         toolbar={false} // Disable default toolbar
       />

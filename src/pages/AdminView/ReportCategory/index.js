@@ -80,66 +80,83 @@ const ReportCategory = (props) => {
       
   
   return (
-      <>
-      <div className="m-3 p-3">        
+    <>
+      <div className="m-3 p-3">
         {/* Funtions: Filter by Date and display total number of item sold */}
-        <div 
-            className="m-2 p-2 d-flex justify-content-between"
-            style={{
-              backgroundColor: "#EBF5FD",
-              minHeight: "auto",
-              border: "20px solid #EBF5FD", borderRadius: "30px"}} >
-
-          <p className="subtitle_admin"> SALES BY CATEGORY </p>
-          <div >
-              <input type = "date" className="form-date-input-blue-color"
-                    value={startDate}
-                    onChange={(e) => setStartDate(e.target.value)}
-              />
-              <span className="subtitle mx-3">to</span>
-              <input type = "date" className="form-date-input-blue-color"
-                     value={endDate}
-                     onChange={(e) => setEndDate(e.target.value)} 
-              />
-              <button className="btn btn-secondary mx-3 mb-1" onClick={handleReset}>Clear</button>
+        <div
+          className="m-2 p-2 d-flex justify-content-between"
+          style={{
+            backgroundColor: "#EBF5FD",
+            minHeight: "auto",
+            border: "20px solid #EBF5FD",
+            borderRadius: "30px",
+          }}
+        >
+          <span className="subtitle_admin"> SALES BY CATEGORY </span>
+          <div>
+            <input
+              type="date"
+              className="form-date-input-blue-color"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+            />
+            <span className="subtitle mx-3">to</span>
+            <input
+              type="date"
+              className="form-date-input-blue-color"
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+            />
+            <button
+              className="btn btn-secondary mx-3 mb-1"
+              onClick={handleReset}
+            >
+              Clear
+            </button>
           </div>
-          <h5>Total Number of Item Sold: {countSoldItems()}</h5>          
+          <h5>Total Number of Item Sold: {countSoldItems()}</h5>
         </div>
 
-
         {/* Table content: inc sale data regarding to report format */}
-        <div 
-            className="m-2 p-1 flex flex-col gap-3"
-            style={{
-              border: "20px solid #EBF5FD", borderRadius: "40px"}}
+        <div
+          className="m-2 p-1 flex flex-col gap-3"
+          style={{
+            border: "20px solid #EBF5FD",
+            borderRadius: "40px",
+          }}
         >
+          <Table
+            aria-label="Sale Report by Category"
+            style={{ width: "100%", margin: "30px 0" }}
+          >
+            <TableHeader columns={columns}>
+              {(column) => (
+                <TableColumn key={column.key}>
+                  <span className="subtitle_admin">
+                    {column.label} <FilterListOutlined className="ms-2" />
+                  </span>
+                </TableColumn>
+              )}
+            </TableHeader>
 
-          <Table 
-            aria-label="Sale Report by Category" 
-            style={{ width: '100%', margin: '30px 0'}}>
-
-              <TableHeader columns={columns}>
-                {(column) => 
-                  <TableColumn key={column.key}>
-                    <p className="subtitle_admin">{column.label} <FilterListOutlined className="ms-2"/></p>                    
-                  </TableColumn>}
-              </TableHeader>
-
-              <TableBody items={filteredRows}>
-                {(item) => (
-                  <TableRow key={item.key}>
-                    {(columnKey) => 
-                      <TableCell >
-                        <p className="subtitle ms-1">{getKeyValue(item, columnKey)}</p>
-                      </TableCell>}
-                  </TableRow>
-                )}
-              </TableBody>
+            <TableBody items={filteredRows}>
+              {(item) => (
+                <TableRow key={item.key}>
+                  {(columnKey) => (
+                    <TableCell>
+                      <span className="subtitle ms-1">
+                        {getKeyValue(item, columnKey)}
+                      </span>
+                    </TableCell>
+                  )}
+                </TableRow>
+              )}
+            </TableBody>
           </Table>
         </div>
       </div>
-      </>
-    );
+    </>
+  );
   };
 
 export default ReportCategory;
