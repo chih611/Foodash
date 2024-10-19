@@ -61,6 +61,7 @@ const Order = (props) => {
           handleRecordDoubleClick={handleRecordDoubleClick}
           datetimeFields={datetimeFields}
           statusFetching={statusOrderFetching}
+          customTableColor="bg-pressed-color text-light"
         />
         <CustomModal
           setOpen={setShow}

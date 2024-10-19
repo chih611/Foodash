@@ -33,7 +33,7 @@ const orderDetailSlice = createSlice({
         state.status = "loading";
       })
       .addCase(createOrderDetail.fulfilled, (state, action) => {
-        state.orderDetailList = action.payload;
+        // state.orderDetailList = action.payload;
         state.status = "succeeded";
       })
       .addCase(createOrderDetail.rejected, (state, action) => {

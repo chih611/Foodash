@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row } from "react-bootstrap";
+import { Container, Row, Form } from "react-bootstrap";
 import NavBarCheckOut from "./_NavBarCheckOut";
 import HomeDirectionLink from "../HomePage/HomeDirectionLink/HomeDirectionLink";
 import OrderSummary from "./_itemSummary";
@@ -13,13 +13,15 @@ import {
   checkIfCustomerExists,
   createCustomer,
 } from "../../../../store/slices/customerSlice";
-import { clearCartItems } from "../../../../store/slices/cartSlice"; // Update here
+import { clearCartItems } from "../../../../store/slices/cartSlice";
 import PaymentIcon from "@mui/icons-material/Payment";
 import PrimaryButton from "../ViewCart/_PrimaryButton";
 
 const Checkout = () => {
   const [pickup, setPickup] = useState(false);
   const [promoValue, setPromoValue] = useState(0);
+  const [orderNote, setOrderNote] = useState(""); // State for order note
+  const [scheduledDate, setScheduledDate] = useState(""); // State for scheduled delivery date
   const [recipientDetails, setRecipientDetails] = useState({
     name: "",
     address: "",
@@ -132,12 +134,13 @@ const Checkout = () => {
     giftWrap,
     recipientDetails,
     pickup,
-    promoValue
+    promoValue,
+    status = "Pending" // default status for normal orders
   ) => {
     try {
       const orderPayload = {
         CUSTOMER_ID: finalCustomerId,
-        DUEDATE: new Date().toISOString().split("T")[0],
+        DUEDATE: scheduledDate || new Date().toISOString().split("T")[0], // Use scheduled date or today's date
         RECIPIENT: recipientDetails.name,
         ADDRESS: recipientDetails.address,
         PHONE: recipientDetails.contact,
@@ -154,8 +157,8 @@ const Checkout = () => {
         ORDER_ITEM_ID: null,
         CREATED_DATE: new Date().toISOString().split("T")[0],
         TOTAL: cartTotal,
-        NOTES: "Please deliver ASAP",
-        STATUS: "Pending",
+        NOTES: orderNote,
+        STATUS: status,
       };
 
       const orderResponse = await dispatch(
@@ -181,7 +184,7 @@ const Checkout = () => {
           UNIT_PRICE: item.price,
           TOTAL: item.price * item.quantity,
           QUANTITY: item.quantity,
-          LABEL_ID: item.labelId, // <-- LABEL_ID is passed here
+          LABEL_ID: item.labelId,
           NOTES: item.notes,
           ITEM_ID: item.itemId,
           MODIFICATION: item.extras,
@@ -214,12 +217,39 @@ const Checkout = () => {
 
       await createOrderItemsHandler(orderId, cartItems);
 
-      // Updated clearCart logic to use clearCartItems thunk
       await dispatch(clearCartItems({ customerId: finalCustomerId, cartId }));
 
       router.push(`/CustomerView/CheckOut/Confirm?orderId=${orderId}`);
     } catch (error) {
       alert("An error occurred while placing the order. Please try again.");
+    }
+  };
+
+  // New function to create a quote order
+  const handleCreateQuoteOrder = async () => {
+    try {
+      const finalCustomerId = await checkCustomerId(recipientDetails);
+      const orderId = await createOrderHandler(
+        finalCustomerId,
+        cartSubtotal,
+        cartTotal,
+        deliveryFee,
+        serviceFee,
+        utensil,
+        giftWrap,
+        recipientDetails,
+        pickup,
+        promoValue,
+        "Quote" // Status set to "Quote"
+      );
+
+      await createOrderItemsHandler(orderId, cartItems);
+
+      await dispatch(clearCartItems({ customerId: finalCustomerId, cartId }));
+
+      router.push(`/CustomerView/CheckOut/Confirm?orderId=${orderId}`);
+    } catch (error) {
+      alert("An error occurred while creating the quote. Please try again.");
     }
   };
 
@@ -242,8 +272,26 @@ const Checkout = () => {
             setRecipientDetails={setRecipientDetails}
             customerProfile={customerProfile}
             recipientDetails={recipientDetails}
+            setScheduledDate={setScheduledDate} // Pass down setScheduledDate
           />
         </Row>
+
+        {/* Add Order Note Section */}
+        <Row className="w-100 justify-content-center my-4">
+          <Form.Group>
+            <Form.Label>Add a Note to Your Order</Form.Label>
+            <Form.Control
+              as="textarea"
+              className="form-control"
+              rows={3}
+              placeholder="Add any special instructions or notes here..."
+              value={orderNote}
+              style={{ border: "1px solid #ecbf9c " }}
+              onChange={(e) => setOrderNote(e.target.value)}
+            />
+          </Form.Group>
+        </Row>
+
         <Row className="w-100 justify-content-center">
           <div style={{ borderTop: "1px solid #03588C " }}>
             <OrderSummary />
@@ -268,6 +316,19 @@ const Checkout = () => {
             disabled={cartItems.length === 0}
             text="Pay Now"
           />
+          {/* New Button for Creating a Quote */}
+        </Row>
+        <Row
+          className="w-100 justify-content-center"
+          style={{ marginTop: "24px" }}
+        >
+          <PrimaryButton
+            variant="inverted"
+            onClick={handleCreateQuoteOrder}
+            disabled={cartItems.length === 0}
+            text="Create Quote"
+          />
+          {/* New Button for Creating a Quote */}
         </Row>
       </Container>
     </div>

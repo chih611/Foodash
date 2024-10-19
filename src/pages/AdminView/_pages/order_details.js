@@ -64,7 +64,7 @@ const OrderDetails = ({ Id, setOpen, customTableColor }) => {
   );
 
   if (orderDetailList) {
-    orderDetailList.map((item) => {
+    orderDetailList?.map((item) => {
       headersOrderDetails.push(Object.keys(item));
     });
     recordsOrderDetails = orderDetailList;
