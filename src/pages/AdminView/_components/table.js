@@ -179,7 +179,7 @@ const CustomTable = ({
               placeholder="Search ..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="rounded-4 mb-3"
+              className="rounded-4 mb-2 mt-4"
             />
           </FloatingLabel>
 
@@ -188,7 +188,10 @@ const CustomTable = ({
             hover
             size="sm"
             responsive
-            style={{ borderRadius: "20px", overflow: "hidden" }}
+            style={{
+              borderRadius: "20px",
+              overflow: "hidden",
+            }}
           >
             <thead>
               <tr>

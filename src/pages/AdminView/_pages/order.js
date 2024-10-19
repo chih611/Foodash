@@ -15,10 +15,6 @@ const Order = (props) => {
   let records = [];
   const datetimeFields = ["Duedate", "Create Date"];
 
-  useEffect(() => {
-    dispatch(fetchOrderList());
-  }, []);
-
   //Get data
   const orderList = useSelector((state) => state.order.ordersList);
   const statusOrderFetching = useSelector((state) => state.order.status);

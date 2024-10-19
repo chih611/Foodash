@@ -30,3 +30,11 @@ export const fetchOrderLisByCustomerNameAPI = async (full_name) => {
   return data;
 };
 
+export const fetchOrderLisByDuedateAPI = async (duedate) => {
+  const response = await axios.get(`${BASE_URL}/order/duedate/${duedate}`);
+  let data = response.data;
+  if (!Array.isArray(data)) {
+    data = [data];
+  }
+  return data;
+};
