@@ -17,7 +17,7 @@
   padding-top: 40px; // Reduced padding for the top section
   margin: 40px 0px 20px 0px;
   transition: all 0.3s ease;
-  height: 210px !important;
+  height: 200px !important; // Adjusted height for consistency
   position: relative;
   background-color: #fffffe;
 
@@ -68,6 +68,13 @@
     margin-top: 70px; // Reduced margin to pull title closer to the rating
     margin-bottom: 5px;
     text-align: center;
+
+    // Added styles to truncate long titles
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    display: block;
   }
 
   .product-price {
