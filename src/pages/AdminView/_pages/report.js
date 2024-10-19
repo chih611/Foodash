@@ -5,6 +5,8 @@ import Link from "next/link";
 
 import SwapVertRounded from "@mui/icons-material/SwapVertRounded";
 import FilterListOutlined from "@mui/icons-material/FilterListOutlined";
+import AssignmentRounded from "@mui/icons-material/AssignmentRounded";
+import CalendarMonthRounded from "@mui/icons-material/CalendarMonthRounded";
 import CalendarTracking from "../_components/calendar";
 
 // import { ReportCategory } from "./reportCategory";
@@ -13,45 +15,20 @@ const Report = (props) => {
   useEffect(() => {}, []);
 
   const categories = [
-    {
-      id: "111",
-      name: "EAT",
-      total: "11000",
-      sold: "123",
-      stock: "1200",
-      expired: "108",
-    },
-    {
-      id: "112",
-      name: "FOOD",
-      total: "12000",
-      sold: "123",
-      stock: "2010",
-      expired: "180",
-    },
-    {
-      id: "113",
-      name: "COFFEE",
-      total: "11000",
-      sold: "123",
-      stock: "2003",
-      expired: "188",
-    },
-    {
-      id: "114",
-      name: "DRINK",
-      total: "10100",
-      sold: "123",
-      stock: "9200",
-      expired: "18",
-    },
+    {id: '111', name: 'EAT', stock: '11000', sold: '123', expired: '108' },
+    {id: '112', name: 'FOOD', stock: '12000', sold: '123', expired: '180' },
+    {id: '113', name: 'COFFEE', stock: '11000', sold: '123', expired: '188' },
+    {id: '114', name: 'DRINK', stock: '10100', sold: '123', expired: '18' },
   ];
 
-  const items = [
-    { id: "1111", image: "/", name: "Mini Mize", sale: "1100" },
-    { id: "1101", image: "/", name: "Buffet", sale: "1200" },
-    { id: "1112", image: "/", name: "Signature Cake", sale: "1100" },
-    { id: "1211", image: "/", name: "Salad Trays", sale: "1010" },
+  const payments = [
+    {id: '1', name: 'Total Collected', amount: '$5,080.40'},
+    {id: '2', name: 'Cash', amount: '$863.80'},
+    {id: '3', name: 'Card', amount: '$4211,94'},
+    {id: '4', name: 'Other', amount: '$0.00'},
+    {id: '5', name: 'Gift Card', amount: '$0.00'},
+    {id: '6', name: 'Fees', amount: '-$67.59'},
+    {id: '7', name: 'Net Total', amount: '$5.007.31'},
   ];
 
   const orders = [
@@ -80,25 +57,120 @@ const Report = (props) => {
 
   return (
     <>
-      <Tab.Pane {...props} className="g-4 bg-2nd-color m-2 px-3 py-3 rounded-4">
-        <Row xs={1} md={2} className="m-3 justify-content-around">
-          {/* Notify the new order or upcoming order */}
+      <Tab.Pane
+        {...props}
+        className="g-4 bg-2nd-color m-2 px-3 py-3 rounded-4"
+      >
 
-          <Col lg={7}>
-            <Card className="rounded-4">
-              <Card.Body>
-                <Card.Title
-                  className="subtitle_admin mb-3"
-                  style={{ borderBottom: "solid 1px #90B4CE" }}
-                >
-                  ORDER TRACKING CALENDAR
-                </Card.Title>
+        <Row xs={1} md={2} className="my-2 justify-content-around">
+            {/* What 's on today, Report by Category and Item */}
+            <Col lg={5}>
+              {/* What 's on Today */}
+              <div>
+                <Card className="rounded-4">
+                  <Card.Body>
+                    <Card.Title className="subtitle_admin">
+                      <AssignmentRounded className="mx-2"/>
+                      What's on Today
+                    </Card.Title>
+                    <div className="d-flex my-2 justify-content-around" style={{borderTop: 'solid 1px #90B4CE'}}>
+                        {['Order ID', 'Status', 'Created Date'].map((header, index) => (
+                          <div key={index} className="my-3">
+                            <p className="my-2 subtitle">
+                              {header}
+                              <button mb-2> <FilterListOutlined /> </button>
+                            </p>
+                            {orders.map((order) => (
+                              <p className="subtitle text-center" key={order.id}>
+                                {index === 0 ? order.id : index === 1 ? order.status : index === 2 ? order.create_date : cate.create_date}
+                              </p>
+                            ))}
+                          </div>
+                        ))}
+                    </div>
+                  </Card.Body>
+                </Card>
+              </div>
 
-                <CalendarTracking orders={orders}></CalendarTracking>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
+              {/* Report Sale by category */}
+              <div>
+                <Card className="rounded-4 my-4">
+                  <Card.Body>
+                    <Card.Title className="subtitle_admin mb-3" >Sales By Category</Card.Title>
+                    <Link href="AdminView/ReportCategory">
+                      <Button variant = 'primary' >
+                      
+                        View Report
+                      </Button> 
+                    </Link>
+                    
+                    <label className="font-medium text-gray-700 ms-4">This month: {getMonthName(startDate)}</label> 
+                    
+                    <div className="d-flex my-2 justify-content-around" style={{borderBottom: 'solid 1px #90B4CE'}}>
+                        {['Product', 'Stock', 'Sold', 'Expired in 30 days'].map((header, index) => (
+                          <div key={index} className="my-3">
+                            <p className="mb-3 subtitle">
+                              {header}
+                            </p>
+                            {categories.map((cate) => (
+                              <p className="subtitle text-center" key={cate.id}>
+                                {index === 0 ? cate.name : index === 1 ? cate.stock : index === 2 ? cate.sold : index === 3 ? cate.expired : cate.expired}
+                              </p>
+                            ))}
+                          </div>
+                        ))}
+                      </div>    
+                  
+                  </Card.Body>
+                </Card>
+              </div>
+
+
+              {/* Report Sales */}
+              <div>
+                <Card className="rounded-4" >
+                  <Card.Body >
+                    <Card.Title className="subtitle_admin">Sales Report</Card.Title>
+                    <Dropdown className ='my-3'>
+                        <Dropdown.Toggle variant="primary" id="dropdown-basic">
+                          This month
+                        </Dropdown.Toggle>
+
+                      <Dropdown.Menu>
+                        <Dropdown.Item href="#/action-1">This Week</Dropdown.Item>
+                        <Dropdown.Item href="#/action-2">This Quater</Dropdown.Item>
+                        <Dropdown.Item href="#/action-3">This Year</Dropdown.Item>
+                      </Dropdown.Menu>
+                    </Dropdown>
+                    <Card.Text className="my-3">
+                      
+                        {payments.map(item => (
+                          <div className="my-3 d-flex justify-content-between" key={item.id} > 
+                              <p className="subtitle mx-4" >{item.name}</p>
+                              <p className="subtitle mx-4" >{item.amount}</p>
+                          </div>  
+                        ))}
+                    </Card.Text>
+                  </Card.Body>
+                </Card>
+              </div>
+            </Col>
+
+            {/* Tracking calendar */}
+
+            <Col lg={7}>
+              <Card className="rounded-4">
+                <Card.Body>
+                  <Card.Title className="subtitle_admin mb-3 pb-2" style={{borderBottom: 'solid 1px #90B4CE'}}>
+                    <CalendarMonthRounded className="mx-2"/>
+                    Order Tracking Calendar
+                  </Card.Title>
+                  
+                  <CalendarTracking orders = {orders}></CalendarTracking>
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>s
       </Tab.Pane>
     </>
   );

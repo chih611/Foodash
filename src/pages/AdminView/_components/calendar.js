@@ -35,9 +35,7 @@ const CalendarTracking = ({ orders }) => {
   ];
 
   // Function to filter only events that are due or created in the current month
-  //   const filterEventsForCurrentMonth = () =>
-
-  const filteredEvents = () => {
+  const filterEventsForCurrentMonth = () => {
     const firstDayOfMonth = moment(currentDate).startOf("month").toDate();
     const lastDayOfMonth = moment(currentDate).endOf("month").toDate();
 
@@ -67,6 +65,8 @@ const CalendarTracking = ({ orders }) => {
       return acc;
     }, []);
   };
+
+  const filteredEvents = filterEventsForCurrentMonth();
 
   // Handle event click
   const handleEventClick = (event) => {
