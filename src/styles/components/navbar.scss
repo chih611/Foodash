@@ -35,6 +35,16 @@
   align-items: center;
 }
 
+.search-button {
+  background-color: #007bff; /* Keep the button color */
+  border: none;
+}
+
+.search-icon {
+  color: #ffffff !important; /* Force the icon to be white */
+}
+
+
 .result_item {
   background-color: colors.$bg-color;
   padding: 10px;

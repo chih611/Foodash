@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
-import { InputGroup, FormControl, Button } from 'react-bootstrap'; // Import Bootstrap components
-import SearchIcon from '@mui/icons-material/Search'; // Import Search Icon from MUI
+import React, { useState } from "react";
+import PropTypes from "prop-types";
+import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
+import { InputGroup, FormControl, Button } from "react-bootstrap"; // Import Bootstrap components
+import SearchIcon from "@mui/icons-material/Search"; // Import Search Icon from MUI
 
 const SearchBar = ({ onSearch, categories, statuses }) => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('');
-  const [selectedStatus, setSelectedStatus] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedStatus, setSelectedStatus] = useState("");
 
   // Handle search input change
   const handleSearchChange = (e) => {
@@ -32,7 +32,7 @@ const SearchBar = ({ onSearch, categories, statuses }) => {
   return (
     <div className="d-flex align-items-center">
       {/* Search input field */}
-      <InputGroup className="me-2" style={{ maxWidth: '300px' }}>
+      <InputGroup className="me-2" style={{ maxWidth: "300px" }}>
         <FormControl
           placeholder="Search..."
           value={searchTerm}
@@ -41,7 +41,12 @@ const SearchBar = ({ onSearch, categories, statuses }) => {
       </InputGroup>
 
       {/* Category dropdown */}
-      <select className="form-select me-2" value={selectedCategory} onChange={handleCategoryChange} style={{ maxWidth: '150px' }}>
+      <select
+        className="form-select me-2"
+        value={selectedCategory}
+        onChange={handleCategoryChange}
+        style={{ maxWidth: "150px" }}
+      >
         <option value="">Category</option>
         {categories.map((category, index) => (
           <option key={index} value={category}>
@@ -51,7 +56,12 @@ const SearchBar = ({ onSearch, categories, statuses }) => {
       </select>
 
       {/* Status dropdown */}
-      <select className="form-select me-2" value={selectedStatus} onChange={handleStatusChange} style={{ maxWidth: '100px' }}>
+      <select
+        className="form-select me-2"
+        value={selectedStatus}
+        onChange={handleStatusChange}
+        style={{ maxWidth: "100px" }}
+      >
         <option value="">Status</option>
         {statuses.map((status, index) => (
           <option key={index} value={status}>
@@ -71,13 +81,13 @@ const SearchBar = ({ onSearch, categories, statuses }) => {
 SearchBar.propTypes = {
   onSearch: PropTypes.func.isRequired, // Function to handle search input
   categories: PropTypes.arrayOf(PropTypes.string), // Array of categories
-  statuses: PropTypes.arrayOf(PropTypes.string) // Array of statuses
+  statuses: PropTypes.arrayOf(PropTypes.string), // Array of statuses
 };
 
 // Default props to prevent undefined errors
 SearchBar.defaultProps = {
   categories: [],
-  statuses: []
+  statuses: [],
 };
 
 export default SearchBar;

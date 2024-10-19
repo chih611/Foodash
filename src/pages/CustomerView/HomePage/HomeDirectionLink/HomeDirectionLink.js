@@ -9,6 +9,7 @@ import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
 import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
 import ContentPasteOutlinedIcon from "@mui/icons-material/ContentPasteOutlined";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
+import PrimaryButton from "../../ViewCart/_PrimaryButton";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import SortOutlinedIcon from "@mui/icons-material/SortOutlined";
 import SortByAlphaOutlinedIcon from "@mui/icons-material/SortByAlphaOutlined";
@@ -24,11 +25,11 @@ const HomeDirectionLink = () => {
     <div className="container">
       {/* Offcanvas button for small screens */}
       <Button
-        className="d-md-none"
+        className="toggle-direction-link  d-md-none"
         variant="primary"
         onClick={handleOffcanvasToggle}
       >
-        <MenuRoundedIcon />{" "}
+        <MenuRoundedIcon />
       </Button>
 
       {/* Offcanvas for smaller screen navigation */}
