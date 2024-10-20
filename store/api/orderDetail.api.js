@@ -2,6 +2,7 @@ import axios from "axios";
 
 const BASE_URL = `https://${process.env.NEXT_PUBLIC_REACT_APP_BACKEND_ADDRESS}`;
 // const BASE_URL = `http://localhost:8080`;
+// const BASE_URL = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_ADDRESS;
 
 export const fetchOrderDetailListAPI = async (orderId) => {
   try {

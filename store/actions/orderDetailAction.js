@@ -96,6 +96,8 @@ export const fetchOrderDetailList = createAsyncThunk(
     try {
       const response = await axios.get(`${BASE_URL}/order_details/${orderId}`);
       return response.data;
+      const data = await fetchOrderDetailListAPI(orderId);
+      return data;
     } catch (error) {
       return rejectWithValue(
         error.response ? error.response.data : error.message

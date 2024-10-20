@@ -1,17 +1,22 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
   fetchOrderLisByCustomerName,
+  fetchOrderLisByDuedate,
   fetchOrderList,
+  fetchOrderListByDuedate,
   fetchOrderListById,
   createOrder,
   getOrderById,
   fetchOrderByCustomerId,
+  fetchOrderListToday,
 } from "../actions/orderAction";
 
 const initialState = {
   ordersList: null,
   orderListByCustomerId: null,
   orderListByName: null,
+  orderListByDuedate: null,
+  orderListToday: null,
   orderById: null,
   status: null,
   error: null,
@@ -96,6 +101,28 @@ const orderSlice = createSlice({
         state.error = action.error || {
           message: "Fetching API by customerId failed!",
         };
+      }) // <-- Missing closing parenthesis added here
+      .addCase(fetchOrderListByDuedate.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchOrderListByDuedate.fulfilled, (state, action) => {
+        state.orderListByDuedate = action.payload;
+        state.status = "succeeded";
+      })
+      .addCase(fetchOrderListByDuedate.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error || { message: "Fetching API is failed!" };
+      })
+      .addCase(fetchOrderListToday.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchOrderListToday.fulfilled, (state, action) => {
+        state.orderListToday = action.payload;
+        state.status = "succeeded";
+      })
+      .addCase(fetchOrderListToday.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error || { message: "Fetching API is failed!" };
       });
   },
 });

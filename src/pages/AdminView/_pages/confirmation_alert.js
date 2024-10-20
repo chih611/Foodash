@@ -1,9 +1,9 @@
 const ConfirmationAlert = ({ Id, elementName }) => {
   return (
     <>
-      <p>
+      <span>
         Do you want to remove {elementName} {Id} out of the list?
-      </p>
+      </span>
     </>
   );
 };

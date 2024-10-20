@@ -165,8 +165,8 @@ const ReportCategory = (props) => {
           </div>
         </div> 
       </div>
-      </>
-    );
+    </>
+  );
   };
 
 export default ReportCategory;

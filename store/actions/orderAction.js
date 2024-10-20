@@ -4,6 +4,8 @@ import {
   fetchOrderListAPI,
   fetchOrderLisByCustomerNameAPI,
   fetchOrderByCustomerIdAPI,
+  fetchOrderLisByDuedateAPI,
+  fetchOrderListTodayAPI,
 } from "../api/order.api";
 import axios from "axios";
 
@@ -51,13 +53,8 @@ export const fetchOrderList = createAsyncThunk(
   "order/fetchOrderList",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await new Promise((resolve) =>
-        setTimeout(async () => {
-          const data = await fetchOrderListAPI();
-          resolve(data);
-        }, 500)
-      );
-      return response;
+      const data = await fetchOrderListAPI();
+      return data;
     } catch (error) {
       return rejectWithValue(
         error.response ? error.response.data : error.message
@@ -70,14 +67,8 @@ export const fetchOrderListById = createAsyncThunk(
   "order/fetchOrderListById",
   async (orderId, { rejectWithValue }) => {
     try {
-      const response = await new Promise(
-        (resolve) =>
-          setTimeout(async () => {
-            const data = await fetchOrderLisByIdAPI(orderId); // Replace with your actual API call
-            resolve(data);
-          }, 500) // 3 seconds delay
-      );
-      return response;
+      const data = await fetchOrderLisByIdAPI(orderId);
+      return data;
     } catch (error) {
       return rejectWithValue(
         error.response ? error.response.data : error.message
@@ -91,6 +82,32 @@ export const fetchOrderLisByCustomerName = createAsyncThunk(
   async (orderId, { rejectWithValue }) => {
     try {
       return await fetchOrderLisByCustomerNameAPI(orderId);
+    } catch (error) {
+      return rejectWithValue(
+        error.response ? error.response.data : error.message
+      );
+    }
+  }
+);
+
+export const fetchOrderListByDuedate = createAsyncThunk(
+  "order/fetchOrderListByDuedate",
+  async (duedate, { rejectWithValue }) => {
+    try {
+      return await fetchOrderLisByDuedateAPI(duedate);
+    } catch (error) {
+      return rejectWithValue(
+        error.response ? error.response.data : error.message
+      );
+    }
+  }
+);
+
+export const fetchOrderListToday = createAsyncThunk(
+  "order/fetchOrderListToday",
+  async (duedate, { rejectWithValue }) => {
+    try {
+      return await fetchOrderListTodayAPI(duedate);
     } catch (error) {
       return rejectWithValue(
         error.response ? error.response.data : error.message

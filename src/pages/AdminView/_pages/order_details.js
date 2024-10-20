@@ -43,7 +43,7 @@ const OrderDetails = ({ Id, setOpen, customTableColor }) => {
   const objectFields = ["Modification"];
 
   const dispatch = useDispatch();
-  const BASE_URL = `https://${process.env.NEXT_PUBLIC_REACT_APP_BACKEND_ADDRESS}`;
+  const BASE_URL = `${process.env.NEXT_PUBLIC_REACT_APP_BACKEND_ADDRESS}`;
 
   const [switchOptions, setSwitchOptions] = useState(false);
   const [showSaveBtn, setShowSaveBtn] = useState(false);
