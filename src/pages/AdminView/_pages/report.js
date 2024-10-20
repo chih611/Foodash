@@ -13,6 +13,7 @@ import {
   fetchOrderListToday,
 } from "../../../../store/actions/orderAction";
 import { useDispatch, useSelector } from "react-redux";
+import { format, parseISO  } from 'date-fns';
 import { SwapVertRounded } from "@mui/icons-material";
 
 // import { ReportCategory } from "./reportCategory";
@@ -43,14 +44,6 @@ const Report = (props) => {
     { id: "7", name: "Net Total", amount: "$5.007.31" },
   ];
 
-  const orders = [
-    { id: "147", status: "new", create_date: "08.10.2024" },
-    { id: "148", status: "new", create_date: "08.10.2024" },
-    { id: "149", status: "new", create_date: "09.10.2024" },
-    { id: "150", status: "new", create_date: "10.10.2024" },
-  ];
-
-
   // sorted by date
 
   // set up date range picker
@@ -75,6 +68,25 @@ const Report = (props) => {
     setSelectedEvent(event); // Set selected event details
     setShowModal(true); // Show the modal with event details
   };
+
+
+  //use today filter for orderList with updated date, created date or due date are: today _ JUST need 2 collumn: ORDER_ID & STATUS, Order Amount or Recurring Status
+  
+  const today = format(new Date(), "yyyy.MM.dd");
+  console.log(today)
+  // Filter orders to include only today's orders
+  // Ensure orderList is an array, and filter today's orders based on the Create Date
+  const todaysOrders = Array.isArray(orderList)
+    ? orderList.filter((order) => {
+        // Parse the order's Create Date and format it to 'YYYY.MM.DD'
+        const formattedCreateDate = format(parseISO(order["Create Date"]), "yyyy.MM.dd");
+        const formattedDueDate = format(parseISO(order.Duedate), "yyyy.MM.dd");
+
+        // Check if either date matches today's date
+        return formattedCreateDate === today || formattedDueDate === today;
+      })
+    : [];
+
   return (
     <>
       <Tab.Pane
@@ -94,7 +106,7 @@ const Report = (props) => {
                   What's on Today
                 </Card.Title>
                 <div className="d-flex my-2 justify-content-around" style={{borderTop: 'solid 1px #90B4CE'}}>
-                  {["Order ID", "Status", "Created Date"].map(
+                  {["Order ID", "Status", "Created Date", "Due Date"].map(
                     (header, index) => (
                       <div key={index} className="my-3">
                         <p className="mb-3 subtitle">
@@ -104,17 +116,23 @@ const Report = (props) => {
                             <FilterListOutlined />{" "}
                           </button>
                         </p>
-                        {orders.map((order) => (
-                          <p className="subtitle text-center" key={order.id}>
+                        {todaysOrders && todaysOrders.length > 0 ? (
+                        todaysOrders.map((order) => (
+                          <p className="subtitle text-center" key={order.ID}>
                             {index === 0
-                              ? order.id
+                              ? order.ID
                               : index === 1
-                              ? order.status
+                              ? order.Status
                               : index === 2
-                              ? order.create_date
-                              : cate.create_date}
+                              ? format(parseISO(order["Create Date"]), "yyyy.MM.dd")
+                              : index === 3
+                              ? format(parseISO(order.Duedate), "yyyy.MM.dd")
+                              : ""}
                           </p>
-                        ))}
+                        ))
+                      ) : (
+                        <p className="text-center">No orders today</p>
+                      )}
                       </div>
                     )
                   )}
