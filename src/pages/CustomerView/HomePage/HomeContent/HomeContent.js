@@ -24,6 +24,29 @@ const HomeContent = () => {
     dispatch(fetchItems()); // Fetch all items initially
   }, [dispatch]);
 
+  // Listen for route changes and reset `currentView` when navigating back to homepage
+  useEffect(() => {
+    const handleRouteChange = (url) => {
+      if (url === "/CustomerView/HomePage") {
+        setCurrentView("categories");
+      }
+    };
+
+    router.events.on("routeChangeComplete", handleRouteChange);
+
+    // Cleanup listener when component unmounts
+    return () => {
+      router.events.off("routeChangeComplete", handleRouteChange);
+    };
+  }, [router.events]);
+
+  // Automatically switch to "items" view when search query is present
+  useEffect(() => {
+    if (searchQuery) {
+      setCurrentView("items");
+    }
+  }, [searchQuery]);
+
   if (status === "loading") return <div>Loading...</div>;
 
   // Function to handle category click and switch view
