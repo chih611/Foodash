@@ -62,85 +62,118 @@ const Report = (props) => {
           <Col lg={7}>
             <Card className="rounded-4 mb-4">
               <Card.Body>
-                <Card.Title className="subtitle_admin mb-3" >Sales By Category</Card.Title>
+                <Card.Title className="subtitle_admin mb-3">
+                  Sales By Category
+                </Card.Title>
                 <Link href="./AdminView/_pages/reportCategory">
-                  <Button variant = 'primary' >
-                  
-                    View Report
-                  </Button> 
+                  <Button variant="primary">View Report</Button>
                 </Link>
-                
-                <label className="font-medium text-gray-700 ms-4">This month: {getMonthName(startDate)}</label> 
-                
-                <div className="d-flex my-2 justify-content-around" style={{borderBottom: 'solid 1px #90B4CE'}}>
-                    {['Product', 'Total', 'Sold', 'Stock', 'Expired'].map((header, index) => (
+
+                <label className="font-medium text-gray-700 ms-4">
+                  This month: {getMonthName(startDate)}
+                </label>
+
+                <div
+                  className="d-flex my-2 justify-content-around"
+                  style={{ borderBottom: "solid 1px #90B4CE" }}
+                >
+                  {["Product", "Total", "Sold", "Stock", "Expired"].map(
+                    (header, index) => (
                       <div key={index} className="my-3">
                         <p className="mb-3 subtitle_admin">
                           {header}
-                          <button> <SwapVertRounded /> </button>
+                          <button>
+                            {" "}
+                            <SwapVertRounded />{" "}
+                          </button>
                         </p>
                         {categories.map((cate) => (
                           <p className="subtitle text-center" key={cate.id}>
-                            {index === 0 ? cate.name : index === 1 ? cate.total : index === 2 ? cate.sold : index === 3 ? cate.expired : cate.expired}
+                            {index === 0
+                              ? cate.name
+                              : index === 1
+                              ? cate.total
+                              : index === 2
+                              ? cate.sold
+                              : index === 3
+                              ? cate.expired
+                              : cate.expired}
                           </p>
                         ))}
                       </div>
-                    ))}
-                  </div>    
+                    )
+                  )}
+                </div>
               </Card.Body>
             </Card>
           </Col>
 
           {/* Report sale by Items */}
           <Col lg={5}>
-            <Card className="rounded-4" >
-              <Card.Body >
+            <Card className="rounded-4">
+              <Card.Body>
                 <Card.Title className="subtitle_admin">
                   Sales By Item
-                  
                 </Card.Title>
-                <Dropdown className ='my-3'>
-                    <Dropdown.Toggle variant="primary" id="dropdown-basic">
-                      This month
-                    </Dropdown.Toggle>
+                <Dropdown className="my-3">
+                  <Dropdown.Toggle variant="primary" id="dropdown-basic">
+                    This month
+                  </Dropdown.Toggle>
 
-                    <Dropdown.Menu>
-                      <Dropdown.Item href="#/action-1">This Week</Dropdown.Item>
-                      <Dropdown.Item href="#/action-2">This Quater</Dropdown.Item>
-                      <Dropdown.Item href="#/action-3">This Year</Dropdown.Item>
-                    </Dropdown.Menu>
-                  </Dropdown>
+                  <Dropdown.Menu>
+                    <Dropdown.Item href="#/action-1">This Week</Dropdown.Item>
+                    <Dropdown.Item href="#/action-2">This Quater</Dropdown.Item>
+                    <Dropdown.Item href="#/action-3">This Year</Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
                 <Card.Text className="my-3">
-                  
-                    {items.map(item => (
-                      <div className="my-3 d-flex justify-content-between" key={item.id} > 
+                  {items.map((item) => (
+                    <div
+                      className="my-3 d-flex justify-content-between"
+                      key={item.id}
+                    />
+                  ))}
                 </Card.Text>
               </Card.Body>
             </Card>
           </Col>
-      </Row>
+        </Row>
 
-      <Row xs={1} md={2} className="m-3 justify-content-around">
-        {/* Notify the new order or upcoming order */}
+        <Row xs={1} md={2} className="m-3 justify-content-around">
+          {/* Notify the new order or upcoming order */}
 
           <Col lg={4}>
             <Card className="rounded-4">
               <Card.Body>
                 <Card.Title className="subtitle_admin">New Orders</Card.Title>
-                <div className="d-flex my-2 justify-content-around" style={{borderBottom: 'solid 1px #90B4CE'}}>
-                    {['Order ID', 'Status', 'Created Date'].map((header, index) => (
+                <div
+                  className="d-flex my-2 justify-content-around"
+                  style={{ borderBottom: "solid 1px #90B4CE" }}
+                >
+                  {["Order ID", "Status", "Created Date"].map(
+                    (header, index) => (
                       <div key={index} className="my-3">
                         <p className="mb-3 subtitle">
                           {header}
-                          <button mb-2> <FilterListOutlined /> </button>
+                          <button mb-2>
+                            {" "}
+                            <FilterListOutlined />{" "}
+                          </button>
                         </p>
                         {orders.map((order) => (
                           <p className="subtitle text-center" key={order.id}>
-                            {index === 0 ? order.id : index === 1 ? order.status : index === 2 ? order.create_date : cate.create_date}
+                            {index === 0
+                              ? order.id
+                              : index === 1
+                              ? order.status
+                              : index === 2
+                              ? order.create_date
+                              : cate.create_date}
                           </p>
                         ))}
                       </div>
-                    ))}
+                    )
+                  )}
                 </div>
               </Card.Body>
             </Card>
@@ -148,8 +181,9 @@ const Report = (props) => {
           <Col lg={8}>
             <Card className="rounded-4">
               <Card.Body>
-                <Card.Title className="subtitle_admin">Order Management</Card.Title>
-                
+                <Card.Title className="subtitle_admin">
+                  Order Management
+                </Card.Title>
               </Card.Body>
             </Card>
           </Col>
