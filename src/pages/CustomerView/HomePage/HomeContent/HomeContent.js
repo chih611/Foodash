@@ -16,9 +16,10 @@ const HomeContent = () => {
   const selectedCategory = router.query.category || ""; // Fetch selected category from URL
 
   const { items, searchResults, status } = useSelector((state) => state.items);
-  const categoryItems = useSelector(selectCategoryItems); // Assumed selector for filtered category items
 
   const [currentView, setCurrentView] = useState("categories");
+  const [priceSort, setPriceSort] = useState(""); // Sorting by price
+  const [nameSort, setNameSort] = useState(""); // Sorting by name
 
   useEffect(() => {
     dispatch(fetchItems()); // Fetch all items initially
@@ -47,12 +48,28 @@ const HomeContent = () => {
     }
   }, [searchQuery]);
 
-  if (status === "loading") return <div>Loading...</div>;
-
   // Function to handle category click and switch view
   const handleCategoryClick = (categoryId) => {
     router.push(`/CustomerView/HomePage?category=${categoryId}`);
     setCurrentView("items"); // Switch to item view
+  };
+
+  // Sorting logic for price
+  const handlePriceSort = (sortOrder) => {
+    setPriceSort(sortOrder);
+  };
+
+  // Sorting logic for name
+  const handleNameSort = (sortOrder) => {
+    setNameSort(sortOrder);
+  };
+
+  // Function to clear all filters
+  const handleClearAllFilters = () => {
+    setPriceSort(""); // Reset price sorting
+    setNameSort(""); // Reset name sorting
+    dispatch(fetchItems()); // Fetch all items
+    setCurrentView("categories"); // Reset to categories view
   };
 
   // Determine which items to display
@@ -66,6 +83,20 @@ const HomeContent = () => {
     displayedItems = items.filter(
       (item) => item.CATEGORY_ID === parseInt(selectedCategory)
     );
+  }
+
+  // Apply sorting by price
+  if (priceSort === "lowToHigh") {
+    displayedItems.sort((a, b) => a.UNIT_PRICE - b.UNIT_PRICE);
+  } else if (priceSort === "highToLow") {
+    displayedItems.sort((a, b) => b.UNIT_PRICE - a.UNIT_PRICE);
+  }
+
+  // Apply sorting by name
+  if (nameSort === "az") {
+    displayedItems.sort((a, b) => a.ITEM_NAME.localeCompare(b.ITEM_NAME));
+  } else if (nameSort === "za") {
+    displayedItems.sort((a, b) => b.ITEM_NAME.localeCompare(a.ITEM_NAME));
   }
 
   return (
@@ -88,7 +119,11 @@ const HomeContent = () => {
             {/* Filter and Items View */}
             {currentView === "items" && (
               <>
-                <HomeFilterBar />
+                <HomeFilterBar
+                  onPriceSort={handlePriceSort} // Pass sorting function for price
+                  onNameSort={handleNameSort} // Pass sorting function for name
+                  onClearFilters={handleClearAllFilters} // Pass function to clear all filters
+                />
                 <div className="homeContentSection">
                   <Row>
                     {displayedItems.length > 0 ? (

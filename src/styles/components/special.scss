@@ -51,6 +51,35 @@
     font-weight: 600;
   }
 }
+.rotated-title {
+  writing-mode: vertical-rl; /* Rotates the text vertically */
+  transform: rotate(180deg); /* Flip the text to read from top to bottom */
+  text-align: center;
+  font-size: 1.2rem;
+  background-color: transparent; /* No background color */
+  color: #e76f51; /* Adjust text color */
+  padding: 10px;
+  margin-right: 10px; /* Reduce the margin for better spacing */
+  border-left: 3px solid colors.$headline-color; /* Add a vertical line on the right */
+  border-radius: 0; /* Remove any rounded corners */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%; /* Make the title take up the full height of the parent */
+  max-height: 250px; /* Set a maximum height */
+  overflow: hidden; /* Hide any overflowed content */
+
+
+
+  @media screen and (max-width: 768px) {
+    width: 100%; /* Make the title take up the full width of the parent */
+    height: auto; /* Reset the height */
+    max-height: none; /* Reset the maximum height */
+    margin-right: 0; /* Remove the right margin */
+    border-radius: 0; /* Remove the border radius */  
+    
+  }
+}
 
 
   

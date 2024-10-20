@@ -65,14 +65,10 @@ const HomeDirectionLink = () => {
               </Link>
             </Col>
             <Col className="text-center">
-              <Link
-                href="/CustomerView/Special/Special"
-                passHref
-                legacyBehavior
-              >
+              <Link href="/CustomerView/Special/" passHref legacyBehavior>
                 <a
                   className="nav-link"
-                  style={getLinkStyle("/CustomerView/Special/Special")}
+                  style={getLinkStyle("/CustomerView/Special/")}
                 >
                   <div className="indicator-button">
                     <Row className="align-items-center">
@@ -186,10 +182,10 @@ const HomeDirectionLink = () => {
           </Col>
 
           <Col md={2} className="text-center">
-            <Link href="/CustomerView/Special/Special" passHref legacyBehavior>
+            <Link href="/CustomerView/Special/" passHref legacyBehavior>
               <a
                 className="nav-link"
-                style={getLinkStyle("/CustomerView/Special/Special")}
+                style={getLinkStyle("/CustomerView/Special/")}
               >
                 <div className="indicator-button">
                   <Row className="align-items-center">

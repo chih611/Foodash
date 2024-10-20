@@ -86,7 +86,7 @@ const BoughtBefore = () => {
             <Link href="/CustomerView/HomePage/" legacyBehavior passHref>
               <a className="d-flex align-items-center text-decoration-none">
                 <div className="account-button me-2">
-                  <ArrowBackRounded sx={{ color: "#025373" }} />
+                  <ArrowBackRounded sx={{ color: "#fffffe" }} />
                 </div>
               </a>
             </Link>

@@ -6,23 +6,20 @@ import {
   fetchItemsByCategory,
   clearCategoryFilter,
 } from "../../../../../store/slices/categorySlice";
-import { fetchItems } from "../../../../../store/slices/itemsSlice";
 import {
   selectAllCategories,
   selectCategoriesStatus,
   selectCategoriesError,
 } from "../../../../../store/selector/selector";
-import { useRouter } from "next/router";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import SortOutlinedIcon from "@mui/icons-material/SortOutlined";
 import SortByAlphaOutlinedIcon from "@mui/icons-material/SortByAlphaOutlined";
 
-const HomeFilterBar = () => {
+const HomeFilterBar = ({ onPriceSort, onNameSort, onClearFilters }) => {
   const dispatch = useDispatch();
   const categories = useSelector(selectAllCategories);
   const categoryStatus = useSelector(selectCategoriesStatus);
   const categoryError = useSelector(selectCategoriesError);
-  const router = useRouter();
 
   useEffect(() => {
     if (categoryStatus === "idle") {
@@ -33,13 +30,6 @@ const HomeFilterBar = () => {
   // Dispatch action to filter items by selected category
   const handleCategoryClick = (categoryId) => {
     dispatch(fetchItemsByCategory(categoryId)); // Fetch items by category
-    router.push(`/CustomerView/HomePage?category=${categoryId}`); // Update URL with category filter
-  };
-
-  // Dispatch action to clear category filter and fetch all items
-  const handleClearFilter = () => {
-    dispatch(clearCategoryFilter()); // Clear category filter
-    dispatch(fetchItems()); // Fetch all items after clearing filter
   };
 
   return (
@@ -85,8 +75,12 @@ const HomeFilterBar = () => {
             Price Range
           </Dropdown.Toggle>
           <Dropdown.Menu>
-            <Dropdown.Item href="#action/3.1">Low to High</Dropdown.Item>
-            <Dropdown.Item href="#action/3.2">High to Low</Dropdown.Item>
+            <Dropdown.Item onClick={() => onPriceSort("lowToHigh")}>
+              Low to High
+            </Dropdown.Item>
+            <Dropdown.Item onClick={() => onPriceSort("highToLow")}>
+              High to Low
+            </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
 
@@ -103,13 +97,13 @@ const HomeFilterBar = () => {
             Name (A–Z)
           </Dropdown.Toggle>
           <Dropdown.Menu>
-            <Dropdown.Item href="#action/3.3">A–Z</Dropdown.Item>
-            <Dropdown.Item href="#action/3.4">Z–A</Dropdown.Item>
+            <Dropdown.Item onClick={() => onNameSort("az")}>A–Z</Dropdown.Item>
+            <Dropdown.Item onClick={() => onNameSort("za")}>Z–A</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
 
         {/* Clear Filter Button */}
-        <Button variant="outline-danger" onClick={handleClearFilter}>
+        <Button variant="outline-danger" onClick={onClearFilters}>
           Clear Filter
         </Button>
       </ButtonGroup>

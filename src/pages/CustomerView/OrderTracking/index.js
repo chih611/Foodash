@@ -12,6 +12,8 @@ import RecentOrder from "./RecentOrder";
 import PrimaryButton from "../ViewCart/_PrimaryButton";
 import CustomModal from "@/pages/AdminView/_components/modal";
 import OrderDetails from "@/pages/AdminView/_pages/order_details";
+import HomeDirectionLink from "../HomePage/HomeDirectionLink/HomeDirectionLink";
+import Home from "@/pages";
 const OrderTracking = () => {
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
@@ -51,6 +53,7 @@ const OrderTracking = () => {
 
       <div className="container">
         {/* Desktop View */}
+        <HomeDirectionLink />
         <Row className="d-none justify-content-center d-lg-flex">
           <div className="col-md-1">
             <Link href="/CustomerView/HomePage/" legacyBehavior passHref>
