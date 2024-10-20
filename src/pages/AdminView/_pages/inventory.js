@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Tab, Pagination } from "react-bootstrap";
 import TableContent from "../_components/bk_table";
 import SearchBar from "../_components/searchbar";
-import initialData from "../_data";
 
 const Inventory = (props) => {
   const headers = [
@@ -13,6 +12,7 @@ const Inventory = (props) => {
     "ORDER_DETAILS",
     "STATUS",
   ];
+  const initialData = [];
 
   const [tableData, setTableData] = useState(initialData); // Use imported data
   const [currentPage, setCurrentPage] = useState(1);

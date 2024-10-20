@@ -1,8 +1,8 @@
 import { Accordion, Col, Form } from "react-bootstrap";
-import { CustomInput } from "../_components/input";
-import { CustomDropBox } from "../_components/dropbox";
+import CustomInput from "../_components/input";
+import CustomDropBox from "../_components/dropbox";
 
-export const OrderInformation = ({
+const OrderInformation = ({
   e,
   switchOptions,
   setSwitchOptions,
@@ -60,3 +60,5 @@ export const OrderInformation = ({
     </Accordion>
   </>
 );
+
+export default OrderInformation;

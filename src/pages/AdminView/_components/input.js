@@ -1,7 +1,7 @@
 import moment from "moment";
 import { Form, Placeholder } from "react-bootstrap";
 
-export const CustomInput = ({
+const CustomInput = ({
   title,
   index,
   value,
@@ -44,3 +44,4 @@ export const CustomInput = ({
     </>
   );
 };
+export default CustomInput;

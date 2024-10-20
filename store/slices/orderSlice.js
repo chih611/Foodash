@@ -1,13 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
   fetchOrderLisByCustomerName,
+  fetchOrderLisByDuedate,
   fetchOrderList,
+  fetchOrderListByDuedate,
   fetchOrderListById,
 } from "../actions/orderAction";
 
 const initialState = {
   ordersList: null,
   orderListByName: null,
+  orderListByDuedate: null,
   orderById: null,
   status: null,
   error: null,
@@ -49,6 +52,17 @@ const orderSlice = createSlice({
         state.status = "succeeded";
       })
       .addCase(fetchOrderLisByCustomerName.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error || { message: "Fetching API is failed!" };
+      })
+      .addCase(fetchOrderListByDuedate.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchOrderListByDuedate.fulfilled, (state, action) => {
+        state.orderListByDuedate = action.payload;
+        state.status = "succeeded";
+      })
+      .addCase(fetchOrderListByDuedate.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error || { message: "Fetching API is failed!" };
       });

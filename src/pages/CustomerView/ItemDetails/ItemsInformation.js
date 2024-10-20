@@ -4,7 +4,7 @@ import { Col, Row, Nav, Container, Button } from "react-bootstrap";
 import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
-import PrimaryButton from "../ViewCart/PrimaryButton";
+import PrimaryButton from "../ViewCart/_PrimaryButton";
 import { useRouter } from "next/router";
 
 const ItemsInformation = () => {

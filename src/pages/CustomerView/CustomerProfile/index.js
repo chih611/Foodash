@@ -6,7 +6,7 @@ import {
   clearProfile,
   updateCustomer,
 } from "../../../../store/slices/customerSlice";
-import PrimaryButton from "../ViewCart/PrimaryButton";
+import PrimaryButton from "../ViewCart/_PrimaryButton";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import LogoutIcon from "@mui/icons-material/Logout";

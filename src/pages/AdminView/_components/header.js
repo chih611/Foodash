@@ -18,11 +18,11 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 const Header = ({ breadcrumb, handleSelect }) => {
   return (
     <>
-      <Row className="align-items-center admin-header">
+      <Row className="align-items-center admin-header my-3">
         <Col>
           <Navbar.Brand href="#home">
             {" "}
-            <Image src="Foodash_logo.png" className="w-50" />
+            <Image src="/Foodash_logo.png" className="w-50" />
           </Navbar.Brand>
         </Col>
         <Col>

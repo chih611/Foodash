@@ -19,9 +19,12 @@ const Payment = () => {
   const handlePayment = async (token) => {
     console.log("Payment token:", token);
     try {
-      const response = await axios.post("http://localhost:8080/payment/create", {
-        sourceId: token.token,
-      });
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_REACT_APP_BACKEND_ADDRESS}/payment/create`,
+        {
+          sourceId: token.token,
+        }
+      );
       console.log("Response:", response.data);
     } catch (error) {
       console.error("Error:", error);

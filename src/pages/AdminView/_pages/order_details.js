@@ -8,10 +8,10 @@ import {
   fetchOrderList,
   fetchOrderListById,
 } from "../../../../store/actions/orderAction";
-import { btn } from "../_styles";
+import styles from "../../../styles/styles";
 import axios from "axios";
-import { PersonalDetail } from "./personal_information";
-import { OrderInformation } from "./order_information";
+import PersonalDetail from "./personal_information";
+import OrderInformation from "./order_information";
 
 const OrderDetails = ({ Id, setOpen }) => {
   let recordsOrderDetails = [];
@@ -40,9 +40,10 @@ const OrderDetails = ({ Id, setOpen }) => {
   ];
   const personalInfo = ["Full Name", "Phone", "Address", "Email"];
   const dropDownFields = ["Status"];
+  const objectFields = ["Modification"];
+
   const dispatch = useDispatch();
-  const BACKEND_PORT = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_PORT;
-  const BASE_URL = `http://localhost:${BACKEND_PORT}`;
+  const BASE_URL = `${process.env.NEXT_PUBLIC_REACT_APP_BACKEND_ADDRESS}`;
 
   const [switchOptions, setSwitchOptions] = useState(false);
   const [showSaveBtn, setShowSaveBtn] = useState(false);
@@ -123,7 +124,10 @@ const OrderDetails = ({ Id, setOpen }) => {
         {showSaveBtn ? (
           <Form.Group as={Row} controlId="formPlaintextEmail">
             <Col className="mb-3 d-flex flex-column">
-              <Button type="submit" className={`${btn} mt-3 align-self-end`}>
+              <Button
+                type="submit"
+                className={`${styles.btn} mt-3 align-self-end`}
+              >
                 Save
               </Button>
             </Col>
@@ -134,6 +138,7 @@ const OrderDetails = ({ Id, setOpen }) => {
         headers={headersOrderDetails}
         records={recordsOrderDetails}
         statusFetching={statusOrderDetailFetching}
+        objectFields={objectFields}
       />
     </>
   );
