@@ -11,6 +11,15 @@
     margin: 0 20px;
     color: #000000;
   }
+
+  .breadcrumb-item{
+    color: colors.$text-color !important; // Using color variable
+    text-decoration: none;
+  }
+
+  .variety-container{
+    padding: 15px;
+  }
   
 
   .product-title {
@@ -90,3 +99,14 @@
     background-color: colors.$bg-2nd-color; // Corrected the variable use
   }
 }
+
+.item-modification-container {
+  .form-control {
+    width: 100%; // Ensures full width for the note field
+  }
+
+  .primary-button {
+    width: 100%; // Makes the button take the full width of its parent
+  }
+}
+

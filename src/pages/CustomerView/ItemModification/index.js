@@ -165,11 +165,16 @@ const ItemModification = () => {
         <nav aria-label="breadcrumb">
           <ol className="breadcrumb">
             <li className="breadcrumb-item">
-              <Link href="/CustomerView/HomePage/">Home</Link>
+              <Link className="breadcrumb-item" href="/CustomerView/HomePage/">
+                Home
+              </Link>
             </li>
             <span className="breadcrumb-separator"> &gt; </span>
             <li className="breadcrumb-item">
-              <Link href={`/CustomerView/HomePage?category=${categoryId}`}>
+              <Link
+                className="breadcrumb-item"
+                href={`/CustomerView/HomePage?category=${categoryId}`}
+              >
                 {categoryName}
               </Link>
             </li>
@@ -224,47 +229,17 @@ const ItemModification = () => {
       <Row className="my-4">
         <Col>
           <h2>Variety</h2>
-          {selectedItemModifications
-            ? selectedItemModifications.map((mod, index) => (
-                <Row key={index} className="extra-checkbox-row">
-                  <Col xs={3} className="d-flex align-items-center">
-                    <label htmlFor={mod.MODIFICATION} className="custom-label">
-                      <Row className="extra-item-name">{mod.MODIFICATION}</Row>
-                    </label>
-                  </Col>
-                  <Col xs={8} />
-                  <Col xs={1} className="d-flex align-items-center">
-                    <input
-                      type="checkbox"
-                      id={mod.MODIFICATION}
-                      name={mod.MODIFICATION}
-                      checked={extras[mod.MODIFICATION]}
-                      onChange={handleCheckboxChange}
-                      className="custom-checkbox"
-                    />
-                  </Col>
-                </Row>
-              ))
-            : "No modifications available"}
-        </Col>
-      </Row>
-
-      {/* Labels Section */}
-      <Row className="my-4">
-        <Col>
-          <h2>Labels</h2>
-          {optionLabels
-            ? optionLabels
-                .filter((label) => label.LABEL_NAME !== "croissant_labels")
-                .map((label, index) => (
-                  <Row key={index} className="label-checkbox-row">
+          <div className="variety-container">
+            {selectedItemModifications
+              ? selectedItemModifications.map((mod, index) => (
+                  <Row key={index} className="extra-checkbox-row">
                     <Col xs={3} className="d-flex align-items-center">
                       <label
-                        htmlFor={label.LABEL_NAME}
+                        htmlFor={mod.MODIFICATION}
                         className="custom-label"
                       >
-                        <Row className="label-item-name">
-                          {label.LABEL_NAME}
+                        <Row className="extra-item-name">
+                          {mod.MODIFICATION}
                         </Row>
                       </label>
                     </Col>
@@ -272,16 +247,57 @@ const ItemModification = () => {
                     <Col xs={1} className="d-flex align-items-center">
                       <input
                         type="checkbox"
-                        id={label.LABEL_NAME}
-                        name={label.LABEL_NAME}
-                        checked={selectedLabels.labelName === label.LABEL_NAME}
-                        onChange={(e) => handleLabelCheckboxChange(e, label)}
+                        id={mod.MODIFICATION}
+                        name={mod.MODIFICATION}
+                        checked={extras[mod.MODIFICATION]}
+                        onChange={handleCheckboxChange}
                         className="custom-checkbox"
                       />
                     </Col>
                   </Row>
                 ))
-            : "No labels available"}
+              : "No modifications available"}
+          </div>
+        </Col>
+      </Row>
+
+      {/* Labels Section */}
+      <Row className="my-4">
+        <Col>
+          <h2>Labels</h2>
+          <div className="variety-container">
+            {optionLabels
+              ? optionLabels
+                  .filter((label) => label.LABEL_NAME !== "croissant_labels")
+                  .map((label, index) => (
+                    <Row key={index} className="label-checkbox-row">
+                      <Col xs={3} className="d-flex align-items-center">
+                        <label
+                          htmlFor={label.LABEL_NAME}
+                          className="custom-label"
+                        >
+                          <Row className="label-item-name">
+                            {label.LABEL_NAME}
+                          </Row>
+                        </label>
+                      </Col>
+                      <Col xs={8} />
+                      <Col xs={1} className="d-flex align-items-center">
+                        <input
+                          type="checkbox"
+                          id={label.LABEL_NAME}
+                          name={label.LABEL_NAME}
+                          checked={
+                            selectedLabels.labelName === label.LABEL_NAME
+                          }
+                          onChange={(e) => handleLabelCheckboxChange(e, label)}
+                          className="custom-checkbox"
+                        />
+                      </Col>
+                    </Row>
+                  ))
+              : "No labels available"}
+          </div>
         </Col>
       </Row>
 
@@ -300,12 +316,13 @@ const ItemModification = () => {
       </Row>
 
       {/* Add to Cart Button */}
-      <Row className="my-4">
+      <Row className="my-4 ">
         <PrimaryButton
           variant="primary"
           onClick={handleAddToCart}
           icon={Inventory2OutlinedIcon}
           text={`Add 1 to cart - $${calculateTotal().toFixed(2)}`}
+          style={{ width: "100%" }}
         />
       </Row>
     </Container>
