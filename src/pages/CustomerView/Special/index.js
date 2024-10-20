@@ -38,6 +38,8 @@ const Special = () => {
       <HomePageNavBar />
       <HomeDirectionLink />
 
+      <h1 className="title">Special Deals</h1>
+
       <main>
         {/* Dynamically render SpecialSection for each category */}
         {allCategories &&

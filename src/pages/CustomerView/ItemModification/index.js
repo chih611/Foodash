@@ -6,7 +6,9 @@ import {
   increaseQuantity,
 } from "../../../../store/slices/cartSlice";
 import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
+import HomeDirectionLink from "../HomePage/HomeDirectionLink/HomeDirectionLink";
 import PrimaryButton from "../ViewCart/_PrimaryButton";
+import HomePageNavBar from "../HomePage/HomePageNavBar";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -17,6 +19,7 @@ const ItemModification = () => {
   const selectedItemModifications = useSelector(
     (state) => state.items.selectedItemModifications
   );
+  const categories = useSelector((state) => state.category.categories);
   const customerProfile = useSelector((state) => state.customer.profile);
   const customerId = customerProfile?.CUSTOMER_ID || null;
   const optionLabels = useSelector((state) => state.items.labels);
@@ -54,7 +57,7 @@ const ItemModification = () => {
       }, {});
       setSelectedLabels(initialLabelsState);
     }
-  }, [optionLabels]); // Run this when optionLabels changes
+  }, [optionLabels]);
 
   // Handle checkbox changes for extras
   const handleCheckboxChange = (e) => {
@@ -69,13 +72,11 @@ const ItemModification = () => {
   const handleLabelCheckboxChange = (e, label) => {
     const { name, checked } = e.target;
     if (checked) {
-      // Uncheck all other labels and check only the current one
       setSelectedLabels({
-        labelId: label.LABEL_ID, // Store the label ID
-        labelName: name, // Store the label name
+        labelId: label.LABEL_ID,
+        labelName: name,
       });
     } else {
-      // If unchecked, clear the label selection
       setSelectedLabels({
         labelId: null,
         labelName: "",
@@ -83,16 +84,21 @@ const ItemModification = () => {
     }
   };
 
+  // Determine the category of the item
+  const itemCategory = categories.find(
+    (category) => category.CATEGORY_ID === selectedItem.CATEGORY_ID
+  );
+
   // Handle note input changes
   const handleNoteChange = (e) => {
-    setNote(e.target.value); // Trimming note on input change
+    setNote(e.target.value);
   };
 
   // Calculate the total price based on extras
   const calculateTotal = () => {
     const basePrice = selectedItem ? selectedItem.UNIT_PRICE || 13.5 : 13.5;
     const extrasCost = Object.keys(extras).reduce(
-      (total, extra) => (extras[extra] ? total + 0 : total), // Add extra price if applicable
+      (total, extra) => (extras[extra] ? total + 0 : total),
       0
     );
     return basePrice + extrasCost;
@@ -106,13 +112,11 @@ const ItemModification = () => {
       price: calculateTotal(),
       quantity: 1,
       extras: extras,
-      labelId: selectedLabels.labelId, // <-- LABEL_ID is passed here
+      labelId: selectedLabels.labelId,
       labels: selectedLabels.labelName,
       notes: note.trim(),
       totalPrice: calculateTotal(),
     };
-
-    console.log("Modified item:", modifiedItem); // Debugging log
 
     const sortObjectKeys = (obj) => {
       return Object.keys(obj || {})
@@ -129,47 +133,52 @@ const ItemModification = () => {
         JSON.stringify(sortObjectKeys(item.extras)) ===
           JSON.stringify(sortObjectKeys(modifiedItem.extras)) &&
         JSON.stringify(sortObjectKeys(item.labels)) ===
-          JSON.stringify(sortObjectKeys(modifiedItem.labels)) && // Compare labels
+          JSON.stringify(sortObjectKeys(modifiedItem.labels)) &&
         (item.notes || "").trim() === modifiedItem.notes
     );
 
     if (existingItem) {
-      console.log("Increasing quantity for:", existingItem.itemId);
       dispatch(
         increaseQuantity({
           customerId,
           itemId: existingItem.itemId,
           extras: existingItem.extras,
-          labels: existingItem.labels, // Pass labels for comparison
+          labels: existingItem.labels,
           note: existingItem.notes,
         })
       );
     } else {
-      console.log("Adding new item to cart:", modifiedItem);
       dispatch(addToCart({ customerId, item: modifiedItem }));
     }
 
     router.push("/CustomerView/ViewCart");
   };
 
+  // Breadcrumb navigation for category link
+  const categoryId = selectedItem?.CATEGORY_ID;
+  const categoryName = itemCategory ? itemCategory.CATEGORY_NAME : "Category";
+
   return (
     <Container className="py-5 item-modification-container">
+      <HomePageNavBar />
       <Row>
-        <Col>
-          <nav aria-label="breadcrumb">
-            <ol className="breadcrumb">
-              <li className="breadcrumb-item">
-                <Link href="/CustomerView/HomePage/">Home</Link>
-              </li>
-              <li className="breadcrumb-item">
-                <Link href="/platters">Platters</Link>
-              </li>
-              <li className="breadcrumb-item active" aria-current="page">
-                {selectedItem.ITEM_NAME || "Selected Item"}
-              </li>
-            </ol>
-          </nav>
-        </Col>
+        <nav aria-label="breadcrumb">
+          <ol className="breadcrumb">
+            <li className="breadcrumb-item">
+              <Link href="/CustomerView/HomePage/">Home</Link>
+            </li>
+            <span className="breadcrumb-separator"> &gt; </span>
+            <li className="breadcrumb-item">
+              <Link href={`/CustomerView/HomePage?category=${categoryId}`}>
+                {categoryName}
+              </Link>
+            </li>
+            <span className="breadcrumb-separator"> &gt; </span>
+            <li className="breadcrumb-item active" aria-current="page">
+              {selectedItem.ITEM_NAME || "Selected Item"}
+            </li>
+          </ol>
+        </nav>
       </Row>
 
       {/* Product Image & Info */}
@@ -246,7 +255,7 @@ const ItemModification = () => {
           <h2>Labels</h2>
           {optionLabels
             ? optionLabels
-                .filter((label) => label.LABEL_NAME !== "croissant_labels") // Exclude "croissant_labels"
+                .filter((label) => label.LABEL_NAME !== "croissant_labels")
                 .map((label, index) => (
                   <Row key={index} className="label-checkbox-row">
                     <Col xs={3} className="d-flex align-items-center">
@@ -266,7 +275,7 @@ const ItemModification = () => {
                         id={label.LABEL_NAME}
                         name={label.LABEL_NAME}
                         checked={selectedLabels.labelName === label.LABEL_NAME}
-                        onChange={(e) => handleLabelCheckboxChange(e, label)} // Pass label object here
+                        onChange={(e) => handleLabelCheckboxChange(e, label)}
                         className="custom-checkbox"
                       />
                     </Col>
