@@ -5,12 +5,14 @@ import {
   fetchOrderList,
   fetchOrderListByDuedate,
   fetchOrderListById,
+  fetchOrderListToday,
 } from "../actions/orderAction";
 
 const initialState = {
   ordersList: null,
   orderListByName: null,
   orderListByDuedate: null,
+  orderListToday: null,
   orderById: null,
   status: null,
   error: null,
@@ -63,6 +65,17 @@ const orderSlice = createSlice({
         state.status = "succeeded";
       })
       .addCase(fetchOrderListByDuedate.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error || { message: "Fetching API is failed!" };
+      })
+      .addCase(fetchOrderListToday.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchOrderListToday.fulfilled, (state, action) => {
+        state.orderListToday = action.payload;
+        state.status = "succeeded";
+      })
+      .addCase(fetchOrderListToday.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error || { message: "Fetching API is failed!" };
       });

@@ -7,7 +7,11 @@ import FilterListOutlined from "@mui/icons-material/FilterListOutlined";
 import AssignmentRounded from "@mui/icons-material/AssignmentRounded";
 import CalendarMonthRounded from "@mui/icons-material/CalendarMonthRounded";
 import CalendarTracking from "../_components/calendar";
-import { fetchOrderList, fetchOrderListByDuedate } from "../../../../store/actions/orderAction";
+import {
+  fetchOrderList,
+  fetchOrderListByDuedate,
+  fetchOrderListToday,
+} from "../../../../store/actions/orderAction";
 import { useDispatch, useSelector } from "react-redux";
 
 // import { ReportCategory } from "./reportCategory";
@@ -17,8 +21,10 @@ const Report = (props) => {
 
   useEffect(() => {
     dispatch(fetchOrderList());
+    dispatch(fetchOrderListToday());
   }, []);
   const orderList = useSelector((state) => state.order.ordersList);
+  const orderListToday = useSelector((state) => state.order.ordersToday);
   const categories = [
     { id: "111", name: "EAT", stock: "11000", sold: "123", expired: "108" },
     { id: "112", name: "FOOD", stock: "12000", sold: "123", expired: "180" },
