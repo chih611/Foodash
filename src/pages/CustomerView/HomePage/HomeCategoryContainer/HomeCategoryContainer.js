@@ -61,8 +61,8 @@ const HomeCategoryContainer = ({ onCategoryClick }) => {
                     bottom: "10px",
                     left: "50%",
                     transform: "translateX(-50%)",
-                    backgroundColor: "rgba(0, 0, 0, 0.6)",
-                    color: "#ffffff",
+                    backgroundColor: "#fffffe",
+                    color: "#f38b3c",
                     padding: "5px 10px",
                     borderRadius: "20px",
                   }}
