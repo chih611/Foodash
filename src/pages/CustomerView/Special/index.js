@@ -37,11 +37,7 @@ const Special = () => {
     <Container className="special-container">
       <HomePageNavBar />
       <HomeDirectionLink />
-      <Row>
-        <Col>
-          <Advertisement />
-        </Col>
-      </Row>
+
       <main>
         {/* Dynamically render SpecialSection for each category */}
         {allCategories &&
