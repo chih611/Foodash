@@ -34,6 +34,51 @@ const handleSignInRequest = async (email, password) => {
   return response;
 };
 
+// Function to upgrade an existing guest to a user
+// Function to upgrade an existing guest to a user
+export const upgradeGuestToUser = async (customerId, updatedData) => {
+  console.log("Upgrading guest to user:", customerId, updatedData);
+
+  // Fetch existing customer data
+  const existingCustomerResponse = await axios.get(
+    `${BASE_URL}/customer/${customerId}`
+  );
+  const existingCustomerData = existingCustomerResponse.data;
+
+  // Merge existing data with updated data, prioritizing updated data
+  const customerData = {
+    id: customerId, // Ensure the ID is correctly passed
+    firstName: updatedData.firstName || existingCustomerData.FIRST_NAME,
+    lastName: updatedData.lastName || existingCustomerData.LAST_NAME,
+    email: updatedData.email || existingCustomerData.EMAIL,
+    password: updatedData.password || existingCustomerData.PASSWORD,
+    phoneNumber: updatedData.phoneNumber || existingCustomerData.PHONE_NUMBER,
+    address: updatedData.address || existingCustomerData.ADDRESS,
+    dob: updatedData.dob || existingCustomerData.DATE_OF_BIRTH,
+    gender: updatedData.gender || existingCustomerData.GENDER,
+    customerType: "user", // Set to 'user' to upgrade the type
+    companyName: updatedData.companyName || existingCustomerData.COMPANY_NAME,
+    abn: updatedData.abn || existingCustomerData.ABN,
+    dietaryPreference:
+      updatedData.dietaryPreference || existingCustomerData.DIETARY_PREFERENCE,
+    loyaltyPoints:
+      updatedData.loyaltyPoints !== undefined
+        ? updatedData.loyaltyPoints
+        : existingCustomerData.LOYALTY_POINTS,
+    favourites:
+      updatedData.favourites || JSON.stringify(existingCustomerData.FAVOURITES),
+    postcode: updatedData.postcode || existingCustomerData.POSTCODE,
+    state: updatedData.state || existingCustomerData.STATE,
+    city: updatedData.city || existingCustomerData.CITY,
+  };
+
+  const response = await axios.put(
+    `${BASE_URL}/customers/update/${customerId}`,
+    customerData
+  );
+  return response.data;
+};
+
 /* Async Thunks */
 
 // Fetch customer details by ID
@@ -77,19 +122,25 @@ export const createCustomer = createAsyncThunk(
       }
 
       if (existingCustomer?.data) {
+        console.log("Existing customer:", existingCustomer.data);
         // If guest and now signing up as a user, upgrade them
-        if (existingCustomer.data.customerType === "guest" && type === "user") {
+        if (
+          existingCustomer.data.CUSTOMER_TYPE === "guest" &&
+          type === "user"
+        ) {
+          // Call the function to upgrade the guest to a user
           const updatedCustomer = await upgradeGuestToUser(
-            existingCustomer.data.id,
-            customerData
+            existingCustomer.data.CUSTOMER_ID, // Pass the existing customer ID
+            customerData // Use the new form data for the update
           );
-          return updatedCustomer;
+          return updatedCustomer; // Return the updated customer data
         } else {
+          // If the existing customer is already a user, return an error
           return rejectWithValue("Customer already exists as a user.");
         }
       }
 
-      // Create a new customer
+      // If no existing customer is found, create a new customer
       const newCustomer = await createNewCustomer(customerData);
       return newCustomer;
     } catch (error) {
@@ -214,6 +265,7 @@ const customerSlice = createSlice({
         state.status = "failed";
         state.error = action.payload;
       })
+
       // Handling signInCustomer states (if user signs in)
       .addCase(signInCustomer.pending, (state) => {
         state.status = "loading";
