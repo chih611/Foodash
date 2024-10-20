@@ -4,6 +4,7 @@ import {
   fetchOrderListAPI,
   fetchOrderLisByCustomerNameAPI,
   fetchOrderLisByDuedateAPI,
+  fetchOrderListTodayAPI,
 } from "../api/order.api";
 
 export const fetchOrderList = createAsyncThunk(
@@ -52,6 +53,19 @@ export const fetchOrderListByDuedate = createAsyncThunk(
   async (duedate, { rejectWithValue }) => {
     try {
       return await fetchOrderLisByDuedateAPI(duedate);
+    } catch (error) {
+      return rejectWithValue(
+        error.response ? error.response.data : error.message
+      );
+    }
+  }
+);
+
+export const fetchOrderListToday = createAsyncThunk(
+  "order/fetchOrderListToday",
+  async (duedate, { rejectWithValue }) => {
+    try {
+      return await fetchOrderListTodayAPI(duedate);
     } catch (error) {
       return rejectWithValue(
         error.response ? error.response.data : error.message
