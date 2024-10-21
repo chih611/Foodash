@@ -7,7 +7,6 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import PrimaryButton from "../ViewCart/_PrimaryButton";
 import {
-  getItemById,
   getItemModificationAndLabel,
   getAllLabels,
 } from "../../../../store/slices/itemsSlice";
@@ -22,7 +21,6 @@ const ItemsInformation = () => {
   // Fetch the item details by itemId
   useEffect(() => {
     if (itemId) {
-      dispatch(getItemById(itemId));
       dispatch(getItemModificationAndLabel(itemId));
       dispatch(getAllLabels());
     }

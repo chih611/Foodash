@@ -1,14 +1,13 @@
 import React, { useState } from "react";
-import { Row, Col, Collapse } from "react-bootstrap";
+import { Row, Col, Collapse, Form } from "react-bootstrap";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import { useSelector } from "react-redux";
 
-const HomeSideBarBox = () => {
+const HomeSideBarBox = ({ onFilterChange }) => {
   const [open, setOpen] = useState({
     eventType: false,
     dietary: false,
-    people: false,
-    checklist: false,
   });
 
   const toggleDropdown = (category) => {
@@ -16,6 +15,13 @@ const HomeSideBarBox = () => {
       ...prevState,
       [category]: !prevState[category],
     }));
+  };
+
+  const ingredientList = useSelector((state) => state.items.ingredients);
+  const labelList = useSelector((state) => state.items.labels);
+
+  const handleCheckboxChange = (type, value, checked) => {
+    onFilterChange(type, value, checked);
   };
 
   return (
@@ -33,9 +39,21 @@ const HomeSideBarBox = () => {
         <Collapse in={open.eventType}>
           <div>
             <ul>
-              <li>Event Type 1</li>
-              <li>Event Type 2</li>
-              <li>Event Type 3</li>
+              {labelList.map((label, index) => (
+                <li key={index}>
+                  <Form.Check
+                    type="checkbox"
+                    label={label.LABEL_NAME}
+                    onChange={(e) =>
+                      handleCheckboxChange(
+                        "labels",
+                        label.LABEL_NAME,
+                        e.target.checked
+                      )
+                    }
+                  />
+                </li>
+              ))}
             </ul>
           </div>
         </Collapse>
@@ -53,9 +71,21 @@ const HomeSideBarBox = () => {
         <Collapse in={open.dietary}>
           <div>
             <ul>
-              <li>Dietary 1</li>
-              <li>Dietary 2</li>
-              <li>Dietary 3</li>
+              {ingredientList.map((ingredient, index) => (
+                <li key={index}>
+                  <Form.Check
+                    type="checkbox"
+                    label={ingredient}
+                    onChange={(e) =>
+                      handleCheckboxChange(
+                        "ingredients",
+                        ingredient,
+                        e.target.checked
+                      )
+                    }
+                  />
+                </li>
+              ))}
             </ul>
           </div>
         </Collapse>
