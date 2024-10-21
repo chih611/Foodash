@@ -99,12 +99,39 @@ export const getItemsLabel = createAsyncThunk(
     }
   }
 );
+
+// Function to fetch ingredients from the API
+export const fetchIngredients = createAsyncThunk(
+  "items/fetchIngredients",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(`${BASE_URL}/items/ingredients`);
+      const data = response.data;
+
+      // Extract and flatten the ingredients
+      const allIngredients = data.flatMap((item) => item.INGREDIENTS);
+
+      // Use a Set to get unique ingredients
+      const uniqueIngredients = [...new Set(allIngredients)];
+
+      return uniqueIngredients;
+    } catch (error) {
+      return rejectWithValue(
+        error.response ? error.response.data : error.message
+      );
+    }
+  }
+);
+
+// Call the function
+
 const itemsSlice = createSlice({
   name: "items",
   initialState: {
     items: [],
     labels: [],
     searchResults: [],
+    ingredients: [],
     selectedItem: null,
     selectedItemModifications: [],
     status: "idle",
@@ -197,6 +224,19 @@ const itemsSlice = createSlice({
         state.status = "failed";
         state.error = action.error || {
           message: "Error fetching all labels",
+        };
+      })
+      .addCase(fetchIngredients.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchIngredients.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.ingredients = action.payload;
+      })
+      .addCase(fetchIngredients.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error || {
+          message: "Error fetching ingredients",
         };
       });
   },

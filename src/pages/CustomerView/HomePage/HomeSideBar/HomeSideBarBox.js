@@ -25,7 +25,7 @@ const HomeSideBarBox = () => {
           <Col xs={3}>
             <RemoveCircleIcon className="sidebar-box-removeicon" />
           </Col>
-          <Col xs={6}>Event Type</Col>
+          <Col xs={6}>Labels</Col>
           <Col xs={3}>
             <ArrowDropDownIcon />
           </Col>
@@ -45,7 +45,7 @@ const HomeSideBarBox = () => {
           <Col xs={3}>
             <RemoveCircleIcon className="sidebar-box-removeicon" />
           </Col>
-          <Col xs={6}>Dietary</Col>
+          <Col xs={6}>Ingredients</Col>
           <Col xs={3}>
             <ArrowDropDownIcon />
           </Col>
@@ -56,46 +56,6 @@ const HomeSideBarBox = () => {
               <li>Dietary 1</li>
               <li>Dietary 2</li>
               <li>Dietary 3</li>
-            </ul>
-          </div>
-        </Collapse>
-      </div>
-      <div className="sidebar-box-category">
-        <Row onClick={() => toggleDropdown("people")}>
-          <Col xs={3}>
-            <RemoveCircleIcon className="sidebar-box-removeicon" />
-          </Col>
-          <Col xs={6}>People</Col>
-          <Col xs={3}>
-            <ArrowDropDownIcon />
-          </Col>
-        </Row>
-        <Collapse in={open.people}>
-          <div>
-            <ul>
-              <li>People 1</li>
-              <li>People 2</li>
-              <li>People 3</li>
-            </ul>
-          </div>
-        </Collapse>
-      </div>
-      <div className="sidebar-box-category">
-        <Row onClick={() => toggleDropdown("checklist")}>
-          <Col xs={3}>
-            <RemoveCircleIcon className="sidebar-box-removeicon" />
-          </Col>
-          <Col xs={6}>Checklist</Col>
-          <Col xs={3}>
-            <ArrowDropDownIcon />
-          </Col>
-        </Row>
-        <Collapse in={open.checklist}>
-          <div>
-            <ul>
-              <li>Checklist 1</li>
-              <li>Checklist 2</li>
-              <li>Checklist 3</li>
             </ul>
           </div>
         </Collapse>
