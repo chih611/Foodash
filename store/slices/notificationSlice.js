@@ -1,20 +1,29 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { fetchNotifications } from "../actions/notificationAction";
+
+const initialState = {
+  notifications: null,
+  status: null,
+  error: null,
+};
 
 const notificationSlice = createSlice({
   name: "notifications",
-  initialState: {
-    message: null,
-    type: null, // 'success' or 'error'
-  },
-  reducers: {
-    showNotification: (state, action) => {
-      state.message = action.payload.message;
-      state.type = action.payload.type;
-    },
-    clearNotification: (state) => {
-      state.message = null;
-      state.type = null;
-    },
+  initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchNotifications.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchNotifications.fulfilled, (state, action) => {
+        state.notifications = action.payload;
+        state.status = "succeeded";
+      })
+      .addCase(fetchNotifications.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error || { message: "Fetching API is failed!" };
+      });
   },
 });
 

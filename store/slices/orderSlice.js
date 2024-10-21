@@ -1,18 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
   fetchOrderLisByCustomerName,
-  fetchOrderLisByDuedate,
   fetchOrderList,
-  fetchOrderListByDuedate,
   fetchOrderListById,
-  fetchOrderListToday,
+  fetchOrderListByToday,
 } from "../actions/orderAction";
 
 const initialState = {
   ordersList: null,
   orderListByName: null,
-  orderListByDuedate: null,
-  orderListToday: null,
+  orderListByToday: null,
   orderById: null,
   status: null,
   error: null,
@@ -57,25 +54,14 @@ const orderSlice = createSlice({
         state.status = "failed";
         state.error = action.error || { message: "Fetching API is failed!" };
       })
-      .addCase(fetchOrderListByDuedate.pending, (state) => {
+      .addCase(fetchOrderListByToday.pending, (state) => {
         state.status = "loading";
       })
-      .addCase(fetchOrderListByDuedate.fulfilled, (state, action) => {
-        state.orderListByDuedate = action.payload;
+      .addCase(fetchOrderListByToday.fulfilled, (state, action) => {
+        state.orderListByToday = action.payload;
         state.status = "succeeded";
       })
-      .addCase(fetchOrderListByDuedate.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.error || { message: "Fetching API is failed!" };
-      })
-      .addCase(fetchOrderListToday.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(fetchOrderListToday.fulfilled, (state, action) => {
-        state.orderListToday = action.payload;
-        state.status = "succeeded";
-      })
-      .addCase(fetchOrderListToday.rejected, (state, action) => {
+      .addCase(fetchOrderListByToday.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error || { message: "Fetching API is failed!" };
       });
