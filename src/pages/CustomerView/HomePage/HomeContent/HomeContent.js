@@ -8,12 +8,16 @@ import HomeItemContainer from "../HomeItemContainer/HomeItemContainer";
 import HomeCategoryContainer from "../HomeCategoryContainer/HomeCategoryContainer";
 import { selectCategoryItems } from "../../../../../store/selector/selector";
 import { useRouter } from "next/router";
+import { fetchCartByCustomerId } from "../../../../../store/slices/cartSlice";
 
 const HomeContent = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const searchQuery = router.query.search || ""; // Fetch search query from URL
   const selectedCategory = router.query.category || ""; // Fetch selected category from URL
+  const customerId = useSelector(
+    (state) => state.customer.profile?.CUSTOMER_ID
+  );
 
   const { items, searchResults, status } = useSelector((state) => state.items);
 
@@ -22,7 +26,16 @@ const HomeContent = () => {
   const [nameSort, setNameSort] = useState(""); // Sorting by name
 
   useEffect(() => {
-    dispatch(fetchItems()); // Fetch all items initially
+    dispatch(fetchItems());
+    if (customerId) {
+      dispatch(fetchCartByCustomerId(customerId)).then((action) => {
+        if (action.payload) {
+          console.log("Cart Items fetched:", action.payload);
+        }
+      });
+    } else {
+      console.log("No customerId available, managing cart locally");
+    } // Fetch all items initially
   }, [dispatch]);
 
   // Listen for route changes and reset `currentView` when navigating back to homepage
