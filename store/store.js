@@ -9,14 +9,14 @@ import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage"; // Use localStorage for persistence
 import { combineReducers } from "redux";
 import orderReducer from "./slices/orderSlice";
-import orderListReducer from "./slices/orderSlice";
+import ordersTodayListReducer from "./slices/orderSlice";
 import orderDetailReducer from "./slices/orderDetailSlice";
 
 // Persist config for redux-persist
 const persistConfig = {
   key: "root",
   storage,
-  blacklist: ["order", "orderDetail", "items", "ordersToday"],
+  blacklist: ["order", "orderDetail", "items", "orderListByToday"],
 };
 
 // Combine all the reducers
@@ -28,7 +28,7 @@ const rootReducer = combineReducers({
   category: categoryReducer,
   order: orderReducer,
   orderDetail: orderDetailReducer,
-  ordersToday: orderListReducer,
+  orderListByToday: ordersTodayListReducer,
 });
 
 // Create the persisted reducer

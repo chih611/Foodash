@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Tab } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchOrderList } from "../../../../store/actions/orderAction";
 import CustomTable from "../_components/table";
 import OrderDetails from "./order_details";
 import CustomModal from "../_components/modal";
