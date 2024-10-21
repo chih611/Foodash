@@ -36,7 +36,7 @@ const rootReducer = combineReducers({
   order: orderReducer,
   orderDetail: orderDetailReducer,
   orderListByToday: ordersTodayListReducer,
-  notification: notificationReducer,
+  notifications: notificationReducer,
 });
 
 // Create the persisted reducer
