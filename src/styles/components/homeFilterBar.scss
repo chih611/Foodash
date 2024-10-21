@@ -1,13 +1,11 @@
 .filters-section {
   margin-bottom: 30px;
 }
-  
+
 .custom-filter-button {
   color: #5f6c7b !important;
   border-color: #8f5652 !important;
   border-radius: 15px !important;
-
-  
 }
 
 .custom-clear-button {
@@ -20,9 +18,14 @@
 .custom-filter-button.show,
 .custom-clear-button:hover,
 .custom-clear-button:active,
-.custom-clear-button.show {
+.custom-clear-button.show,
+.filter-button:hover,
+.filter-button:active,
+.filter-button.show,
+.clear-button:hover,
+.clear-button:active,
+.clear-button.show {
   background-color: #f5e5e4 !important; /* Light background on hover & active */
   border-color: #8f5652 !important;
   color: #8f5652 !important;
 }
-
