@@ -9,6 +9,7 @@ import {
   getOrderById,
   fetchOrderByCustomerId,
   fetchOrderListToday,
+  updateOrder,
 } from "../actions/orderAction";
 
 const initialState = {
@@ -101,7 +102,7 @@ const orderSlice = createSlice({
         state.error = action.error || {
           message: "Fetching API by customerId failed!",
         };
-      }) // <-- Missing closing parenthesis added here
+      })
       .addCase(fetchOrderListByDuedate.pending, (state) => {
         state.status = "loading";
       })
@@ -123,6 +124,17 @@ const orderSlice = createSlice({
       .addCase(fetchOrderListToday.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error || { message: "Fetching API is failed!" };
+      })
+      .addCase(updateOrder.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(updateOrder.fulfilled, (state, action) => {
+        state.orderById = action.payload;
+        state.status = "succeeded";
+      })
+      .addCase(updateOrder.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error || { message: "Updating order is failed!" };
       });
   },
 });

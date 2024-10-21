@@ -82,7 +82,7 @@ const OrderList = ({ orders, onOrderDoubleClick }) => {
           </Col>
 
           {/* 2nd column: OrderID */}
-          <Col xs={2} md={3} className="mb-2">
+          <Col xs={2} md={2} className="mb-2">
             <div className="align-items-center w-100">
               <p className="subtitle w-100 text-center">{order.ORDER_ID}</p>
             </div>
@@ -96,7 +96,7 @@ const OrderList = ({ orders, onOrderDoubleClick }) => {
           </Col>
 
           {/* Final column: Status */}
-          <Col xs={4} md={3} className="d-flex align-items-center mb-2">
+          <Col xs={4} md={4} className="d-flex align-items-center mb-2">
             <div
               className="text-decoration-none w-100 d-flex align-items-center justify-content-center"
               style={{

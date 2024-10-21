@@ -6,6 +6,7 @@ import {
   fetchOrderByCustomerIdAPI,
   fetchOrderLisByDuedateAPI,
   fetchOrderListTodayAPI,
+  updateOrderAPI,
 } from "../api/order.api";
 import axios from "axios";
 
@@ -59,6 +60,19 @@ export const fetchOrderList = createAsyncThunk(
       return rejectWithValue(
         error.response ? error.response.data : error.message
       );
+    }
+  }
+);
+
+export const updateOrder = createAsyncThunk(
+  "order/updateOrder",
+  async ({ orderId, updatedData }, { rejectWithValue }) => {
+    try {
+      // Use the refactored API function
+      const response = await updateOrderAPI(orderId, updatedData);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.message);
     }
   }
 );
