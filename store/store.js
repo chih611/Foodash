@@ -11,12 +11,19 @@ import { combineReducers } from "redux";
 import orderReducer from "./slices/orderSlice";
 import ordersTodayListReducer from "./slices/orderSlice";
 import orderDetailReducer from "./slices/orderDetailSlice";
+import notificationReducer from "./slices/notificationSlice";
 
 // Persist config for redux-persist
 const persistConfig = {
   key: "root",
   storage,
-  blacklist: ["order", "orderDetail", "items", "orderListByToday"],
+  blacklist: [
+    "order",
+    "orderDetail",
+    "items",
+    "orderListByToday",
+    "notification",
+  ],
 };
 
 // Combine all the reducers
@@ -29,6 +36,7 @@ const rootReducer = combineReducers({
   order: orderReducer,
   orderDetail: orderDetailReducer,
   orderListByToday: ordersTodayListReducer,
+  notification: notificationReducer,
 });
 
 // Create the persisted reducer

@@ -14,8 +14,15 @@ import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import ChatIcon from "@mui/icons-material/Chat";
 import SettingsIcon from "@mui/icons-material/Settings";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { fetchNotifications } from "../../../../store/actions/notificationAction";
 
 const Header = ({ breadcrumb, handleSelect }) => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchNotifications());
+  }, []);
   return (
     <>
       <Row className="align-items-center admin-header my-3">
