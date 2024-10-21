@@ -174,6 +174,9 @@ const ItemModification = () => {
               <Link
                 className="breadcrumb-item"
                 href={`/CustomerView/HomePage?category=${categoryId}`}
+                onClick={() => {
+                  router.push(`/CustomerView/HomePage?category=${categoryId}`);
+                }}
               >
                 {categoryName}
               </Link>
