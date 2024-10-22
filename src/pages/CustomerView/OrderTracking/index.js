@@ -179,6 +179,27 @@ const OrderTracking = () => {
             Id={selectedOrderId}
             setOpen={setShowModal}
             customTableColor="bg-headline-color"
+            extraReadOnlyFields={[
+              "Full Name",
+              "Phone",
+              "Address",
+              "Email",
+              "Duedate",
+              "Create Date",
+              "Recipient",
+              "Deliver",
+              "Payment",
+              "Taxes",
+              "Delivery Fee",
+              "Service Fee",
+              "UTENSIL",
+              "Giftwrap",
+              "Promotion",
+              "Subtotal",
+              "ORDER_ITEM_ID",
+              "Total",
+              "Status",
+            ]}
           />
         </CustomModal>
       )}

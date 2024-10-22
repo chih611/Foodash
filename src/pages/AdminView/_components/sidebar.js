@@ -55,7 +55,7 @@ const SideBar = ({ handleSelect }) => {
                     user setting <ChevronRightIcon />
                   </Nav.Link>
                 </Nav.Item>
-                <div className="my-3"></div> 
+                <div className="my-3"></div>
                 <Button className={styles.nav_style}>LOG OUT</Button>
               </Nav>
             </Col>

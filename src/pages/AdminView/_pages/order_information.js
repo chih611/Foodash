@@ -15,6 +15,8 @@ const OrderInformation = ({
   Row,
   statusFetching,
   customOrderInformationColor,
+  setOrderData,
+  setOrderChanges,
 }) => (
   <>
     <Accordion defaultActiveKey={["0"]} alwaysOpen className="mt-3">
@@ -37,6 +39,9 @@ const OrderInformation = ({
                         readOnlyFields={readOnlyFields}
                         dateTimeFields={dateTimeFields}
                         statusFetching={statusFetching}
+                        setShowSaveBtn={setShowSaveBtn}
+                        setOrderData={setOrderData}
+                        setOrderChanges={setOrderChanges}
                       />
                     </Col>
                   ) : null}
@@ -50,7 +55,9 @@ const OrderInformation = ({
                         setSwitchOptions={setSwitchOptions}
                         switchOptions={switchOptions}
                         setShowSaveBtn={setShowSaveBtn}
+                        setOrderData={setOrderData}
                         statusFetching={statusFetching}
+                        setOrderChanges={setOrderChanges}
                       />
                     </Col>
                   ) : null}

@@ -30,6 +30,8 @@ const FeedBackForm = ({ order, handleClose }) => {
     };
 
     try {
+      console.log("Feedback Data:", feedbackData);
+      console.log("Updated Order Data:", updatedOrderData);
       // Dispatch the updateOrder action
       await dispatch(
         updateOrder({

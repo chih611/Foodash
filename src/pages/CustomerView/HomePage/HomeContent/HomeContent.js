@@ -178,12 +178,14 @@ const HomeContent = () => {
     );
   }
 
+  // Sorting logic for price
   if (priceSort === "lowToHigh") {
     finalDisplayedItems.sort((a, b) => a.UNIT_PRICE - b.UNIT_PRICE);
   } else if (priceSort === "highToLow") {
     finalDisplayedItems.sort((a, b) => b.UNIT_PRICE - a.UNIT_PRICE);
   }
 
+  // Sorting logic for name
   if (nameSort === "az") {
     finalDisplayedItems.sort((a, b) => a.ITEM_NAME.localeCompare(b.ITEM_NAME));
   } else if (nameSort === "za") {

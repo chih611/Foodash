@@ -14,6 +14,9 @@ const PersonalDetail = ({
   Row,
   statusFetching,
   customHeaderColor,
+  setShowSaveBtn,
+  setOrderData,
+  setOrderChanges,
 }) => (
   <>
     <Accordion defaultActiveKey={["0"]} alwaysOpen>
@@ -35,6 +38,9 @@ const PersonalDetail = ({
                         readOnlyFields={readOnlyFields}
                         dateTimeFields={dateTimeFields}
                         statusFetching={statusFetching}
+                        setShowSaveBtn={setShowSaveBtn}
+                        setOrderData={setOrderData}
+                        setOrderChanges={setOrderChanges}
                       />
                     </Col>
                   ) : null}
@@ -48,6 +54,8 @@ const PersonalDetail = ({
                         switchOptions={switchOptions}
                         setSwitchOptions={setSwitchOptions}
                         statusFetching={statusFetching}
+                        setOrderData={setOrderData}
+                        setShowSaveBtn={setShowSaveBtn}
                       />
                     </Col>
                   ) : null}

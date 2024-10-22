@@ -7,17 +7,24 @@ import { fetchOrderDetailList } from "../../../../store/actions/orderDetailActio
 import {
   fetchOrderList,
   fetchOrderListById,
+  updateOrder,
 } from "../../../../store/actions/orderAction";
 import styles from "../../../styles/styles";
-import axios from "axios";
 import PersonalDetail from "./personal_information";
 import OrderInformation from "./order_information";
 
-const OrderDetails = ({ Id, setOpen, customTableColor }) => {
+const OrderDetails = ({
+  Id,
+  setOpen,
+  customTableColor,
+  extraReadOnlyFields,
+}) => {
   let recordsOrderDetails = [];
   let headersOrderDetails = [];
   const dateTimeFields = ["Duedate", "Create Date"];
-  const readOnlyFields = ["Full Name", "Phone", "Address", "Email"];
+  const readOnlyFields = [];
+  extraReadOnlyFields && readOnlyFields.push(...extraReadOnlyFields);
+
   const textBoxFields = [
     "Full Name",
     "Duedate",
@@ -43,15 +50,14 @@ const OrderDetails = ({ Id, setOpen, customTableColor }) => {
   const objectFields = ["Modification"];
 
   const dispatch = useDispatch();
-  const BASE_URL = `${process.env.NEXT_PUBLIC_REACT_APP_BACKEND_ADDRESS}`;
-
-  const [switchOptions, setSwitchOptions] = useState(false);
+  const [orderData, setOrderData] = useState({});
+  const [orderChanges, setOrderChanges] = useState({}); // Track only changes
   const [showSaveBtn, setShowSaveBtn] = useState(false);
 
   useEffect(() => {
     dispatch(fetchOrderDetailList(Id));
     dispatch(fetchOrderListById(Id));
-  }, []);
+  }, [dispatch, Id]);
 
   const orderDetailList = useSelector(
     (state) => state.orderDetail.orderDetailList,
@@ -70,23 +76,30 @@ const OrderDetails = ({ Id, setOpen, customTableColor }) => {
     recordsOrderDetails = orderDetailList;
   }
 
+  useEffect(() => {
+    if (order && Object.keys(order).length) {
+      setOrderData(order);
+    }
+  }, [order]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      const response = await axios.put(`${BASE_URL}/order/update/${Id}`, {
-        status: switchOptions,
-      });
+    const updatedOrderData = {
+      ...orderData,
+      ...orderChanges,
+    };
 
-      if (response.status === 200) {
-        setOpen(false);
-        dispatch(fetchOrderList());
-      } else {
-        return rejectWithValue("Failed to update customer");
-      }
-    } catch (error) {
-      console.error("Error updating data", error);
-    }
+    console.log("Order Data to be sent:", updatedOrderData);
+
+    // try {
+    //   const orderId = Id;
+    //   await dispatch(updateOrder({ orderId, updatedData: updatedOrderData }));
+    //   setOpen(false);
+    //   dispatch(fetchOrderList());
+    // } catch (error) {
+    //   console.error("Error updating order:", error);
+    // }
   };
 
   return (
@@ -96,8 +109,6 @@ const OrderDetails = ({ Id, setOpen, customTableColor }) => {
           <>
             <PersonalDetail
               e={e}
-              switchOptions={switchOptions}
-              setSwitchOptions={setSwitchOptions}
               textBoxFields={textBoxFields}
               personalInfo={personalInfo}
               dropDownFields={dropDownFields}
@@ -106,20 +117,23 @@ const OrderDetails = ({ Id, setOpen, customTableColor }) => {
               Row={Row}
               statusFetching={statusOrderFetching}
               customHeaderColor={customTableColor}
+              setShowSaveBtn={setShowSaveBtn}
+              setOrderData={setOrderData}
+              setOrderChanges={setOrderChanges}
             />
             <OrderInformation
               e={e}
-              switchOptions={switchOptions}
-              setSwitchOptions={setSwitchOptions}
               textBoxFields={textBoxFields}
               personalInfo={personalInfo}
               dropDownFields={dropDownFields}
               dateTimeFields={dateTimeFields}
               readOnlyFields={readOnlyFields}
-              setShowSaveBtn={setShowSaveBtn}
               Row={Row}
               statusFetching={statusOrderFetching}
               customOrderInformationColor={customTableColor}
+              setShowSaveBtn={setShowSaveBtn}
+              setOrderData={setOrderData}
+              setOrderChanges={setOrderChanges}
             />
           </>
         ))}

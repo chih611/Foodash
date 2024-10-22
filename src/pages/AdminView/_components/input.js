@@ -8,7 +8,20 @@ const CustomInput = ({
   readOnlyFields,
   dateTimeFields,
   statusFetching,
+  setShowSaveBtn,
+  setOrderData,
+  setOrderChanges,
 }) => {
+  const handleChange = (e) => {
+    setShowSaveBtn(true);
+
+    // Instead of appending, replace the specific field in `orderData`
+    setOrderChanges((prevChanges) => ({
+      ...prevChanges,
+      [title]: event.target.value,
+    }));
+  };
+
   return (
     <>
       {statusFetching === "loading" ? (
@@ -29,7 +42,7 @@ const CustomInput = ({
             key={`input-${index}`}
             type="text"
             aria-describedby="order"
-            value={
+            placeholder={
               value
                 ? dateTimeFields?.includes(title)
                   ? moment(value).format("yyyy-MM-DD")
@@ -37,6 +50,8 @@ const CustomInput = ({
                 : "-"
             }
             plaintext={readOnlyFields?.includes(title)}
+            readOnly={readOnlyFields?.includes(title)}
+            onChange={handleChange}
             size="sm"
           />
         </>
