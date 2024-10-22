@@ -213,6 +213,7 @@ const HomeContent = () => {
                   onPriceSort={handlePriceSort}
                   onNameSort={handleNameSort}
                   onClearFilters={handleClearAllFilters}
+                  onCategoryChange={handleCategoryClick} // Pass the category change handler
                 />
                 <div className="homeContentSection">
                   <Row>

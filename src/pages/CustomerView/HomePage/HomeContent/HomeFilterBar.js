@@ -15,7 +15,12 @@ import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import SortOutlinedIcon from "@mui/icons-material/SortOutlined";
 import SortByAlphaOutlinedIcon from "@mui/icons-material/SortByAlphaOutlined";
 
-const HomeFilterBar = ({ onPriceSort, onNameSort, onClearFilters }) => {
+const HomeFilterBar = ({
+  onPriceSort,
+  onNameSort,
+  onClearFilters,
+  onCategoryChange,
+}) => {
   const dispatch = useDispatch();
   const categories = useSelector(selectAllCategories);
   const categoryStatus = useSelector(selectCategoriesStatus);
@@ -29,6 +34,7 @@ const HomeFilterBar = ({ onPriceSort, onNameSort, onClearFilters }) => {
 
   // Dispatch action to filter items by selected category
   const handleCategoryClick = (categoryId) => {
+    onCategoryChange(categoryId); // Call the prop function to set the category
     dispatch(fetchItemsByCategory(categoryId)); // Fetch items by category
   };
 
