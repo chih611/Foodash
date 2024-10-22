@@ -1,5 +1,5 @@
 import { Card, Col, Row, Tab, Dropdown, Button } from "react-bootstrap";
-import { useState, useEffect } from "react";
+import { useState, useEffect, memo } from "react";
 
 import Link from "next/link";
 
@@ -9,12 +9,14 @@ import CalendarMonthRounded from "@mui/icons-material/CalendarMonthRounded";
 import CalendarTracking from "../_components/calendar";
 import {
   fetchOrderList,
-  fetchOrderListByDuedate,
-  fetchOrderListToday,
+  fetchOrderListByToday,
 } from "../../../../store/actions/orderAction";
 import { useDispatch, useSelector } from "react-redux";
-import { format, parseISO  } from 'date-fns';
+import { format, parseISO } from "date-fns";
 import { SwapVertRounded } from "@mui/icons-material";
+import CustomTable from "../_components/table";
+import CustomModal from "../_components/modal";
+import OrderDetails from "./order_details";
 
 // import { ReportCategory } from "./reportCategory";
 
@@ -22,11 +24,34 @@ const Report = (props) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log(props);
     dispatch(fetchOrderList());
-    dispatch(fetchOrderListToday());
+    dispatch(fetchOrderListByToday());
   }, []);
+
   const orderList = useSelector((state) => state.order.ordersList);
-  const orderListToday = useSelector((state) => state.order.ordersToday);
+  const orderListToday = useSelector((state) => state.order.orderListByToday);
+  const statusOrderListToday = useSelector((state) => state.order.status);
+
+ //Declaring
+  let headersOrderList = [];
+  const datetimeFields = ["Duedate", "Create Date"];
+
+  const [show, setShow] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
+
+  if (orderListToday) {
+    orderListToday.map((item) => {
+      headersOrderList?.push(Object.keys(item));
+    });
+  }
+
+  //Handler func()
+  const handleRecordDoubleClick = ({ ID }) => {
+    setSelectedId(ID);
+    setShow(true);
+  };
+
   const categories = [
     { id: "111", name: "EAT", stock: "11000", sold: "123", expired: "108" },
     { id: "112", name: "FOOD", stock: "12000", sold: "123", expired: "180" },
@@ -69,17 +94,19 @@ const Report = (props) => {
     setShowModal(true); // Show the modal with event details
   };
 
-
   //use today filter for orderList with updated date, created date or due date are: today _ JUST need 2 collumn: ORDER_ID & STATUS, Order Amount or Recurring Status
-  
+
   const today = format(new Date(), "yyyy.MM.dd");
-  console.log(today)
+  console.log(today);
   // Filter orders to include only today's orders
   // Ensure orderList is an array, and filter today's orders based on the Create Date
   const todaysOrders = Array.isArray(orderList)
     ? orderList.filter((order) => {
         // Parse the order's Create Date and format it to 'YYYY.MM.DD'
-        const formattedCreateDate = format(parseISO(order["Create Date"]), "yyyy.MM.dd");
+        const formattedCreateDate = format(
+          parseISO(order["Create Date"]),
+          "yyyy.MM.dd"
+        );
         const formattedDueDate = format(parseISO(order.Duedate), "yyyy.MM.dd");
 
         // Check if either date matches today's date
@@ -94,52 +121,34 @@ const Report = (props) => {
         className="g-4 bg-2nd-color mt-1 px-3 py-3 rounded-4"
       >
         <Row xs={1} md={2} className="my-2 justify-content-around">
-         {/* What 's on today, Report by Category and Item */}
-         
-          <Col lg={5}>
+          {/* What 's on today, Report by Category and Item */}
 
+          <Col lg={5}>
             {/* What 's on Today */}
             <Card className="rounded-4">
               <Card.Body>
                 <Card.Title className="subtitle_admin">
-                  <AssignmentRounded className="mx-2"/>
+                  <AssignmentRounded className="mx-2" />
                   What's on Today
                 </Card.Title>
-                <div className="d-flex my-2 justify-content-around" style={{borderTop: 'solid 1px #90B4CE'}}>
-                  {["Order ID", "Status", "Created Date", "Due Date"].map(
-                    (header, index) => (
-                      <div key={index} className="my-3">
-                        <p className="mb-3 subtitle">
-                          {header}
-                          <button mb-2>
-                            {" "}
-                            <FilterListOutlined />{" "}
-                          </button>
-                        </p>
-                        {todaysOrders && todaysOrders.length > 0 ? (
-                        todaysOrders.map((order) => (
-                          <p className="subtitle text-center" key={order.ID}>
-                            {index === 0
-                              ? order.ID
-                              : index === 1
-                              ? order.Status
-                              : index === 2
-                              ? format(parseISO(order["Create Date"]), "yyyy.MM.dd")
-                              : index === 3
-                              ? format(parseISO(order.Duedate), "yyyy.MM.dd")
-                              : ""}
-                          </p>
-                        ))
-                      ) : (
-                        <p className="text-center">No orders today</p>
-                      )}
-                      </div>
-                    )
-                  )}
-                </div>
+                <CustomTable
+                  headers={headersOrderList}
+                  records={orderListToday ? orderListToday : []}
+                  handleRecordDoubleClick={handleRecordDoubleClick}
+                  datetimeFields={datetimeFields}
+                  statusFetching={statusOrderListToday}
+                />
               </Card.Body>
+              <CustomModal
+                setOpen={setShow}
+                open={show}
+                selectedId={selectedId}
+                headerTitle="Order"
+              >
+                <OrderDetails {...props} />
+              </CustomModal>
             </Card>
-            
+
             {/* Sales By Category */}
             <Card className="rounded-4 my-4">
               <Card.Body>
@@ -154,46 +163,20 @@ const Report = (props) => {
                   This month: {getMonthName(startDate)}
                 </label>
 
-                <div
-                  className="d-flex my-2 justify-content-around"
-                  style={{ borderBottom: "solid 1px #90B4CE" }}
-                >
-                  {["Product", "Stock", "Sold", "Expired in 30 days"].map(
-                    (header, index) => (
-                      <div key={index} className="my-3">
-                        <p className="mb-3 subtitle">
-                          {header}
-                          <button>
-                            {" "}
-                            <SwapVertRounded />{" "}
-                          </button>
-                        </p>
-                        {categories.map((cate) => (
-                          <p className="subtitle text-center" key={cate.id}>
-                            {index === 0
-                              ? cate.name
-                              : index === 1
-                              ? cate.stock
-                              : index === 2
-                              ? cate.sold
-                              : index === 3
-                              ? cate.expired
-                              : cate.expired}
-                          </p>
-                        ))}
-                      </div>
-                    )
-                  )}
-                </div>
+                <CustomTable
+                  headers={headersOrderList}
+                  records={orderListToday ? orderListToday : []}
+                  handleRecordDoubleClick={handleRecordDoubleClick}
+                  datetimeFields={datetimeFields}
+                  statusFetching={statusOrderListToday}
+                />
               </Card.Body>
             </Card>
 
             {/* General Report */}
             <Card className="rounded-4">
               <Card.Body>
-                <Card.Title className="subtitle_admin">
-                  Sales Report
-                </Card.Title>
+                <Card.Title className="subtitle_admin">Sales Report</Card.Title>
                 <Dropdown className="my-3">
                   <Dropdown.Toggle variant="primary" id="dropdown-basic">
                     This month
@@ -207,9 +190,12 @@ const Report = (props) => {
                 </Dropdown>
                 <Card.Text className="my-3">
                   {payments.map((item) => (
-                    <div className="my-3 d-flex justify-content-between" key={item.id}>
-                       <p className="subtitle mx-4" >{item.name}</p>
-                       <p className="subtitle mx-4" >{item.amount}</p>
+                    <div
+                      className="my-3 d-flex justify-content-between"
+                      key={item.id}
+                    >
+                      <p className="subtitle mx-4">{item.name}</p>
+                      <p className="subtitle mx-4">{item.amount}</p>
                     </div>
                   ))}
                 </Card.Text>
@@ -221,8 +207,11 @@ const Report = (props) => {
           <Col lg={7}>
             <Card className="rounded-4">
               <Card.Body>
-                <Card.Title className="subtitle_admin mb-3 pb-2" style={{borderBottom: 'solid 1px #90B4CE'}}>
-                  <CalendarMonthRounded className="mx-2"/>
+                <Card.Title
+                  className="subtitle_admin mb-3 pb-2"
+                  style={{ borderBottom: "solid 1px #90B4CE" }}
+                >
+                  <CalendarMonthRounded className="mx-2" />
                   Order Tracking Calendar
                 </Card.Title>
                 <CalendarTracking
@@ -236,11 +225,9 @@ const Report = (props) => {
               </Card.Body>
             </Card>
           </Col>
-
         </Row>
       </Tab.Pane>
     </>
   );
 };
-
-export default Report;
+export default memo(Report);

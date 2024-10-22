@@ -7,6 +7,7 @@ import {
   fetchOrderLisByDuedateAPI,
   fetchOrderListTodayAPI,
   updateOrderAPI,
+  fetchOrderListByTodayAPI,
 } from "../api/order.api";
 import axios from "axios";
 
@@ -104,24 +105,11 @@ export const fetchOrderLisByCustomerName = createAsyncThunk(
   }
 );
 
-export const fetchOrderListByDuedate = createAsyncThunk(
-  "order/fetchOrderListByDuedate",
+export const fetchOrderListByToday = createAsyncThunk(
+  "order/fetchOrderListByToday",
   async (duedate, { rejectWithValue }) => {
     try {
-      return await fetchOrderLisByDuedateAPI(duedate);
-    } catch (error) {
-      return rejectWithValue(
-        error.response ? error.response.data : error.message
-      );
-    }
-  }
-);
-
-export const fetchOrderListToday = createAsyncThunk(
-  "order/fetchOrderListToday",
-  async (duedate, { rejectWithValue }) => {
-    try {
-      return await fetchOrderListTodayAPI(duedate);
+      return await fetchOrderListByTodayAPI(duedate);
     } catch (error) {
       return rejectWithValue(
         error.response ? error.response.data : error.message

@@ -14,7 +14,7 @@ export const fetchOrderListAPI = async () => {
   return data;
 };
 
-export const fetchOrderListTodayAPI = async () => {
+export const fetchOrderListByTodayAPI = async () => {
   const response = await axios.get(`${BASE_URL}/orders_today`);
   let data = response.data;
   if (!Array.isArray(data)) {
@@ -132,15 +132,6 @@ export const fetchOrderListByCustomerIdAPI = async (customerId) => {
 
 export const fetchOrderLisByCustomerNameAPI = async (full_name) => {
   const response = await axios.get(`${BASE_URL}/order/customer/${full_name}`);
-  let data = response.data;
-  if (!Array.isArray(data)) {
-    data = [data];
-  }
-  return data;
-};
-
-export const fetchOrderLisByDuedateAPI = async (duedate) => {
-  const response = await axios.get(`${BASE_URL}/order/duedate/${duedate}`);
   let data = response.data;
   if (!Array.isArray(data)) {
     data = [data];

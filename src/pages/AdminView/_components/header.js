@@ -14,8 +14,38 @@ import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import ChatIcon from "@mui/icons-material/Chat";
 import SettingsIcon from "@mui/icons-material/Settings";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector  } from "react-redux";
+import { fetchNotifications } from "../../../../store/actions/notificationAction";
+import NotificationBoard from "./notificationBoard";
 
 const Header = ({ breadcrumb, handleSelect }) => {
+  const dispatch = useDispatch();
+  const [showNotifications, setShowNotifications] = useState(false);
+  const notifications = useSelector(state => state.notifications.notifications);
+
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const loadNotifications = async () => {
+      setIsLoading(true);
+      try {
+        await dispatch(fetchNotifications());
+      } catch (error) {
+        console.error("Failed to fetch notifications:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+  
+    loadNotifications();
+  }, [dispatch]);
+
+  const toggleNotifications = () => {
+    console.log('Notification button clicked!'); // Add this line
+    setShowNotifications(!showNotifications);
+  };
+
   return (
     <>
       <Row className="align-items-center admin-header my-3">
@@ -49,12 +79,14 @@ const Header = ({ breadcrumb, handleSelect }) => {
             <Col lg={1}>
               <Navbar>
                 <Navbar.Collapse>
-                  <button className="position-relative btn-info">
+                  <Button className={`position-relative btn-info ${showNotifications ? 'active' : ''}`}
+                          onClick={toggleNotifications}>
                     <NotificationsNoneIcon />
                     <Badge className="position-absolute" pill>
-                      9
+                      {/* 9 */}
+                      {isLoading ? '...' : (notifications && notifications.length) || 0}
                     </Badge>
-                  </button>
+                  </Button>
                 </Navbar.Collapse>
               </Navbar>
             </Col>
@@ -86,7 +118,9 @@ const Header = ({ breadcrumb, handleSelect }) => {
         </Col>
         <Col>
           <Navbar className="justify-content-center user">
-            <Button variant="link text-capitalize">hello, admin</Button>
+            <Button variant="link text-capitalize fw-bold">
+              Hello, I'm Admin
+            </Button>
             <Figure className="figure">
               <Figure.Image
                 width={40}
@@ -98,6 +132,10 @@ const Header = ({ breadcrumb, handleSelect }) => {
           </Navbar>
         </Col>
       </Row>
+      {/* {showNotifications && <NotificationBoard notifications={notifications || []} onClose={toggleNotifications} />} */}
+      {showNotifications && (
+  <NotificationBoard notifications={notifications || []} onClose={toggleNotifications} data = {notifications} />
+)}
     </>
   );
 };

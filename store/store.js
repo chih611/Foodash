@@ -11,13 +11,20 @@ import { CookieStorage } from "redux-persist-cookie-storage";
 import Cookies from "js-cookie";
 import { combineReducers } from "redux";
 import orderReducer from "./slices/orderSlice";
-import orderListReducer from "./slices/orderSlice";
+import ordersTodayListReducer from "./slices/orderSlice";
 import orderDetailReducer from "./slices/orderDetailSlice";
+import notificationReducer from "./slices/notificationSlice";
 
 const persistConfig = {
   key: "root",
   storage, // Use localStorage for other slices
-  blacklist: ["order", "orderDetail", "ordersToday", "customer"],
+  blacklist: [
+    "order",
+    "orderDetail",
+    "ordersToday",
+    "customer",
+    "notification",
+  ],
 };
 
 // Cookie-based persist config for customer slice
@@ -41,7 +48,8 @@ const rootReducer = combineReducers({
   category: categoryReducer,
   order: orderReducer,
   orderDetail: orderDetailReducer,
-  ordersToday: orderListReducer,
+  orderListByToday: ordersTodayListReducer,
+  notifications: notificationReducer,
 });
 
 // Create the persisted reducer for the store
