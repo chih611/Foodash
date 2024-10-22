@@ -22,7 +22,7 @@ const OrderDetails = ({
   let recordsOrderDetails = [];
   let headersOrderDetails = [];
   const dateTimeFields = ["Duedate", "Create Date"];
-  const readOnlyFields = [];
+  const readOnlyFields = ["Full Name"];
   extraReadOnlyFields && readOnlyFields.push(...extraReadOnlyFields);
 
   const textBoxFields = [
@@ -86,7 +86,7 @@ const OrderDetails = ({
     e.preventDefault();
 
     const updatedOrderData = {
-      ...orderData,
+      ...orderData[0],
       ...orderChanges,
     };
 
