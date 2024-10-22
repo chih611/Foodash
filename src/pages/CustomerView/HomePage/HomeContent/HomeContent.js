@@ -80,7 +80,7 @@ const HomeContent = () => {
     setCurrentView("items"); // Switch to item view
   };
 
-  const getItemsByIngredientsAndLabels = (ingredients) => {
+  const getItemsByIngredientsAndLabels = (ingredients, itemsToFilter) => {
     const filteredItems = [];
 
     if (!Array.isArray(ingredients)) {
@@ -95,7 +95,7 @@ const HomeContent = () => {
         Array.isArray(modIngredients) &&
         ingredients.some((ing) => modIngredients.includes(ing))
       ) {
-        const item = items.find((item) => item.ITEM_ID === mod.ITEM_ID);
+        const item = itemsToFilter.find((item) => item.ITEM_ID === mod.ITEM_ID);
         if (item) {
           filteredItems.push(item);
         }
@@ -114,13 +114,23 @@ const HomeContent = () => {
       setSelectedIngredients(updatedIngredients);
       console.log("Selected Ingredients after change:", updatedIngredients); // Log selected ingredients
 
+      // Determine the items to filter based on the selected category
+      const itemsToFilter = selectedCategory
+        ? items.filter(
+            (item) => item.CATEGORY_ID === parseInt(selectedCategory)
+          )
+        : items;
+
       // Get item objects based on selected ingredients
-      const filteredItems = getItemsByIngredientsAndLabels(updatedIngredients);
+      const filteredItems = getItemsByIngredientsAndLabels(
+        updatedIngredients,
+        itemsToFilter
+      );
       console.log("Filtered Items after change:", filteredItems);
 
       // If no ingredients are selected, show the original items
       if (filteredItems.length === 0) {
-        setDisplayedItems(items); // Reset to original items
+        setDisplayedItems(itemsToFilter); // Reset to original items
       } else {
         setDisplayedItems(filteredItems); // Update displayed items
       }
@@ -150,8 +160,16 @@ const HomeContent = () => {
   let finalDisplayedItems = displayedItems; // Use the local displayedItems state
 
   if (selectedIngredients.length > 0) {
+    // Determine the items to filter based on the selected category
+    const itemsToFilter = selectedCategory
+      ? items.filter((item) => item.CATEGORY_ID === parseInt(selectedCategory))
+      : items;
+
     // Filter items based on selected ingredients
-    finalDisplayedItems = getItemsByIngredientsAndLabels(selectedIngredients);
+    finalDisplayedItems = getItemsByIngredientsAndLabels(
+      selectedIngredients,
+      itemsToFilter
+    );
   } else if (searchQuery && searchResults.length > 0) {
     finalDisplayedItems = searchResults;
   } else if (selectedCategory) {
