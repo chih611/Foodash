@@ -4,5 +4,6 @@ const styles = {
   icon_style: `fs-7`,
   logout_btn: `d-flex justify-content-center btn-logout`,
   btn: `bg-pressed-color text-light fw-bold`,
+  admin_header_tables: `bg-pressed-color fw-bold`,
 };
 export default styles;

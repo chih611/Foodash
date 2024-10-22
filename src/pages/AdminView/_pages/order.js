@@ -57,14 +57,19 @@ const Order = (props) => {
           datetimeFields={datetimeFields}
           statusFetching={statusOrderFetching}
           showPagination={true}
+          customTableColor="bg-pressed-color text-light"
         />
         <CustomModal
           setOpen={setShow}
           open={show}
           selectedId={selectedId}
           headerTitle="Order"
+          customTableColor="bg-pressed-color text-light"
         >
-          <OrderDetails {...props} />
+          <OrderDetails
+            {...props}
+            customTableColor="bg-pressed-color text-light"
+          />
         </CustomModal>
         {/* <CustomModal
           handleOk={handleOk}

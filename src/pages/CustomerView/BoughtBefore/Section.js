@@ -1,22 +1,16 @@
-import React from 'react';
-import Item from './Item';
-import { Row, Col } from "react-bootstrap";
-;
+import React from "react";
+import { Row } from "react-bootstrap";
+import HomeItemContainer from "../HomePage/HomeItemContainer/HomeItemContainer";
 
-const Section = ({ title }) => {
+const Section = ({ title, items }) => {
   return (
     <section className="deals-section">
       <h2 className="section-title">{title}</h2>
       <Row>
-        <Col md={4}>
-          <Item />
-        </Col>
-        <Col md={4}>
-          <Item />
-        </Col>
-        <Col md={4}>
-          <Item />
-        </Col>
+        {items &&
+          items.map((item, index) => (
+            <HomeItemContainer key={index} item={item} />
+          ))}
       </Row>
     </section>
   );

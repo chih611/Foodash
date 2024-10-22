@@ -147,6 +147,7 @@ const Report = (props) => {
                   datetimeFields={datetimeFields}
                   statusFetching={statusOrderListToday}
                   showPagination={false}
+                  customTableColor={styles.admin_header_tables}
                 />
               </Card.Body>
             </Card>
@@ -174,6 +175,7 @@ const Report = (props) => {
                   datetimeFields={datetimeFields}
                   statusFetching={statusCurrentMonthCateSales}
                   showPagination={false}
+                  customTableColor={styles.admin_header_tables}
                 />
               </Card.Body>
             </Card>
@@ -183,7 +185,11 @@ const Report = (props) => {
               <Card.Body>
                 <Card.Title className="subtitle_admin">Sales Report</Card.Title>
                 <Dropdown className="my-3">
-                  <Dropdown.Toggle variant="primary" id="dropdown-basic"  className={styles.btn}>
+                  <Dropdown.Toggle
+                    variant="primary"
+                    id="dropdown-basic"
+                    className={styles.btn}
+                  >
                     This month
                   </Dropdown.Toggle>
 

@@ -1,55 +1,85 @@
 import Link from "next/link";
 import { Container, Row, Col, Button } from "react-bootstrap";
-
+import { useSelector, useDispatch } from "react-redux";
 import CircleRounded from "@mui/icons-material/CircleRounded";
 import HeadphonesOutlined from "@mui/icons-material/HeadphonesOutlined";
 
 const RecentOrder = () => {
-    return (
-      <div className="filters-section mb-3">
-      {/* Desktop View */}
-        <Row className="align-items-center w-100 d-none d-lg-flex " style={{marginTop: "24px"}}>
-          <Col xs={12} md={2} className="mb-2 align-items-center">
-            <p className="subtitle mb-0">Order ID : </p>
-          </Col>
+  const orderByCustomer = useSelector(
+    (state) => state.order.orderListByCustomerId
+  );
+  const recentOrder = orderByCustomer[orderByCustomer.length - 1];
 
-          <Col xs={12} md={7} className="mb-2 align-items-center">
-            <p className="subtitle mb-0">#314AOT61 </p>
-          </Col>
+  // Calculate the estimated arrival time
+  const estimateArrival = recentOrder
+    ? new Date(recentOrder.DUEDATE) - new Date()
+    : null;
 
-          <Col xs={12} md={3} className="mb-2 align-items-center ">
-            <p className="subtitle mb-0 d-flex w-100">Estimated arrival in: 30-40 minutes </p>
-          </Col>
-
-        </Row>
-
-        <Row className="align-items-center w-100 d-none d-lg-flex " >
-          <div className="w-100 align-items-end d-none d-lg-flex" 
-               style={{
-                borderTop: "1px solid #90B4CE", 
-                backgroundColor: "#D8EEFE", 
-                height: "165px"}}>
-            <CircleRounded className="mb-0 me-3 mb-2" sx = {{color:"#ef4565"}} />
-            <p className="subtitle mb-0 mb-2">Delivering</p>
-
-          </div>
-        </Row>
-        <Row className="w-100 my-4">
-          <Col xs={12} md={8} className="mb-2"> </Col>
-
-          <Col xs={12} md={2} className="mb-2">
-            <button className="subtitle button-2"> Leave Instruction </button>
-          </Col>
-          <Col xs={12} md={2} className="mb-2">
-            <button className="subtitle button-2"> 
-              <HeadphonesOutlined className="mb-1 mx-3"/>
-              Call Driver
-            </button>
-          </Col>
-        </Row>
-        
-      </div>
-    );
+  // Convert the difference to a human-readable format
+  const getReadableTime = (milliseconds) => {
+    const totalMinutes = Math.floor(milliseconds / 60000);
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = totalMinutes % 60;
+    return `${hours} hours and ${minutes} minutes`;
   };
-  
+
+  const readableEstimateArrival = estimateArrival
+    ? getReadableTime(estimateArrival)
+    : "N/A";
+
+  console.log(recentOrder);
+  return (
+    <div className="filters-section mb-3">
+      {/* Desktop View */}
+      <Row
+        className="align-items-center w-100 d-flex "
+        style={{ marginTop: "24px" }}
+      >
+        <Col xs={12} md={2} className="mb-2 align-items-center">
+          <p className="subtitle mb-0">Order ID : </p>
+        </Col>
+
+        <Col xs={12} md={7} className="mb-2 align-items-center">
+          <p className="subtitle mb-0">{recentOrder.ORDER_ID}</p>
+        </Col>
+
+        <Col xs={12} md={3} className="mb-2 align-items-center ">
+          <p className="subtitle mb-0 d-flex w-100">
+            Estimated arrival in: {readableEstimateArrival}
+          </p>
+        </Col>
+      </Row>
+
+      <Row className="align-items-center w-100 d-none d-lg-flex ">
+        <div
+          className="w-100 align-items-end d-none d-lg-flex"
+          style={{
+            borderTop: "1px solid #90B4CE",
+            backgroundColor: "#D8EEFE",
+            height: "165px",
+          }}
+        >
+          <CircleRounded className="mb-0 me-3 mb-2" sx={{ color: "#ef4565" }} />
+          <p className="subtitle mb-0 mb-2">Delivering</p>
+        </div>
+      </Row>
+      <Row className="w-100 my-4">
+        <Col xs={12} md={8} className="mb-2">
+          {" "}
+        </Col>
+
+        <Col xs={12} md={2} className="mb-2">
+          <button className="subtitle button-2"> Leave Instruction </button>
+        </Col>
+        <Col xs={12} md={2} className="mb-2">
+          <button className="subtitle button-2">
+            <HeadphonesOutlined className="mb-1 mx-3" />
+            Call Driver
+          </button>
+        </Col>
+      </Row>
+    </div>
+  );
+};
+
 export default RecentOrder;

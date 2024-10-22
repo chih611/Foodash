@@ -1,3 +1,28 @@
 .filters-section {
   margin-bottom: 30px;
 }
+  
+.custom-filter-button {
+  color: #5f6c7b !important;
+  border-color: #8f5652 !important;
+  border-radius: 15px !important;
+
+  
+}
+
+.custom-clear-button {
+  color: #5f6c7b !important;
+  border-color: #8f5652 !important;
+}
+
+.custom-filter-button:hover,
+.custom-filter-button:active,
+.custom-filter-button.show,
+.custom-clear-button:hover,
+.custom-clear-button:active,
+.custom-clear-button.show {
+  background-color: #f5e5e4 !important; /* Light background on hover & active */
+  border-color: #8f5652 !important;
+  color: #8f5652 !important;
+}
+

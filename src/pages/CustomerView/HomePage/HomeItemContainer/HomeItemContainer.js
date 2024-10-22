@@ -1,11 +1,15 @@
 import React from "react";
 import { Col, Row, Card, Button } from "react-bootstrap";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import { selectItems } from "../../../../../store/slices/itemsSlice";
+import {
+  selectItems,
+  clearSelectedItemModifications,
+} from "../../../../../store/slices/itemsSlice";
 import { useRouter } from "next/router";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { useDispatch } from "react-redux";
 import StarIcon from "@mui/icons-material/Star";
+import { clear } from "i/lib/inflections";
 
 const HomeItemContainer = ({ item }) => {
   const router = useRouter();
@@ -13,19 +17,21 @@ const HomeItemContainer = ({ item }) => {
 
   const handleAddToCart = () => {
     // Dispatch the selected item to Redux
+    dispatch(clearSelectedItemModifications());
     dispatch(selectItems(item));
+    const itemId = item.ITEM_ID || 1;
 
     // Navigate to the item details page
-    router.push("/CustomerView/ItemDetails/ItemDetails");
+    router.push("/CustomerView/ItemDetails/?itemId=" + itemId);
   };
 
   return (
-    <Col xs={6} md={3} className="my-3">
+    <Col xs={6} md={6} lg={3} className="my-3">
       <Card className="product-card">
         <div className="card-img-container">
           <Card.Img
             variant="top"
-            src="https://via.placeholder.com/150"
+            src="/birthdaycake_cate.jpg"
             className="product-image"
           />
         </div>
@@ -40,7 +46,7 @@ const HomeItemContainer = ({ item }) => {
           <Row className="item-button align-items-center justify-content-between">
             <Col xs={6} className="text-center">
               <Card.Text className="product-price">
-                {item.PRICE ? `$${item.PRICE}` : "Price Unavailable"}
+                {item.UNIT_PRICE ? `$${item.UNIT_PRICE}` : "Price Unavailable"}
               </Card.Text>
             </Col>
             <Col xs={3} className="text-center">
