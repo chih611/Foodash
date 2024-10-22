@@ -30,7 +30,7 @@ const HomeContent = () => {
   const [priceSort, setPriceSort] = useState(""); // Sorting by price
   const [nameSort, setNameSort] = useState(""); // Sorting by name
   const [selectedIngredients, setSelectedIngredients] = useState([]); // Track selected ingredients
-  const [displayedItems, setDisplayedItems] = useState(items); // Local state for displayed items
+  const [displayedItems, setDisplayedItems] = useState([]); // Local state for displayed items
 
   useEffect(() => {
     dispatch(fetchItems());
@@ -44,10 +44,17 @@ const HomeContent = () => {
       });
     } else {
       console.log("No customerId available, managing cart locally");
-    } // Fetch all items initially
+    }
   }, [dispatch, customerId]);
 
-  // Listen for route changes and reset `currentView` when navigating back to homepage
+  useEffect(() => {
+    if (items.length > 0) {
+      setDisplayedItems(items); // Initialize displayedItems with fetched items
+    }
+  }, [items]);
+
+  console.log("Items:", items); // Log items before rendering
+
   useEffect(() => {
     const handleRouteChange = (url) => {
       if (url === "/CustomerView/HomePage") {
@@ -57,20 +64,17 @@ const HomeContent = () => {
 
     router.events.on("routeChangeComplete", handleRouteChange);
 
-    // Cleanup listener when component unmounts
     return () => {
       router.events.off("routeChangeComplete", handleRouteChange);
     };
   }, [router.events]);
 
-  // Automatically switch to "items" view when search query is present
   useEffect(() => {
     if (searchQuery) {
       setCurrentView("items");
     }
   }, [searchQuery]);
 
-  // Function to handle category click and switch view
   const handleCategoryClick = (categoryId) => {
     router.push(`/CustomerView/HomePage?category=${categoryId}`);
     setCurrentView("items"); // Switch to item view
@@ -79,21 +83,18 @@ const HomeContent = () => {
   const getItemsByIngredientsAndLabels = (ingredients) => {
     const filteredItems = [];
 
-    // Ensure ingredients is an array
     if (!Array.isArray(ingredients)) {
       console.error("Ingredients is not an array:", ingredients);
-      return filteredItems; // Return empty if not an array
+      return filteredItems;
     }
 
     modifications.forEach((mod) => {
-      const modIngredients = mod.INGREDIENTS; // Assuming this is an array of ingredient names
+      const modIngredients = mod.INGREDIENTS;
 
-      // Check if any of the selected ingredients match the modification's ingredients
       if (
         Array.isArray(modIngredients) &&
         ingredients.some((ing) => modIngredients.includes(ing))
       ) {
-        // Find the corresponding item from the items array
         const item = items.find((item) => item.ITEM_ID === mod.ITEM_ID);
         if (item) {
           filteredItems.push(item);
@@ -101,12 +102,9 @@ const HomeContent = () => {
       }
     });
 
-    const uniqueItems = [...new Set(filteredItems)]; // Remove duplicates
-    console.log("Filtered Items based on ingredients:", uniqueItems);
-    return uniqueItems; // Return the filtered items
+    return [...new Set(filteredItems)]; // Return unique filtered items
   };
 
-  // Handle changes from the sidebar
   const handleFilterChange = (type, value, checked) => {
     if (type === "ingredients") {
       const updatedIngredients = checked
@@ -119,22 +117,27 @@ const HomeContent = () => {
       // Get item objects based on selected ingredients
       const filteredItems = getItemsByIngredientsAndLabels(updatedIngredients);
       console.log("Filtered Items after change:", filteredItems);
-      setDisplayedItems(filteredItems); // Update displayed items
-      setCurrentView("items");
+
+      // If no ingredients are selected, show the original items
+      if (filteredItems.length === 0) {
+        setDisplayedItems(items); // Reset to original items
+      } else {
+        setDisplayedItems(filteredItems); // Update displayed items
+      }
+      setCurrentView("items"); // Ensure the view is set to items
+    } else {
+      setDisplayedItems(items); // Reset to original items
     }
   };
 
-  // Sorting logic for price
   const handlePriceSort = (sortOrder) => {
     setPriceSort(sortOrder);
   };
 
-  // Sorting logic for name
   const handleNameSort = (sortOrder) => {
     setNameSort(sortOrder);
   };
 
-  // Function to clear all filters
   const handleClearAllFilters = () => {
     setPriceSort(""); // Reset price sorting
     setNameSort(""); // Reset name sorting
@@ -144,27 +147,22 @@ const HomeContent = () => {
     setCurrentView("categories"); // Reset to categories view
   };
 
-  // Determine which items to display
   let finalDisplayedItems = displayedItems; // Use the local displayedItems state
 
   if (searchQuery && searchResults.length > 0) {
-    // If there is a search query, display the search results
     finalDisplayedItems = searchResults;
   } else if (selectedCategory) {
-    // If a category is selected, filter items by category
     finalDisplayedItems = items.filter(
       (item) => item.CATEGORY_ID === parseInt(selectedCategory)
     );
   }
 
-  // Apply sorting by price
   if (priceSort === "lowToHigh") {
     finalDisplayedItems.sort((a, b) => a.UNIT_PRICE - b.UNIT_PRICE);
   } else if (priceSort === "highToLow") {
     finalDisplayedItems.sort((a, b) => b.UNIT_PRICE - a.UNIT_PRICE);
   }
 
-  // Apply sorting by name
   if (nameSort === "az") {
     finalDisplayedItems.sort((a, b) => a.ITEM_NAME.localeCompare(b.ITEM_NAME));
   } else if (nameSort === "za") {
@@ -183,20 +181,17 @@ const HomeContent = () => {
         </Col>
         <Col xs={12} sm={8} md={9} lg={9}>
           <div className="home-content">
-            {/* Category View */}
             {currentView === "categories" && (
               <div className="category-grid">
                 <HomeCategoryContainer onCategoryClick={handleCategoryClick} />
               </div>
             )}
-
-            {/* Filter and Items View */}
             {currentView === "items" && (
               <>
                 <HomeFilterBar
-                  onPriceSort={handlePriceSort} // Pass sorting function for price
-                  onNameSort={handleNameSort} // Pass sorting function for name
-                  onClearFilters={handleClearAllFilters} // Pass function to clear all filters
+                  onPriceSort={handlePriceSort}
+                  onNameSort={handleNameSort}
+                  onClearFilters={handleClearAllFilters}
                 />
                 <div className="homeContentSection">
                   <Row>

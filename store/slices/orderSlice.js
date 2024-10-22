@@ -9,13 +9,15 @@ import {
   fetchOrderListToday,
   updateOrder,
   fetchOrderListByToday,
+  fetchOrderListByDuedate,
 } from "../actions/orderAction";
 
 const initialState = {
   ordersList: null,
   orderListByCustomerId: null,
   orderListByName: null,
-  orderListByToday: null,
+  orderListByDuedate: null,
+  orderListToday: null,
   orderById: null,
   status: null,
   error: null,

@@ -117,3 +117,29 @@ export const fetchOrderListByToday = createAsyncThunk(
     }
   }
 );
+
+export const fetchOrderListByDuedate = createAsyncThunk(
+  "order/fetchOrderListByDuedate",
+  async (duedate, { rejectWithValue }) => {
+    try {
+      return await fetchOrderLisByDuedateAPI(duedate);
+    } catch (error) {
+      return rejectWithValue(
+        error.response ? error.response.data : error.message
+      );
+    }
+  }
+);
+
+export const fetchOrderListToday = createAsyncThunk(
+  "order/fetchOrderListToday",
+  async (duedate, { rejectWithValue }) => {
+    try {
+      return await fetchOrderListTodayAPI(duedate);
+    } catch (error) {
+      return rejectWithValue(
+        error.response ? error.response.data : error.message
+      );
+    }
+  }
+);

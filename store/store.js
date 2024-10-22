@@ -11,6 +11,7 @@ import { CookieStorage } from "redux-persist-cookie-storage";
 import Cookies from "js-cookie";
 import { combineReducers } from "redux";
 import orderReducer from "./slices/orderSlice";
+import orderListReducer from "./slices/orderSlice";
 import ordersTodayListReducer from "./slices/orderSlice";
 import orderDetailReducer from "./slices/orderDetailSlice";
 import notificationReducer from "./slices/notificationSlice";
@@ -50,6 +51,7 @@ const rootReducer = combineReducers({
   orderDetail: orderDetailReducer,
   orderListByToday: ordersTodayListReducer,
   notifications: notificationReducer,
+  orderList: orderListReducer,
 });
 
 // Create the persisted reducer for the store
