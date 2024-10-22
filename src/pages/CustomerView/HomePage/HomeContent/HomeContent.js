@@ -149,7 +149,10 @@ const HomeContent = () => {
 
   let finalDisplayedItems = displayedItems; // Use the local displayedItems state
 
-  if (searchQuery && searchResults.length > 0) {
+  if (selectedIngredients.length > 0) {
+    // Filter items based on selected ingredients
+    finalDisplayedItems = getItemsByIngredientsAndLabels(selectedIngredients);
+  } else if (searchQuery && searchResults.length > 0) {
     finalDisplayedItems = searchResults;
   } else if (selectedCategory) {
     finalDisplayedItems = items.filter(
