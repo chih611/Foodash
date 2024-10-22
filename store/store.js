@@ -38,8 +38,8 @@ const rootReducer = combineReducers({
   order: orderReducer,
   orderDetail: orderDetailReducer,
   orderListByToday: ordersTodayListReducer,
-  notification: notificationReducer,
   report: reportReducer,
+  notifications: notificationReducer,
 });
 
 // Create the persisted reducer
