@@ -56,6 +56,7 @@ const Order = (props) => {
           handleRecordDoubleClick={handleRecordDoubleClick}
           datetimeFields={datetimeFields}
           statusFetching={statusOrderFetching}
+          showPagination={true}
         />
         <CustomModal
           setOpen={setShow}

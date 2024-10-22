@@ -1,9 +1,6 @@
 import { Card, Col, Row, Tab, Dropdown, Button } from "react-bootstrap";
 import { useState, useEffect, memo } from "react";
-
 import Link from "next/link";
-
-import FilterListOutlined from "@mui/icons-material/FilterListOutlined";
 import AssignmentRounded from "@mui/icons-material/AssignmentRounded";
 import CalendarMonthRounded from "@mui/icons-material/CalendarMonthRounded";
 import CalendarTracking from "../_components/calendar";
@@ -13,29 +10,33 @@ import {
 } from "../../../../store/actions/orderAction";
 import { useDispatch, useSelector } from "react-redux";
 import { format, parseISO } from "date-fns";
-import { SwapVertRounded } from "@mui/icons-material";
 import CustomTable from "../_components/table";
-import CustomModal from "../_components/modal";
-import OrderDetails from "./order_details";
-
-// import { ReportCategory } from "./reportCategory";
+import { fetchCurrentMonthCateSales } from "../../../../store/actions/reportAction";
+import styles from "@/styles/styles";
 
 const Report = (props) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log(props);
     dispatch(fetchOrderList());
     dispatch(fetchOrderListByToday());
+    dispatch(fetchCurrentMonthCateSales());
   }, []);
 
   const orderList = useSelector((state) => state.order.ordersList);
   const orderListToday = useSelector((state) => state.order.orderListByToday);
+  const currentMonthCateSales = useSelector(
+    (state) => state.report.currentMonthCateSales
+  );
   const statusOrderListToday = useSelector((state) => state.order.status);
+  const statusCurrentMonthCateSales = useSelector(
+    (state) => state.report.status
+  );
 
- //Declaring
+  //Declaring
   let headersOrderList = [];
-  const datetimeFields = ["Duedate", "Create Date"];
+  let headersCurrentMonthCateSales = [];
+  const datetimeFields = ["Duedate", "Create Date", "Created"];
 
   const [show, setShow] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
@@ -46,11 +47,18 @@ const Report = (props) => {
     });
   }
 
+  if (currentMonthCateSales) {
+    currentMonthCateSales.map((item) => {
+      headersCurrentMonthCateSales?.push(Object.keys(item));
+    });
+  }
+
   //Handler func()
   const handleRecordDoubleClick = ({ ID }) => {
     setSelectedId(ID);
     setShow(true);
   };
+  const handleReportclick = (e) => {};
 
   const categories = [
     { id: "111", name: "EAT", stock: "11000", sold: "123", expired: "108" },
@@ -130,6 +138,7 @@ const Report = (props) => {
                 <Card.Title className="subtitle_admin">
                   <AssignmentRounded className="mx-2" />
                   What's on Today
+                  <hr />
                 </Card.Title>
                 <CustomTable
                   headers={headersOrderList}
@@ -137,16 +146,9 @@ const Report = (props) => {
                   handleRecordDoubleClick={handleRecordDoubleClick}
                   datetimeFields={datetimeFields}
                   statusFetching={statusOrderListToday}
+                  showPagination={false}
                 />
               </Card.Body>
-              <CustomModal
-                setOpen={setShow}
-                open={show}
-                selectedId={selectedId}
-                headerTitle="Order"
-              >
-                <OrderDetails {...props} />
-              </CustomModal>
             </Card>
 
             {/* Sales By Category */}
@@ -154,21 +156,24 @@ const Report = (props) => {
               <Card.Body>
                 <Card.Title className="subtitle_admin mb-3">
                   Sales By Category
+                  <hr />
                 </Card.Title>
                 <Link href="./AdminView/ReportCategory">
-                  <Button variant="primary">View Report</Button>
+                  <Button className={styles.btn} variant="primary">
+                    View Report
+                  </Button>
                 </Link>
 
-                <label className="font-medium text-gray-700 ms-4">
+                <label className="font-medium text-gray-700 ms-4 fw-bold">
                   This month: {getMonthName(startDate)}
                 </label>
-
                 <CustomTable
-                  headers={headersOrderList}
-                  records={orderListToday ? orderListToday : []}
-                  handleRecordDoubleClick={handleRecordDoubleClick}
+                  headers={headersCurrentMonthCateSales}
+                  records={currentMonthCateSales ? currentMonthCateSales : []}
+                  handleRecordDoubleClick={handleReportclick}
                   datetimeFields={datetimeFields}
-                  statusFetching={statusOrderListToday}
+                  statusFetching={statusCurrentMonthCateSales}
+                  showPagination={false}
                 />
               </Card.Body>
             </Card>
@@ -178,7 +183,7 @@ const Report = (props) => {
               <Card.Body>
                 <Card.Title className="subtitle_admin">Sales Report</Card.Title>
                 <Dropdown className="my-3">
-                  <Dropdown.Toggle variant="primary" id="dropdown-basic">
+                  <Dropdown.Toggle variant="primary" id="dropdown-basic"  className={styles.btn}>
                     This month
                   </Dropdown.Toggle>
 

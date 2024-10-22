@@ -20,6 +20,7 @@ const CustomTable = ({
   datetimeFields,
   objectFields,
   statusFetching,
+  showPagination,
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const filteredData = records?.filter((item) =>
@@ -266,25 +267,27 @@ const CustomTable = ({
               ))}
             </tbody>
           </Table>
-          <Pagination>
-            <Pagination.First
-              onClick={() => handlePageChange(1)}
-              disabled={currentPage === 1}
-            />
-            <Pagination.Prev
-              onClick={() => handlePageChange(currentPage - 1)}
-              disabled={currentPage === 1}
-            />
-            {paginationItems}
-            <Pagination.Next
-              onClick={() => handlePageChange(currentPage + 1)}
-              disabled={currentPage === totalPages}
-            />
-            <Pagination.Last
-              onClick={() => handlePageChange(totalPages)}
-              disabled={currentPage === totalPages}
-            />
-          </Pagination>
+          {showPagination && (
+            <Pagination>
+              <Pagination.First
+                onClick={() => handlePageChange(1)}
+                disabled={currentPage === 1}
+              />
+              <Pagination.Prev
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+              />
+              {paginationItems}
+              <Pagination.Next
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+              />
+              <Pagination.Last
+                onClick={() => handlePageChange(totalPages)}
+                disabled={currentPage === totalPages}
+              />
+            </Pagination>
+          )}
         </>
       )}
     </>

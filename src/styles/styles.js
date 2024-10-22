@@ -3,6 +3,6 @@ const styles = {
   custom_dropdown: `custom-dropdown-button ps-0`,
   icon_style: `fs-7`,
   logout_btn: `d-flex justify-content-center btn-logout`,
-  btn: `bg-pressed-color text-light`,
+  btn: `bg-pressed-color text-light fw-bold`,
 };
 export default styles;

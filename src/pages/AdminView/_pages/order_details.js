@@ -139,6 +139,7 @@ const OrderDetails = ({ Id, setOpen }) => {
         records={recordsOrderDetails}
         statusFetching={statusOrderDetailFetching}
         objectFields={objectFields}
+        showPagination={true}
       />
     </>
   );

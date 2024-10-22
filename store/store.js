@@ -12,6 +12,7 @@ import orderReducer from "./slices/orderSlice";
 import ordersTodayListReducer from "./slices/orderSlice";
 import orderDetailReducer from "./slices/orderDetailSlice";
 import notificationReducer from "./slices/notificationSlice";
+import reportReducer from "./slices/reportSlice";
 
 // Persist config for redux-persist
 const persistConfig = {
@@ -23,6 +24,7 @@ const persistConfig = {
     "items",
     "orderListByToday",
     "notification",
+    "report",
   ],
 };
 
@@ -37,6 +39,7 @@ const rootReducer = combineReducers({
   orderDetail: orderDetailReducer,
   orderListByToday: ordersTodayListReducer,
   notification: notificationReducer,
+  report: reportReducer,
 });
 
 // Create the persisted reducer
