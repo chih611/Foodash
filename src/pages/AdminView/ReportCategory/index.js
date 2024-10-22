@@ -239,33 +239,6 @@ const ReportCategory = (props) => {
               statusFetching={statusSaleReports}
               showPagination={true}
             />
-            <Table
-              aria-label="Sale Report by Category"
-              style={{ width: "100%", margin: "30px 0" }}
-            >
-              <TableHeader columns={columns}>
-                {(column) => (
-                  <TableColumn key={column.key}>
-                    {/* <FilterListOutlined className="ms-1"/>     */}
-                    <p className="subtitle_admin">{column.label}</p>
-                  </TableColumn>
-                )}
-              </TableHeader>
-
-              <TableBody items={filteredRows}>
-                {(item) => (
-                  <TableRow key={item.key}>
-                    {(columnKey) => (
-                      <TableCell>
-                        <p className="subtitle ms-1">
-                          {getKeyValue(item, columnKey)}
-                        </p>
-                      </TableCell>
-                    )}
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
           </div>
         </div>
       </div>
