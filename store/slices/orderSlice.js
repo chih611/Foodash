@@ -10,6 +10,7 @@ import {
   updateOrder,
   fetchOrderListByToday,
   fetchOrderListByDuedate,
+  updateOrderViewById,
 } from "../actions/orderAction";
 
 const initialState = {
@@ -135,6 +136,19 @@ const orderSlice = createSlice({
       .addCase(updateOrder.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error || { message: "Updating order is failed!" };
+      })
+      .addCase(updateOrderViewById.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(updateOrderViewById.fulfilled, (state, action) => {
+        state.orderById = action.payload;
+        state.status = "succeeded";
+      })
+      .addCase(updateOrderViewById.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error || {
+          message: "Updating order view by Id is failed!",
+        };
       });
   },
 });

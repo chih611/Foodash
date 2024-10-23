@@ -15,11 +15,12 @@ const CustomInput = ({
   const handleChange = (e) => {
     setShowSaveBtn(true);
 
-    // Instead of appending, replace the specific field in `orderData`
-    setOrderChanges((prevChanges) => ({
-      ...prevChanges,
-      [title]: event.target.value,
-    }));
+    if (title !== "Full Name") {
+      setOrderChanges((prevChanges) => ({
+        ...prevChanges,
+        [title]: e.target.value,
+      }));
+    }
   };
 
   return (

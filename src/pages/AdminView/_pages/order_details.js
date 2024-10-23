@@ -7,7 +7,7 @@ import { fetchOrderDetailList } from "../../../../store/actions/orderDetailActio
 import {
   fetchOrderList,
   fetchOrderListById,
-  updateOrder,
+  updateOrderViewById,
 } from "../../../../store/actions/orderAction";
 import styles from "../../../styles/styles";
 import PersonalDetail from "./personal_information";
@@ -90,16 +90,21 @@ const OrderDetails = ({
       ...orderChanges,
     };
 
+    // Remove "Full Name" from the object
+    delete updatedOrderData["Full Name"];
+
     console.log("Order Data to be sent:", updatedOrderData);
 
-    // try {
-    //   const orderId = Id;
-    //   await dispatch(updateOrder({ orderId, updatedData: updatedOrderData }));
-    //   setOpen(false);
-    //   dispatch(fetchOrderList());
-    // } catch (error) {
-    //   console.error("Error updating order:", error);
-    // }
+    try {
+      const orderId = Id;
+      await dispatch(
+        updateOrderViewById({ orderId, updatedData: updatedOrderData })
+      );
+      setOpen(false);
+      dispatch(fetchOrderList());
+    } catch (error) {
+      console.error("Error updating order:", error);
+    }
   };
 
   return (

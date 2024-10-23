@@ -1,3 +1,4 @@
+import { create } from "@mui/material/styles/createTransitions";
 import axios from "axios";
 
 // Define base URL with dynamic backend port from the environment variable
@@ -108,6 +109,78 @@ export const updateOrderAPI = async (orderId, updatedData) => {
     return response.data;
   } catch (error) {
     console.error("Error in updateOrder:", error); // Debugging information
+    throw new Error(error.response?.data?.message || error.message);
+  }
+};
+
+export const updateOrderViewByIdAPI = async (orderId, updatedData) => {
+  try {
+    // Fetch existing order data from the server
+    const existingOrderResponse = await axios.get(
+      `${BASE_URL}/order/${orderId}`
+    );
+    const existingOrderData = existingOrderResponse.data;
+
+    // Merge existing data with updated data, prioritizing updated data
+    const orderData = {
+      // Ensure the ID is correctly passed
+      ID: orderId,
+      DUEDATE: updatedData.Duedate || existingOrderData.Duedate,
+      RECIPIENT: updatedData.Recipient || existingOrderData.Recipient,
+      ADDRESS: updatedData.Address || existingOrderData.Address,
+      PHONE: updatedData.Phone || existingOrderData.Phone,
+      EMAIL: updatedData.Email || existingOrderData.Email,
+      DELIVER:
+        updatedData.Deliver !== undefined
+          ? updatedData.Deliver
+          : existingOrderData.Deliver,
+      PAYMENT: updatedData.Payment || existingOrderData.Payment,
+      TAXES:
+        updatedData.Taxes !== undefined
+          ? updatedData.Taxes
+          : existingOrderData.Taxes,
+      DELIVERY_FEE:
+        updatedData["Delivery Fee"] !== undefined
+          ? updatedData["Delivery Fee"]
+          : existingOrderData["Delivery Fee"],
+      SERVICE_FEE:
+        updatedData["Service Fee"] !== undefined
+          ? updatedData["Service Fee"]
+          : existingOrderData["Service Fee"],
+      UTENSIL:
+        updatedData.UTENSIL !== undefined
+          ? updatedData.UTENSIL
+          : existingOrderData.UTENSIL,
+      GIFTWRAP:
+        updatedData.Giftwrap !== undefined
+          ? updatedData.Giftwrap
+          : existingOrderData.Giftwrap,
+      PROMOTION:
+        updatedData.Promotion !== undefined
+          ? updatedData.Promotion
+          : existingOrderData.Promotion,
+      SUBTOTAL:
+        updatedData.Subtotal !== undefined
+          ? updatedData.Subtotal
+          : existingOrderData.Subtotal,
+      CREATE_DATE:
+        updatedData["Create Date"] || existingOrderData["Create Date"],
+      TOTAL:
+        updatedData.Total !== undefined
+          ? updatedData.Total
+          : existingOrderData.Total,
+      STATUS: updatedData.Status || existingOrderData.Status,
+    };
+
+    // Make the PUT request to update the order view
+    const response = await axios.put(
+      `${BASE_URL}/order/update_view/${orderId}`,
+      orderData
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error("Error in updateOrderViewByIdAPI:", error);
     throw new Error(error.response?.data?.message || error.message);
   }
 };
