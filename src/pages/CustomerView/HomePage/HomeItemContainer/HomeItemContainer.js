@@ -9,7 +9,6 @@ import { useRouter } from "next/router";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { useDispatch } from "react-redux";
 import StarIcon from "@mui/icons-material/Star";
-import { clear } from "i/lib/inflections";
 
 const HomeItemContainer = ({ item }) => {
   const router = useRouter();
@@ -25,15 +24,35 @@ const HomeItemContainer = ({ item }) => {
     router.push("/CustomerView/ItemDetails/?itemId=" + itemId);
   };
 
+  const getItemImageSrc = () => {
+    if (item.PICTURE?.data) {
+      // Convert ASCII values to a string (file path)
+      const filePath = String.fromCharCode(...item.PICTURE.data);
+      // Construct the correct URL to access the image
+      return `http://localhost:8080/${filePath}`; // Adjust to your server URL
+    } else {
+      return "/birthdaycake_cate.jpg"; // Default fallback image
+    }
+  };
+
+  // const getItemImageSrc = () => {
+  //   if (item.PICTURE?.data) {
+  //     // Convert the ASCII codes to a string path
+  //     const filePath = String.fromCharCode(...item.PICTURE.data);
+  //     return `http://localhost:8080/uploads/others/${filePath}`; // Construct the full URL
+  //   } else {
+  //     return "/birthdaycake_cate.jpg"; // Default fallback image
+  //   }
+  // };
+
+  const itemPicture = getItemImageSrc();
+
   return (
     <Col xs={6} md={6} lg={3} className="my-3">
       <Card className="product-card">
         <div className="card-img-container">
-          <Card.Img
-            variant="top"
-            src="/birthdaycake_cate.jpg"
-            className="product-image"
-          />
+          <Card.Img variant="top" src={itemPicture} className="product-image" />
+          {/* <img src={itemPicture} className="product-image" /> */}
         </div>
         <div className="product-rating">
           <StarIcon className="star-icon" />
