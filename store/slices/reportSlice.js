@@ -3,12 +3,14 @@ import {
   fetchCurrentMonthCateSales,
   fetchSaleReport,
   fetchSalesByMonth,
+  fetchSaleSumByMonth,
 } from "../actions/reportAction";
 
 const initialState = {
   currentMonthCateSales: null,
-  salesByMonth: null,
+  saleSumByMonth: null,
   saleReports: null,
+  salesByMonth: null,
   status: null,
   error: null,
 };
@@ -49,6 +51,17 @@ const reportSlice = createSlice({
         state.status = "succeeded";
       })
       .addCase(fetchSaleReport.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error || { message: "Fetching API is failed!" };
+      })
+      .addCase(fetchSaleSumByMonth.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchSaleSumByMonth.fulfilled, (state, action) => {
+        state.saleSumByMonth = action.payload;
+        state.status = "succeeded";
+      })
+      .addCase(fetchSaleSumByMonth.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error || { message: "Fetching API is failed!" };
       });

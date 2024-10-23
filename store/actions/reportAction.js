@@ -3,10 +3,11 @@ import {
   fetchCurrentMonthCateSalesAPI,
   fetchSaleReportsAPI,
   fetchSalesByMonthAPI,
+  fetchSaleSumByMonthAPI,
 } from "../api/report.api";
 
 export const fetchCurrentMonthCateSales = createAsyncThunk(
-  "orderDetail/fetchCurrentMonthCateSales",
+  "report/fetchCurrentMonthCateSales",
   async (_, { rejectWithValue }) => {
     try {
       const data = await fetchCurrentMonthCateSalesAPI();
@@ -20,7 +21,7 @@ export const fetchCurrentMonthCateSales = createAsyncThunk(
 );
 
 export const fetchSalesByMonth = createAsyncThunk(
-  "orderDetail/fetchSalesByMonth",
+  "report/fetchSalesByMonth",
   async (_, { rejectWithValue }) => {
     try {
       const data = await fetchSalesByMonthAPI();
@@ -34,7 +35,7 @@ export const fetchSalesByMonth = createAsyncThunk(
 );
 
 export const fetchSaleReport = createAsyncThunk(
-  "orderDetail/fetchSaleReport",
+  "report/fetchSaleReport",
   async (_, { rejectWithValue }) => {
     try {
       const data = await fetchSaleReportsAPI();
@@ -46,3 +47,18 @@ export const fetchSaleReport = createAsyncThunk(
     }
   }
 );
+
+export const fetchSaleSumByMonth = createAsyncThunk(
+  "report/fetchSaleSumByMonth",
+  async (month, { rejectWithValue }) => {
+    try {
+      const data = await fetchSaleSumByMonthAPI(month);
+      return data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response ? error.response.data : error.message
+      );
+    }
+  }
+);
+

@@ -1,27 +1,26 @@
 import { useState, useEffect } from "react";
 import {
-  Table,
-  TableHeader,
-  TableColumn,
-  TableBody,
-  TableRow,
-  TableCell,
-  getKeyValue,
-} from "@nextui-org/react";
-import { fetchSaleReport } from "../../../../store/actions/reportAction";
+  fetchSaleReport,
+  fetchSaleSumByMonth,
+} from "../../../../store/actions/reportAction";
 import { useDispatch, useSelector } from "react-redux";
 import CustomTable from "../_components/table";
+import moment from "moment";
 
 const ReportCategory = (props) => {
   const dispatch = useDispatch();
+  const currentMonth = moment().month() + 1;
 
   useEffect(() => {
     dispatch(fetchSaleReport());
+    dispatch(fetchSaleSumByMonth(currentMonth));
   }, []);
 
   const saleReports = useSelector((state) => state.report.saleReports);
-  const statusSaleReports = useSelector((state) => state.report.status);
-
+  const status = useSelector((state) => state.report.status);
+  const saleSumByMonthList = useSelector(
+    (state) => state.report.saleSumByMonth
+  );
   let headersSaleReports = [];
   const datetimeFields = ["Due Date"];
 
@@ -115,16 +114,6 @@ const ReportCategory = (props) => {
     { key: "netsales", label: "NetSales" },
   ];
 
-  const sales_summary = [
-    { id: "1", name: "Product Sales", amount: "$4,618.46" },
-    { id: "2", name: "Items", amount: "$4,618.46" },
-    { id: "3", name: "Tax", amount: "$461,94" },
-    { id: "4", name: "Gift Card Sales", amount: "$0.00" },
-    { id: "5", name: "Refunds by Amount", amount: "-$5.00" },
-    { id: "6", name: "Gross Sales", amount: "$5,080.40" },
-    { id: "7", name: "Total", amount: "$5.074.90" },
-  ];
-
   // set up date range picker
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
@@ -180,12 +169,14 @@ const ReportCategory = (props) => {
           style={{ border: "10px solid #EBF5FD", borderRadius: "30px" }}
         >
           <p className="subtitle_admin m-3"> Report Summary </p>
-          {sales_summary.map((item) => (
-            <div className="m-3 d-flex justify-content-between" key={item.id}>
-              <p className="subtitle">{item.name}</p>
-              <p className="subtitle ">{item.amount}</p>
-            </div>
-          ))}
+          {saleSumByMonthList?.map((item, index) =>
+            Object.entries(item).map(([key, value], j) => (
+              <div className="m-3 d-flex justify-content-between" key={index}>
+                <p className="subtitle">{key}</p>
+                <p className="subtitle ">{value}</p>
+              </div>
+            ))
+          )}
         </div>
         <div className="col-md-9">
           {/* Filter Funtions: by Date and display total number of item sold */}
@@ -236,7 +227,7 @@ const ReportCategory = (props) => {
               records={saleReports ? saleReports : []}
               handleRecordDoubleClick={(e) => handleRecordDoubleClick(e)}
               datetimeFields={datetimeFields}
-              statusFetching={statusSaleReports}
+              statusFetching={status}
               showPagination={true}
             />
           </div>
