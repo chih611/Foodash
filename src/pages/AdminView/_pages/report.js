@@ -11,6 +11,8 @@ import {
   fetchOrderList,
   fetchOrderListByToday,
 } from "../../../../store/actions/orderAction";
+import { fetchAllAdmins } from "../../../../store/slices/adminSlice";
+
 import { useDispatch, useSelector } from "react-redux";
 import { format, parseISO } from "date-fns";
 import { SwapVertRounded } from "@mui/icons-material";
@@ -25,6 +27,7 @@ const Report = (props) => {
 
   useEffect(() => {
     console.log(props);
+    dispatch(fetchAllAdmins());
     dispatch(fetchOrderList());
     dispatch(fetchOrderListByToday());
   }, []);
@@ -33,7 +36,7 @@ const Report = (props) => {
   const orderListToday = useSelector((state) => state.order.orderListByToday);
   const statusOrderListToday = useSelector((state) => state.order.status);
 
- //Declaring
+  //Declaring
   let headersOrderList = [];
   const datetimeFields = ["Duedate", "Create Date"];
 

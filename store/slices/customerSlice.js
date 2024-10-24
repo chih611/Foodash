@@ -5,7 +5,13 @@ import axios from "axios";
 const BASE_URL = `http://localhost:8080`;
 // const BASE_URL = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_ADDRESS;
 
-/* Utility Functions */
+export const getAllCustomers = createAsyncThunk(
+  "customer/getAllCustomers",
+  async () => {
+    const response = await axios.get(`${BASE_URL}/customer`);
+    return response.data;
+  }
+);
 
 // Check if the customer already exists
 export const checkIfCustomerExists = async (type, email, phoneNumber) => {
@@ -237,6 +243,7 @@ export const updateCustomer = createAsyncThunk(
 const customerSlice = createSlice({
   name: "customer",
   initialState: {
+    allCustomers: [], // To store all customers
     profile: null, // Will store customer details directly
     favouriteFoods: [], // Example additional state
     status: "idle", // Status to track loading state
@@ -253,6 +260,18 @@ const customerSlice = createSlice({
   extraReducers: (builder) => {
     builder
       // Handling createCustomer states (if user signs up)
+      .addCase(getAllCustomers.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(getAllCustomers.fulfilled, (state, action) => {
+        state.allCustomers = action.payload;
+        state.status = "succeeded";
+        state.error = null;
+      })
+      .addCase(getAllCustomers.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      })
       .addCase(createCustomer.pending, (state) => {
         state.status = "loading";
       })

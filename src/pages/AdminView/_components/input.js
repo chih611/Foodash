@@ -9,17 +9,11 @@ const CustomInput = ({
   dateTimeFields,
   statusFetching,
   setShowSaveBtn,
-  setOrderData,
-  setOrderChanges,
+  handleChange,
 }) => {
-  const handleChange = (e) => {
-    setShowSaveBtn(true);
-
-    if (title !== "Full Name") {
-      setOrderChanges((prevChanges) => ({
-        ...prevChanges,
-        [title]: e.target.value,
-      }));
+  const handleInputChange = (e) => {
+    if (handleChange) {
+      handleChange(title, e.target.value); // Use unified handleChange
     }
   };
 
@@ -52,7 +46,7 @@ const CustomInput = ({
             }
             plaintext={readOnlyFields?.includes(title)}
             readOnly={readOnlyFields?.includes(title)}
-            onChange={handleChange}
+            onChange={handleInputChange}
             size="sm"
           />
         </>

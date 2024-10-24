@@ -24,28 +24,51 @@ const HomeItemContainer = ({ item }) => {
     router.push("/CustomerView/ItemDetails/?itemId=" + itemId);
   };
 
-  const getItemImageSrc = () => {
-    if (item.PICTURE?.data) {
-      // Convert ASCII values to a string (file path)
-      const filePath = String.fromCharCode(...item.PICTURE.data);
-      // Construct the correct URL to access the image
-      return `http://localhost:8080/${filePath}`; // Adjust to your server URL
-    } else {
-      return "/birthdaycake_cate.jpg"; // Default fallback image
-    }
-  };
-
   // const getItemImageSrc = () => {
-  //   if (item.PICTURE?.data) {
-  //     // Convert the ASCII codes to a string path
+  //   // Ensure PICTURE is treated as a string or properly extract path
+  //   if (item.PICTURE && typeof item.PICTURE === "string") {
+  //     return `http://localhost:8080${item.PICTURE}`;
+  //   } else if (
+  //     item.PICTURE &&
+  //     typeof item.PICTURE === "object" &&
+  //     item.PICTURE.data
+  //   ) {
+  //     // Fallback if PICTURE comes as an array/object and not a string
   //     const filePath = String.fromCharCode(...item.PICTURE.data);
-  //     return `http://localhost:8080/uploads/others/${filePath}`; // Construct the full URL
+  //     return `http://localhost:8080/${filePath}`;
   //   } else {
-  //     return "/birthdaycake_cate.jpg"; // Default fallback image
+  //     return "/birthdaycake_cate.jpg";
   //   }
   // };
 
+  const getItemImageSrc = () => {
+    if (item.PICTURE) {
+      // Check if PICTURE is a string and starts with "data:image" (indicating base64)
+      if (
+        typeof item.PICTURE === "string" &&
+        item.PICTURE.startsWith("data:image")
+      ) {
+        return item.PICTURE; // Use base64 image data directly
+      }
+
+      // If PICTURE is a string path (not base64)
+      if (typeof item.PICTURE === "string") {
+        return `http://localhost:8080${item.PICTURE}`;
+      }
+
+      // Handle case when PICTURE might be an object (e.g., from database)
+      if (typeof item.PICTURE === "object" && item.PICTURE.data) {
+        const filePath = String.fromCharCode(...item.PICTURE.data);
+        return `http://localhost:8080/${filePath}`;
+      }
+    }
+
+    // Default fallback image
+    return "/birthdaycake_cate.jpg";
+  };
+
   const itemPicture = getItemImageSrc();
+  console.log("itemPicture", itemPicture);
 
   return (
     <Col xs={6} md={6} lg={3} className="my-3">

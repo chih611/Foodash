@@ -8,17 +8,10 @@ const CustomDropBox = ({
   setSwitchOptions,
   setShowSaveBtn,
   statusFetching,
-  setOrderChanges,
+  handleChange,
 }) => {
-  const handleSelectChange = (event) => {
-    setSwitchOptions(event.target.value);
-    setShowSaveBtn(true);
-
-    // Track only changes
-    setOrderChanges((prevChanges) => ({
-      ...prevChanges,
-      [title]: event.target.value,
-    }));
+  const handleSelectChange = (e) => {
+    handleChange(title, e.target.value);
   };
   return (
     <>

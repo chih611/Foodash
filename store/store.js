@@ -25,6 +25,7 @@ const persistConfig = {
     "ordersToday",
     "customer",
     "notification",
+    // "admin",
   ],
 };
 
