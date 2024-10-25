@@ -25,6 +25,8 @@ const Header = ({ breadcrumb, handleSelect }) => {
   const notifications = useSelector(state => state.notifications.notifications);
 
   const [isLoading, setIsLoading] = useState(true);
+  // use the local storage for getting unread item
+  const [unreadCount, setUnreadCount] = useState(() => Number(localStorage.getItem("unreadCount")) || 0); 
 
   useEffect(() => {
     const loadNotifications = async () => {
@@ -37,13 +39,27 @@ const Header = ({ breadcrumb, handleSelect }) => {
         setIsLoading(false);
       }
     };
-  
+
     loadNotifications();
   }, [dispatch]);
 
+  // Update unread count and local storage whenever notifications change
+  useEffect(() => {
+    if (notifications) {
+      const newUnreadCount = notifications.length;
+      if (newUnreadCount !== unreadCount) {  // Only update if the count has changed
+        setUnreadCount(newUnreadCount);
+        localStorage.setItem("unreadCount", newUnreadCount);
+      }
+    }
+  }, [notifications]);
+
   const toggleNotifications = () => {
-    console.log('Notification button clicked!'); // Add this line
     setShowNotifications(!showNotifications);
+    if (!showNotifications) {
+      setUnreadCount(0);
+      localStorage.setItem("unreadCount", "0"); // Reset unread count in local storage
+    }
   };
 
   return (
@@ -79,12 +95,12 @@ const Header = ({ breadcrumb, handleSelect }) => {
             <Col lg={1}>
               <Navbar>
                 <Navbar.Collapse>
-                  <Button className={`position-relative btn-info ${showNotifications ? 'active' : ''}`}
+                  <Button className={`position-relative btn-info ${showNotifications ? "active" : ""}`}
                           onClick={toggleNotifications}>
                     <NotificationsNoneIcon />
                     <Badge className="position-absolute" pill>
-                      {/* 9 */}
-                      {isLoading ? '...' : (notifications && notifications.length) || 0}
+                      {/* {isLoading ? '...' : (notifications && notifications.length) || 0} */}
+                      {isLoading ? "..." : unreadCount}
                     </Badge>
                   </Button>
                 </Navbar.Collapse>
