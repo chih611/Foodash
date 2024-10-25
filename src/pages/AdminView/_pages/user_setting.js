@@ -12,6 +12,7 @@ const UserSetting = (props) => {
 
   const [adminData, setAdminData] = useState(null);
   const dispatch = useDispatch();
+  const [showCreateButton, setShowCreateButton] = useState(false);
 
   let headers = [];
   let records = [];
@@ -52,6 +53,7 @@ const UserSetting = (props) => {
           records={records}
           handleRecordDoubleClick={handleRecordDoubleClick}
           statusFetching={statusFetching}
+          showCreateButton={true}
           customTableColor="bg-pressed-color text-light"
         />
         <CustomModal
