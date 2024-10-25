@@ -20,6 +20,7 @@ const CustomTable = ({
   records,
   handleRecordDoubleClick,
   handleRemoveSingleClick,
+  onCreateClick,
   showCreateButton = false, // Default to false
   datetimeFields,
   objectFields,
@@ -158,7 +159,7 @@ const CustomTable = ({
           {showCreateButton && ( // Conditional rendering of the "Create" button
             <Button
               className={`${styles.btn} mt-3 align-self-end`}
-              onClick={() => {}}
+              onClick={onCreateClick}
             >
               Create Admin
             </Button>

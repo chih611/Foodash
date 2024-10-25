@@ -2,17 +2,16 @@ import { useState, useEffect } from "react";
 import { Tab } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import CustomTable from "../_components/table";
-import UserSettingDetails from "./user_setting_details"; // New details component
+import UserSettingDetails from "./user_setting_details";
 import CustomModal from "../_components/modal";
 import { fetchAllAdmins } from "../../../../store/slices/adminSlice";
-
+import UserSettingCreate from "./user_setting_create";
 const UserSetting = (props) => {
   const [show, setShow] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
-
+  const [showCreateAdminModal, setShowCreateAdminModal] = useState(false);
   const [adminData, setAdminData] = useState(null);
   const dispatch = useDispatch();
-  const [showCreateButton, setShowCreateButton] = useState(false);
 
   let headers = [];
   let records = [];
@@ -20,6 +19,10 @@ const UserSetting = (props) => {
   // Fetch admins from state
   const admins = useSelector((state) => state.admin.admins);
   const statusFetching = useSelector((state) => state.admin.status);
+
+  const handleCreateClick = () => {
+    setShowCreateAdminModal(true); // Show the modal when "Create Admin" is clicked
+  };
 
   // Prepare records for the table
   if (admins) {
@@ -52,6 +55,7 @@ const UserSetting = (props) => {
           headers={headers}
           records={records}
           handleRecordDoubleClick={handleRecordDoubleClick}
+          onCreateClick={handleCreateClick} // Pass the handleCreateClick function
           statusFetching={statusFetching}
           showCreateButton={true}
           customTableColor="bg-pressed-color text-light"
@@ -65,9 +69,19 @@ const UserSetting = (props) => {
         >
           <UserSettingDetails
             {...props}
-            adminData={adminData} // Pass the selected admin ID
+            adminData={adminData}
             customTableColor="bg-pressed-color text-light"
           />
+        </CustomModal>
+
+        <CustomModal
+          setOpen={setShowCreateAdminModal}
+          open={showCreateAdminModal}
+          headerTitle="Create New Admin"
+          customTableColor="bg-pressed-color text-light"
+        >
+          <UserSettingCreate setOpen={setShowCreateAdminModal} />{" "}
+          {/* Pass setOpen */}
         </CustomModal>
       </Tab.Pane>
     </>
