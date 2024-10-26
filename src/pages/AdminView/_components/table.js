@@ -14,6 +14,7 @@ import { useMemo, useState } from "react";
 import { SwapVertRounded } from "@mui/icons-material";
 import styles from "../../../styles/styles";
 import { Col, Row } from "react-bootstrap";
+<<<<<<< HEAD
 import CustomModal from "./modal";
 import OrderDetails from "../_pages/order_details";
 
@@ -34,6 +35,21 @@ const CustomTable = (props) => {
   } = props;
   const [show, setShow] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
+=======
+
+const CustomTable = ({
+  headers,
+  records,
+  handleRecordDoubleClick,
+  handleRemoveSingleClick,
+  onCreateClick,
+  showCreateButton = false, // Default to false
+  datetimeFields,
+  objectFields,
+  statusFetching,
+  customTableColor,
+}) => {
+>>>>>>> kevin
   const [searchTerm, setSearchTerm] = useState("");
   const filteredData = records?.filter((item) =>
     Object.values(item)
@@ -99,31 +115,27 @@ const CustomTable = (props) => {
       );
     }
   };
+
   // Display first, last and current range with ellipses
   if (totalPages <= 5) {
     showEllipsis(1, totalPages);
   } else {
-    // Show first 2 pages
     showEllipsis(1, 2);
-
-    // Show ellipsis if current page > 4
     if (currentPage > 4) {
       paginationItems.push(<Pagination.Ellipsis key="start-ellipsis" />);
     }
 
-    // Show range around current page
     const startPage = Math.max(3, currentPage - 1);
     const endPage = Math.min(totalPages - 2, currentPage + 1);
     showEllipsis(startPage, endPage);
 
-    // Show ellipsis if current page is not near the end
     if (currentPage < totalPages - 3) {
       paginationItems.push(<Pagination.Ellipsis key="end-ellipsis" />);
     }
 
-    // Show last 2 pages
     showEllipsis(totalPages - 1, totalPages);
   }
+
   return (
     <>
       {statusFetching === "loading" ? (
@@ -142,21 +154,7 @@ const CustomTable = (props) => {
                   <Placeholder xs={6} />
                 </Placeholder>
               </th>
-              <th className={customTableColor}>
-                <Placeholder as="p" animation="glow">
-                  <Placeholder xs={6} />
-                </Placeholder>
-              </th>
-              <th className={customTableColor}>
-                <Placeholder as="p" animation="glow">
-                  <Placeholder xs={6} />
-                </Placeholder>
-              </th>
-              <th className={customTableColor}>
-                <Placeholder as="p" animation="glow">
-                  <Placeholder xs={6} />
-                </Placeholder>
-              </th>
+              {/* Additional placeholders as needed */}
             </tr>
           </thead>
           <tbody>
@@ -164,21 +162,6 @@ const CustomTable = (props) => {
               <td>
                 <Placeholder as="p" animation="glow">
                   <Placeholder xs={6} />
-                </Placeholder>
-              </td>
-              <td>
-                <Placeholder as="p" animation="glow">
-                  <Placeholder xs={8} />
-                </Placeholder>
-              </td>
-              <td>
-                <Placeholder as="p" animation="glow">
-                  <Placeholder xs={10} />
-                </Placeholder>
-              </td>
-              <td>
-                <Placeholder as="p" animation="glow">
-                  <Placeholder xs={7} />
                 </Placeholder>
               </td>
             </tr>
@@ -195,6 +178,15 @@ const CustomTable = (props) => {
               className="rounded-4 mb-2 mt-4"
             />
           </FloatingLabel>
+
+          {showCreateButton && ( // Conditional rendering of the "Create" button
+            <Button
+              className={`${styles.btn} mt-3 align-self-end`}
+              onClick={onCreateClick}
+            >
+              Create Admin
+            </Button>
+          )}
 
           <Table
             striped
@@ -233,20 +225,12 @@ const CustomTable = (props) => {
                     </th>
                   ))
                 )}
-                {handleRemoveSingleClick ? (
-                  <th
-                    className={
-                      customTableColor + " text-light text-center text-nowrap"
-                    }
-                  >
-                    <DeleteIcon />
-                  </th>
-                ) : null}
               </tr>
             </thead>
             <tbody>
               {currentItems?.map((e, i) => (
                 <tr key={i}>
+<<<<<<< HEAD
                   {showSpecialButton && (
                     <td>
                       <Button
@@ -289,18 +273,39 @@ const CustomTable = (props) => {
                   {handleRemoveSingleClick ? (
                     <td className="text-decoration-none text-pressed-color text-nowrap text-center">
                       {" "}
+=======
+                  {Object.entries(e).map(([key, value], j) => (
+                    <td key={j} className="text-center">
+>>>>>>> kevin
                       <Button
-                        className="text-decoration-none bg-pressed-color text-nowrap text-white"
-                        onClick={() => handleRemoveSingleClick(e)}
+                        variant="link"
+                        onDoubleClick={() =>
+                          handleRecordDoubleClick && handleRecordDoubleClick(e)
+                        }
+                        className="text-decoration-none text-dark text-nowrap"
                       >
-                        <DeleteIcon />
+                        {value
+                          ? datetimeFields?.includes(key)
+                            ? moment(value).format("yyyy-MM-DD")
+                            : objectFields?.includes(key)
+                            ? Object.entries(value).map(([key, vl], k) =>
+                                vl === true ? (
+                                  <>
+                                    <span>{key}</span>
+                                    <br />
+                                  </>
+                                ) : null
+                              )
+                            : value
+                          : "-"}
                       </Button>
                     </td>
-                  ) : null}
+                  ))}
                 </tr>
               ))}
             </tbody>
           </Table>
+<<<<<<< HEAD
           {showPagination && (
             <Pagination>
               <Pagination.First
@@ -322,6 +327,28 @@ const CustomTable = (props) => {
               />
             </Pagination>
           )}
+=======
+
+          <Pagination>
+            <Pagination.First
+              onClick={() => handlePageChange(1)}
+              disabled={currentPage === 1}
+            />
+            <Pagination.Prev
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+            />
+            {paginationItems}
+            <Pagination.Next
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+            />
+            <Pagination.Last
+              onClick={() => handlePageChange(totalPages)}
+              disabled={currentPage === totalPages}
+            />
+          </Pagination>
+>>>>>>> kevin
         </>
       )}
       <CustomModal
@@ -336,4 +363,5 @@ const CustomTable = (props) => {
     </>
   );
 };
+
 export default CustomTable;

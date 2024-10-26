@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { Tab } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import CustomTable from "../_components/table";
-import OrderDetails from "./order_details";
+// import OrderDetails from "./order_details";
+import ProductDetails from "./product_details";
 import CustomModal from "../_components/modal";
 import { fetchItems } from "../../../../store/slices/itemsSlice";
 
@@ -67,7 +68,7 @@ const Product = (props) => {
           selectedId={selectedId}
           headerTitle="Product"
         >
-          <OrderDetails {...props} />
+          <ProductDetails {...props} />
         </CustomModal>
         {/* <CustomModal
           handleOk={handleOk}

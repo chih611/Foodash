@@ -44,6 +44,10 @@
   color: #ffffff !important; /* Force the icon to be white */
 }
 
+.navbar-brand {
+  height: 50px !important;
+  width: 150px !important;
+}
 
 .result_item {
   background-color: colors.$bg-color;

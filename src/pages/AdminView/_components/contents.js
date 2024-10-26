@@ -5,7 +5,13 @@ import Inventory from "../_pages/inventory";
 import Product from "../_pages/product";
 import Marketing from "../_pages/marketing";
 import UserSetting from "../_pages/user_setting";
+<<<<<<< HEAD
 import Profile from "../_pages/profile";
+=======
+import Profile from "../_pages/profiles";
+import CustomerProfile from "../_pages/profile_page";
+import Reminder from "../_pages/reminder";
+>>>>>>> kevin
 
 const Contents = () => {
   return (

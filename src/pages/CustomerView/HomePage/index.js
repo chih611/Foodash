@@ -11,7 +11,7 @@ const HomePage = () => {
   return (
     <div>
       {customerProfile &&
-      customerProfile.CUSTOMER_TYPE.toLowerCase() === "user" ? (
+      customerProfile.CUSTOMER_TYPE?.toLowerCase() === "user" ? (
         <>
           <HomePageNavBar />
           <HomeDirectionLink />

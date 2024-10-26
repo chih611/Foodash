@@ -1,7 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
+<<<<<<< HEAD
 const BASE_URL = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_ADDRESS;
+=======
+const BASE_URL = `http://localhost:8080`;
+// const BASE_URL = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_ADDRESS;
+>>>>>>> kevin
 
 export const fetchItemsByCategory = createAsyncThunk(
   "category/fetchItemsByCategory",

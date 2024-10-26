@@ -7,30 +7,53 @@ import adminReducer from "./slices/adminSlice"; // Admin slice
 import loggerMiddleware from "./middleware/loggerMiddleware"; // Logger middleware
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage"; // Use localStorage for persistence
+import { CookieStorage } from "redux-persist-cookie-storage";
+import Cookies from "js-cookie";
 import { combineReducers } from "redux";
 import orderReducer from "./slices/orderSlice";
+import orderListReducer from "./slices/orderSlice";
 import ordersTodayListReducer from "./slices/orderSlice";
 import orderDetailReducer from "./slices/orderDetailSlice";
 import notificationReducer from "./slices/notificationSlice";
 import reportReducer from "./slices/reportSlice";
 
-// Persist config for redux-persist
 const persistConfig = {
   key: "root",
+<<<<<<< HEAD
   storage,
+=======
+  storage, // Use localStorage for other slices
+>>>>>>> kevin
   blacklist: [
     "order",
     "orderDetail",
-    "items",
-    "orderListByToday",
+    "ordersToday",
+    "customer",
     "notification",
+<<<<<<< HEAD
     "report",
   ],
+=======
+    // "admin",
+  ],
+};
+
+// Cookie-based persist config for customer slice
+const cookiePersistConfig = {
+  key: "customer",
+  storage: new CookieStorage(Cookies, {
+    expiration: {
+      default: 365 * 24 * 60 * 60 * 1000, // 1 year expiration for cookies
+    },
+    secure: true, // Set to true in production for HTTPS
+    sameSite: "strict",
+  }),
+>>>>>>> kevin
 };
 
 // Combine all the reducers
 const rootReducer = combineReducers({
-  customer: customerReducer,
+  customer: persistReducer(cookiePersistConfig, customerReducer),
   cart: cartReducer,
   admin: adminReducer,
   items: itemsReducer,
@@ -40,12 +63,13 @@ const rootReducer = combineReducers({
   orderListByToday: ordersTodayListReducer,
   report: reportReducer,
   notifications: notificationReducer,
+  orderList: orderListReducer,
 });
 
-// Create the persisted reducer
+// Create the persisted reducer for the store
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-// Create the store with the persisted reducer
+// Create the store with the persisted reducer and include loggerMiddleware
 const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
@@ -62,5 +86,7 @@ const store = configureStore({
       },
     }).concat(loggerMiddleware),
 });
+
+// Export the persistor and store
 export const persistor = persistStore(store);
 export default store;

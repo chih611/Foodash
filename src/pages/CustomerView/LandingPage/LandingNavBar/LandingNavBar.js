@@ -9,6 +9,7 @@ import {
   Button,
   Offcanvas,
 } from "react-bootstrap";
+import PrimaryButton from "../../ViewCart/_PrimaryButton";
 import Image from "next/image";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
@@ -30,7 +31,11 @@ const LandingNavBar = () => {
           <Row className="w-100 align-items-center d-lg-none">
             {/* Menu Button (2 columns) */}
             <Col xs={2} className="d-flex justify-content-start">
-              <Button variant="outline-primary" onClick={handleToggle}>
+              <Button
+                className="toggle-direction-link d-md-none"
+                variant="primary"
+                onClick={handleToggle}
+              >
                 <MenuRoundedIcon />
               </Button>
             </Col>
@@ -40,10 +45,10 @@ const LandingNavBar = () => {
               <Link href="/" legacyBehavior passHref>
                 <a>
                   <Image
-                    src="/Foodash_logo.png"
+                    src="/WCC_LOGO.png"
                     alt="Logo"
                     width={150} // Adjust width as needed
-                    height={50} // Adjust height as needed
+                    height={250} // Adjust height as needed
                     className="navbar-brand"
                   />
                 </a>
@@ -58,8 +63,8 @@ const LandingNavBar = () => {
               {/* Cart Button */}
               <Link href="/CustomerView/ViewCart" legacyBehavior passHref>
                 <a>
-                  <div className="cart-button me-3">
-                    <ShoppingCartOutlinedIcon sx={{ color: "#025373" }} />
+                  <div className="account-button me-2">
+                    <ShoppingCartOutlinedIcon sx={{ color: "#fffffe" }} />
                   </div>
                 </a>
               </Link>
@@ -67,9 +72,11 @@ const LandingNavBar = () => {
               {/* Login Button */}
               <Link href="/CustomerView/SignIn" legacyBehavior passHref>
                 <a>
-                  <Button variant="primary" className="login-button">
-                    Log In
-                  </Button>
+                  <PrimaryButton
+                    variant="primary"
+                    text="Log In"
+                    className="login-button"
+                  />
                 </a>
               </Link>
             </Col>
@@ -82,7 +89,7 @@ const LandingNavBar = () => {
               <Link href="/" legacyBehavior passHref>
                 <a>
                   <Image
-                    src="/Foodash_logo.png"
+                    src="/WCC_LOGO.png"
                     alt="Logo"
                     width={200} // Adjust width as needed
                     height={50} // Adjust height as needed
@@ -96,11 +103,7 @@ const LandingNavBar = () => {
               {/* Navigation Links */}
               <Nav className="w-100 justify-content-between">
                 <Col className="d-flex justify-content-center">
-                  <Link
-                    href="/CustomerView/HomePage/"
-                    legacyBehavior
-                    passHref
-                  >
+                  <Link href="/CustomerView/HomePage/" legacyBehavior passHref>
                     <a className="nav-link">Menu</a>
                   </Link>
                 </Col>
@@ -152,8 +155,8 @@ const LandingNavBar = () => {
               {/* Cart and Login Buttons */}
               <Link href="/CustomerView/ViewCart/" legacyBehavior passHref>
                 <a>
-                  <div className="cart-button me-2">
-                    <ShoppingCartOutlinedIcon sx={{ color: "#025373" }} />
+                  <div className="account-button me-2">
+                    <ShoppingCartOutlinedIcon sx={{ color: "#fffffe" }} />
                   </div>
                 </a>
               </Link>
@@ -162,9 +165,11 @@ const LandingNavBar = () => {
                 className="d-flex justify-content-end align-items-center"
               >
                 <Link href="/CustomerView/SignIn" legacyBehavior passHref>
-                  <a>
-                    <Button variant="primary">Log In</Button>
-                  </a>
+                  <PrimaryButton
+                    variant="primary"
+                    text="Log In"
+                    className="login-button"
+                  />
                 </Link>
               </Col>
             </Col>
@@ -179,31 +184,19 @@ const LandingNavBar = () => {
         </Offcanvas.Header>
         <Offcanvas.Body>
           <Nav className="flex-column">
-            <Nav.Link as={Link} href="/CustomerView/LandingPage/LandingPage">
+            <Nav.Link as={Link} href="/CustomerView/LandingPage">
               Menu
             </Nav.Link>
-            <Nav.Link
-              as={Link}
-              href="/CustomerView/LandingPage/LandingSpecial/LandingSpecial"
-            >
+            <Nav.Link as={Link} href="/CustomerView/LandingPage/LandingSpecial">
               Special
             </Nav.Link>
-            <Nav.Link
-              as={Link}
-              href="/CustomerView/LandingPage/LandingContact/LandingContact"
-            >
+            <Nav.Link as={Link} href="/CustomerView/LandingPage/LandingContact">
               Contact Us
             </Nav.Link>
-            <Nav.Link
-              as={Link}
-              href="/CustomerView/LandingPage/LandingGallery/LandingGallery"
-            >
+            <Nav.Link as={Link} href="/CustomerView/LandingPage/LandingGallery">
               Gallery
             </Nav.Link>
-            <Nav.Link
-              as={Link}
-              href="/CustomerView/LandingPage/LandingAbout/LandingAbout"
-            >
+            <Nav.Link as={Link} href="/CustomerView/LandingPage/LandingAbout">
               About Us
             </Nav.Link>
           </Nav>

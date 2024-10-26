@@ -8,6 +8,8 @@ import {
   fetchOrderList,
   fetchOrderListByToday,
 } from "../../../../store/actions/orderAction";
+import { fetchAllAdmins } from "../../../../store/slices/adminSlice";
+import { getAllCustomers } from "../../../../store/slices/customerSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { format, parseISO } from "date-fns";
 import CustomTable from "../_components/table";
@@ -18,6 +20,13 @@ const Report = (props) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+<<<<<<< HEAD
+=======
+    console.log(props);
+    dispatch(getAllCustomers()); // Fetch all customers when component loads
+
+    dispatch(fetchAllAdmins());
+>>>>>>> kevin
     dispatch(fetchOrderList());
     dispatch(fetchOrderListByToday());
     dispatch(fetchCurrentMonthCateSales());

@@ -1,109 +1,89 @@
-import { useState } from "react";
-import { Tab, Pagination } from "react-bootstrap";
-import TableContent from "../_components/bk_table";
-import SearchBar from "../_components/searchbar";
-
+import { useState, useEffect } from "react";
+import { Tab } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import CustomTable from "../_components/table";
+import UserSettingDetails from "./user_setting_details";
+import CustomModal from "../_components/modal";
+import { fetchAllAdmins } from "../../../../store/slices/adminSlice";
+import UserSettingCreate from "./user_setting_create";
 const UserSetting = (props) => {
-  const headers = [
-    "ID",
-    "NAME",
-    "ADDRESS",
-    "PHONE_NUMBER",
-    "UserSetting_DETAILS",
-    "STATUS",
-  ];
-  const initialData = [];
+  const [show, setShow] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
+  const [showCreateAdminModal, setShowCreateAdminModal] = useState(false);
+  const [adminData, setAdminData] = useState(null);
+  const dispatch = useDispatch();
 
-  const [tableData, setTableData] = useState(initialData); // Use imported data
-  const [currentPage, setCurrentPage] = useState(1);
-  const rowsPerPage = 11;
+  let headers = [];
+  let records = [];
 
-  const totalPages = Math.ceil(tableData.length / rowsPerPage);
+  // Fetch admins from state
+  const admins = useSelector((state) => state.admin.admins);
+  const statusFetching = useSelector((state) => state.admin.status);
 
-  const paginatedData = tableData.slice(
-    (currentPage - 1) * rowsPerPage,
-    currentPage * rowsPerPage
-  );
+  const handleCreateClick = () => {
+    setShowCreateAdminModal(true); // Show the modal when "Create Admin" is clicked
+  };
 
-  const handleSearch = (searchTerm, category, status) => {
-    const filteredData = initialData.filter((item) => {
-      const matchesSearch = item.NAME.toLowerCase().includes(
-        searchTerm.toLowerCase()
-      );
-      const matchesCategory = category
-        ? item.UserSetting_DETAILS.toLowerCase().includes(
-            category.toLowerCase()
-          )
-        : true;
-      const matchesStatus = status ? item.STATUS === status : true;
-      return matchesSearch && matchesCategory && matchesStatus;
+  // Prepare records for the table
+  if (admins) {
+    admins.map((item) => {
+      headers?.push(Object.keys(item));
     });
-    setTableData(filteredData);
-  };
+    records = admins;
+  }
 
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-  };
-
-  const renderPaginationItems = () => {
-    let items = [];
-    for (let i = 1; i <= totalPages; i++) {
-      items.push(
-        <Pagination.Item
-          key={i}
-          active={i === currentPage}
-          onClick={() => handlePageChange(i)}
-        >
-          {i}
-        </Pagination.Item>
+  // Fetch data on mount
+  useEffect(() => {
+    if (selectedId) {
+      const selectedAdmin = admins.find(
+        (admin) => admin.ADMIN_ID === selectedId
       );
+      setAdminData(selectedAdmin);
     }
-    return items;
+  }, [selectedId, admins]);
+
+  // Handle double-click on record to show details
+  const handleRecordDoubleClick = ({ ADMIN_ID }) => {
+    setSelectedId(ADMIN_ID);
+    setShow(true);
   };
 
   return (
     <>
-      <Tab.Pane {...props}>
-        <div
-          className="bUserSetting mb-2 p-1 me-5 rounded-4 d-flex justify-content-end align-items-center"
-          style={{
-            backgroundColor: "#EBF5FD",
-            minHeight: "auto",
-            padding: "0.5rem",
-          }} // Adjust padding as needed
+      <Tab.Pane {...props} className="g-4 bg-2nd-color m-2 px-3 py-3 rounded-4">
+        <CustomTable
+          headers={headers}
+          records={records}
+          handleRecordDoubleClick={handleRecordDoubleClick}
+          onCreateClick={handleCreateClick} // Pass the handleCreateClick function
+          statusFetching={statusFetching}
+          showCreateButton={true}
+          customTableColor="bg-pressed-color text-light"
+        />
+        <CustomModal
+          setOpen={setShow}
+          open={show}
+          selectedId={selectedId}
+          headerTitle="Admin Settings"
+          customTableColor="bg-pressed-color text-light"
         >
-          <SearchBar
-            onSearch={handleSearch}
-            categories={["T-Shirts", "Laptop", "Books", "Phone", "Notebooks"]}
-            statuses={["COMPLETED", "IN PROGRESS"]}
+          <UserSettingDetails
+            {...props}
+            adminData={adminData}
+            customTableColor="bg-pressed-color text-light"
           />
-        </div>
+        </CustomModal>
 
-        <div
-          className="bUserSetting p-2 pt-2 me-5 rounded-4"
-          style={{ backgroundColor: "#EBF5FD" }}
+        <CustomModal
+          setOpen={setShowCreateAdminModal}
+          open={showCreateAdminModal}
+          headerTitle="Create New Admin"
+          customTableColor="bg-pressed-color text-light"
         >
-          <TableContent headers={headers} data={paginatedData} />
-          <Pagination className="justify-content-center mt-3">
-            <Pagination.First
-              onClick={() => handlePageChange(1)}
-              disabled={currentPage === 1}
-            />
-            <Pagination.Prev
-              onClick={() => handlePageChange(currentPage - 1)}
-              disabled={currentPage === 1}
-            />
-            {renderPaginationItems()}
-            <Pagination.Next
-              onClick={() => handlePageChange(currentPage + 1)}
-              disabled={currentPage === totalPages}
-            />
-            <Pagination.Last
-              onClick={() => handlePageChange(totalPages)}
-              disabled={currentPage === totalPages}
-            />
-          </Pagination>
-        </div>
+          <UserSettingCreate setOpen={setShowCreateAdminModal} />
+
+          {/* Pass setOpen */}
+        </CustomModal>
       </Tab.Pane>
     </>
   );
