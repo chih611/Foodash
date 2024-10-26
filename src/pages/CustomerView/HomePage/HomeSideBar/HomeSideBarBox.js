@@ -27,38 +27,6 @@ const HomeSideBarBox = ({ onFilterChange }) => {
   return (
     <div className="sidebar-box">
       <div className="sidebar-box-category">
-        <Row onClick={() => toggleDropdown("eventType")}>
-          <Col xs={3}>
-            <RemoveCircleIcon className="sidebar-box-removeicon" />
-          </Col>
-          <Col xs={6}>Labels</Col>
-          <Col xs={3}>
-            <ArrowDropDownIcon />
-          </Col>
-        </Row>
-        <Collapse in={open.eventType}>
-          <div>
-            <ul>
-              {labelList.map((label, index) => (
-                <li key={index}>
-                  <Form.Check
-                    type="checkbox"
-                    label={label.LABEL_NAME}
-                    onChange={(e) =>
-                      handleCheckboxChange(
-                        "labels",
-                        label.LABEL_NAME,
-                        e.target.checked
-                      )
-                    }
-                  />
-                </li>
-              ))}
-            </ul>
-          </div>
-        </Collapse>
-      </div>
-      <div className="sidebar-box-category">
         <Row onClick={() => toggleDropdown("dietary")}>
           <Col xs={3}>
             <RemoveCircleIcon className="sidebar-box-removeicon" />

@@ -13,8 +13,8 @@ const QuantityInputContainer = styled.div`
 // Styled button for increase and decrease actions
 const QuantityButton = styled.button`
   background-color: #fff;
-  border: 2px solid #094067;
-  color: #094067;
+  border: 2px solid #f38b3c;
+  color: #f38b3c;
   width: 20px;
   height: 20px;
   display: flex;

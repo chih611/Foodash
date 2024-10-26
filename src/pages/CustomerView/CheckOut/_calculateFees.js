@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Button } from "react-bootstrap";
-
+import PrimaryButton from "../ViewCart/_PrimaryButton";
 const AddPayment = ({ pickup, fees, setPromoValue }) => {
   const cartItems = useSelector((state) => state.cart.cartItems);
 
@@ -64,13 +64,12 @@ const AddPayment = ({ pickup, fees, setPromoValue }) => {
           onChange={(e) => setPromo(e.target.value)}
           className="form_item1 me-3"
         />
-        <Button
+        <PrimaryButton
           variant="primary mt-3"
           style={{ height: "40px" }}
+          text="Apply"
           onClick={handlePromoApply}
-        >
-          Apply
-        </Button>
+        ></PrimaryButton>
       </div>
 
       {appliedPromo && (
