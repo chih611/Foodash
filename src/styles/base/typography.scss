@@ -1,0 +1,129 @@
+// styles/base/typography.scss
+
+@use "../abstract/colors" as colors;
+@import url("https://fonts.googleapis.com/css2?family=Itim&display=swap");
+
+$font-stack: "DM Sans", sans-serif;
+
+h1 {
+  font-family: "Itim", sans-serif;
+  font-size: 84px;
+  font-weight: bold;
+  color: colors.$headline-color !important;
+  letter-spacing: 2px;
+  color-scheme: colors.$headline-color;
+}
+
+h2 {
+  font-family: "DM Sans", sans-serif;
+  font-size: 48px;
+  font-weight: bold;
+  color: colors.$headline-color !important;
+  letter-spacing: 2px !important;
+}
+
+h3 {
+  font-family: $font-stack;
+  font-size: 36px;
+  font-weight: bold;
+  color: colors.$headline-color !important;
+}
+
+h4 {
+  font-family: $font-stack;
+  font-size: 24px;
+  font-weight: bold;
+  color: colors.$headline-color !important;
+}
+
+h5 {
+  font-family: $font-stack;
+  font-size: 24px;
+  font-weight: bold;
+  color: colors.$text-color !important;
+}
+
+.subtitle {
+  font-family: $font-stack;
+  font-size: 16px;
+  font-weight: 500;
+  color: colors.$text-color !important;
+  text-decoration: none;
+}
+
+body {
+  font-family: $font-stack;
+  font-size: 16px;
+  // font-weight: normal;
+  color: colors.$text-color;
+}
+
+.subtitle_admin {
+  font-family: $font-stack;
+  font-size: 20px;
+  font-weight: 500;
+  color: colors.$pressed-color !important;
+  text-decoration: none;
+}
+
+.sidebar-box {
+  font-family: $font-stack;
+  font-size: 16px;
+  font-weight: normal;
+  color: colors.$bg-color;
+}
+
+.direction {
+  font-family: $font-stack;
+  font-size: 16px;
+  font-weight: normal;
+  color: colors.$text-color;
+}
+
+.button-text {
+  font-family: $font-stack;
+  font-size: 16px;
+  font-weight: normal;
+  color: colors.$element-2nd-color;
+  &:hover {
+    color: colors.$bg-color;
+  }
+}
+
+.button-title-text {
+  font-family: $font-stack;
+  font-size: 20px;
+  font-weight: normal;
+  color: colors.$element-2nd-color;
+  
+  &:hover {
+    color: colors.$bg-color;
+  }
+}
+
+
+//Colors
+
+
+  .text-color-head-line {
+      color: colors.$headline-color;
+  }
+  .text-pressed-color{
+      color:colors.$pressed-color !important;
+  }
+  .text-headline-color{
+    color: colors.$headline-color !important;
+}
+  .bg-2nd-color{
+      background-color: colors.$bg-2nd-color;
+  }
+  
+  .bg-element-color{
+      background-color: colors.$element-color;
+  }
+  .bg-headline-color{
+      background-color: colors.$headline-color !important;
+  }
+  .bg-pressed-color{
+    background-color: colors.$pressed-color !important;
+  }

@@ -1,0 +1,130 @@
+.crm-container {
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .crm-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #003366;
+  }
+  
+  .add-btn {
+    background-color: #007bff;
+    border-color: #007bff;
+  }
+  
+  .customer-table {
+    background-color: white;
+    border-radius: 8px;
+  }
+  
+  /* Style the customer icon to look like a profile picture */
+  .customer-icon {
+    font-size: 40px; /* Adjust the size */
+    color: #d3d3d3; /* Light grey color to resemble a placeholder */
+    margin-right: 10px; /* Space between the icon and the name */
+    vertical-align: middle; /* Align with text */
+  }
+  
+  .table td, .table th {
+    vertical-align: middle;
+  }
+  
+  /* Badge styles for dietary preferences */
+  .badge-success {
+    background-color: #90ee90; /* Light green for Vegetarian */
+  }
+  
+  .badge-warning {
+    background-color: #ffcc00; /* Orange for Gluten-Free */
+  }
+  
+  .badge-danger {
+    background-color: #f08080; /* Light red for None */
+  }
+  
+  .badge-info {
+    background-color: #8fbc8f; /* Green for Vegan */
+  }
+  
+  /* Icon styles */
+  .text-danger {
+    color: red !important;
+  }
+  
+  button {
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    color: #007bff; /* Add hover effect */
+  }
+  
+  .dietary-tag {
+    display: inline-block;
+    padding: 5px 10px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    border-radius: 5px;
+    border: 2px solid;
+    text-align: center;
+  }
+  
+  .vegetarian-tag {
+    background-color: #a0d468;
+    border-color: #8cc152;
+    color: white;
+  }
+  
+  .glutenfree-tag {
+    background-color: #ffce54;
+    border-color: #f6bb42;
+    color: white;
+  }
+  
+  .vegan-tag {
+    background-color: #4fc1e9;
+    border-color: #3bafda;
+    color: white;
+  }
+  
+  .none-tag {
+    background-color: #ed5565;
+    border-color: #da4453;
+    color: white;
+  }
+  
+  .view-btn {
+    background-color: #17a2b8;
+    color: white;
+  }
+  
+  .view-btn:hover {
+    background-color: #138496;
+  }
+  
+  .add-btn {
+    background-color: #007bff;
+    color: white;
+  }
+
+
+  .badge-completed {
+    background-color: #28a745; /* Green for completed orders */
+    color: white;
+  }
+  
+  .badge-pending {
+    background-color: #ffc107; /* Yellow for pending orders */
+    color: white;
+  }
+  
+  .badge-cancelled {
+    background-color: #dc3545; /* Red for cancelled orders */
+    color: white;
+  }

@@ -1,0 +1,68 @@
+.marketing-program-container {
+    padding: 20px;
+    background-color: #e0f7ff;
+    border-radius: 8px;
+  }
+  
+  .section {
+    margin-bottom: 40px;
+  
+    .section-title {
+      font-size: 22px;
+      font-weight: bold;
+      color: #003366;
+      margin-bottom: 15px;
+      padding-bottom: 5px;
+      border-bottom: 2px solid #003366;
+    }
+  }
+  
+  /* Enable horizontal scrolling */
+  .scroll-container {
+    overflow-x: auto;
+    white-space: nowrap;
+    padding-bottom: 10px; /* Prevent scrollbar from overlapping content */
+  }
+  
+  .scrollable-row {
+    display: flex;
+    flex-wrap: nowrap;
+  }
+  
+  .program-wrapper {
+    display: inline-block;
+    min-width: 320px; /* Increased width for larger containers */
+    margin-right: 20px; /* Spacing between blocks */
+  }
+  
+  .program-block {
+    background-color: #d3d3d3;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 250px; /* Increased height for larger containers */
+    width: 100%;
+    position: relative;
+  
+    .program-label {
+      background-color: white;
+      padding: 20px 40px;
+      border-radius: 20px;
+      font-size: 20px; /* Slightly larger font size */
+      font-weight: 500;
+      color: black;
+    }
+  }
+  
+  /* Custom styling for the AddProgramBlock */
+  .add-program {
+    background-color: #f0f0f0;
+    border: 2px dashed #b0b0b0;
+    color: #b0b0b0;
+  }
+  
+  .add-icon {
+    font-size: 60px; /* Larger icon */
+  }
+  

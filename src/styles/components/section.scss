@@ -1,0 +1,27 @@
+@use "../abstract/colors" as colors;
+@use "../abstract/mixins" as mixins;
+
+
+
+.deals-section {
+  margin-top: 20px;
+  font-family: 'DM Sans', sans-serif;
+
+  .section-title {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 22px;
+    font-weight: bold;
+    color: #094067; /* Adjust color as needed */
+    margin-bottom: 10px;
+    padding-bottom: 5px; /* Adds space between the text and the line */
+    border-bottom: 2px solid #90B4CE; /* Add the line under the title */
+    display: inline-block; /* Ensures the line does not extend the full width */
+  }
+  
+
+  .row {
+    margin: 0;
+  }
+}
+
+  

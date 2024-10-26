@@ -1,0 +1,39 @@
+@use "../abstract/colors" as colors;
+@use "../abstract/mixins" as mixins;
+
+.landing-contact {
+  background-color: colors.$headline-color;
+  position: relative; /* Change from fixed to relative or static */
+  width: 100%;
+  z-index: 1030;
+  color: white;
+}
+
+a {
+  text-decoration: none;
+  color: colors.$text-color; // Set the desired link color
+}
+
+// Optional: add hover effect for links
+a:hover {
+  text-decoration: underline; // Add underline on hover if desired
+  color: colors.$element-color; // Set hover color if needed
+}
+
+.heading_white {
+  font-family: "DM Sans", sans-serif;
+  font-size: 40px;
+  font-weight: bold;
+  color: white !important;
+  letter-spacing: 2px !important;
+  text-align: center !important;
+}
+
+.contact-button{
+  border-radius: 70%;
+  height: 70px !important;
+  width: 70px !important;
+  padding: 0.5rem 0.5rem; /* Adjust padding as needed */
+  border: 1px solid colors.$headline-color;
+  background-color: colors.$element-2nd-color;
+}

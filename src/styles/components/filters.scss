@@ -1,0 +1,62 @@
+@use '../abstract/colors' as colors;
+@use '../abstract/mixins' as mixins;
+
+.filters-container {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  
+  .filter-group {
+    background-color: #90B4CE; /* Set background color to #90B4CE */
+    border-radius: 5px;
+    padding: 5px 15px;
+    display: flex;
+    gap: 10px; /* Space between the filter items */
+    align-items: center;
+    color: white; /* Make sure text is readable */
+  }
+
+  .filter-item {
+    display: flex;
+    align-items: center;
+    padding: 5px 10px;
+    background-color: transparent;
+    border-radius: 3px;
+    color: white;
+    font-weight: 500;
+  }
+
+  .clear-filters {
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    margin-left: 10px;
+  }
+}
+
+.filters-section .filter-dropdown .filter-button {
+  border: none; /* Remove default border */
+  border-bottom: 2px solid colors.$element-2nd-color; /* Only bottom border in primary color */
+  border-radius: 0; /* Remove rounded corners */
+  color: colors.$text-color;
+  width: 100%;
+}
+
+.filter-dropdown {
+  margin-right: 8px; /* Adds spacing between dropdowns */
+  color: colors.$text-color;
+}
+
+.filter-dropdown .dropdown-toggle {
+  padding: 8px 16px; /* Add some padding for better UI */
+  color: colors.$text-color;
+}
+
+.filters-section {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+

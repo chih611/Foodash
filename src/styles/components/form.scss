@@ -1,0 +1,83 @@
+@use '../abstract/colors' as colors;
+@use '../abstract/mixins' as mixins;
+
+.form-section{
+    padding: 3rem 0;
+    color-scheme: colors.$text-color;
+    margin-top: 24px;
+
+}
+// Assuming you have defined your colors in a separate file like _variables.scss
+
+.form_item{
+  background-color: colors.$bg-color;       // Background color from your variables
+  color: colors.$headline-color;                // Text color from your variables
+  border-color: colors.$headline-color !important; // Border color from your variables
+  border: 2px solid colors.$headline-color !important;;
+  border-radius: 50px !important;;               // Radius of the input field
+  margin: 10px;                      // Margin around the input field
+  padding: 10px;                     // Padding inside the input field
+  width: 100%;                       // Full width input field
+  
+  // You can define different states like hover, focus, and disabled
+  &:hover {
+    background-color: lighten(colors.$hover-color, 10%); // Lighten background on hover
+  }
+
+  &:focus {
+    border-color: colors.$element-color;  // Change border color when input is focused
+    outline: none;                 // Remove the default browser outline
+  }
+
+  &--disabled {
+    background-color: colors.$disabled-color;
+    border-color: colors.$disabled-color;
+    cursor: not-allowed;
+  }
+
+  &--pressed {
+    background-color: darken(colors.$bg-color, 10%);
+  }
+}
+
+// Elegant color: light blue border, light grey text, no hover, 10% rounded
+.form_item1{ 
+  background-color: colors.$bg-color;       // Background color from your variables
+  color: colors.$disabled-color;                
+  border: 1px solid colors.$element-2nd-color !important;;
+  border-radius: 10px !important;        
+  margin: 10px;                      
+  padding: 10px;                     
+  width: 100%;  
+
+  &:focus {
+    border-color: colors.$element-color;  // Change border color when input is focused
+    outline: none;                 // Remove the default browser outline
+  }
+
+  &--disabled {
+    background-color: colors.$disabled-color;
+    border-color: colors.$disabled-color;
+    cursor: not-allowed;
+  }
+
+  &--pressed {
+    background-color: darken(colors.$bg-color, 10%);
+  }
+}
+
+.form-date-input-blue-color {
+  border: 1px solid colors.$element-color !important; /* Only bottom border in primary color */
+  border-radius: 10px; /* Remove rounded corners */
+  padding: 5px;
+  color: colors.$text-color !important;
+  height: 40px;
+  background-color: none !important;
+
+
+  &:hover {
+    background-color: colors.$hover-color;
+    color: white;
+    border: none;
+  }
+}

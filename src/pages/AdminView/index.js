@@ -1,12 +1,8 @@
 import React from "react";
-import Dashboard from "./Dashboard/Dashboard";
+import AdminLayout from "./_components/layout";
 
 const AdminHomePage = () => {
-  return (
-    <>
-      <Dashboard />
-    </>
-  );
+  return <AdminLayout />;
 };
 
 export default AdminHomePage;
