@@ -12,7 +12,7 @@ import {
   fetchOrderListByToday,
 } from "../../../../store/actions/orderAction";
 import { fetchAllAdmins } from "../../../../store/slices/adminSlice";
-
+import { getAllCustomers } from "../../../../store/slices/customerSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { format, parseISO } from "date-fns";
 import { SwapVertRounded } from "@mui/icons-material";
@@ -27,6 +27,8 @@ const Report = (props) => {
 
   useEffect(() => {
     console.log(props);
+    dispatch(getAllCustomers()); // Fetch all customers when component loads
+
     dispatch(fetchAllAdmins());
     dispatch(fetchOrderList());
     dispatch(fetchOrderListByToday());

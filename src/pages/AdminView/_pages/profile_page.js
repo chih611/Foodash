@@ -39,15 +39,13 @@ const CustomerProfile = (props) => {
 
   // Fetch customer details when the selected ID changes
   useEffect(() => {
-    dispatch(getAllCustomers()); // Fetch all customers when component loads
-
     if (selectedCustomerId) {
       const selectedCustomer = customers.find(
         (customer) => customer.CUSTOMER_ID === selectedCustomerId
       );
       setSelectedCustomer(selectedCustomer);
     }
-  }, [selectedCustomerId, customers, dispatch]);
+  }, [selectedCustomerId, customers]);
 
   // Handle double-click on record to show details
   const handleRecordDoubleClick = ({ CUSTOMER_ID }) => {
@@ -64,7 +62,7 @@ const CustomerProfile = (props) => {
           handleRecordDoubleClick={handleRecordDoubleClick}
           onCreateClick={handleCreateClick} // Pass the handleCreateClick function
           statusFetching={statusFetching}
-          showCreateButton={true}
+          showCreateButton={false}
           customTableColor="bg-pressed-color text-light"
         />
 
