@@ -30,8 +30,7 @@ export const createAdmin = createAsyncThunk(
   "admin/createAdmin",
   async (adminData) => {
     const response = await axios.post(`${BASE_URL}/admin/create`, adminData);
-    const data = await response.json();
-    return data;
+    return response.data; // Axios automatically parses the JSON response
   }
 );
 

@@ -27,7 +27,7 @@ const UserSetting = (props) => {
   // Prepare records for the table
   if (admins) {
     admins.map((item) => {
-      headers.push(Object.keys(item));
+      headers?.push(Object.keys(item));
     });
     records = admins;
   }
@@ -80,7 +80,8 @@ const UserSetting = (props) => {
           headerTitle="Create New Admin"
           customTableColor="bg-pressed-color text-light"
         >
-          <UserSettingCreate setOpen={setShowCreateAdminModal} />{" "}
+          <UserSettingCreate setOpen={setShowCreateAdminModal} />
+
           {/* Pass setOpen */}
         </CustomModal>
       </Tab.Pane>

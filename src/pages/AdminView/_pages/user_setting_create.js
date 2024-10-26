@@ -7,7 +7,7 @@ import styles from "../../../styles/styles";
 const UserSettingCreate = ({ setOpen }) => {
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
-    ADMIN_NAME: "",
+    ADMIN_NAME: "", // Must match the backend property exactly
     ADMIN_EMAIL: "",
     ADMIN_PASSWORD: "",
     ADMIN_TYPE: "",
@@ -23,9 +23,8 @@ const UserSettingCreate = ({ setOpen }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await dispatch(createAdmin(formData));
-      alert("Admin created successfully!");
-      setOpen(false); // Close the modal after successful creation
+      await dispatch(createAdmin(formData)); // This sends data matching backend keys
+      setOpen(false);
     } catch (error) {
       console.error("Error creating admin:", error);
     }

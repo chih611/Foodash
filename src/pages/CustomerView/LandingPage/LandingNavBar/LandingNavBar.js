@@ -31,7 +31,11 @@ const LandingNavBar = () => {
           <Row className="w-100 align-items-center d-lg-none">
             {/* Menu Button (2 columns) */}
             <Col xs={2} className="d-flex justify-content-start">
-              <Button variant="outline-primary" onClick={handleToggle}>
+              <Button
+                className="toggle-direction-link d-md-none"
+                variant="primary"
+                onClick={handleToggle}
+              >
                 <MenuRoundedIcon />
               </Button>
             </Col>
