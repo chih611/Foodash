@@ -58,6 +58,7 @@ const Order = (props) => {
           statusFetching={statusOrderFetching}
           showPagination={true}
           customTableColor="bg-pressed-color text-light"
+          showSpecialButton={true}
         />
         <CustomModal
           setOpen={setShow}

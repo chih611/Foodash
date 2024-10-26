@@ -11,10 +11,10 @@ import {
 import { CreditCard, PaymentForm, ApplePay, GiftCard } from "react-square-web-payments-sdk";
 
 const Payment = () => {
-  // const appId = "sandbox-sq0idb-J_Bld9paUEQuNmSg2taitQ";
-  // const locationId = "LF8HA6PMDGSFJ";
-  const appId = "sq0idp-pvlfeZknc_UL_SWRO_w8BA";
-  const locationId = "L739M75RNCW12";
+  const appId = "sandbox-sq0idb-J_Bld9paUEQuNmSg2taitQ";
+  const locationId = "LF8HA6PMDGSFJ";
+  // const appId = "sq0idp-pvlfeZknc_UL_SWRO_w8BA";
+  // const locationId = "L739M75RNCW12";
 
   const handlePayment = async (token) => {
     console.log("Payment token:", token);
@@ -30,35 +30,29 @@ const Payment = () => {
       console.error("Error:", error);
     }
   };
-  
-  return (    
 
-    <Row classname = "d-flex d-lg-none justify-content-center" style={{margin: "24px"}}>
-        
-        <div style={{marginBottom: "24px",}}> 
-          <h1>Payment Method</h1>
-        </div>
+  return (
+    <Row
+      classname="d-flex d-lg-none justify-content-center"
+      style={{ margin: "24px" }}
+    >
+      <div style={{ marginBottom: "24px" }}>
+        <h1>Payment Method</h1>
+      </div>
 
+      <PaymentForm
+        applicationId={appId}
+        locationId={locationId}
+        cardTokenizeResponseReceived={handlePayment}
+      >
+        <CreditCard />
 
+        <div style={{ marginBottom: "24px" }}></div>
 
-        <PaymentForm
-          applicationId={appId}
-          locationId={locationId}
-          cardTokenizeResponseReceived={handlePayment}
-
-          >
-          <CreditCard />
-
-          <div style={{marginBottom: "24px",}}></div>         
-
-          {/* Gift Card Payment Method */}
-          <GiftCard />
-          
-        </PaymentForm>
-             
-
-
-        </Row>
+        {/* Gift Card Payment Method */}
+        <GiftCard />
+      </PaymentForm>
+    </Row>
   );
 };
 
