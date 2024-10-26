@@ -20,13 +20,8 @@ const Report = (props) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-<<<<<<< HEAD
-=======
-    console.log(props);
     dispatch(getAllCustomers()); // Fetch all customers when component loads
-
     dispatch(fetchAllAdmins());
->>>>>>> kevin
     dispatch(fetchOrderList());
     dispatch(fetchOrderListByToday());
     dispatch(fetchCurrentMonthCateSales());

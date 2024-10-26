@@ -19,22 +19,14 @@ import reportReducer from "./slices/reportSlice";
 
 const persistConfig = {
   key: "root",
-<<<<<<< HEAD
   storage,
-=======
-  storage, // Use localStorage for other slices
->>>>>>> kevin
   blacklist: [
     "order",
     "orderDetail",
     "ordersToday",
     "customer",
     "notification",
-<<<<<<< HEAD
     "report",
-  ],
-=======
-    // "admin",
   ],
 };
 
@@ -48,7 +40,6 @@ const cookiePersistConfig = {
     secure: true, // Set to true in production for HTTPS
     sameSite: "strict",
   }),
->>>>>>> kevin
 };
 
 // Combine all the reducers

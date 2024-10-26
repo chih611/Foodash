@@ -3,17 +3,12 @@ import {
   fetchOrderLisByIdAPI,
   fetchOrderListAPI,
   fetchOrderLisByCustomerNameAPI,
-<<<<<<< HEAD
-  fetchOrderListByTodayAPI,
-  fetchOrderByCustomerIdAPI,
-=======
   fetchOrderByCustomerIdAPI,
   fetchOrderLisByDuedateAPI,
   fetchOrderListTodayAPI,
   updateOrderAPI,
   fetchOrderListByTodayAPI,
   updateOrderViewByIdAPI,
->>>>>>> kevin
 } from "../api/order.api";
 import axios from "axios";
 

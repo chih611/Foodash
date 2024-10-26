@@ -2,13 +2,7 @@ import { create } from "@mui/material/styles/createTransitions";
 import axios from "axios";
 
 // Define base URL with dynamic backend port from the environment variable
-<<<<<<< HEAD
 const BASE_URL = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_ADDRESS;
-=======
-// const BASE_URL = `https://${process.env.NEXT_PUBLIC_REACT_APP_BACKEND_ADDRESS}`;
-const BASE_URL = `http://localhost:8080`;
-// const BASE_URL = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_ADDRESS;
->>>>>>> kevin
 
 export const fetchOrderListAPI = async () => {
   const response = await axios.get(`${BASE_URL}/order`);

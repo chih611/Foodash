@@ -15,7 +15,7 @@
     "@hookform/resolvers": "^3.9.0",
     "@mui/icons-material": "^6.1.1",
     "@mui/material": "^6.1.1",
-    "@mui/material-nextjs": "^6.0.2",
+    "@mui/material-nextjs": "^6.1.5",
     "@nextui-org/date-picker": "^2.1.8",
     "@nextui-org/dropdown": "^2.1.31",
     "@nextui-org/react": "^2.4.8",

@@ -3,12 +3,6 @@ import {
   fetchOrderLisByCustomerName,
   fetchOrderList,
   fetchOrderListById,
-<<<<<<< HEAD
-  fetchOrderListByToday,
-  createOrder,
-  getOrderById,
-  fetchOrderByCustomerId,
-=======
   createOrder,
   getOrderById,
   fetchOrderByCustomerId,
@@ -17,7 +11,6 @@ import {
   fetchOrderListByToday,
   fetchOrderListByDuedate,
   updateOrderViewById,
->>>>>>> kevin
 } from "../actions/orderAction";
 
 const initialState = {
@@ -87,20 +80,6 @@ const orderSlice = createSlice({
         state.status = "failed";
         state.error = action.error || { message: "Fetching API is failed!" };
       })
-<<<<<<< HEAD
-      .addCase(fetchOrderListByToday.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(fetchOrderListByToday.fulfilled, (state, action) => {
-        state.orderListByToday = action.payload;
-        state.status = "succeeded";
-      })
-      .addCase(fetchOrderListByToday.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.error || { message: "Fetching API is failed!" };
-      })
-=======
->>>>>>> kevin
       .addCase(createOrder.pending, (state) => {
         state.status = "loading";
       })
@@ -124,8 +103,6 @@ const orderSlice = createSlice({
         state.error = action.error || {
           message: "Fetching API by customerId failed!",
         };
-<<<<<<< HEAD
-=======
       })
       .addCase(fetchOrderListByDuedate.pending, (state) => {
         state.status = "loading";
@@ -135,17 +112,6 @@ const orderSlice = createSlice({
         state.status = "succeeded";
       })
       .addCase(fetchOrderListByDuedate.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.error || { message: "Fetching API is failed!" };
-      })
-      .addCase(fetchOrderListByToday.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(fetchOrderListByToday.fulfilled, (state, action) => {
-        state.orderListByToday = action.payload;
-        state.status = "succeeded";
-      })
-      .addCase(fetchOrderListByToday.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error || { message: "Fetching API is failed!" };
       })
@@ -172,7 +138,6 @@ const orderSlice = createSlice({
         state.error = action.error || {
           message: "Updating order view by Id is failed!",
         };
->>>>>>> kevin
       });
   },
 });
