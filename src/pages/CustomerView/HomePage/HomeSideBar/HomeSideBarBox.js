@@ -53,6 +53,7 @@ const HomeSideBarBox = () => {
         <Collapse in={open.dietary}>
           <div>
             <ul>
+<<<<<<< Updated upstream
               <li>Dietary 1</li>
               <li>Dietary 2</li>
               <li>Dietary 3</li>
@@ -96,6 +97,23 @@ const HomeSideBarBox = () => {
               <li>Checklist 1</li>
               <li>Checklist 2</li>
               <li>Checklist 3</li>
+=======
+              {ingredientList?.map((ingredient, index) => (
+                <li key={index}>
+                  <Form.Check
+                    type="checkbox"
+                    label={ingredient}
+                    onChange={(e) =>
+                      handleCheckboxChange(
+                        "ingredients",
+                        ingredient,
+                        e.target.checked
+                      )
+                    }
+                  />
+                </li>
+              ))}
+>>>>>>> Stashed changes
             </ul>
           </div>
         </Collapse>

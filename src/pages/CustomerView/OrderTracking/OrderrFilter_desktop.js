@@ -4,12 +4,18 @@ import { Dropdown, Row, Col } from "react-bootstrap";
 const OrderFilter_desktop = () => {
   return (
     <div className="filters-section my-3">
-      <Row className="w-100 align-items-center d-none d-lg-flex" style={{marginTop: "24px"}}>
+      <Row
+        className="w-100 align-items-center d-none d-lg-flex"
+        style={{ marginTop: "24px" }}
+      >
         {/* Time Filter */}
         <Col xs={12} md={3} className="mb-2">
           <Dropdown className="filter-dropdown w-100">
-            <Dropdown.Toggle variant="outline-primary" className="filter-button w-100">
-              Time
+            <Dropdown.Toggle
+              variant="outline-primary"
+              className="filter-button w-100"
+            >
+              Delivery Time
             </Dropdown.Toggle>
             <Dropdown.Menu>
               <Dropdown.Item href="#action/3.1">This month</Dropdown.Item>
@@ -22,7 +28,10 @@ const OrderFilter_desktop = () => {
         {/* OrderID Filter */}
         <Col xs={12} md={3} className="mb-2">
           <Dropdown className="filter-dropdown w-100">
-            <Dropdown.Toggle variant="outline-primary" className="filter-button w-100">
+            <Dropdown.Toggle
+              variant="outline-primary"
+              className="filter-button w-100"
+            >
               OrderID
             </Dropdown.Toggle>
             <Dropdown.Menu>
@@ -35,7 +44,10 @@ const OrderFilter_desktop = () => {
         {/* Amount Filter */}
         <Col xs={12} md={3} className="mb-2">
           <Dropdown className="filter-dropdown w-100">
-            <Dropdown.Toggle variant="outline-primary" className="filter-button w-100">
+            <Dropdown.Toggle
+              variant="outline-primary"
+              className="filter-button w-100"
+            >
               Amount
             </Dropdown.Toggle>
             <Dropdown.Menu>
@@ -48,7 +60,10 @@ const OrderFilter_desktop = () => {
         {/* Status Filter */}
         <Col xs={12} md={3} className="mb-2">
           <Dropdown className="filter-dropdown w-100">
-            <Dropdown.Toggle variant="outline-primary" className="filter-button w-100">
+            <Dropdown.Toggle
+              variant="outline-primary"
+              className="filter-button w-100"
+            >
               Status
             </Dropdown.Toggle>
             <Dropdown.Menu>

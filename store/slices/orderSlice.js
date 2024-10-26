@@ -4,10 +4,14 @@ import {
   fetchOrderList,
   fetchOrderListById,
   fetchOrderListByToday,
+  createOrder,
+  getOrderById,
+  fetchOrderByCustomerId,
 } from "../actions/orderAction";
 
 const initialState = {
   ordersList: null,
+  orderListByCustomerId: null,
   orderListByName: null,
   orderListByToday: null,
   orderById: null,
@@ -18,7 +22,11 @@ const initialState = {
 const orderSlice = createSlice({
   name: "order",
   initialState,
-  // reducers: {},
+  reducers: {
+    clearOrderByCustomerId: (state) => {
+      state.orderListByCustomerId = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchOrderList.pending, (state) => {
@@ -43,6 +51,19 @@ const orderSlice = createSlice({
         state.status = "failed";
         state.error = action.error || { message: "Fetching API is failed!" };
       })
+      .addCase(getOrderById.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(getOrderById.fulfilled, (state, action) => {
+        state.orderById = action.payload;
+        state.status = "succeeded";
+      })
+      .addCase(getOrderById.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error || {
+          message: "Fetching API by orderId failed!",
+        };
+      })
       .addCase(fetchOrderLisByCustomerName.pending, (state) => {
         state.status = "loading";
       })
@@ -64,9 +85,34 @@ const orderSlice = createSlice({
       .addCase(fetchOrderListByToday.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error || { message: "Fetching API is failed!" };
+      })
+      .addCase(createOrder.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(createOrder.fulfilled, (state, action) => {
+        state.orderById = action.payload;
+        state.status = "succeeded";
+      })
+      .addCase(createOrder.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error || { message: "Creating order is failed!" };
+      })
+      .addCase(fetchOrderByCustomerId.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchOrderByCustomerId.fulfilled, (state, action) => {
+        state.orderListByCustomerId = action.payload;
+        state.status = "succeeded";
+      })
+      .addCase(fetchOrderByCustomerId.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error || {
+          message: "Fetching API by customerId failed!",
+        };
       });
   },
 });
 
 // export const { ordersList, status, error } = orderSlice.actions;
+export const { clearOrderByCustomerId } = orderSlice.actions;
 export default orderSlice.reducer;

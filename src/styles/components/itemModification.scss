@@ -1,69 +1,65 @@
-@use '../abstract/colors' as colors;
-@use '../abstract/mixins' as mixins;
-@use '../base/typography' as typography;
+@use "../abstract/colors" as colors;
+@use "../abstract/mixins" as mixins;
+@use "../base/typography" as typography;
 
 .item-modification-container {
-    
-    .breadcrumb {
-      background-color: transparent;
-    }
-  
-    .product-title {
-      font-size: 2rem;
-      font-weight: bold;
-      color: colors.$headline-color; // Using colors.$headline-color
-    }
-  
-    h4 {
-      font-size: 1.25rem;
-      font-weight: 600;
-      color: colors.$text-color; // Use colors variable
-    }
-    .badge {
-        background-color: colors.$bg-color; 
-        color: colors.$text-color; 
-        border-radius: 20px; 
-        padding: 0.5rem 1rem; 
-        font-size: 1rem; 
-        border: 1px solid colors.$bg-2nd-color; 
-        margin-bottom: 1rem; 
-      }
+  .breadcrumb {
+    background-color: transparent;
+  }
 
-      
-      
-  
-    /* Custom styling for checkboxes and labels */
-    .extra-checkbox-row {
-      margin-bottom: 10px;
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 1rem;
-      border-bottom: 1px solid colors.$element-2nd-color; // Border using color
-    }
+  .product-title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: colors.$headline-color; // Using colors.$headline-color
+  }
 
-    .extra-item-name{
-        color: colors.$text-color;
-    }
-  
-// styles.scss or your main stylesheet
-.custom-checkbox {
+  h4 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: colors.$text-color; // Use colors variable
+  }
+  .badge {
+    background-color: colors.$bg-color;
+    color: colors.$text-color;
+    border-radius: 20px;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border: 1px solid colors.$bg-2nd-color;
+    margin-bottom: 1rem;
+  }
+
+  /* Custom styling for checkboxes and labels */
+  .extra-checkbox-row {
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid colors.$element-2nd-color; // Border using color
+  }
+
+  .extra-item-name {
+    color: colors.$text-color;
+  }
+
+  // styles.scss or your main stylesheet
+  .custom-checkbox {
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
     width: 16px;
     height: 16px;
-    border: 2px solid #90B4CE;
+    border: 2px solid #90b4ce;
     border-radius: 3px;
     outline: none;
     cursor: pointer;
     position: relative;
-  
+
     &:checked {
-      background-color: #90B4CE;
+      background-color: #90b4ce;
     }
-  
+
     &:checked::after {
-      content: '';
+      content: "";
       position: absolute;
       top: 2px;
       left: 5px;
@@ -74,27 +70,17 @@
       transform: rotate(45deg);
     }
   }
-  
-    .custom-label {
-      font-size: 1rem;
-      cursor: pointer;
-    }
-  
-    .form-control {
-      border: 1px solid colors.$element-2nd-color; // Using color variable
-    }
 
-    .instruction-area {
-      background-color: colors.$bg-2nd-color; // Corrected the variable use
-    }
-  
-    button {
-      background-color: colors.$element-color; // Button background color
-      border-color: colors.$element-color;
-      font-size: 1.25rem;
-      &:hover {
-        background-color: colors.$hover-color; // Use hover color
-        border-color: colors.$hover-color;
-      }
-    }
+  .custom-label {
+    font-size: 1rem;
+    cursor: pointer;
+  }
+
+  .form-control {
+    border: 1px solid colors.$element-2nd-color; // Using color variable
+  }
+
+  .instruction-area {
+    background-color: colors.$bg-2nd-color; // Corrected the variable use
+  }
 }

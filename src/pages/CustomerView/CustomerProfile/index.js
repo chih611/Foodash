@@ -14,6 +14,8 @@ import HomePageNavBar from "../HomePage/HomePageNavBar";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { clearCart } from "../../../../store/slices/cartSlice";
+import { clearOrderByCustomerId } from "../../../../store/slices/orderSlice";
 
 // Yup validation schema
 const schema = yup.object().shape({
@@ -97,8 +99,9 @@ const CustomerDetail = () => {
 
   const handleSignOut = async () => {
     await dispatch(clearProfile());
-    await router.push("/CustomerView/HomePage");
-    console.log("Sign out successful");
+    await dispatch(clearCart());
+    await dispatch(clearOrderByCustomerId());
+    await router.push("/CustomerView/");
   };
 
   return (

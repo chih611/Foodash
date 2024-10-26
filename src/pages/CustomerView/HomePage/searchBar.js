@@ -69,7 +69,7 @@ const SearchBar = () => {
     <div className="searchContainer" style={{ position: "relative" }}>
       <SearchRounded
         className="me-2"
-        sx={{ color: "#025373", cursor: "pointer" }}
+        sx={{ color: "#f38b3c", cursor: "pointer" }}
         onClick={() => handleSearch(search)}
       />
       <input
@@ -83,7 +83,7 @@ const SearchBar = () => {
       {search && (
         <ClearIcon
           className="clear-search-icon"
-          sx={{ color: "#025373", cursor: "pointer" }}
+          sx={{ color: "#f38b3c", cursor: "pointer" }}
           onClick={handleClearSearch} // Clear search when the clear icon is clicked
         />
       )}

@@ -49,6 +49,19 @@ h5 {
   font-weight: 500;
   color: colors.$text-color !important;
   text-decoration: none;
+
+  
+}
+
+
+.subtitle--navBar {
+  font-family: $font-stack;
+  font-size: 16px;
+  font-weight: 500;
+  color: colors.$bg-color !important;
+  text-decoration: none;
+
+  
 }
 
 body {
@@ -105,6 +118,7 @@ body {
 //Colors
 
 
+
   .text-color-head-line {
       color: colors.$headline-color;
   }
@@ -127,3 +141,5 @@ body {
   .bg-pressed-color{
     background-color: colors.$pressed-color !important;
   }
+
+  

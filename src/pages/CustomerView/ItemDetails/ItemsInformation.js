@@ -1,17 +1,38 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
 import { Col, Row, Nav, Container, Button } from "react-bootstrap";
 import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import PrimaryButton from "../ViewCart/_PrimaryButton";
+import {
+  getItemById,
+  getItemModificationAndLabel,
+  getAllLabels,
+} from "../../../../store/slices/itemsSlice";
 import { useRouter } from "next/router";
 
 const ItemsInformation = () => {
   const router = useRouter();
+  const itemId = router.query.itemId;
+
+  const dispatch = useDispatch();
+
+  // Fetch the item details by itemId
+  useEffect(() => {
+    if (itemId) {
+      dispatch(getItemById(itemId));
+      dispatch(getItemModificationAndLabel(itemId));
+      dispatch(getAllLabels());
+    }
+  }, [itemId, dispatch]);
 
   // Get the selected item from Redux
   const selectedItem = useSelector((state) => state.items.selectedItem);
+  const selectedItemModifications = useSelector(
+    (state) => state.items.selectedItemModifications
+  );
 
   if (!selectedItem) {
     return (
@@ -31,10 +52,18 @@ const ItemsInformation = () => {
     );
   }
 
-  const parsedIngredients =
-    typeof selectedItem.INGREDIENTS === "string"
-      ? JSON.parse(selectedItem.INGREDIENTS)
-      : selectedItem.INGREDIENTS;
+  // Ensure that we're correctly parsing the modifications and ingredients
+  const parsedModifications = selectedItemModifications.map((mod) => ({
+    modification: mod.MODIFICATION,
+    ingredients: mod.INGREDIENTS,
+  }));
+
+  // Render only the ingredients for the current modification in the loop
+  const renderModifications = parsedModifications.map((mod, index) => (
+    <div key={index}>
+      <strong>{mod.modification}</strong>: {mod.ingredients.join(", ")}
+    </div>
+  ));
 
   const parsedLabels =
     typeof selectedItem.LABELS === "string"
@@ -42,7 +71,9 @@ const ItemsInformation = () => {
       : selectedItem.LABELS;
 
   const handleAddToCart = () => {
-    router.push("/CustomerView/ItemModification/ItemModification");
+    router.push(
+      "/CustomerView/ItemModification/?itemId=" + selectedItem.ITEM_ID
+    );
   };
 
   return (
@@ -79,11 +110,11 @@ const ItemsInformation = () => {
                       <Nav.Link className="category-tab">{label}</Nav.Link>
                     </Nav.Item>
                   ))
-                : `No labels available`}
+                : ``}
             </Nav>
 
             <div className="price-section">
-              <h3>${selectedItem.PRICE}</h3>
+              <h3>${selectedItem.UNIT_PRICE}</h3>
             </div>
             <h5 className="ingredients-title">Description</h5>
 
@@ -96,16 +127,7 @@ const ItemsInformation = () => {
             </p>
 
             <h5 className="ingredients-title">Ingredients & Recipes</h5>
-            <Row className="ingredients-list">
-              {parsedIngredients &&
-                Object.entries(parsedIngredients).map(
-                  ([ingredient, amount], index) => (
-                    <Col key={index}>
-                      {ingredient}: {amount}
-                    </Col>
-                  )
-                )}
-            </Row>
+            <Row className="ingredients-list">{renderModifications}</Row>
 
             <Row className="action-buttons mt-3">
               <Col xs={5} md={5}>

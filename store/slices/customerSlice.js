@@ -6,7 +6,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_ADDRESS;
 /* Utility Functions */
 
 // Check if the customer already exists
-const checkIfCustomerExists = async (type, email, phoneNumber) => {
+export const checkIfCustomerExists = async (type, email, phoneNumber) => {
   if (type === "user") {
     return await axios.get(`${BASE_URL}/customer/email/${email}`);
   } else {

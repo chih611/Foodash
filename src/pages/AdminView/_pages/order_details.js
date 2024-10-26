@@ -13,7 +13,7 @@ import axios from "axios";
 import PersonalDetail from "./personal_information";
 import OrderInformation from "./order_information";
 
-const OrderDetails = ({ Id, setOpen }) => {
+const OrderDetails = ({ Id, setOpen, customTableColor }) => {
   let recordsOrderDetails = [];
   let headersOrderDetails = [];
   const dateTimeFields = ["Duedate", "Create Date"];
@@ -64,7 +64,7 @@ const OrderDetails = ({ Id, setOpen }) => {
   );
 
   if (orderDetailList) {
-    orderDetailList.map((item) => {
+    orderDetailList?.map((item) => {
       headersOrderDetails.push(Object.keys(item));
     });
     recordsOrderDetails = orderDetailList;
@@ -105,6 +105,7 @@ const OrderDetails = ({ Id, setOpen }) => {
               readOnlyFields={readOnlyFields}
               Row={Row}
               statusFetching={statusOrderFetching}
+              customHeaderColor={customTableColor}
             />
             <OrderInformation
               e={e}
@@ -118,6 +119,7 @@ const OrderDetails = ({ Id, setOpen }) => {
               setShowSaveBtn={setShowSaveBtn}
               Row={Row}
               statusFetching={statusOrderFetching}
+              customOrderInformationColor={customTableColor}
             />
           </>
         ))}
@@ -139,6 +141,8 @@ const OrderDetails = ({ Id, setOpen }) => {
         records={recordsOrderDetails}
         statusFetching={statusOrderDetailFetching}
         objectFields={objectFields}
+        showPagination={true}
+        customTableColor={customTableColor}
       />
     </>
   );
