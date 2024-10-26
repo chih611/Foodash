@@ -201,6 +201,18 @@ const Checkout = () => {
   };
 
   const handlePlaceOrder = async () => {
+    console.log("Cart Subtotal:", cartSubtotal); // Log for debugging
+
+    if (cartSubtotal < 200) {
+      Swal.fire({
+        icon: "warning",
+        title: "Minimum Order Requirement",
+        text: "Order must be at least $200 to proceed.",
+        confirmButtonText: "OK",
+      });
+      return; // Stop further execution
+    }
+
     try {
       const finalCustomerId = await checkCustomerId(recipientDetails);
       const orderId = await createOrderHandler(
@@ -245,7 +257,24 @@ const Checkout = () => {
 
   const handleCreateQuoteOrder = async () => {
     try {
+      console.log("Creating quote order with the following details:");
+      console.log("Cart Subtotal:", cartSubtotal);
+      console.log("Recipient Details:", recipientDetails);
+      console.log("Pickup:", pickup);
+
+      if (cartSubtotal < 200) {
+        Swal.fire({
+          icon: "warning",
+          title: "Minimum Order Requirement",
+          text: "Order must be at least $200 to proceed.",
+          confirmButtonText: "OK",
+        });
+        return; // Stop further execution
+      }
+
       const finalCustomerId = await checkCustomerId(recipientDetails);
+      console.log("Final Customer ID:", finalCustomerId); // Log Customer ID
+
       const orderId = await createOrderHandler(
         finalCustomerId,
         cartSubtotal,
@@ -266,6 +295,7 @@ const Checkout = () => {
 
       router.push(`/CustomerView/CheckOut/Confirm?orderId=${orderId}`);
     } catch (error) {
+      console.error("Error creating quote order:", error); // Log the error
       Swal.fire(
         "Error",
         "An error occurred while creating the quote. Please try again.",
