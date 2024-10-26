@@ -12,31 +12,26 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useMemo, useState } from "react";
 import { SwapVertRounded } from "@mui/icons-material";
-<<<<<<< Updated upstream
-=======
 import styles from "../../../styles/styles";
 import { Col, Row } from "react-bootstrap";
 import CustomModal from "./modal";
 import OrderDetails from "../_pages/order_details";
->>>>>>> Stashed changes
 
-const CustomTable = ({
-  headers,
-  records,
-  handleRecordDoubleClick,
-<<<<<<< Updated upstream
-  handleRemoveSingleClick,
-=======
-  onCreateClick,
-  showCreateButton = false, // Default to false
->>>>>>> Stashed changes
-  datetimeFields,
-  objectFields,
-  statusFetching,
-  showPagination,
-  customTableColor,
-  showSpecialButton = false,
-}) => {
+const CustomTable = (props) => {
+  const {
+    headers,
+    records,
+    handleRecordDoubleClick,
+    handleRemoveSingleClick,
+    onCreateClick,
+    showCreateButton = false, // Default to false
+    datetimeFields,
+    objectFields,
+    statusFetching,
+    showPagination,
+    customTableColor,
+    showSpecialButton = false,
+  } = props;
   const [show, setShow] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
@@ -252,7 +247,16 @@ const CustomTable = ({
             <tbody>
               {currentItems?.map((e, i) => (
                 <tr key={i}>
-<<<<<<< Updated upstream
+                  {showSpecialButton && (
+                    <td>
+                      <Button
+                        onClick={(j) => {
+                          setSelectedId(e.ID);
+                          setShow(true);
+                        }}
+                      />
+                    </td>
+                  )}
                   {Array.from({ length: 1 }).map((_, index) =>
                     Object.entries(e).map(([key, value], j) => (
                       <td key={j} className=" text-center">
@@ -285,20 +289,6 @@ const CustomTable = ({
                   {handleRemoveSingleClick ? (
                     <td className="text-decoration-none text-pressed-color text-nowrap text-center">
                       {" "}
-=======
-                  {showSpecialButton && (
-                    <td>
-                      <Button
-                        onClick={(j) => {
-                          setSelectedId(Object.values(e));
-                          setShow(true);
-                        }}
-                      />
-                    </td>
-                  )}
-                  {Object.entries(e).map(([key, value], j) => (
-                    <td key={j} className="text-center">
->>>>>>> Stashed changes
                       <Button
                         className="text-decoration-none bg-pressed-color text-nowrap text-white"
                         onClick={() => handleRemoveSingleClick(e)}
@@ -341,10 +331,7 @@ const CustomTable = ({
         headerTitle="Order"
         customTableColor="bg-pressed-color text-light"
       >
-        <OrderDetails
-          // {...props}
-          customTableColor="bg-pressed-color text-light"
-        />
+        <OrderDetails customTableColor="bg-pressed-color text-light" />
       </CustomModal>
     </>
   );

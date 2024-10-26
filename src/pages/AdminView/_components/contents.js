@@ -5,8 +5,7 @@ import Inventory from "../_pages/inventory";
 import Product from "../_pages/product";
 import Marketing from "../_pages/marketing";
 import UserSetting from "../_pages/user_setting";
-import Profile from "../_pages/profiles";
-import Reminder from "../_pages/reminder";
+import Profile from "../_pages/profile";
 
 const Contents = () => {
   return (
@@ -15,9 +14,8 @@ const Contents = () => {
         <Report eventKey="Home" />
         <Order eventKey="Order" />
         <Product eventKey="Product" />
-        {/* <Marketing eventKey="Marketing" /> */}
-        <CustomerProfile eventKey="Profile" />
-        {/* <Reminder eventKey="Reminder" /> */}
+        <Profile eventKey="Profile" />
+
         <UserSetting eventKey="User setting" />
       </Tab.Content>
     </>
