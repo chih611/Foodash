@@ -203,7 +203,8 @@ export const updateCustomer = createAsyncThunk(
         address: updatedData.address || existingProfile.ADDRESS,
         password: updatedData.password || existingProfile.PASSWORD,
         customerType: updatedData.customerType || existingProfile.CUSTOMER_TYPE,
-        DATE_OF_BIRTH: updatedData.dateOfBirth || existingProfile.DATE_OF_BIRTH, // Ensure DATE_OF_BIRTH is used
+        DATE_OF_BIRTH:
+          updatedData.DATE_OF_BIRTH || existingProfile.DATE_OF_BIRTH, // Ensure DATE_OF_BIRTH is used
         gender: updatedData.gender || existingProfile.GENDER,
         abn: updatedData.abn || existingProfile.ABN,
         dietaryPreference:
