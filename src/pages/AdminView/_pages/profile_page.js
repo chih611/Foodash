@@ -101,7 +101,7 @@ const CustomerProfile = (props) => {
           showSpecialButton={true}
           setSelectedId={setSelectedId}
           handleRecordSingleClick={handleOrderClick}
-          actionCol="Order"
+          actionCol="Total"
           showPagination={true}
           customCols={orderTotal}
         />

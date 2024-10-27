@@ -15,7 +15,24 @@ const CustomerProfileDetails = ({ setOpen, selectedId }) => {
   }, []);
   let data = useSelector((state) => state.customer.profileDetail);
   const statusFetching = useSelector((state) => state.customer.status);
-  const readOnlyFields = ["LAST_NAME"];
+  const readOnlyFields = [
+    "LAST_NAME",
+    "CUSTOMER_ID",
+    "FIRST_NAME",
+    "ABN",
+    "DATE_OF_BIRTH",
+    "GENDER",
+    "ADDRESS",
+    "CUSTOMER_TYPE",
+    "PHONE_NUMBER",
+    "EMAIL",
+    "DIETARY_PREFERENCE",
+    "LOYALTY_POINTS",
+    "FAVOURITES",
+    "POSTCODE",
+    "STATE",
+    "CITY",
+  ];
   const dateTimeFields = ["DATE_OF_BIRTH"];
   const handleChange = (field, value) => {
     // setFormData((prev) => ({ ...prev, [field]: value }));
@@ -48,9 +65,6 @@ const CustomerProfileDetails = ({ setOpen, selectedId }) => {
           </Col>
         ))}
       </Form.Group>
-      <Button type="submit" className={`${styles.btn} mt-3 align-self-end`}>
-        Create Customer
-      </Button>
     </Form>
   );
 };

@@ -12,7 +12,7 @@ import { Tab,
 
 
 const Product = (props) => {
-  const [show, setShow] = useState(false);
+  const [showPro, setShowPro] = useState(false);
   // const [alertConfirm, setAlertConfirm] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
   const dispatch = useDispatch();
@@ -21,7 +21,6 @@ const Product = (props) => {
   const customFields = ["Duedate", "Create Date"];
   // pop up modal to show the add_new_customer function
   const [showAddCustomer, setShowAddCustomer] = useState(false);
-  
 
   //Get data
   useEffect(() => {
@@ -38,7 +37,7 @@ const Product = (props) => {
 
   const handleRecordDoubleClick = ({ ID }) => {
     setSelectedId(ID);
-    setShow(true);
+    setShowPro(true);
   };
 
   // Handlers for add customer modal button
@@ -64,19 +63,21 @@ const Product = (props) => {
   // };
   return (
     <>
-      <Tab.Pane {...props}>
-        <Button 
-          variant="primary" 
-          className="add-btn" 
-          onClick={handleShowAddCustomer} 
+      <Tab.Pane {...props} className="g-4 bg-2nd-color m-2 px-3 py-3 rounded-4">
+        <Button
+          variant="primary"
+          className="add-btn"
+          onClick={handleShowAddCustomer}
         >
           Add Item
         </Button>
         {/* Add Customer Modal - Using React Bootstrap */}
-        <NewProduct show={showAddCustomer}
+        <NewProduct
+          show={showAddCustomer}
           onHide={handleCloseAddCustomer}
           backdrop="static"
-          keyboard={false} />
+          keyboard={false}
+        />
 
         <CustomTable
           headers={headers}
@@ -86,14 +87,14 @@ const Product = (props) => {
           statusFetching={status}
           customTableColor="bg-pressed-color text-light"
         />
-        
+
         <CustomModal
-          setOpen={setShow}
-          open={show}
+          setOpen={setShowPro}
+          open={showPro}
           selectedId={selectedId}
           headerTitle="Product"
         >
-          <ProductDetails {...props} />
+          <ProductDetails {...props} selectedId={selectedId} />
         </CustomModal>
         {/* <CustomModal
           handleOk={handleOk}
