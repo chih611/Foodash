@@ -26,6 +26,8 @@ const HomeContent = () => {
     (state) => state.items
   );
 
+  console.log(items);
+
   const [currentView, setCurrentView] = useState("categories");
   const [priceSort, setPriceSort] = useState(""); // Sorting by price
   const [nameSort, setNameSort] = useState(""); // Sorting by name
@@ -220,9 +222,11 @@ const HomeContent = () => {
                 <div className="homeContentSection">
                   <Row>
                     {finalDisplayedItems.length > 0 ? (
-                      finalDisplayedItems.map((item) => (
-                        <HomeItemContainer key={item.ITEM_ID} item={item} />
-                      ))
+                      finalDisplayedItems
+                        .filter((item) => item.QUANTITY > 0) // Ensure only items with QUANTITY > 0 are displayed
+                        .map((item) => (
+                          <HomeItemContainer key={item.ITEM_ID} item={item} />
+                        ))
                     ) : (
                       <div
                         className="no-items-found"

@@ -27,38 +27,6 @@ const HomeSideBarBox = ({ onFilterChange }) => {
   return (
     <div className="sidebar-box">
       <div className="sidebar-box-category">
-        <Row onClick={() => toggleDropdown("eventType")}>
-          <Col xs={3}>
-            <RemoveCircleIcon className="sidebar-box-removeicon" />
-          </Col>
-          <Col xs={6}>Labels</Col>
-          <Col xs={3}>
-            <ArrowDropDownIcon />
-          </Col>
-        </Row>
-        <Collapse in={open.eventType}>
-          <div>
-            <ul>
-              {labelList.map((label, index) => (
-                <li key={index}>
-                  <Form.Check
-                    type="checkbox"
-                    label={label.LABEL_NAME}
-                    onChange={(e) =>
-                      handleCheckboxChange(
-                        "labels",
-                        label.LABEL_NAME,
-                        e.target.checked
-                      )
-                    }
-                  />
-                </li>
-              ))}
-            </ul>
-          </div>
-        </Collapse>
-      </div>
-      <div className="sidebar-box-category">
         <Row onClick={() => toggleDropdown("dietary")}>
           <Col xs={3}>
             <RemoveCircleIcon className="sidebar-box-removeicon" />
@@ -71,64 +39,23 @@ const HomeSideBarBox = ({ onFilterChange }) => {
         <Collapse in={open.dietary}>
           <div>
             <ul>
-            <li>Dietary 1</li>
-              <li>Dietary 2</li>
-              <li>Dietary 3</li>
-            </ul>
-          </div>
-        </Collapse>
-      </div>
-      <div className="sidebar-box-category">
-        <Row onClick={() => toggleDropdown("people")}>
-          <Col xs={3}>
-            <RemoveCircleIcon className="sidebar-box-removeicon" />
-          </Col>
-          <Col xs={6}>People</Col>
-          <Col xs={3}>
-            <ArrowDropDownIcon />
-          </Col>
-        </Row>
-        <Collapse in={open.people}>
-          <div>
-            <ul>
-              <li>People 1</li>
-              <li>People 2</li>
-              <li>People 3</li>
-            </ul>
-          </div>
-        </Collapse>
-      </div>
-      <div className="sidebar-box-category">
-        <Row onClick={() => toggleDropdown("checklist")}>
-          <Col xs={3}>
-            <RemoveCircleIcon className="sidebar-box-removeicon" />
-          </Col>
-          <Col xs={6}>Checklist</Col>
-          <Col xs={3}>
-            <ArrowDropDownIcon />
-          </Col>
-        </Row>
-        <Collapse in={open.checklist}>
-          <div>
-            <ul>
-              <li>Checklist 1</li>
-              <li>Checklist 2</li>
-              <li>Checklist 3</li>
-              {ingredientList?.map((ingredient, index) => (
-                <li key={index}>
-                  <Form.Check
-                    type="checkbox"
-                    label={ingredient}
-                    onChange={(e) =>
-                      handleCheckboxChange(
-                        "ingredients",
-                        ingredient,
-                        e.target.checked
-                      )
-                    }
-                  />
-                </li>
-              ))}
+              {ingredientList
+                .filter((ingredient) => ingredient !== null) // Filter out null values
+                .map((ingredient, index) => (
+                  <li key={index}>
+                    <Form.Check
+                      type="checkbox"
+                      label={ingredient}
+                      onChange={(e) =>
+                        handleCheckboxChange(
+                          "ingredients",
+                          ingredient,
+                          e.target.checked
+                        )
+                      }
+                    />
+                  </li>
+                ))}
             </ul>
           </div>
         </Collapse>

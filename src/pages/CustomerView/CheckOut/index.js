@@ -16,6 +16,7 @@ import {
 import { clearCartItems } from "../../../../store/slices/cartSlice";
 import PaymentIcon from "@mui/icons-material/Payment";
 import PrimaryButton from "../ViewCart/_PrimaryButton";
+import Swal from "sweetalert2";
 
 const Checkout = () => {
   const [pickup, setPickup] = useState(false);
@@ -200,6 +201,18 @@ const Checkout = () => {
   };
 
   const handlePlaceOrder = async () => {
+    console.log("Cart Subtotal:", cartSubtotal); // Log for debugging
+
+    if (cartSubtotal < 200) {
+      Swal.fire({
+        icon: "warning",
+        title: "Minimum Order Requirement",
+        text: "Order must be at least $200 to proceed.",
+        confirmButtonText: "OK",
+      });
+      return; // Stop further execution
+    }
+
     try {
       const finalCustomerId = await checkCustomerId(recipientDetails);
       const orderId = await createOrderHandler(
@@ -217,18 +230,51 @@ const Checkout = () => {
 
       await createOrderItemsHandler(orderId, cartItems);
 
-      await dispatch(clearCartItems({ customerId: finalCustomerId, cartId }));
-
-      router.push(`/CustomerView/CheckOut/Confirm?orderId=${orderId}`);
+      // Navigate to the Payment page with orderId and order details
+      router.push({
+        pathname: "/CustomerView/Payment",
+        query: {
+          orderId,
+          cartSubtotal,
+          cartTotal,
+          deliveryFee,
+          serviceFee,
+          recipientDetails: JSON.stringify(recipientDetails),
+          pickup,
+          promoValue,
+          orderNote,
+          cartItems: JSON.stringify(cartItems),
+        },
+      });
     } catch (error) {
-      alert("An error occurred while placing the order. Please try again.");
+      Swal.fire(
+        "Error",
+        "An error occurred while creating the order. Please try again.",
+        "error"
+      );
     }
   };
 
-  // New function to create a quote order
   const handleCreateQuoteOrder = async () => {
     try {
+      console.log("Creating quote order with the following details:");
+      console.log("Cart Subtotal:", cartSubtotal);
+      console.log("Recipient Details:", recipientDetails);
+      console.log("Pickup:", pickup);
+
+      if (cartSubtotal < 200) {
+        Swal.fire({
+          icon: "warning",
+          title: "Minimum Order Requirement",
+          text: "Order must be at least $200 to proceed.",
+          confirmButtonText: "OK",
+        });
+        return; // Stop further execution
+      }
+
       const finalCustomerId = await checkCustomerId(recipientDetails);
+      console.log("Final Customer ID:", finalCustomerId); // Log Customer ID
+
       const orderId = await createOrderHandler(
         finalCustomerId,
         cartSubtotal,
@@ -249,7 +295,12 @@ const Checkout = () => {
 
       router.push(`/CustomerView/CheckOut/Confirm?orderId=${orderId}`);
     } catch (error) {
-      alert("An error occurred while creating the quote. Please try again.");
+      console.error("Error creating quote order:", error); // Log the error
+      Swal.fire(
+        "Error",
+        "An error occurred while creating the quote. Please try again.",
+        "error"
+      );
     }
   };
 
@@ -276,7 +327,6 @@ const Checkout = () => {
           />
         </Row>
 
-        {/* Add Order Note Section */}
         <Row className="w-100 justify-content-center my-4">
           <Form.Group>
             <Form.Label>Add a Note to Your Order</Form.Label>
@@ -316,7 +366,6 @@ const Checkout = () => {
             disabled={cartItems.length === 0}
             text="Pay Now"
           />
-          {/* New Button for Creating a Quote */}
         </Row>
         <Row
           className="w-100 justify-content-center"
@@ -328,7 +377,6 @@ const Checkout = () => {
             disabled={cartItems.length === 0}
             text="Create Quote"
           />
-          {/* New Button for Creating a Quote */}
         </Row>
       </Container>
     </div>
