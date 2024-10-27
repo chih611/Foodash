@@ -14,7 +14,9 @@ const Contents = () => {
         <Report eventKey="Home" />
         <Order eventKey="Order" />
         <Product eventKey="Product" />
+        {/* <Marketing eventKey="Marketing" /> */}
         <CustomerProfile eventKey="Profile" />
+        {/* <Reminder eventKey="Reminder" /> */}
         <UserSetting eventKey="User setting" />
       </Tab.Content>
     </>
