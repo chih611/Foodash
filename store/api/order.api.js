@@ -209,3 +209,12 @@ export const fetchOrderLisByCustomerNameAPI = async (full_name) => {
   }
   return data;
 };
+
+export const fetchTotalOrderListAPI = async () => {
+  const response = await axios.get(`${BASE_URL}/order_total_by_customer`);
+  let data = response.data;
+  if (!Array.isArray(data)) {
+    data = [data];
+  }
+  return data;
+};

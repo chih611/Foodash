@@ -9,6 +9,7 @@ import {
   updateOrderAPI,
   fetchOrderListByTodayAPI,
   updateOrderViewByIdAPI,
+  fetchTotalOrderListAPI,
 } from "../api/order.api";
 import axios from "axios";
 
@@ -149,6 +150,19 @@ export const fetchOrderListToday = createAsyncThunk(
   async (duedate, { rejectWithValue }) => {
     try {
       return await fetchOrderListTodayAPI(duedate);
+    } catch (error) {
+      return rejectWithValue(
+        error.response ? error.response.data : error.message
+      );
+    }
+  }
+);
+
+export const fetchTotalOrderList = createAsyncThunk(
+  "order/fetchTotalOrderList",
+  async (_, { rejectWithValue }) => {
+    try {
+      return await fetchTotalOrderListAPI();
     } catch (error) {
       return rejectWithValue(
         error.response ? error.response.data : error.message
