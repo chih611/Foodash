@@ -4,6 +4,7 @@ import {
   fetchSaleReportsAPI,
   fetchSalesByMonthAPI,
   fetchSaleSumByMonthAPI,
+  fetchSaleMethodThisMonthAPI,
 } from "../api/report.api";
 
 export const fetchCurrentMonthCateSales = createAsyncThunk(
@@ -62,3 +63,16 @@ export const fetchSaleSumByMonth = createAsyncThunk(
   }
 );
 
+export const fetchSaleMethodThisMonth = createAsyncThunk(
+  "report/fetchSaleMethod",
+  async (_, { rejectWithValue }) => {
+    try {
+      const data = await fetchSaleMethodThisMonthAPI();
+      return data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response ? error.response.data : error.message
+      );
+    }
+  }
+);
