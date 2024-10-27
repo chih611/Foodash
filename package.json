@@ -51,6 +51,7 @@
     "square": "^38.0.0",
     "styled-components": "^6.1.13",
     "sweetalert2": "^11.6.13",
+    "tailwindcss": "^3.4.14",
     "yup": "^1.4.0"
   },
   "devDependencies": {
