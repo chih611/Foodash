@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
-import { Tab } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector, } from "react-redux";
 import CustomTable from "../_components/table";
 // import OrderDetails from "./order_details";
 import ProductDetails from "./product_details";
 import CustomModal from "../_components/modal";
 import { fetchItems } from "../../../../store/slices/itemsSlice";
+import NewProduct from "../_components/inputProduct";
+import { Tab, 
+         Button, 
+         Modal} from "react-bootstrap";
+
 
 const Product = (props) => {
   const [show, setShow] = useState(false);
@@ -15,6 +19,9 @@ const Product = (props) => {
   let headers = [];
   let records = [];
   const customFields = ["Duedate", "Create Date"];
+  // pop up modal to show the add_new_customer function
+  const [showAddCustomer, setShowAddCustomer] = useState(false);
+  
 
   //Get data
   useEffect(() => {
@@ -33,6 +40,10 @@ const Product = (props) => {
     setSelectedId(ID);
     setShow(true);
   };
+
+  // Handlers for add customer modal button
+  const handleCloseAddCustomer = () => setShowAddCustomer(false);
+  const handleShowAddCustomer = () => setShowAddCustomer(true);
 
   // const handleOk = async (e, selectedId) => {
   //   e.preventDefault();
@@ -54,6 +65,19 @@ const Product = (props) => {
   return (
     <>
       <Tab.Pane {...props}>
+        <Button 
+          variant="primary" 
+          className="add-btn" 
+          onClick={handleShowAddCustomer} 
+        >
+          Add Item
+        </Button>
+        {/* Add Customer Modal - Using React Bootstrap */}
+        <NewProduct show={showAddCustomer}
+          onHide={handleCloseAddCustomer}
+          backdrop="static"
+          keyboard={false} />
+
         <CustomTable
           headers={headers}
           records={records}
@@ -62,6 +86,7 @@ const Product = (props) => {
           statusFetching={status}
           customTableColor="bg-pressed-color text-light"
         />
+        
         <CustomModal
           setOpen={setShow}
           open={show}

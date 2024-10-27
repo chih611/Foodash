@@ -164,6 +164,7 @@ const OrderDetails = ({
         records={recordsOrderDetails}
         statusFetching={statusOrderDetailFetching}
         objectFields={objectFields}
+        showPagination={true}
         customTableColor={customTableColor}
       />
     </>

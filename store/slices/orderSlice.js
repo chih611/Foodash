@@ -11,6 +11,7 @@ import {
   fetchOrderListByToday,
   fetchOrderListByDuedate,
   updateOrderViewById,
+  fetchTotalOrderList,
 } from "../actions/orderAction";
 
 const initialState = {
@@ -20,6 +21,7 @@ const initialState = {
   orderListByDuedate: null,
   orderListToday: null,
   orderById: null,
+  total_order: null,
   status: null,
   error: null,
 };
@@ -115,17 +117,6 @@ const orderSlice = createSlice({
         state.status = "failed";
         state.error = action.error || { message: "Fetching API is failed!" };
       })
-      .addCase(fetchOrderListByToday.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(fetchOrderListByToday.fulfilled, (state, action) => {
-        state.orderListByToday = action.payload;
-        state.status = "succeeded";
-      })
-      .addCase(fetchOrderListByToday.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.error || { message: "Fetching API is failed!" };
-      })
       .addCase(updateOrder.pending, (state) => {
         state.status = "loading";
       })
@@ -149,6 +140,30 @@ const orderSlice = createSlice({
         state.error = action.error || {
           message: "Updating order view by Id is failed!",
         };
+      })
+      .addCase(fetchTotalOrderList.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchTotalOrderList.fulfilled, (state, action) => {
+        state.total_order = action.payload;
+        state.status = "succeeded";
+      })
+      .addCase(fetchTotalOrderList.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error || {
+          message: "Updating order view by Id is failed!",
+        };
+      })
+      .addCase(fetchOrderListByToday.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchOrderListByToday.fulfilled, (state, action) => {
+        state.orderListByToday = action.payload;
+        state.status = "succeeded";
+      })
+      .addCase(fetchOrderListByToday.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error || { message: "Fetching API is failed!" };
       });
   },
 });

@@ -1,11 +1,10 @@
 // src/store/slices/itemsSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { fetchItemListAPI } from "../api/item.api";
+import { fetchItemListAPI, createItemAPI } from "../api/item.api";
 
 // Define base URL with dynamic backend port from the environment variable
-const BASE_URL = `http://localhost:8080`;
-// const BASE_URL = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_ADDRESS;
+const BASE_URL = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_ADDRESS;
 
 // Fetch items thunk
 export const fetchItems = createAsyncThunk(
@@ -49,6 +48,19 @@ export const searchItemsByName = createAsyncThunk(
       return rejectWithValue(
         error.response ? error.response.data : error.message
       );
+    }
+  }
+);
+
+// add item
+export const createItem = createAsyncThunk(
+  "items/createItem",
+  async (itemData, { rejectWithValue }) => {
+    try {
+      const response = await createItemAPI(itemData);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.response ? error.response.data : error.message);
     }
   }
 );

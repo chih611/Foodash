@@ -15,17 +15,19 @@ import orderListReducer from "./slices/orderSlice";
 import ordersTodayListReducer from "./slices/orderSlice";
 import orderDetailReducer from "./slices/orderDetailSlice";
 import notificationReducer from "./slices/notificationSlice";
+import reportReducer from "./slices/reportSlice";
+import salesMedthodReducer from "./slices/reportSlice";
 
 const persistConfig = {
   key: "root",
-  storage, // Use localStorage for other slices
+  storage,
   blacklist: [
     "order",
     "orderDetail",
     "ordersToday",
     "customer",
     "notification",
-    // "admin",
+    "report",
   ],
 };
 
@@ -51,8 +53,10 @@ const rootReducer = combineReducers({
   order: orderReducer,
   orderDetail: orderDetailReducer,
   orderListByToday: ordersTodayListReducer,
+  report: reportReducer,
   notifications: notificationReducer,
   orderList: orderListReducer,
+  salesMedthod: salesMedthodReducer,
 });
 
 // Create the persisted reducer for the store

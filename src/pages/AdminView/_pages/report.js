@@ -1,9 +1,6 @@
 import { Card, Col, Row, Tab, Dropdown, Button } from "react-bootstrap";
 import { useState, useEffect, memo } from "react";
-
 import Link from "next/link";
-
-import FilterListOutlined from "@mui/icons-material/FilterListOutlined";
 import AssignmentRounded from "@mui/icons-material/AssignmentRounded";
 import CalendarMonthRounded from "@mui/icons-material/CalendarMonthRounded";
 import CalendarTracking from "../_components/calendar";
@@ -15,32 +12,41 @@ import { fetchAllAdmins } from "../../../../store/slices/adminSlice";
 import { getAllCustomers } from "../../../../store/slices/customerSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { format, parseISO } from "date-fns";
-import { SwapVertRounded } from "@mui/icons-material";
 import CustomTable from "../_components/table";
-import CustomModal from "../_components/modal";
-import OrderDetails from "./order_details";
-
-// import { ReportCategory } from "./reportCategory";
+import { fetchCurrentMonthCateSales, fetchSaleMethodThisMonth } from "../../../../store/actions/reportAction";
+import styles from "@/styles/styles";
 
 const Report = (props) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log(props);
     dispatch(getAllCustomers()); // Fetch all customers when component loads
-
     dispatch(fetchAllAdmins());
     dispatch(fetchOrderList());
     dispatch(fetchOrderListByToday());
+    dispatch(fetchCurrentMonthCateSales());
+    dispatch(fetchSaleMethodThisMonth());
   }, []);
 
   const orderList = useSelector((state) => state.order.ordersList);
   const orderListToday = useSelector((state) => state.order.orderListByToday);
+  const currentMonthCateSales = useSelector(
+    (state) => state.report.currentMonthCateSales
+  );
   const statusOrderListToday = useSelector((state) => state.order.status);
+  const statusCurrentMonthCateSales = useSelector(
+    (state) => state.report.status
+  );
+  const salesMedthod = useSelector(
+    (state) => state.report.salesMedthod
+  );
+
 
   //Declaring
   let headersOrderList = [];
-  const datetimeFields = ["Duedate", "Create Date"];
+  let headersCurrentMonthCateSales = [];
+  let headerSaleMethods = [];
+  const datetimeFields = ["Duedate", "Create Date", "Created"];
 
   const [show, setShow] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
@@ -51,18 +57,18 @@ const Report = (props) => {
     });
   }
 
+  if (currentMonthCateSales) {
+    currentMonthCateSales.map((item) => {
+      headersCurrentMonthCateSales?.push(Object.keys(item));
+    });
+  }
+
   //Handler func()
   const handleRecordDoubleClick = ({ ID }) => {
     setSelectedId(ID);
     setShow(true);
   };
-
-  const categories = [
-    { id: "111", name: "EAT", stock: "11000", sold: "123", expired: "108" },
-    { id: "112", name: "FOOD", stock: "12000", sold: "123", expired: "180" },
-    { id: "113", name: "COFFEE", stock: "11000", sold: "123", expired: "188" },
-    { id: "114", name: "DRINK", stock: "10100", sold: "123", expired: "18" },
-  ];
+  const handleReportclick = (e) => {};
 
   const payments = [
     { id: "1", name: "Total Collected", amount: "$5,080.40" },
@@ -101,23 +107,23 @@ const Report = (props) => {
 
   //use today filter for orderList with updated date, created date or due date are: today _ JUST need 2 collumn: ORDER_ID & STATUS, Order Amount or Recurring Status
 
-  const today = format(new Date(), "yyyy.MM.dd");
-  console.log(today);
-  // Filter orders to include only today's orders
-  // Ensure orderList is an array, and filter today's orders based on the Create Date
-  const todaysOrders = Array.isArray(orderList)
-    ? orderList.filter((order) => {
-        // Parse the order's Create Date and format it to 'YYYY.MM.DD'
-        const formattedCreateDate = format(
-          parseISO(order["Create Date"]),
-          "yyyy.MM.dd"
-        );
-        const formattedDueDate = format(parseISO(order.Duedate), "yyyy.MM.dd");
+  // const today = format(new Date(), "yyyy.MM.dd");
+  // console.log(today);
+  // // Filter orders to include only today's orders
+  // // Ensure orderList is an array, and filter today's orders based on the Create Date
+  // const todaysOrders = Array.isArray(orderList)
+  //   ? orderList.filter((order) => {
+  //       // Parse the order's Create Date and format it to 'YYYY.MM.DD'
+  //       const formattedCreateDate = format(
+  //         parseISO(order["Create Date"]),
+  //         "yyyy.MM.dd"
+  //       );
+  //       const formattedDueDate = format(parseISO(order.Duedate), "yyyy.MM.dd");
 
-        // Check if either date matches today's date
-        return formattedCreateDate === today || formattedDueDate === today;
-      })
-    : [];
+  //       // Check if either date matches today's date
+  //       return formattedCreateDate === today || formattedDueDate === today;
+  //     })
+  //   : [];
 
   return (
     <>
@@ -135,6 +141,7 @@ const Report = (props) => {
                 <Card.Title className="subtitle_admin">
                   <AssignmentRounded className="mx-2" />
                   What's on Today
+                  <hr />
                 </Card.Title>
                 <CustomTable
                   headers={headersOrderList}
@@ -142,16 +149,10 @@ const Report = (props) => {
                   handleRecordDoubleClick={handleRecordDoubleClick}
                   datetimeFields={datetimeFields}
                   statusFetching={statusOrderListToday}
+                  showPagination={false}
+                  customTableColor={styles.admin_header_tables}
                 />
               </Card.Body>
-              <CustomModal
-                setOpen={setShow}
-                open={show}
-                selectedId={selectedId}
-                headerTitle="Order"
-              >
-                <OrderDetails {...props} />
-              </CustomModal>
             </Card>
 
             {/* Sales By Category */}
@@ -159,21 +160,25 @@ const Report = (props) => {
               <Card.Body>
                 <Card.Title className="subtitle_admin mb-3">
                   Sales By Category
+                  <hr />
                 </Card.Title>
                 <Link href="./AdminView/ReportCategory">
-                  <Button variant="primary">View Report</Button>
+                  <Button className={styles.btn} variant="primary">
+                    View Report
+                  </Button>
                 </Link>
 
-                <label className="font-medium text-gray-700 ms-4">
+                <label className="font-medium text-gray-700 ms-4 fw-bold">
                   This month: {getMonthName(startDate)}
                 </label>
-
                 <CustomTable
-                  headers={headersOrderList}
-                  records={orderListToday ? orderListToday : []}
-                  handleRecordDoubleClick={handleRecordDoubleClick}
+                  headers={headersCurrentMonthCateSales}
+                  records={currentMonthCateSales ? currentMonthCateSales : []}
+                  handleRecordDoubleClick={handleReportclick}
                   datetimeFields={datetimeFields}
-                  statusFetching={statusOrderListToday}
+                  statusFetching={statusCurrentMonthCateSales}
+                  showPagination={false}
+                  customTableColor={styles.admin_header_tables}
                 />
               </Card.Body>
             </Card>
@@ -183,7 +188,11 @@ const Report = (props) => {
               <Card.Body>
                 <Card.Title className="subtitle_admin">Sales Report</Card.Title>
                 <Dropdown className="my-3">
-                  <Dropdown.Toggle variant="primary" id="dropdown-basic">
+                  <Dropdown.Toggle
+                    variant="primary"
+                    id="dropdown-basic"
+                    className={styles.btn}
+                  >
                     This month
                   </Dropdown.Toggle>
 
@@ -194,15 +203,14 @@ const Report = (props) => {
                   </Dropdown.Menu>
                 </Dropdown>
                 <Card.Text className="my-3">
-                  {payments.map((item) => (
-                    <div
-                      className="my-3 d-flex justify-content-between"
-                      key={item.id}
-                    >
-                      <p className="subtitle mx-4">{item.name}</p>
-                      <p className="subtitle mx-4">{item.amount}</p>
-                    </div>
-                  ))}
+                  {salesMedthod?.map((item, index) =>
+                    Object.entries(item).map(([key, value], j) => (
+                      <div className="m-3 d-flex justify-content-between" key={index}>
+                        <p className="subtitle">{key}</p>
+                        <p className="subtitle ">{value}</p>
+                      </div>
+                    ))
+                  )}
                 </Card.Text>
               </Card.Body>
             </Card>

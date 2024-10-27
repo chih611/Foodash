@@ -80,7 +80,7 @@ export const fetchBoughtBeforeByCustomerId = createAsyncThunk(
 
       // Convert the Map back to an array
       const uniqueItems = Array.from(uniqueItemsMap.values());
-      console.log("Unique Items:", uniqueItems);
+      // console.log("Unique Items:", uniqueItems);
       return uniqueItems;
     } catch (error) {
       return rejectWithValue(
@@ -94,8 +94,6 @@ export const fetchOrderDetailList = createAsyncThunk(
   "orderDetail/fetchOrderDetailList",
   async (orderId, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${BASE_URL}/order_details/${orderId}`);
-      return response.data;
       const data = await fetchOrderDetailListAPI(orderId);
       return data;
     } catch (error) {

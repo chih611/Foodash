@@ -1,32 +1,35 @@
 import moment from "moment";
 import {
+  Badge,
   Button,
   FloatingLabel,
   Form,
-  Navbar,
   Pagination,
   Placeholder,
   Table,
 } from "react-bootstrap";
-// bg-pressed-color text-light
-import DeleteIcon from "@mui/icons-material/Delete";
 import { useMemo, useState } from "react";
 import { SwapVertRounded } from "@mui/icons-material";
 import styles from "../../../styles/styles";
-import { Col, Row } from "react-bootstrap";
+const CustomTable = (props) => {
+  const {
+    headers,
+    records,
+    handleRecordDoubleClick,
+    onCreateClick,
+    showCreateButton = false, // Default to false
+    datetimeFields,
+    objectFields,
+    statusFetching,
+    showPagination,
+    customTableColor,
+    showSpecialButton = false,
+    handleOrderClick,
+    actionCol,
+  } = props;
 
-const CustomTable = ({
-  headers,
-  records,
-  handleRecordDoubleClick,
-  handleRemoveSingleClick,
-  onCreateClick,
-  showCreateButton = false, // Default to false
-  datetimeFields,
-  objectFields,
-  statusFetching,
-  customTableColor,
-}) => {
+  const [show, setShow] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const filteredData = records?.filter((item) =>
     Object.values(item)
@@ -131,7 +134,6 @@ const CustomTable = ({
                   <Placeholder xs={6} />
                 </Placeholder>
               </th>
-              {/* Additional placeholders as needed */}
             </tr>
           </thead>
           <tbody>
@@ -177,6 +179,9 @@ const CustomTable = ({
           >
             <thead>
               <tr>
+                {showSpecialButton && (
+                  <th className={customTableColor}>{actionCol}</th>
+                )}
                 {Array.from({ length: 1 }).map((_, index) =>
                   headers[0]?.map((header, j) => (
                     <th
@@ -190,7 +195,7 @@ const CustomTable = ({
                         variant="link"
                         className={
                           customTableColor +
-                          " text-light text-center text-nowrap"
+                          "text-light text-center text-nowrap"
                         }
                         onClick={() => handleSort(header)}
                       >
@@ -204,6 +209,15 @@ const CustomTable = ({
             <tbody>
               {currentItems?.map((e, i) => (
                 <tr key={i}>
+                  {showSpecialButton && (
+                    <td key={i}>
+                      <Button
+                        onClick={() => handleOrderClick && handleOrderClick(e)}
+                      >
+                        <Badge bg="primary">{e.TOTAL}</Badge>
+                      </Button>
+                    </td>
+                  )}
                   {Object.entries(e).map(([key, value], j) => (
                     <td key={j} className="text-center">
                       <Button
@@ -234,28 +248,41 @@ const CustomTable = ({
               ))}
             </tbody>
           </Table>
-
-          <Pagination>
-            <Pagination.First
-              onClick={() => handlePageChange(1)}
-              disabled={currentPage === 1}
-            />
-            <Pagination.Prev
-              onClick={() => handlePageChange(currentPage - 1)}
-              disabled={currentPage === 1}
-            />
-            {paginationItems}
-            <Pagination.Next
-              onClick={() => handlePageChange(currentPage + 1)}
-              disabled={currentPage === totalPages}
-            />
-            <Pagination.Last
-              onClick={() => handlePageChange(totalPages)}
-              disabled={currentPage === totalPages}
-            />
-          </Pagination>
+          {showPagination && (
+            <Pagination>
+              <Pagination.First
+                onClick={() => handlePageChange(1)}
+                disabled={currentPage === 1}
+              />
+              <Pagination.Prev
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+              />
+              {paginationItems}
+              <Pagination.Next
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+              />
+              <Pagination.Last
+                onClick={() => handlePageChange(totalPages)}
+                disabled={currentPage === totalPages}
+              />
+            </Pagination>
+          )}
         </>
       )}
+      {/* <CustomModal
+        setOpen={setShow}
+        open={show}
+        selectedId={selectedId}
+        headerTitle="Order"
+        customTableColor="bg-pressed-color text-light"
+      >
+        <OrderDetails
+          // {...props}
+          customTableColor="bg-pressed-color text-light"
+        />
+      </CustomModal> */}
     </>
   );
 };
