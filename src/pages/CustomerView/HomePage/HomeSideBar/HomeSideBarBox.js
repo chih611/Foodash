@@ -71,8 +71,6 @@ const HomeSideBarBox = ({ onFilterChange }) => {
         <Collapse in={open.dietary}>
           <div>
             <ul>
-<<<<<<< HEAD
-<<<<<<< Updated upstream
               <li>Dietary 1</li>
               <li>Dietary 2</li>
               <li>Dietary 3</li>
@@ -116,11 +114,7 @@ const HomeSideBarBox = ({ onFilterChange }) => {
               <li>Checklist 1</li>
               <li>Checklist 2</li>
               <li>Checklist 3</li>
-=======
               {ingredientList?.map((ingredient, index) => (
-=======
-              {ingredientList.map((ingredient, index) => (
->>>>>>> kevin
                 <li key={index}>
                   <Form.Check
                     type="checkbox"
@@ -135,10 +129,6 @@ const HomeSideBarBox = ({ onFilterChange }) => {
                   />
                 </li>
               ))}
-<<<<<<< HEAD
->>>>>>> Stashed changes
-=======
->>>>>>> kevin
             </ul>
           </div>
         </Collapse>

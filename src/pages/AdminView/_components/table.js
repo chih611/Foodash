@@ -11,6 +11,7 @@ import {
 import { useMemo, useState } from "react";
 import { SwapVertRounded } from "@mui/icons-material";
 import styles from "../../../styles/styles";
+<<<<<<< Updated upstream
 
 const CustomTable = (props) => {
   const {
@@ -28,6 +29,26 @@ const CustomTable = (props) => {
     handleOrderClick,
     actionCol,
   } = props;
+=======
+import { Col, Row } from "react-bootstrap";
+import CustomModal from "./modal";
+import OrderDetails from "../_pages/order_details";
+
+const CustomTable = ({
+  headers,
+  records,
+  handleRecordDoubleClick,
+  onCreateClick,
+  showCreateButton = false, // Default to false
+  datetimeFields,
+  objectFields,
+  statusFetching,
+  customTableColor,
+  showSpecialButton = false,
+}) => {
+  const [show, setShow] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
+>>>>>>> Stashed changes
   const [searchTerm, setSearchTerm] = useState("");
   const filteredData = records?.filter((item) =>
     Object.values(item)
@@ -269,6 +290,18 @@ const CustomTable = (props) => {
           )}
         </>
       )}
+      <CustomModal
+        setOpen={setShow}
+        open={show}
+        selectedId={selectedId}
+        headerTitle="Order"
+        customTableColor="bg-pressed-color text-light"
+      >
+        <OrderDetails
+          // {...props}
+          customTableColor="bg-pressed-color text-light"
+        />
+      </CustomModal>
     </>
   );
 };
