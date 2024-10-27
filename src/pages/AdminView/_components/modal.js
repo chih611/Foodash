@@ -10,6 +10,7 @@ const CustomModal = ({
   showCancelBtn,
   showOKBtn,
   headerTitle,
+  customTableColor,
 }) => {
   const handleClose = () => setOpen(false);
 
@@ -23,7 +24,7 @@ const CustomModal = ({
       animation
       fullscreen="lg-down"
     >
-      <Modal.Header closeButton className="bg-pressed-color text-light">
+      <Modal.Header closeButton className={customTableColor + "text-light"}>
         <Modal.Title id="example-custom-modal-styling-title">
           {headerTitle} {selectedId}
         </Modal.Title>

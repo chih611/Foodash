@@ -5,11 +5,15 @@ const BASE_URL = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_ADDRESS;
 
 export const fetchItemsByCategory = createAsyncThunk(
   "category/fetchItemsByCategory",
-  async (categoryName) => {
-    const response = await axios.get(
-      `${BASE_URL}/items/category/${categoryName}`
-    );
-    return response.data;
+  async (categoryId, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(
+        `${BASE_URL}/items/category/${categoryId}`
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data.message);
+    }
   }
 );
 
@@ -17,6 +21,7 @@ export const fetchAllCategories = createAsyncThunk(
   "category/fetchAllCategories",
   async () => {
     const response = await axios.get(`${BASE_URL}/category`);
+    console.log(response.data);
     return response.data;
   }
 );

@@ -1,41 +1,38 @@
 import React, { useState, useEffect } from "react";
-import Link from "next/link";
-import {
-  Container,
-  Row,
-  Col,
-  Navbar,
-  Nav,
-  Button,
-  Offcanvas,
-} from "react-bootstrap";
-import ArrowRightRounded from "@mui/icons-material/ArrowRightRounded";
-import CreditCardRounded from "@mui/icons-material/CreditCardRounded";
-import DetailForm from "./_recipientForm"
+import { useSelector } from "react-redux";
+import { Button } from "react-bootstrap";
 
+const AddPayment = ({ pickup, fees, setPromoValue }) => {
+  const cartItems = useSelector((state) => state.cart.cartItems);
 
-const AddPayment = ({ pickup }) => {
+  const cartTotal = cartItems
+    .filter((item) => item !== null) // Ensure null items are filtered out
+    .reduce((acc, item) => acc + item.price * item.quantity, 0);
+
+  const [total, setTotal] = useState(cartTotal);
   const [promo, setPromo] = useState("");
   const [appliedPromo, setAppliedPromo] = useState(null);
-  const [fees, setFees] = useState([
-    { id: 1, name: "Delivery Fee", price: 6.99 },
-    { id: 2, name: "Service Fee", price: 2.99 },
-    { id: 3, name: "Utensil", price: 1.99 },
-    { id: 4, name: "Gift Wrap", price: 5.5 },
-  ]);
-  const [total, setTotal] = useState(0);
 
   useEffect(() => {
-    // Calculate total whenever fees or appliedPromo change
-    const feesTotal = fees.reduce((sum, fee) => sum + fee.price, 0);
+    // Ensure all fee prices are numbers before summing
+    const feesTotal = fees.reduce(
+      (sum, fee) => sum + (pickup && fee.id === 1 ? 0 : Number(fee.price)),
+      0
+    );
     const discountAmount = appliedPromo ? appliedPromo.discountAmount : 0;
-    const newTotal = Math.max(0, feesTotal - discountAmount);
+
+    // Set promo value to be used in the order payload
+    setPromoValue(discountAmount); // This will pass the promo value to the parent (Checkout component)
+
+    const newTotal = Math.max(
+      0,
+      parseFloat(cartTotal) + feesTotal - discountAmount
+    );
     setTotal(newTotal);
-  }, [fees, appliedPromo]);
+  }, [fees, appliedPromo, cartTotal, pickup, setPromoValue]);
 
   const handlePromoApply = () => {
-    // This is a mock promo code validation
-    // In a real application, you'd typically check this against a backend
+    // Mock promo code validation
     const validPromoCodes = {
       SAVE10: { discountAmount: 10, description: "$10 off" },
       HALF50: { discountAmount: 50, description: "50% off up to $50" },
@@ -46,7 +43,7 @@ const AddPayment = ({ pickup }) => {
         code: promo,
         ...validPromoCodes[promo],
       });
-      setPromo(""); // Clear the input field
+      setPromo(""); // Clear input
     } else {
       alert("Invalid promo code");
     }
@@ -54,10 +51,7 @@ const AddPayment = ({ pickup }) => {
 
   const removePromo = () => {
     setAppliedPromo(null);
-  };
-
-  const handleUpdateFees = (updatedFees) => {
-    setFees(updatedFees);
+    setPromoValue(0); // Reset promo value when promo is removed
   };
 
   return (
@@ -90,12 +84,17 @@ const AddPayment = ({ pickup }) => {
         </div>
       )}
 
+      <div className="w-100 d-flex justify-content-between">
+        <p className="subtitle mt-3 mb-1">Subtotal</p>
+        <p className="subtitle mt-3 mb-1">${cartTotal.toFixed(2)} </p>
+      </div>
+
       {/* List of costs */}
       {fees.map((fee) => (
         <div key={fee.id} className="w-100 d-flex justify-content-between">
           <p className="subtitle mt-3 mb-1">{fee.name}</p>
           <p className="subtitle mt-3 mb-1">
-            ${pickup && fee.id == 1 ? "0.0" : fee.price.toFixed(2)}
+            ${pickup && fee.id === 1 ? "0.00" : fee.price.toFixed(2)}
           </p>
         </div>
       ))}

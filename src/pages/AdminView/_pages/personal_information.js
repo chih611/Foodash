@@ -13,11 +13,14 @@ const PersonalDetail = ({
   readOnlyFields,
   Row,
   statusFetching,
+  customHeaderColor,
 }) => (
   <>
     <Accordion defaultActiveKey={["0"]} alwaysOpen>
       <Accordion.Item eventKey="0">
-        <Accordion.Header>Personal Infomation</Accordion.Header>
+        <Accordion.Header className={customHeaderColor}>
+          Personal Infomation
+        </Accordion.Header>
         <Accordion.Body>
           <Form.Group as={Row} className="" controlId="formPlaintextEmail">
             {Object.entries(e).map(([key, value], index) => {

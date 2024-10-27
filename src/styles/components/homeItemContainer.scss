@@ -11,12 +11,13 @@
 }
 
 .product-card {
-  border: 1px solid #d8eefe;
-  border-radius: 8px;
+  border: 1px solid #8f5652 !important;
+  border-radius: 35px !important;
   padding: 8px; // Reduced padding inside the card
   padding-top: 40px; // Reduced padding for the top section
+  margin: 40px 0px 20px 0px;
   transition: all 0.3s ease;
-  height: 210px !important;
+  height: 200px !important; // Adjusted height for consistency
   position: relative;
   background-color: #fffffe;
 
@@ -26,8 +27,10 @@
 
   .card-img-container {
     position: absolute;
-    top: -30px; // Moved the image container higher to reduce space
+    top: -65px !important; // Moved the image container higher to reduce space
     left: 50%;
+    width: 163px;
+    height: 163px;
     transform: translateX(-50%);
     display: flex;
     justify-content: center;
@@ -61,15 +64,22 @@
 
   .product-title {
     font-size: 14px;
-    color: colors.$headline-color;
+    color: colors.$text-color;
     margin-top: 70px; // Reduced margin to pull title closer to the rating
-    margin-bottom: 4px;
+    margin-bottom: 5px;
     text-align: center;
+
+    // Added styles to truncate long titles
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    display: block;
   }
 
   .product-price {
     font-size: 14px;
-    color: #ef4565;
+    color: colors.$text-color;
     text-align: left;
     margin-bottom: 8px;
   }
@@ -85,7 +95,7 @@
 
     &:hover {
       .icon {
-        color: #03588c;
+        color: #8f5652;
       }
     }
   }

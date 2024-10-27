@@ -1,0 +1,17 @@
+.home-category-container {
+    .category-box {
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s ease-in-out;
+  
+      &:hover {
+        transform: scale(1.05);
+      }
+  
+      .category-title {
+        font-weight: bold;
+        font-size: 1rem;
+      }
+    }
+  }
+  

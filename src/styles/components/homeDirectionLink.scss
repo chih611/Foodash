@@ -18,12 +18,16 @@
   }
 }
 
+.toggle-direction-link{
+  background-color: colors.$headline-color !important;
+}
+
 .nav-link {
   color: colors.$element-color; // Use element color for links
 
   &:hover {
     text-decoration: none;
-    color: colors.$hover-color; // Use hover color for hover state
+    color: colors.$headline-color  !important; // Use hover color for hover state
   }
 
   &.active .indicator-button {

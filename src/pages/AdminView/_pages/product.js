@@ -83,6 +83,7 @@ const Product = (props) => {
           handleRecordDoubleClick={handleRecordDoubleClick}
           datetimeFields={customFields}
           statusFetching={status}
+          customTableColor="bg-pressed-color text-light"
         />
         
         <CustomModal

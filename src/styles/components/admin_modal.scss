@@ -1,7 +1,7 @@
 
 @use "../abstract/colors" as colors;
 .accordion-button:not(.collapsed) {
-    background-color: colors.$pressed-color !important; /* Custom background color */
+    background-color: var(--header-color) !important;
     color: white !important; /* Custom text color */
     font-weight: bold !important; /* Custom font weight */
   }
