@@ -25,7 +25,7 @@ const CustomerProfile = (props) => {
   const [selectedId, setSelectedId] = useState(null);
   const [countOrder, setCountOrder] = useState(null);
   const dispatch = useDispatch();
-
+  const orderTotal = ["TOTAL"];
   let headers = [];
   let records = [];
   let total = [];
@@ -68,14 +68,9 @@ const CustomerProfile = (props) => {
     setShowOrder(true);
   };
   const total_order = useSelector((state) => state.order.total_order);
-  // total = total_order?.filter((obj1) =>
-  //   records.some((obj2) => obj1.CUSTOMER_ID === obj2.CUSTOMER_ID)
-  // );
-  // const totalOrdersArray = total?.map((item) => ({
-  //   total_orders: item.total_orders,
-  // }));
-  // let temp;
-  // totalOrdersArray && (temp = Object.assign({}, records, totalOrdersArray));
+  total = total_order?.filter((obj1) =>
+    records.some((obj2) => obj1.CUSTOMER_ID === obj2.CUSTOMER_ID)
+  );
   records =
     (total_order?.length > 0 &&
       records?.length > 0 &&
@@ -84,14 +79,14 @@ const CustomerProfile = (props) => {
           total_order.find((item) => item.CUSTOMER_ID === record.CUSTOMER_ID)
             ?.total_orders || 0;
         const newrec = {
-          ...record,
           TOTAL: total,
+          ...record,
         };
         console.log(newrec);
         return newrec;
       })) ||
     records;
-  console.log(records);
+
   return (
     <>
       <Tab.Pane {...props} className="g-4 bg-2nd-color m-2 px-3 py-3 rounded-4">
@@ -105,10 +100,10 @@ const CustomerProfile = (props) => {
           customTableColor="bg-pressed-color text-light"
           showSpecialButton={true}
           setSelectedId={setSelectedId}
-          handleOrderClick={handleOrderClick}
+          handleRecordSingleClick={handleOrderClick}
           actionCol="Order"
           showPagination={true}
-          // badges={totalOrdersArray}
+          customCols={orderTotal}
         />
         {/* Customer Details Modal */}
         <CustomModal
@@ -120,7 +115,7 @@ const CustomerProfile = (props) => {
         >
           <CustomerProfileDetails
             {...props}
-            customerData={selectedCustomer}
+            selectedId={selectedCustomerId}
             customTableColor="bg-pressed-color text-light"
           />
         </CustomModal>
@@ -130,8 +125,12 @@ const CustomerProfile = (props) => {
           open={showCreateCustomerModal}
           headerTitle="Create New Customer"
           customTableColor="bg-pressed-color text-light"
+          selectedId={selectedId}
         >
-          <CustomerProfileCreate setOpen={setShowCreateCustomerModal} />
+          <CustomerProfileCreate
+            selectedId={selectedId}
+            setOpen={setShowCreateCustomerModal}
+          />
         </CustomModal>
         <CustomModal
           setOpen={setShowOrder}
@@ -146,7 +145,6 @@ const CustomerProfile = (props) => {
             customTableColor="bg-pressed-color text-light"
           />
         </CustomModal>
-        ;
       </Tab.Pane>
     </>
   );

@@ -24,8 +24,9 @@ const CustomTable = (props) => {
     showPagination,
     customTableColor,
     showSpecialButton = false,
-    handleOrderClick,
+    handleRecordSingleClick,
     actionCol,
+    customCols = [],
   } = props;
 
   const [show, setShow] = useState(false);
@@ -209,21 +210,32 @@ const CustomTable = (props) => {
             <tbody>
               {currentItems?.map((e, i) => (
                 <tr key={i}>
-                  {showSpecialButton && (
-                    <td key={i}>
-                      <Button
-                        onClick={() => handleOrderClick && handleOrderClick(e)}
-                      >
-                        <Badge bg="primary">{e.TOTAL}</Badge>
-                      </Button>
-                    </td>
-                  )}
                   {Object.entries(e).map(([key, value], j) => (
                     <td key={j} className="text-center">
                       <Button
-                        variant="link"
+                        variant={
+                          customCols.length > 0
+                            ? customCols.map((col) =>
+                                key.includes(col) ? "primary" : "link"
+                              )
+                            : "link"
+                        }
                         onDoubleClick={() =>
-                          handleRecordDoubleClick && handleRecordDoubleClick(e)
+                          customCols.length > 0
+                            ? customCols.map((col) => {
+                                !key.includes(col) &&
+                                  handleRecordDoubleClick &&
+                                  handleRecordDoubleClick(e);
+                              })
+                            : handleRecordDoubleClick &&
+                              handleRecordDoubleClick(e)
+                        }
+                        onClick={() =>
+                          customCols.map((col) => {
+                            key.includes(col) &&
+                              handleRecordSingleClick &&
+                              handleRecordSingleClick(e);
+                          })
                         }
                         className="text-decoration-none text-dark text-nowrap"
                       >
@@ -271,18 +283,6 @@ const CustomTable = (props) => {
           )}
         </>
       )}
-      {/* <CustomModal
-        setOpen={setShow}
-        open={show}
-        selectedId={selectedId}
-        headerTitle="Order"
-        customTableColor="bg-pressed-color text-light"
-      >
-        <OrderDetails
-          // {...props}
-          customTableColor="bg-pressed-color text-light"
-        />
-      </CustomModal> */}
     </>
   );
 };

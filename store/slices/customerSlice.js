@@ -245,6 +245,7 @@ const customerSlice = createSlice({
     allCustomers: [], // To store all customers
     profile: null, // Will store customer details directly
     favouriteFoods: [], // Example additional state
+    profileDetail: null,
     status: "idle", // Status to track loading state
     error: null, // To handle errors
   },
@@ -317,9 +318,8 @@ const customerSlice = createSlice({
         state.status = "loading";
       })
       .addCase(fetchCustomerById.fulfilled, (state, action) => {
-        state.profile = action.payload; // Update profile with fetched data
+        state.profileDetail = action.payload; // Update profile with fetched data
         state.status = "succeeded";
-        state.error = null;
       })
       .addCase(fetchCustomerById.rejected, (state, action) => {
         state.status = "failed";
