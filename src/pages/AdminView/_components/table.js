@@ -1,28 +1,22 @@
 import moment from "moment";
 import {
+  Badge,
   Button,
   FloatingLabel,
   Form,
-  Navbar,
   Pagination,
   Placeholder,
   Table,
 } from "react-bootstrap";
-// bg-pressed-color text-light
-import DeleteIcon from "@mui/icons-material/Delete";
 import { useMemo, useState } from "react";
 import { SwapVertRounded } from "@mui/icons-material";
 import styles from "../../../styles/styles";
-import { Col, Row } from "react-bootstrap";
-import CustomModal from "./modal";
-import OrderDetails from "../_pages/order_details";
 
 const CustomTable = (props) => {
   const {
     headers,
     records,
     handleRecordDoubleClick,
-    handleRemoveSingleClick,
     onCreateClick,
     showCreateButton = false, // Default to false
     datetimeFields,
@@ -31,9 +25,9 @@ const CustomTable = (props) => {
     showPagination,
     customTableColor,
     showSpecialButton = false,
+    handleOrderClick,
+    actionCol,
   } = props;
-  const [show, setShow] = useState(false);
-  const [selectedId, setSelectedId] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const filteredData = records?.filter((item) =>
     Object.values(item)
@@ -138,7 +132,6 @@ const CustomTable = (props) => {
                   <Placeholder xs={6} />
                 </Placeholder>
               </th>
-              {/* Additional placeholders as needed */}
             </tr>
           </thead>
           <tbody>
@@ -185,7 +178,7 @@ const CustomTable = (props) => {
             <thead>
               <tr>
                 {showSpecialButton && (
-                  <th className={customTableColor}>Orders</th>
+                  <th className={customTableColor}>{actionCol}</th>
                 )}
                 {Array.from({ length: 1 }).map((_, index) =>
                   headers[0]?.map((header, j) => (
@@ -214,6 +207,15 @@ const CustomTable = (props) => {
             <tbody>
               {currentItems?.map((e, i) => (
                 <tr key={i}>
+                  {showSpecialButton && (
+                    <td key={i}>
+                      <Button
+                        onClick={() => handleOrderClick && handleOrderClick(e)}
+                      >
+                        <Badge bg="primary">9</Badge>
+                      </Button>
+                    </td>
+                  )}
                   {Object.entries(e).map(([key, value], j) => (
                     <td key={j} className="text-center">
                       <Button
@@ -267,15 +269,6 @@ const CustomTable = (props) => {
           )}
         </>
       )}
-      <CustomModal
-        setOpen={setShow}
-        open={show}
-        selectedId={selectedId}
-        headerTitle="Order"
-        customTableColor="bg-pressed-color text-light"
-      >
-        <OrderDetails customTableColor="bg-pressed-color text-light" />
-      </CustomModal>
     </>
   );
 };
