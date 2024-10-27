@@ -10,12 +10,17 @@ import {
 } from "../../../../store/slices/customerSlice";
 import CustomerProfileDetails from "./profile_details";
 import CustomerProfileCreate from "./profile_create";
+import Order from "./order";
+import { fetchOrderByCustomerId } from "../../../../store/actions/orderAction";
 const CustomerProfile = (props) => {
   const [showCustomerDetailsModal, setShowCustomerDetailsModal] =
     useState(false);
   const [showCreateCustomerModal, setShowCreateCustomerModal] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [selectedCustomerId, setSelectedCustomerId] = useState(null);
+  const [show, setShow] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
+  const [countOrder, setCountOrder] = useState(null);
   const dispatch = useDispatch();
 
   let headers = [];
@@ -36,7 +41,6 @@ const CustomerProfile = (props) => {
     });
     records = customers;
   }
-
   // Fetch customer details when the selected ID changes
   useEffect(() => {
     if (selectedCustomerId) {
@@ -52,6 +56,10 @@ const CustomerProfile = (props) => {
     setSelectedCustomerId(CUSTOMER_ID);
     setShowCustomerDetailsModal(true);
   };
+  const handleOrderClick = ({ CUSTOMER_ID }) => {
+    setSelectedId(CUSTOMER_ID);
+    setShow(true);
+  };
 
   return (
     <>
@@ -64,8 +72,13 @@ const CustomerProfile = (props) => {
           statusFetching={statusFetching}
           showCreateButton={false}
           customTableColor="bg-pressed-color text-light"
+          showSpecialButton={true}
+          setSelectedId={setSelectedId}
+          setShow={setShow}
+          handleOrderClick={handleOrderClick}
+          actionCol="Order"
+          showPagination={true}
         />
-
         {/* Customer Details Modal */}
         <CustomModal
           setOpen={setShowCustomerDetailsModal}
@@ -80,7 +93,6 @@ const CustomerProfile = (props) => {
             customTableColor="bg-pressed-color text-light"
           />
         </CustomModal>
-
         {/* Create Customer Modal */}
         <CustomModal
           setOpen={setShowCreateCustomerModal}
@@ -90,6 +102,20 @@ const CustomerProfile = (props) => {
         >
           <CustomerProfileCreate setOpen={setShowCreateCustomerModal} />
         </CustomModal>
+        <CustomModal
+          setOpen={setShow}
+          open={show}
+          selectedId={selectedId}
+          headerTitle="Customer"
+          customTableColor="bg-pressed-color text-light"
+        >
+          <Order
+            {...props}
+            orderId={selectedId}
+            customTableColor="bg-pressed-color text-light"
+          />
+        </CustomModal>
+        ;
       </Tab.Pane>
     </>
   );
