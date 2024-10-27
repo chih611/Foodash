@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   getOrderById, // Import the function to fetch existing order details
   updateOrder,
@@ -12,13 +12,16 @@ import {
   PaymentForm,
   GiftCard,
 } from "react-square-web-payments-sdk";
+import { clearCartItems } from "../../../../store/slices/cartSlice";
+import moment from "moment";
 
 const Payment = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-
-  // const appId = "sq0idp-pvlfeZknc_UL_SWRO_w8BA";
-  // const locationId = "L739M75RNCW12";
+  const cartId = useSelector((state) => state.cart.cartId);
+  const customerId = useSelector(
+    (state) => state.customer.profile?.CUSTOMER_ID || null
+  );
 
   const appId = "sandbox-sq0idb-J_Bld9paUEQuNmSg2taitQ";
   const locationId = "LF8HA6PMDGSFJ";
@@ -70,35 +73,34 @@ const Payment = () => {
           `${process.env.NEXT_PUBLIC_REACT_APP_BACKEND_ADDRESS}/order_table/${orderId}`
         );
         const existingOrder = existingOrderResponse.data[0];
+
         // Prepare the updated order data
         const updatedData = {
-          // Keep unchanged fields from existing order
           CUSTOMER_ID: existingOrder.CUSTOMER_ID,
-          RECIPIENT: existingOrder.RECIPIENT || recipientDetails.name, // Take from existing order if available
+          RECIPIENT: existingOrder.RECIPIENT || recipientDetails.name,
           ADDRESS: existingOrder.ADDRESS || recipientDetails.address,
           PHONE: existingOrder.PHONE || recipientDetails.contact,
           EMAIL: existingOrder.EMAIL || recipientDetails.email,
           DUEDATE:
-            existingOrder.DUEDATE || new Date().toISOString().split("T")[0], // Preserving due date
-          DELIVER: existingOrder.DELIVER, // Keep the existing delivery status
-          TAXES: existingOrder.TAXES || 10, // Preserve existing taxes
-          DELIVERY_FEE: existingOrder.DELIVERY_FEE || deliveryFee, // Keep existing delivery fee if available
-          SERVICE_FEE: existingOrder.SERVICE_FEE || serviceFee, // Same for service fee
-          UTENSIL: existingOrder.UTENSIL, // Preserve existing utensil option
-          GIFTWRAP: existingOrder.GIFTWRAP, // Preserve gift wrap choice
-          PROMO: existingOrder.PROMO || promoValue, // Keep existing promo value if any
-          SUBTOTAL: existingOrder.SUBTOTAL || cartSubtotal, // Keep existing subtotal or use new one
-          ORDER_ITEM_ID: existingOrder.ORDER_ITEM_ID, // Preserve order item ID
-          CREATED_DATE: existingOrder.CREATED_DATE, // Preserve creation date
-          TOTAL: existingOrder.TOTAL || cartTotal, // Preserve existing total
-          NOTES: existingOrder.NOTES || orderNote, // Preserve notes or add new
-          RECURRING: existingOrder.RECURRING, // Preserve recurring status
-          FEEDBACK: existingOrder.FEEDBACK, // Keep existing feedback
-
-          // Update only the fields that need changing
+            moment(existingOrder.DUEDATE).format("YYYY-MM-DD") ||
+            new Date().toISOString().split("T")[0],
+          DELIVER: existingOrder.DELIVER,
+          TAXES: existingOrder.TAXES || 10,
+          DELIVERY_FEE: existingOrder.DELIVERY_FEE || deliveryFee,
+          SERVICE_FEE: existingOrder.SERVICE_FEE || serviceFee,
+          UTENSIL: existingOrder.UTENSIL,
+          GIFTWRAP: existingOrder.GIFTWRAP,
+          PROMO: existingOrder.PROMO || promoValue,
+          SUBTOTAL: existingOrder.SUBTOTAL || cartSubtotal,
+          ORDER_ITEM_ID: existingOrder.ORDER_ITEM_ID,
+          CREATED_DATE: moment(existingOrder.CREATED_DATE).format("YYYY-MM-DD"),
+          TOTAL: existingOrder.TOTAL || cartTotal,
+          NOTES: existingOrder.NOTES || orderNote,
+          RECURRING: existingOrder.RECURRING,
+          FEEDBACK: existingOrder.FEEDBACK,
           PAYMENT: "Credit", // Updated payment method
           STATUS: "Paid", // Update the status to Paid
-          UPDATED: new Date().toISOString(), // Add update timestamp
+          UPDATED: new Date().toISOString(),
         };
 
         console.log("Updated order data:", updatedData);
@@ -111,6 +113,9 @@ const Payment = () => {
           "Your order has been placed!",
           "success"
         );
+
+        // Clear the cart items
+        await dispatch(clearCartItems({ customerId, cartId }));
 
         // Redirect to confirmation page
         router.push(`/CustomerView/CheckOut/Confirm?orderId=${orderId}`);
