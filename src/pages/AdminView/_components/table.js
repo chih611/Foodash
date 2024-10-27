@@ -12,31 +12,26 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useMemo, useState } from "react";
 import { SwapVertRounded } from "@mui/icons-material";
-<<<<<<< Updated upstream
-=======
 import styles from "../../../styles/styles";
 import { Col, Row } from "react-bootstrap";
 import CustomModal from "./modal";
 import OrderDetails from "../_pages/order_details";
->>>>>>> Stashed changes
 
-const CustomTable = ({
-  headers,
-  records,
-  handleRecordDoubleClick,
-<<<<<<< Updated upstream
-  handleRemoveSingleClick,
-=======
-  onCreateClick,
-  showCreateButton = false, // Default to false
->>>>>>> Stashed changes
-  datetimeFields,
-  objectFields,
-  statusFetching,
-  showPagination,
-  customTableColor,
-  showSpecialButton = false,
-}) => {
+const CustomTable = (props) => {
+  const {
+    headers,
+    records,
+    handleRecordDoubleClick,
+    handleRemoveSingleClick,
+    onCreateClick,
+    showCreateButton = false, // Default to false
+    datetimeFields,
+    objectFields,
+    statusFetching,
+    showPagination,
+    customTableColor,
+    showSpecialButton = false,
+  } = props;
   const [show, setShow] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
@@ -104,31 +99,27 @@ const CustomTable = ({
       );
     }
   };
+
   // Display first, last and current range with ellipses
   if (totalPages <= 5) {
     showEllipsis(1, totalPages);
   } else {
-    // Show first 2 pages
     showEllipsis(1, 2);
-
-    // Show ellipsis if current page > 4
     if (currentPage > 4) {
       paginationItems.push(<Pagination.Ellipsis key="start-ellipsis" />);
     }
 
-    // Show range around current page
     const startPage = Math.max(3, currentPage - 1);
     const endPage = Math.min(totalPages - 2, currentPage + 1);
     showEllipsis(startPage, endPage);
 
-    // Show ellipsis if current page is not near the end
     if (currentPage < totalPages - 3) {
       paginationItems.push(<Pagination.Ellipsis key="end-ellipsis" />);
     }
 
-    // Show last 2 pages
     showEllipsis(totalPages - 1, totalPages);
   }
+
   return (
     <>
       {statusFetching === "loading" ? (
@@ -147,21 +138,7 @@ const CustomTable = ({
                   <Placeholder xs={6} />
                 </Placeholder>
               </th>
-              <th className={customTableColor}>
-                <Placeholder as="p" animation="glow">
-                  <Placeholder xs={6} />
-                </Placeholder>
-              </th>
-              <th className={customTableColor}>
-                <Placeholder as="p" animation="glow">
-                  <Placeholder xs={6} />
-                </Placeholder>
-              </th>
-              <th className={customTableColor}>
-                <Placeholder as="p" animation="glow">
-                  <Placeholder xs={6} />
-                </Placeholder>
-              </th>
+              {/* Additional placeholders as needed */}
             </tr>
           </thead>
           <tbody>
@@ -169,21 +146,6 @@ const CustomTable = ({
               <td>
                 <Placeholder as="p" animation="glow">
                   <Placeholder xs={6} />
-                </Placeholder>
-              </td>
-              <td>
-                <Placeholder as="p" animation="glow">
-                  <Placeholder xs={8} />
-                </Placeholder>
-              </td>
-              <td>
-                <Placeholder as="p" animation="glow">
-                  <Placeholder xs={10} />
-                </Placeholder>
-              </td>
-              <td>
-                <Placeholder as="p" animation="glow">
-                  <Placeholder xs={7} />
                 </Placeholder>
               </td>
             </tr>
@@ -200,6 +162,15 @@ const CustomTable = ({
               className="rounded-4 mb-2 mt-4"
             />
           </FloatingLabel>
+
+          {showCreateButton && ( // Conditional rendering of the "Create" button
+            <Button
+              className={`${styles.btn} mt-3 align-self-end`}
+              onClick={onCreateClick}
+            >
+              Create Admin
+            </Button>
+          )}
 
           <Table
             striped
@@ -238,75 +209,37 @@ const CustomTable = ({
                     </th>
                   ))
                 )}
-                {handleRemoveSingleClick ? (
-                  <th
-                    className={
-                      customTableColor + " text-light text-center text-nowrap"
-                    }
-                  >
-                    <DeleteIcon />
-                  </th>
-                ) : null}
               </tr>
             </thead>
             <tbody>
               {currentItems?.map((e, i) => (
                 <tr key={i}>
-<<<<<<< Updated upstream
-                  {Array.from({ length: 1 }).map((_, index) =>
-                    Object.entries(e).map(([key, value], j) => (
-                      <td key={j} className=" text-center">
-                        <Button
-                          variant="link"
-                          onDoubleClick={() =>
-                            handleRecordDoubleClick &&
-                            handleRecordDoubleClick(e)
-                          }
-                          className="text-decoration-none text-dark text-nowrap"
-                        >
-                          {value
-                            ? datetimeFields?.includes(key)
-                              ? moment(value).format("yyyy-MM-DD")
-                              : objectFields?.includes(key)
-                              ? Object.entries(value).map(([key, vl], k) =>
-                                  vl === true ? (
-                                    <>
-                                      <span>{key}</span>
-                                      <br />
-                                    </>
-                                  ) : null
-                                )
-                              : value
-                            : "-"}
-                        </Button>
-                      </td>
-                    ))
-                  )}
-                  {handleRemoveSingleClick ? (
-                    <td className="text-decoration-none text-pressed-color text-nowrap text-center">
-                      {" "}
-=======
-                  {showSpecialButton && (
-                    <td>
-                      <Button
-                        onClick={(j) => {
-                          setSelectedId(Object.values(e));
-                          setShow(true);
-                        }}
-                      />
-                    </td>
-                  )}
                   {Object.entries(e).map(([key, value], j) => (
                     <td key={j} className="text-center">
->>>>>>> Stashed changes
                       <Button
-                        className="text-decoration-none bg-pressed-color text-nowrap text-white"
-                        onClick={() => handleRemoveSingleClick(e)}
+                        variant="link"
+                        onDoubleClick={() =>
+                          handleRecordDoubleClick && handleRecordDoubleClick(e)
+                        }
+                        className="text-decoration-none text-dark text-nowrap"
                       >
-                        <DeleteIcon />
+                        {value
+                          ? datetimeFields?.includes(key)
+                            ? moment(value).format("yyyy-MM-DD")
+                            : objectFields?.includes(key)
+                            ? Object.entries(value).map(([key, vl], k) =>
+                                vl === true ? (
+                                  <>
+                                    <span>{key}</span>
+                                    <br />
+                                  </>
+                                ) : null
+                              )
+                            : value
+                          : "-"}
                       </Button>
                     </td>
-                  ) : null}
+                  ))}
                 </tr>
               ))}
             </tbody>
@@ -341,12 +274,10 @@ const CustomTable = ({
         headerTitle="Order"
         customTableColor="bg-pressed-color text-light"
       >
-        <OrderDetails
-          // {...props}
-          customTableColor="bg-pressed-color text-light"
-        />
+        <OrderDetails customTableColor="bg-pressed-color text-light" />
       </CustomModal>
     </>
   );
 };
+
 export default CustomTable;

@@ -21,26 +21,10 @@ const ViewCart = () => {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const {
-    cartItems = [],
-    cartId,
-    status,
-    error,
-  } = useSelector((state) => state.cart);
+  const cartItems = useSelector((state) => state.cart.cartItems);
+  const cartId = useSelector((state) => state.cart.cartId);
   const customerProfile = useSelector((state) => state.customer.profile);
   const customerId = customerProfile?.CUSTOMER_ID || null;
-
-  useEffect(() => {
-    if (customerId) {
-      dispatch(fetchCartByCustomerId(customerId)).then((action) => {
-        if (action.payload) {
-          console.log("Cart Items fetched:", action.payload);
-        }
-      });
-    } else {
-      console.log("No customerId available, managing cart locally");
-    }
-  }, [customerId, dispatch]);
 
   const handleRemoveItem = (itemId, extras, labels, note) => {
     console.log("Removing item with note:", note);

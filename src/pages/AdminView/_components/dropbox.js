@@ -8,10 +8,10 @@ const CustomDropBox = ({
   setSwitchOptions,
   setShowSaveBtn,
   statusFetching,
+  handleChange,
 }) => {
-  const handleSelectChange = (event) => {
-    setSwitchOptions(event.target.value);
-    setShowSaveBtn(true);
+  const handleSelectChange = (e) => {
+    handleChange(title, e.target.value);
   };
   return (
     <>

@@ -6,8 +6,8 @@ import OrderDetails from "./order_details";
 import CustomModal from "../_components/modal";
 
 const Order = (props) => {
-  const [show, setShow] = useState(false);
   // const [alertConfirm, setAlertConfirm] = useState(false);
+  const [show, setShow] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
   const dispatch = useDispatch();
   let headers = [];
@@ -58,7 +58,6 @@ const Order = (props) => {
           statusFetching={statusOrderFetching}
           showPagination={true}
           customTableColor="bg-pressed-color text-light"
-          showSpecialButton={true}
         />
         <CustomModal
           setOpen={setShow}

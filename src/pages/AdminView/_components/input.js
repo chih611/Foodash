@@ -8,7 +8,15 @@ const CustomInput = ({
   readOnlyFields,
   dateTimeFields,
   statusFetching,
+  setShowSaveBtn,
+  handleChange,
 }) => {
+  const handleInputChange = (e) => {
+    if (handleChange) {
+      handleChange(title, e.target.value); // Use unified handleChange
+    }
+  };
+
   return (
     <>
       {statusFetching === "loading" ? (
@@ -29,7 +37,7 @@ const CustomInput = ({
             key={`input-${index}`}
             type="text"
             aria-describedby="order"
-            value={
+            placeholder={
               value
                 ? dateTimeFields?.includes(title)
                   ? moment(value).format("yyyy-MM-DD")
@@ -37,6 +45,8 @@ const CustomInput = ({
                 : "-"
             }
             plaintext={readOnlyFields?.includes(title)}
+            readOnly={readOnlyFields?.includes(title)}
+            onChange={handleInputChange}
             size="sm"
           />
         </>

@@ -1,21 +1,27 @@
 import HomePageNavBar from "../HomePage/HomePageNavBar";
 import ArrowBackRounded from "@mui/icons-material/ArrowBackRounded";
 import Link from "next/link";
-import { Row, Col, Button } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { fetchOrderByCustomerId } from "../../../../store/actions/orderAction";
 import OrderList from "./OrderList";
 import { useSelector, useDispatch } from "react-redux";
 import OrderFilter from "./OrderFilter";
-import OrderFilter_desktop from "./OrderrFilter_desktop";
+import OrderFilter_desktop from "./OrderFilter_desktop";
 import RecentOrder from "./RecentOrder";
 import PrimaryButton from "../ViewCart/_PrimaryButton";
 import CustomModal from "@/pages/AdminView/_components/modal";
 import OrderDetails from "@/pages/AdminView/_pages/order_details";
+import HomeDirectionLink from "../HomePage/HomeDirectionLink/HomeDirectionLink";
+import FeedBackForm from "./FeedBackForm";
+
 const OrderTracking = () => {
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
   const [selectedOrderId, setSelectedOrderId] = useState(null);
+  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [showFeedbackForm, setShowFeedbackForm] = useState(false);
+  const [filteredOrders, setFilteredOrders] = useState([]); // Initialize as an empty array
 
   const customerId = useSelector(
     (state) => state.customer.profile?.CUSTOMER_ID
@@ -28,29 +34,65 @@ const OrderTracking = () => {
   }, [customerId, dispatch]);
 
   const orderByCustomer = useSelector(
-    (state) => state.order.orderListByCustomerId
+    (state) => state.order.orderListByCustomerId || [] // Ensure it's always an array
   );
 
-  if (!orderByCustomer || orderByCustomer.length === 0) {
-    return <div>No Orders Available</div>;
-  }
+  useEffect(() => {
+    setFilteredOrders(orderByCustomer);
+  }, [orderByCustomer]);
 
-  const recentOrder = orderByCustomer[orderByCustomer.length - 1];
+  const recentOrder =
+    selectedOrder ||
+    (filteredOrders.length > 0
+      ? filteredOrders[filteredOrders.length - 1]
+      : null);
 
-  // Handle order click for modal
   const handleOrderDoubleClick = (orderId) => {
+    const clickedOrder = filteredOrders.find(
+      (order) => order.ORDER_ID === orderId
+    );
+    setSelectedOrder(clickedOrder);
     setSelectedOrderId(orderId);
     setShowModal(true);
   };
 
+  // Sort Orders by Delivery Date
+  const handleSortByDate = (order) => {
+    const sortedOrders = [...filteredOrders].sort((a, b) => {
+      const dateA = new Date(a.DUEDATE);
+      const dateB = new Date(b.DUEDATE);
+      return order === "asc" ? dateA - dateB : dateB - dateA;
+    });
+    setFilteredOrders(sortedOrders);
+  };
+
+  // Filter Orders by Status
+  const handleFilterByStatus = (status) => {
+    const filtered = status
+      ? orderByCustomer.filter(
+          (order) => order.STATUS.toLowerCase() === status.toLowerCase()
+        )
+      : orderByCustomer; // Show all if no status is selected
+    setFilteredOrders(filtered);
+  };
+
+  // Show feedback form
+  const handleShowFeedbackForm = () => {
+    setShowFeedbackForm(true);
+  };
+
+  // Close feedback form
+  const handleCloseFeedbackForm = () => {
+    setShowFeedbackForm(false);
+  };
+
   return (
     <div>
-      <div className="navBar" style={{ marginBottom: "150px" }}>
-        <HomePageNavBar />
-      </div>
+      <HomePageNavBar />
 
       <div className="container">
         {/* Desktop View */}
+        <HomeDirectionLink />
         <Row className="d-none justify-content-center d-lg-flex">
           <div className="col-md-1">
             <Link href="/CustomerView/HomePage/" legacyBehavior passHref>
@@ -69,14 +111,22 @@ const OrderTracking = () => {
 
         {/* Desktop View - List of orders */}
         <Row className="d-none justify-content-center d-lg-flex w-100">
-          <OrderFilter_desktop />
+          <OrderFilter_desktop
+            onSortByDate={handleSortByDate}
+            onFilterByStatus={handleFilterByStatus}
+          />
         </Row>
         <Row className="d-none d-lg-flex">
           <OrderList
-            orders={orderByCustomer}
+            orders={filteredOrders}
             onOrderDoubleClick={handleOrderDoubleClick}
           />
-          <RecentOrder order={recentOrder} />
+          {recentOrder && (
+            <RecentOrder
+              order={recentOrder}
+              onLeaveFeedback={handleShowFeedbackForm}
+            />
+          )}
         </Row>
 
         {/* Mobile View */}
@@ -85,14 +135,22 @@ const OrderTracking = () => {
             <h2>Order Management</h2>
           </Col>
           <Col xs={12}>
-            <OrderFilter />
+            <OrderFilter
+              onSortByDate={handleSortByDate}
+              onFilterByStatus={handleFilterByStatus}
+            />
           </Col>
           <Col xs={12}>
             <OrderList
-              orders={orderByCustomer}
+              orders={filteredOrders}
               onOrderDoubleClick={handleOrderDoubleClick}
             />
-            <RecentOrder order={recentOrder} />
+            {recentOrder && (
+              <RecentOrder
+                order={recentOrder}
+                onLeaveFeedback={handleShowFeedbackForm}
+              />
+            )}
           </Col>
         </Row>
 
@@ -121,8 +179,37 @@ const OrderTracking = () => {
             Id={selectedOrderId}
             setOpen={setShowModal}
             customTableColor="bg-headline-color"
+            extraReadOnlyFields={[
+              "Full Name",
+              "Phone",
+              "Address",
+              "Email",
+              "Duedate",
+              "Create Date",
+              "Recipient",
+              "Deliver",
+              "Payment",
+              "Taxes",
+              "Delivery Fee",
+              "Service Fee",
+              "UTENSIL",
+              "Giftwrap",
+              "Promotion",
+              "Subtotal",
+              "ORDER_ITEM_ID",
+              "Total",
+              "Status",
+            ]}
           />
         </CustomModal>
+      )}
+
+      {/* Feedback Form Modal */}
+      {showFeedbackForm && (
+        <FeedBackForm
+          order={recentOrder}
+          handleClose={handleCloseFeedbackForm}
+        />
       )}
     </div>
   );

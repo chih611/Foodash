@@ -3,8 +3,12 @@ import {
   fetchOrderLisByIdAPI,
   fetchOrderListAPI,
   fetchOrderLisByCustomerNameAPI,
-  fetchOrderListByTodayAPI,
   fetchOrderByCustomerIdAPI,
+  fetchOrderLisByDuedateAPI,
+  fetchOrderListTodayAPI,
+  updateOrderAPI,
+  fetchOrderListByTodayAPI,
+  updateOrderViewByIdAPI,
 } from "../api/order.api";
 import axios from "axios";
 
@@ -62,6 +66,31 @@ export const fetchOrderList = createAsyncThunk(
   }
 );
 
+export const updateOrder = createAsyncThunk(
+  "order/updateOrder",
+  async ({ orderId, updatedData }, { rejectWithValue }) => {
+    try {
+      // Use the refactored API function
+      const response = await updateOrderAPI(orderId, updatedData);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+export const updateOrderViewById = createAsyncThunk(
+  "order/updateOrderViewById",
+  async ({ orderId, updatedData }, { rejectWithValue }) => {
+    try {
+      const response = await updateOrderViewByIdAPI(orderId, updatedData);
+      return response; // This will contain the updated order details
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 export const fetchOrderListById = createAsyncThunk(
   "order/fetchOrderListById",
   async (orderId, { rejectWithValue }) => {
@@ -94,6 +123,32 @@ export const fetchOrderListByToday = createAsyncThunk(
   async (duedate, { rejectWithValue }) => {
     try {
       return await fetchOrderListByTodayAPI(duedate);
+    } catch (error) {
+      return rejectWithValue(
+        error.response ? error.response.data : error.message
+      );
+    }
+  }
+);
+
+export const fetchOrderListByDuedate = createAsyncThunk(
+  "order/fetchOrderListByDuedate",
+  async (duedate, { rejectWithValue }) => {
+    try {
+      return await fetchOrderLisByDuedateAPI(duedate);
+    } catch (error) {
+      return rejectWithValue(
+        error.response ? error.response.data : error.message
+      );
+    }
+  }
+);
+
+export const fetchOrderListToday = createAsyncThunk(
+  "order/fetchOrderListToday",
+  async (duedate, { rejectWithValue }) => {
+    try {
+      return await fetchOrderListTodayAPI(duedate);
     } catch (error) {
       return rejectWithValue(
         error.response ? error.response.data : error.message

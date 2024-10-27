@@ -76,8 +76,8 @@ const CustomerDetail = () => {
 
       // Combine existing and updated data
       const updatedCustomerData = {
-        ...customerProfile, // Retain existing data
-        ...data, // Merge with new data from form
+        ...customerProfile,
+        ...data,
         dateOfBirth: new Date(data.dateOfBirth).toISOString().split("T")[0],
       };
 

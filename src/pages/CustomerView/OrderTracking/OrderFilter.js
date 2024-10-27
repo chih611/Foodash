@@ -39,7 +39,7 @@ const OrderFilter = () => {
             </Dropdown>
           </Col>
 
-          <Col xs={4} md={4} className="mb-2">
+          <Col xs={3} md={3} className="mb-2">
             {/* Amount Filter */}
             <Dropdown className="filter-dropdown me-4 mb-2">
               <Dropdown.Toggle
@@ -48,14 +48,10 @@ const OrderFilter = () => {
               >
                 Amount
               </Dropdown.Toggle>
-              <Dropdown.Menu>
-                <Dropdown.Item href="#action/3.1">Lowest</Dropdown.Item>
-                <Dropdown.Item href="#action/3.2">Highest</Dropdown.Item>
-              </Dropdown.Menu>
             </Dropdown>
           </Col>
 
-          <Col xs={3} md={3} className="mb-2">
+          <Col xs={4} md={4} className="mb-2">
             {/* Status Filter */}
             <Dropdown className="filter-dropdown me-4 mb-2">
               <Dropdown.Toggle
@@ -68,6 +64,8 @@ const OrderFilter = () => {
                 <Dropdown.Item href="#action/3.1">Delivering</Dropdown.Item>
                 <Dropdown.Item href="#action/3.2">Preparing</Dropdown.Item>
                 <Dropdown.Item href="#action/3.3">Completed</Dropdown.Item>
+                <Dropdown.Item href="#action/3.4">Pending</Dropdown.Item>
+                <Dropdown.Item href="#action/3.3">Quote</Dropdown.Item>
                 <Dropdown.Item href="#action/3.4">Paid</Dropdown.Item>
                 <Dropdown.Item href="#action/3.5">Unpaid</Dropdown.Item>
               </Dropdown.Menu>

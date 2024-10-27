@@ -3,17 +3,22 @@ import {
   fetchOrderLisByCustomerName,
   fetchOrderList,
   fetchOrderListById,
-  fetchOrderListByToday,
   createOrder,
   getOrderById,
   fetchOrderByCustomerId,
+  fetchOrderListToday,
+  updateOrder,
+  fetchOrderListByToday,
+  fetchOrderListByDuedate,
+  updateOrderViewById,
 } from "../actions/orderAction";
 
 const initialState = {
   ordersList: null,
   orderListByCustomerId: null,
   orderListByName: null,
-  orderListByToday: null,
+  orderListByDuedate: null,
+  orderListToday: null,
   orderById: null,
   status: null,
   error: null,
@@ -75,17 +80,6 @@ const orderSlice = createSlice({
         state.status = "failed";
         state.error = action.error || { message: "Fetching API is failed!" };
       })
-      .addCase(fetchOrderListByToday.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(fetchOrderListByToday.fulfilled, (state, action) => {
-        state.orderListByToday = action.payload;
-        state.status = "succeeded";
-      })
-      .addCase(fetchOrderListByToday.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.error || { message: "Fetching API is failed!" };
-      })
       .addCase(createOrder.pending, (state) => {
         state.status = "loading";
       })
@@ -108,6 +102,41 @@ const orderSlice = createSlice({
         state.status = "failed";
         state.error = action.error || {
           message: "Fetching API by customerId failed!",
+        };
+      })
+      .addCase(fetchOrderListByDuedate.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchOrderListByDuedate.fulfilled, (state, action) => {
+        state.orderListByDuedate = action.payload;
+        state.status = "succeeded";
+      })
+      .addCase(fetchOrderListByDuedate.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error || { message: "Fetching API is failed!" };
+      })
+      .addCase(updateOrder.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(updateOrder.fulfilled, (state, action) => {
+        state.orderById = action.payload;
+        state.status = "succeeded";
+      })
+      .addCase(updateOrder.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error || { message: "Updating order is failed!" };
+      })
+      .addCase(updateOrderViewById.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(updateOrderViewById.fulfilled, (state, action) => {
+        state.orderById = action.payload;
+        state.status = "succeeded";
+      })
+      .addCase(updateOrderViewById.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error || {
+          message: "Updating order view by Id is failed!",
         };
       });
   },

@@ -13,7 +13,7 @@ import styles from "../../../styles/styles";
 import PersonalDetail from "./personal_information";
 import OrderInformation from "./order_information";
 
-const OrderDetails = ({
+const ProductDetails = ({
   Id,
   setOpen,
   customTableColor,
@@ -82,14 +82,6 @@ const OrderDetails = ({
     }
   }, [order]);
 
-  const handleChange = (field, value) => {
-    setShowSaveBtn(true);
-    setOrderChanges((prevChanges) => ({
-      ...prevChanges,
-      [field]: value,
-    }));
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -130,7 +122,9 @@ const OrderDetails = ({
               Row={Row}
               statusFetching={statusOrderFetching}
               customHeaderColor={customTableColor}
-              handleChange={handleChange} // Pass down handleChange
+              setShowSaveBtn={setShowSaveBtn}
+              setOrderData={setOrderData}
+              setOrderChanges={setOrderChanges}
             />
             <OrderInformation
               e={e}
@@ -142,7 +136,9 @@ const OrderDetails = ({
               Row={Row}
               statusFetching={statusOrderFetching}
               customOrderInformationColor={customTableColor}
-              handleChange={handleChange} // Pass down handleChange
+              setShowSaveBtn={setShowSaveBtn}
+              setOrderData={setOrderData}
+              setOrderChanges={setOrderChanges}
             />
           </>
         ))}
@@ -164,11 +160,10 @@ const OrderDetails = ({
         records={recordsOrderDetails}
         statusFetching={statusOrderDetailFetching}
         objectFields={objectFields}
-        showPagination={true}
         customTableColor={customTableColor}
       />
     </>
   );
 };
 
-export default OrderDetails;
+export default ProductDetails;

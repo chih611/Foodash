@@ -9,6 +9,7 @@ import {
   Col,
   Nav,
 } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
 import EditIcon from "@mui/icons-material/Edit";
@@ -25,6 +26,8 @@ const Profile = (props) => {
   const [orderHistory, setOrderHistory] = useState([]);
   const [showOrderDetails, setShowOrderDetails] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
+
+  // const customers = useSelector((state) => state.customers.allCustomers)
 
   // Example customer and order data
   const customers = [

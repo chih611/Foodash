@@ -26,7 +26,6 @@ export const getItemById = createAsyncThunk(
   async (itemId, { rejectWithValue }) => {
     try {
       const response = await axios.get(`${BASE_URL}/item/${itemId}`);
-      console.log(response.data);
       return response[0].data;
     } catch (error) {
       return rejectWithValue(
@@ -83,6 +82,21 @@ export const getItemModificationAndLabel = createAsyncThunk(
   }
 );
 
+export const getAllModifications = createAsyncThunk(
+  "items/getAllModifications",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(`${BASE_URL}/items/modifications`);
+      console.log("All modifications response:", response.data);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response ? error.response.data : error.message
+      );
+    }
+  }
+);
+
 export const getAllLabels = createAsyncThunk(
   "items/getAllLabels",
   async (_, { rejectWithValue }) => {
@@ -111,14 +125,84 @@ export const getItemsLabel = createAsyncThunk(
     }
   }
 );
+
+// Function to fetch ingredients from the API
+export const fetchIngredients = createAsyncThunk(
+  "items/fetchIngredients",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(`${BASE_URL}/items/ingredients`);
+      const data = response.data;
+
+      // Extract and flatten the ingredients
+      const allIngredients = data.flatMap((item) => item.INGREDIENTS);
+
+      // Use a Set to get unique ingredients
+      const uniqueIngredients = [...new Set(allIngredients)];
+
+      return uniqueIngredients;
+    } catch (error) {
+      return rejectWithValue(
+        error.response ? error.response.data : error.message
+      );
+    }
+  }
+);
+
+// Thunk to fetch items and their modifications, then merge data
+export const fetchItemsWithModifications = createAsyncThunk(
+  "items/fetchItemsWithModifications",
+  async (_, { dispatch, rejectWithValue }) => {
+    try {
+      const items = await dispatch(fetchItems()).unwrap();
+      const modificationsResponses = await Promise.all(
+        items.map((item) =>
+          dispatch(getItemModificationAndLabel(item.ITEM_ID)).unwrap()
+        )
+      );
+
+      const ingredientsMap = modificationsResponses.reduce(
+        (acc, modification) => {
+          if (modification && modification.INGREDIENTS) {
+            const { ITEM_ID, INGREDIENTS, LABELS } = modification;
+            acc[ITEM_ID] = { INGREDIENTS, LABELS };
+          }
+          return acc;
+        }
+      );
+
+      const mergedItems = items.map((item) => ({
+        ...item,
+        INGREDIENTS: ingredientsMap[item.ITEM_ID]?.INGREDIENTS || [],
+        LABELS: ingredientsMap[item.ITEM_ID]?.LABELS || [],
+      }));
+
+      console.log(
+        "items with modification and  labels and ingredients",
+        mergedItems
+      );
+
+      return mergedItems;
+    } catch (error) {
+      return rejectWithValue(
+        error.response ? error.response.data : error.message
+      );
+    }
+  }
+);
+
+// Call the function
+
 const itemsSlice = createSlice({
   name: "items",
   initialState: {
     items: [],
     labels: [],
     searchResults: [],
+    ingredients: [],
     selectedItem: null,
     selectedItemModifications: [],
+    modifications: [],
     status: "idle",
     error: null,
   },
@@ -209,6 +293,45 @@ const itemsSlice = createSlice({
         state.status = "failed";
         state.error = action.error || {
           message: "Error fetching all labels",
+        };
+      })
+      .addCase(fetchIngredients.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchIngredients.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.ingredients = action.payload;
+      })
+      .addCase(fetchIngredients.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error || {
+          message: "Error fetching ingredients",
+        };
+      })
+      .addCase(fetchItemsWithModifications.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchItemsWithModifications.fulfilled, (state, action) => {
+        state.items = action.payload;
+        state.status = "succeeded";
+      })
+      .addCase(fetchItemsWithModifications.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error || {
+          message: "Error fetching items with modifications",
+        };
+      })
+      .addCase(getAllModifications.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(getAllModifications.fulfilled, (state, action) => {
+        state.modifications = action.payload;
+        state.status = "succeeded";
+      })
+      .addCase(getAllModifications.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error || {
+          message: "Error fetching all modifications",
         };
       });
   },
