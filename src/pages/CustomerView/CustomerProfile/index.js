@@ -16,6 +16,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { clearCart } from "../../../../store/slices/cartSlice";
 import { clearOrderByCustomerId } from "../../../../store/slices/orderSlice";
+import moment from "moment";
 
 // Yup validation schema
 const schema = yup.object().shape({
@@ -56,12 +57,13 @@ const CustomerDetail = () => {
       city: customerProfile?.CITY || "",
       state: customerProfile?.STATE || "",
       postcode: customerProfile?.POSTCODE || "",
-      dateOfBirth: customerProfile?.DATE_OF_BIRTH || "",
+      dateOfBirth: customerProfile?.DATE_OF_BIRTH
+        ? moment(customerProfile.DATE_OF_BIRTH).format("YYYY-MM-DD")
+        : "",
       gender: customerProfile?.GENDER || "",
     },
   });
 
-  // Log initial profile data
   useEffect(() => {
     console.log("Initial Profile Data:", customerProfile);
   }, [customerProfile]);
@@ -74,11 +76,11 @@ const CustomerDetail = () => {
         return;
       }
 
-      // Combine existing and updated data
+      // Prepare updated data preserving existing fields
       const updatedCustomerData = {
         ...customerProfile,
         ...data,
-        dateOfBirth: new Date(data.dateOfBirth).toISOString().split("T")[0],
+        DATE_OF_BIRTH: moment(data.dateOfBirth).format("YYYY-MM-DD"),
       };
 
       console.log("Data before update:", updatedCustomerData);
@@ -146,28 +148,22 @@ const CustomerDetail = () => {
                     <CustomInput
                       label="First Name"
                       {...register("firstName")}
-                      error={errors.firstName}
+                      error={errors.firstName?.message}
                     />
                   </Col>
                   <Col xs={12} md={6}>
                     <CustomInput
                       label="Last Name"
                       {...register("lastName")}
-                      error={errors.lastName}
+                      error={errors.lastName?.message}
                     />
                   </Col>
-                  <Col xs={12} md={6}>
-                    <CustomInput
-                      label="Company Name"
-                      {...register("companyName")}
-                      error={errors.companyName}
-                    />
-                  </Col>
+
                   <Col xs={12} md={6}>
                     <CustomInput
                       label="ABN"
                       {...register("abn")}
-                      error={errors.abn}
+                      error={errors.abn?.message}
                     />
                   </Col>
                   <Col xs={12} md={6}>
@@ -175,14 +171,14 @@ const CustomerDetail = () => {
                       label="Email"
                       type="email"
                       {...register("email")}
-                      error={errors.email}
+                      error={errors.email?.message}
                     />
                   </Col>
                   <Col xs={12} md={6}>
                     <CustomInput
                       label="Phone"
                       {...register("phone")}
-                      error={errors.phone}
+                      error={errors.phone?.message}
                     />
                   </Col>
                   <Col xs={12} md={6}>
@@ -190,14 +186,14 @@ const CustomerDetail = () => {
                       label="Date of Birth"
                       type="date"
                       {...register("dateOfBirth")}
-                      error={errors.dateOfBirth}
+                      error={errors.dateOfBirth?.message}
                     />
                   </Col>
                   <Col xs={12} md={6}>
                     <CustomInput
                       label="Gender"
                       {...register("gender")}
-                      error={errors.gender}
+                      error={errors.gender?.message}
                     />
                   </Col>
                 </Row>
@@ -211,28 +207,28 @@ const CustomerDetail = () => {
                     <CustomInput
                       label="Address 1"
                       {...register("address")}
-                      error={errors.address}
+                      error={errors.address?.message}
                     />
                   </Col>
                   <Col xs={12} md={6}>
                     <CustomInput
                       label="City/Suburb"
                       {...register("city")}
-                      error={errors.city}
+                      error={errors.city?.message}
                     />
                   </Col>
                   <Col xs={12} md={6}>
                     <CustomInput
                       label="State"
                       {...register("state")}
-                      error={errors.state}
+                      error={errors.state?.message}
                     />
                   </Col>
                   <Col xs={12} md={6}>
                     <CustomInput
                       label="Postcode"
                       {...register("postcode")}
-                      error={errors.postcode}
+                      error={errors.postcode?.message}
                     />
                   </Col>
                 </Row>
@@ -240,9 +236,15 @@ const CustomerDetail = () => {
                 {/* Save Button */}
                 <Row className="mt-4">
                   <Col xs={12}>
-                    <Button variant="primary" type="submit" className="w-100">
-                      Save your profile
-                    </Button>
+                    <Row className="d-flex justify-content-center mx-2">
+                      <PrimaryButton
+                        variant="primary"
+                        type="submit"
+                        className="w-100"
+                        text="                      Save your profile
+"
+                      />
+                    </Row>
                   </Col>
                   <Col xs={12} className="mt-3">
                     <PrimaryButton

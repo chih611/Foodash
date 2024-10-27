@@ -12,8 +12,8 @@ const CustomInput = forwardRef(
           value={value}
           onChange={onChange}
           style={{
-            border: "2px solid #90B4CE",
-            borderColor: "#90B4CE",
+            border: "2px solid #f38b3c",
+            borderColor: "#f38b3c",
             borderRadius: "10px",
             ...props.style,
           }}

@@ -39,21 +39,23 @@ const HomeSideBarBox = ({ onFilterChange }) => {
         <Collapse in={open.dietary}>
           <div>
             <ul>
-              {ingredientList.map((ingredient, index) => (
-                <li key={index}>
-                  <Form.Check
-                    type="checkbox"
-                    label={ingredient}
-                    onChange={(e) =>
-                      handleCheckboxChange(
-                        "ingredients",
-                        ingredient,
-                        e.target.checked
-                      )
-                    }
-                  />
-                </li>
-              ))}
+              {ingredientList
+                .filter((ingredient) => ingredient !== null) // Filter out null values
+                .map((ingredient, index) => (
+                  <li key={index}>
+                    <Form.Check
+                      type="checkbox"
+                      label={ingredient}
+                      onChange={(e) =>
+                        handleCheckboxChange(
+                          "ingredients",
+                          ingredient,
+                          e.target.checked
+                        )
+                      }
+                    />
+                  </li>
+                ))}
             </ul>
           </div>
         </Collapse>

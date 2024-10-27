@@ -10,6 +10,7 @@ import OrderFilter from "./OrderFilter";
 import OrderFilter_desktop from "./OrderFilter_desktop";
 import RecentOrder from "./RecentOrder";
 import PrimaryButton from "../ViewCart/_PrimaryButton";
+import { useRouter } from "next/router";
 import CustomModal from "@/pages/AdminView/_components/modal";
 import OrderDetails from "@/pages/AdminView/_pages/order_details";
 import HomeDirectionLink from "../HomePage/HomeDirectionLink/HomeDirectionLink";
@@ -22,6 +23,7 @@ const OrderTracking = () => {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [showFeedbackForm, setShowFeedbackForm] = useState(false);
   const [filteredOrders, setFilteredOrders] = useState([]); // Initialize as an empty array
+  const router = useRouter();
 
   const customerId = useSelector(
     (state) => state.customer.profile?.CUSTOMER_ID
@@ -85,6 +87,25 @@ const OrderTracking = () => {
   const handleCloseFeedbackForm = () => {
     setShowFeedbackForm(false);
   };
+
+  // Redirect to Home if no customer ID
+  if (!customerId) {
+    return (
+      <div className="container text-center my-5">
+        <h2>You are not logged in</h2>
+        <Link href="/CustomerView/HomePage" legacyBehavior passHref>
+          <PrimaryButton
+            variant="primary"
+            text="Back to Home"
+            className="w-100 text-decoration-none"
+            onClick={() => {
+              router.push("/CustomerView/HomePage");
+            }}
+          />
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -156,7 +177,7 @@ const OrderTracking = () => {
 
         {/* Back to home button */}
         <Row className="w-100 my-5">
-          <Link href="/CustomerView/HomePage" legacyBehavior passHref>
+          <Link href="/CustomerView/HomePage" passHref>
             <PrimaryButton
               variant="primary"
               text="Back to Home"
