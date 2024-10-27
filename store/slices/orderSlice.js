@@ -153,6 +153,17 @@ const orderSlice = createSlice({
         state.error = action.error || {
           message: "Updating order view by Id is failed!",
         };
+      })
+      .addCase(fetchOrderListByToday.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchOrderListByToday.fulfilled, (state, action) => {
+        state.orderListByToday = action.payload;
+        state.status = "succeeded";
+      })
+      .addCase(fetchOrderListByToday.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error || { message: "Fetching API is failed!" };
       });
   },
 });

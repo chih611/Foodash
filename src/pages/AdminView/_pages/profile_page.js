@@ -77,19 +77,20 @@ const CustomerProfile = (props) => {
   // let temp;
   // totalOrdersArray && (temp = Object.assign({}, records, totalOrdersArray));
   records =
-    total_order?.length > 0 &&
-    records?.length > 0 &&
-    records.map((record) => {
-      const total =
-        total_order.find((item) => item.CUSTOMER_ID === record.CUSTOMER_ID)
-          ?.total_orders || 0;
-      const newrec = {
-        ...record,
-        TOTAL: total,
-      };
-      console.log(newrec);
-      return newrec;
-    });
+    (total_order?.length > 0 &&
+      records?.length > 0 &&
+      records.map((record) => {
+        const total =
+          total_order.find((item) => item.CUSTOMER_ID === record.CUSTOMER_ID)
+            ?.total_orders || 0;
+        const newrec = {
+          ...record,
+          TOTAL: total,
+        };
+        console.log(newrec);
+        return newrec;
+      })) ||
+    records;
   console.log(records);
   return (
     <>
