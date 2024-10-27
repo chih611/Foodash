@@ -71,7 +71,7 @@ const HomeSideBarBox = ({ onFilterChange }) => {
         <Collapse in={open.dietary}>
           <div>
             <ul>
-              <li>Dietary 1</li>
+            <li>Dietary 1</li>
               <li>Dietary 2</li>
               <li>Dietary 3</li>
             </ul>
