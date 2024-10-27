@@ -16,6 +16,7 @@ import ordersTodayListReducer from "./slices/orderSlice";
 import orderDetailReducer from "./slices/orderDetailSlice";
 import notificationReducer from "./slices/notificationSlice";
 import reportReducer from "./slices/reportSlice";
+import salesMedthodReducer from "./slices/reportSlice";
 
 const persistConfig = {
   key: "root",
@@ -55,6 +56,7 @@ const rootReducer = combineReducers({
   report: reportReducer,
   notifications: notificationReducer,
   orderList: orderListReducer,
+  salesMedthod: salesMedthodReducer,
 });
 
 // Create the persisted reducer for the store

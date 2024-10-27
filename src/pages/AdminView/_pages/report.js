@@ -13,7 +13,7 @@ import { getAllCustomers } from "../../../../store/slices/customerSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { format, parseISO } from "date-fns";
 import CustomTable from "../_components/table";
-import { fetchCurrentMonthCateSales } from "../../../../store/actions/reportAction";
+import { fetchCurrentMonthCateSales, fetchSaleMethodThisMonth } from "../../../../store/actions/reportAction";
 import styles from "@/styles/styles";
 
 const Report = (props) => {
@@ -25,6 +25,7 @@ const Report = (props) => {
     dispatch(fetchOrderList());
     dispatch(fetchOrderListByToday());
     dispatch(fetchCurrentMonthCateSales());
+    dispatch(fetchSaleMethodThisMonth());
   }, []);
 
   const orderList = useSelector((state) => state.order.ordersList);
@@ -36,10 +37,15 @@ const Report = (props) => {
   const statusCurrentMonthCateSales = useSelector(
     (state) => state.report.status
   );
+  const salesMedthod = useSelector(
+    (state) => state.report.salesMedthod
+  );
+
 
   //Declaring
   let headersOrderList = [];
   let headersCurrentMonthCateSales = [];
+  let headerSaleMethods = [];
   const datetimeFields = ["Duedate", "Create Date", "Created"];
 
   const [show, setShow] = useState(false);
@@ -63,13 +69,6 @@ const Report = (props) => {
     setShow(true);
   };
   const handleReportclick = (e) => {};
-
-  const categories = [
-    { id: "111", name: "EAT", stock: "11000", sold: "123", expired: "108" },
-    { id: "112", name: "FOOD", stock: "12000", sold: "123", expired: "180" },
-    { id: "113", name: "COFFEE", stock: "11000", sold: "123", expired: "188" },
-    { id: "114", name: "DRINK", stock: "10100", sold: "123", expired: "18" },
-  ];
 
   const payments = [
     { id: "1", name: "Total Collected", amount: "$5,080.40" },
@@ -108,23 +107,23 @@ const Report = (props) => {
 
   //use today filter for orderList with updated date, created date or due date are: today _ JUST need 2 collumn: ORDER_ID & STATUS, Order Amount or Recurring Status
 
-  const today = format(new Date(), "yyyy.MM.dd");
-  console.log(today);
-  // Filter orders to include only today's orders
-  // Ensure orderList is an array, and filter today's orders based on the Create Date
-  const todaysOrders = Array.isArray(orderList)
-    ? orderList.filter((order) => {
-        // Parse the order's Create Date and format it to 'YYYY.MM.DD'
-        const formattedCreateDate = format(
-          parseISO(order["Create Date"]),
-          "yyyy.MM.dd"
-        );
-        const formattedDueDate = format(parseISO(order.Duedate), "yyyy.MM.dd");
+  // const today = format(new Date(), "yyyy.MM.dd");
+  // console.log(today);
+  // // Filter orders to include only today's orders
+  // // Ensure orderList is an array, and filter today's orders based on the Create Date
+  // const todaysOrders = Array.isArray(orderList)
+  //   ? orderList.filter((order) => {
+  //       // Parse the order's Create Date and format it to 'YYYY.MM.DD'
+  //       const formattedCreateDate = format(
+  //         parseISO(order["Create Date"]),
+  //         "yyyy.MM.dd"
+  //       );
+  //       const formattedDueDate = format(parseISO(order.Duedate), "yyyy.MM.dd");
 
-        // Check if either date matches today's date
-        return formattedCreateDate === today || formattedDueDate === today;
-      })
-    : [];
+  //       // Check if either date matches today's date
+  //       return formattedCreateDate === today || formattedDueDate === today;
+  //     })
+  //   : [];
 
   return (
     <>
@@ -204,15 +203,14 @@ const Report = (props) => {
                   </Dropdown.Menu>
                 </Dropdown>
                 <Card.Text className="my-3">
-                  {payments.map((item) => (
-                    <div
-                      className="my-3 d-flex justify-content-between"
-                      key={item.id}
-                    >
-                      <p className="subtitle mx-4">{item.name}</p>
-                      <p className="subtitle mx-4">{item.amount}</p>
-                    </div>
-                  ))}
+                  {salesMedthod?.map((item, index) =>
+                    Object.entries(item).map(([key, value], j) => (
+                      <div className="m-3 d-flex justify-content-between" key={index}>
+                        <p className="subtitle">{key}</p>
+                        <p className="subtitle ">{value}</p>
+                      </div>
+                    ))
+                  )}
                 </Card.Text>
               </Card.Body>
             </Card>
