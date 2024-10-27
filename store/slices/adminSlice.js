@@ -17,6 +17,26 @@ export const fetchAllAdmins = createAsyncThunk(
   }
 );
 
+export const signInAsAdmin = createAsyncThunk(
+  "admin/signInAsAdmin",
+  async ({ email, password }, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(`${BASE_URL}/admin/signin`, {
+        email,
+        password,
+      });
+
+      if (response.status === 200) {
+        return response.data; // Assume response contains admin profile details
+      } else {
+        return rejectWithValue("Invalid email or password");
+      }
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || error.message);
+    }
+  }
+);
+
 export const fetchAdminProfileById = createAsyncThunk(
   "admin/fetchAdminProfileById",
   async (adminId) => {
@@ -98,6 +118,17 @@ const adminSlice = createSlice({
   extraReducers: (builder) => {
     // Handle admin profile fetching
     builder
+      .addCase(signInAsAdmin.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(signInAsAdmin.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.profile = action.payload;
+      })
+      .addCase(signInAsAdmin.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+      })
       .addCase(fetchAllAdmins.pending, (state) => {
         state.status = "loading";
       })

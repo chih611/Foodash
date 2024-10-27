@@ -2,9 +2,12 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux"; // Import useDispatch and useSelector
+import { Col, Row } from "react-bootstrap";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { signInCustomer } from "../../../../store/slices/customerSlice";
+import PrimaryButton from "../ViewCart/_PrimaryButton";
+import { signInAsAdmin } from "../../../../store/slices/adminSlice"; // Import the admin sign-in action
 
 // Define the validation schema using Yup
 const schema = yup.object().shape({
@@ -23,6 +26,7 @@ const SignIn = () => {
     register,
     handleSubmit,
     formState: { errors },
+    getValues, // Destructure getValues from useForm
   } = useForm({
     resolver: yupResolver(schema), // Integrate Yup with react-hook-form
   });
@@ -48,6 +52,28 @@ const SignIn = () => {
     }
   };
 
+  const handleAdminSignIn = async () => {
+    // Dispatch signInAsAdmin thunk
+    try {
+      const resultAction = await dispatch(
+        signInAsAdmin({
+          email: getValues("email"), // Use getValues to access the form data
+          password: getValues("password"),
+        })
+      );
+
+      // Check if admin sign-in was successful
+      if (signInAsAdmin.fulfilled.match(resultAction)) {
+        console.log("Admin sign-in successful:", resultAction.payload);
+        router.push("/AdminView"); // Redirect to admin dashboard
+      } else {
+        console.error("Admin sign-in failed:", resultAction.payload);
+      }
+    } catch (err) {
+      console.error("Admin sign-in error:", err);
+    }
+  };
+
   return (
     <div
       className="container-fluid vh-100 d-flex align-items-center justify-content-center"
@@ -61,7 +87,10 @@ const SignIn = () => {
       {/* Sign In Card */}
       <div
         className="card p-4 w-100 shadow-lg"
-        style={{ maxWidth: "400px", backgroundColor: "rgba(255, 255, 255, 0.85)" }} // Added opacity to make the form stand out over the background
+        style={{
+          maxWidth: "400px",
+          backgroundColor: "rgba(255, 255, 255, 0.85)",
+        }} // Added opacity to make the form stand out over the background
       >
         <img
           src="/Foodash_logo.png" // Correct path to your logo in the public folder
@@ -99,9 +128,7 @@ const SignIn = () => {
             </label>
             <input
               id="password"
-              className={`form-control ${
-                errors.password ? "is-invalid" : ""
-              }`}
+              className={`form-control ${errors.password ? "is-invalid" : ""}`}
               {...register("password")}
               type="password"
               placeholder="Enter your password"
@@ -112,13 +139,36 @@ const SignIn = () => {
           </div>
 
           {/* Sign In Button */}
-          <button
-            type="submit"
-            className="btn btn-primary w-100"
-            disabled={status === "loading"} // Disable button while loading
-          >
-            {status === "loading" ? "Signing In..." : "Sign In"}
-          </button>
+          <Row>
+            <Col xs={6}>
+              <PrimaryButton
+                type="submit"
+                variant="primary"
+                className="btn btn-primary w-100"
+                disabled={status === "loading"} // Disable button while loading
+                text={
+                  status === "loading"
+                    ? "Signing In As  Customer..."
+                    : "Sign In As Customer"
+                }
+              />
+            </Col>
+            <Col xs={6}>
+              <PrimaryButton
+                variant="inverted"
+                className="btn btn-warning w-100 mt-3"
+                onClick={handleAdminSignIn}
+                disabled={status === "loading"}
+                text={
+                  status === "loading"
+                    ? "Signing In As Admin..."
+                    : "Sign In As Admin"
+                }
+              />
+            </Col>
+          </Row>
+
+          {/* Admin Sign In Button */}
 
           {/* Register Button */}
           <button

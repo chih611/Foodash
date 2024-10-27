@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
+import { Row } from "react-bootstrap";
 import Link from "next/link";
 import { Button } from "react-bootstrap";
 import NavBarCheckOut from "./_NavBarCheckOut";
 import { useSelector, useDispatch } from "react-redux";
 import ConfirmLayout from "./CheckOutStyle";
 import { getOrderById } from "../../../../store/actions/orderAction";
+import PrimaryButton from "../ViewCart/_PrimaryButton";
 import { useRouter } from "next/router";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
@@ -29,6 +31,9 @@ const Confirm = () => {
   const { orderId } = router.query; // Retrieve orderId from the URL query
 
   const order = useSelector((state) => state.order.orderById);
+  const customerId = useSelector(
+    (state) => state.customer.profile?.CUSTOMER_ID
+  ); // Get customer ID from Redux
 
   useEffect(() => {
     if (orderId) {
@@ -119,9 +124,24 @@ const Confirm = () => {
           </button>
         </div>
 
+        {/* Conditional rendering for "Track your order here" */}
+        {customerId && (
+          <div className="m-5">
+            <Link href="/CustomerView/OrderTracking" passHref>
+              <Button className="button-2 w-100">Track your order here</Button>
+            </Link>
+          </div>
+        )}
+
         <div className="m-5">
-          <Link href="/CustomerView/OrderTracking" passHref>
-            <Button className="button-2 w-100">Track your order here</Button>
+          <Link href="/CustomerView/HomePage" passHref>
+            <Row className="w-100 my-5 mx-1">
+              <PrimaryButton
+                text="Back to Home"
+                className="w-100"
+                variant="primary"
+              />
+            </Row>
           </Link>
         </div>
       </div>

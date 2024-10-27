@@ -56,9 +56,9 @@ export const upgradeGuestToUser = async (customerId, updatedData) => {
     lastName: updatedData.lastName || existingCustomerData.LAST_NAME,
     email: updatedData.email || existingCustomerData.EMAIL,
     password: updatedData.password || existingCustomerData.PASSWORD,
-    phoneNumber: updatedData.phoneNumber || existingCustomerData.PHONE_NUMBER,
+    phoneNumber: updatedData.phone || existingCustomerData.PHONE_NUMBER,
     address: updatedData.address || existingCustomerData.ADDRESS,
-    dob: updatedData.dob || existingCustomerData.DATE_OF_BIRTH,
+    dob: updatedData.dateOfBirth || existingCustomerData.DATE_OF_BIRTH,
     gender: updatedData.gender || existingCustomerData.GENDER,
     customerType: "user", // Set to 'user' to upgrade the type
     companyName: updatedData.companyName || existingCustomerData.COMPANY_NAME,
@@ -203,7 +203,8 @@ export const updateCustomer = createAsyncThunk(
         address: updatedData.address || existingProfile.ADDRESS,
         password: updatedData.password || existingProfile.PASSWORD,
         customerType: updatedData.customerType || existingProfile.CUSTOMER_TYPE,
-        dob: updatedData.dob || existingProfile.DATE_OF_BIRTH,
+        DATE_OF_BIRTH:
+          updatedData.DATE_OF_BIRTH || existingProfile.DATE_OF_BIRTH, // Ensure DATE_OF_BIRTH is used
         gender: updatedData.gender || existingProfile.GENDER,
         abn: updatedData.abn || existingProfile.ABN,
         dietaryPreference:
@@ -257,7 +258,7 @@ const customerSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // Handling createCustomer states (if user signs up)
+      // Handling createCustomer states (if user signs up)up
       .addCase(getAllCustomers.pending, (state) => {
         state.status = "loading";
       })
