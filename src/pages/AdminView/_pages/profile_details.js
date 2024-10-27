@@ -1,81 +1,56 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Form, Row, Col, Button } from "react-bootstrap";
-import { useDispatch } from "react-redux";
-import { updateCustomer } from "../../../../store/slices/customerSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  createCustomer,
+  fetchCustomerById,
+} from "../../../../store/slices/customerSlice";
 import styles from "../../../styles/styles";
+import CustomInput from "../_components/input";
 
-const CustomerProfileDetails = ({ customerData, setOpen }) => {
+const CustomerProfileDetails = ({ setOpen, selectedId }) => {
   const dispatch = useDispatch();
-  const [formData, setFormData] = useState({
-    CUSTOMER_NAME: customerData?.CUSTOMER_NAME || "",
-    CUSTOMER_EMAIL: customerData?.CUSTOMER_EMAIL || "",
-    // other fields...
-  });
-
-  const [showSaveBtn, setShowSaveBtn] = useState(false);
-
   useEffect(() => {
-    if (customerData) {
-      setFormData({
-        CUSTOMER_NAME: customerData.CUSTOMER_NAME,
-        CUSTOMER_EMAIL: customerData.CUSTOMER_EMAIL,
-        // other fields...
-      });
-    }
-  }, [customerData]);
-
+    dispatch(fetchCustomerById(selectedId));
+  }, []);
+  let data = useSelector((state) => state.customer.profileDetail);
+  const statusFetching = useSelector((state) => state.customer.status);
+  const readOnlyFields = ["LAST_NAME"];
+  const dateTimeFields = ["DATE_OF_BIRTH"];
   const handleChange = (field, value) => {
-    setShowSaveBtn(true);
-    setFormData((prev) => ({ ...prev, [field]: value }));
+    // setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await dispatch(
-        updateCustomer({
-          customerId: customerData.CUSTOMER_ID,
-          updatedData: formData,
-        })
-      );
-      setShowSaveBtn(false);
+      await dispatch(createCustomer(formData));
       setOpen(false);
     } catch (error) {
-      console.error("Error updating customer:", error);
+      console.error("Error creating customer:", error);
     }
   };
 
   return (
     <Form onSubmit={handleSubmit}>
-      <Row className="mb-3">
-        <Col md={6}>
-          <Form.Group controlId="customerName">
-            <Form.Label>Customer Name</Form.Label>
-            <Form.Control
-              type="text"
-              value={formData.CUSTOMER_NAME}
-              onChange={(e) => handleChange("CUSTOMER_NAME", e.target.value)}
-              required
+      <Form.Group as={Row} className="" controlId="orderForm">
+        {Object.entries(data || {}).map(([key, value], index) => (
+          <Col md={6}>
+            <CustomInput
+              title={key || "-"}
+              value={value || "-"}
+              index={index}
+              readOnlyFields={readOnlyFields}
+              dateTimeFields={dateTimeFields}
+              statusFetching={statusFetching}
+              handleChange={handleChange}
             />
-          </Form.Group>
-        </Col>
-        <Col md={6}>
-          <Form.Group controlId="customerEmail">
-            <Form.Label>Customer Email</Form.Label>
-            <Form.Control
-              type="email"
-              value={formData.CUSTOMER_EMAIL}
-              onChange={(e) => handleChange("CUSTOMER_EMAIL", e.target.value)}
-              required
-            />
-          </Form.Group>
-        </Col>
-      </Row>
-      {showSaveBtn && (
-        <Button type="submit" className={`${styles.btn} mt-3 align-self-end`}>
-          Save
-        </Button>
-      )}
+          </Col>
+        ))}
+      </Form.Group>
+      <Button type="submit" className={`${styles.btn} mt-3 align-self-end`}>
+        Create Customer
+      </Button>
     </Form>
   );
 };
