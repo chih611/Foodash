@@ -213,15 +213,22 @@ const CustomTable = (props) => {
                   {Object.entries(e).map(([key, value], j) => (
                     <td key={j} className="text-center">
                       <Button
-                        variant={customCols.map((col) =>
-                          key.includes(col) ? "primary" : "link"
-                        )}
+                        variant={
+                          customCols.length > 0
+                            ? customCols.map((col) =>
+                                key.includes(col) ? "primary" : "link"
+                              )
+                            : "link"
+                        }
                         onDoubleClick={() =>
-                          customCols.map((col) => {
-                            !key.includes(col) &&
-                              handleRecordDoubleClick &&
-                              handleRecordDoubleClick(e);
-                          })
+                          customCols.length > 0
+                            ? customCols.map((col) => {
+                                !key.includes(col) &&
+                                  handleRecordDoubleClick &&
+                                  handleRecordDoubleClick(e);
+                              })
+                            : handleRecordDoubleClick &&
+                              handleRecordDoubleClick(e)
                         }
                         onClick={() =>
                           customCols.map((col) => {
@@ -276,18 +283,6 @@ const CustomTable = (props) => {
           )}
         </>
       )}
-      {/* <CustomModal
-        setOpen={setShow}
-        open={show}
-        selectedId={selectedId}
-        headerTitle="Order"
-        customTableColor="bg-pressed-color text-light"
-      >
-        <OrderDetails
-          // {...props}
-          customTableColor="bg-pressed-color text-light"
-        />
-      </CustomModal> */}
     </>
   );
 };
