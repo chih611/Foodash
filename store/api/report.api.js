@@ -53,3 +53,16 @@ export const fetchSaleSumByMonthAPI = async (month) => {
     console.log(e);
   }
 };
+
+export const fetchSaleMethodThisMonthAPI = async () => {
+  try {
+    const response = await axios.get(`${BASE_URL}/report_method`);
+    let data = response.data;
+    if (!Array.isArray(data)) {
+      data = [data];
+    }
+    return data;
+  } catch (e) {
+    console.log(e);
+  }
+};
