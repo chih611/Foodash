@@ -33,6 +33,34 @@ const ReportCategory = (props) => {
     });
   }
 
+  // Function to aggregate data for "Sales by Category"
+  const aggregateSalesData = () => {
+    const aggregatedData = {};
+    saleReports?.forEach((row) => {
+      const category = row.Category || "Unknown Category";
+      const product = row.Product || "Unknown Product";
+      const key = `${category}-${product}`;
+
+      if (!aggregatedData[key]) {
+        aggregatedData[key] = {
+          category: category,
+          item: product,
+          sold: 0,
+          sales: 0,
+          tax: 0,
+          netSales: 0,
+        };
+      }
+
+      aggregatedData[key].sold += parseInt(row.Sold, 10) || 0;
+      aggregatedData[key].sales += parseFloat(row.Sales) || 0;
+      aggregatedData[key].tax += parseFloat(row.Tax) || 0;
+      aggregatedData[key].netSales += parseFloat(row["Net Sales"]) || 0;
+    });
+
+    return aggregatedData;
+  };
+
   // Create a function to generate PDF for the report summary
   const generatePDF = () => {
     const doc = new jsPDF(); // Create a new jsPDF instance
@@ -67,29 +95,8 @@ const ReportCategory = (props) => {
     doc.setFontSize(12);
     doc.text(`Date: ${moment().format("YYYY-MM-DD")}`, 10, 20);
 
-    // Aggregate data for "Sales by Category"
-    const aggregatedData = {};
-    saleReports?.forEach((row) => {
-      const category = row.Category || "Unknown Category";
-      const product = row.Product || "Unknown Product";
-      const key = `${category}-${product}`;
-
-      if (!aggregatedData[key]) {
-        aggregatedData[key] = {
-          category: category,
-          item: product,
-          sold: 0,
-          sales: 0,
-          tax: 0,
-          netSales: 0,
-        };
-      }
-
-      aggregatedData[key].sold += parseInt(row.Sold, 10) || 0;
-      aggregatedData[key].sales += parseFloat(row.Sales) || 0;
-      aggregatedData[key].tax += parseFloat(row.Tax) || 0;
-      aggregatedData[key].netSales += parseFloat(row["Net Sales"]) || 0;
-    });
+    // Use the aggregated sales data
+    const aggregatedData = aggregateSalesData();
 
     // Prepare data for the PDF
     const summaryTableData = Object.values(aggregatedData).map((item) => [
@@ -178,7 +185,12 @@ const ReportCategory = (props) => {
   };
 
   const countSoldItems = () => {
-    return rows.reduce((total, row) => total + parseInt(row.sold, 10), 0);
+    // Use aggregated data to count sold items
+    const aggregatedData = aggregateSalesData();
+    return Object.values(aggregatedData).reduce(
+      (total, item) => total + item.sold,
+      0
+    );
   };
 
   return (
