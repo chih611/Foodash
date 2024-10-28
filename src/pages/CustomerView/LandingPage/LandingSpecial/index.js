@@ -1,8 +1,23 @@
 import React from "react";
 import LandingNavBar from "../LandingNavBar/LandingNavBar";
 import { Container, Row, Col, Button } from "react-bootstrap";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import PrimaryButton from "../../ViewCart/_PrimaryButton";
+import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
 
+import { fetchItems } from "../../../../../store/slices/itemsSlice";
 const LandingSpecial = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchItems());
+  }, [dispatch]);
+
+  const items = useSelector((state) => state.items.items);
+  const displayItem = items.filter((item) => item.SPECIAL_STATUS !== 0)[0];
+
   return (
     <div className="landing-menu">
       <div
@@ -37,18 +52,12 @@ const LandingSpecial = () => {
           </Col>
 
           <Col xs={12} md={7} className="text-left mb-4">
-            <h1 className="display-4">Special of the day</h1>
-            <h3 className="lead">Vietnamese Banh Mi</h3>
-            <h2>$12.99</h2>
-            <p className="lead">
-              A Sandwich consists of one or more meats, accompanying vegetables,
-              and condiments such as fresh cucumber slices, corianders, pickled
-              carrot and daikon in shredded form
-            </p>
-
-            <Button variant="primary" className="mt-3">
-              <i className="bi bi-basket-fill"></i> Order now
-            </Button>
+            <h1 className="display-4">{displayItem.ITEM_NAME}</h1>
+            <h2>${displayItem.UNIT_PRICE}</h2>
+            <p className="lead">{displayItem.DESCRIPTION}</p>
+            <Link href="/CustomerView/HomePage" legacyBehavior passHref>
+              <PrimaryButton icon={Inventory2OutlinedIcon} text="Order Now" />
+            </Link>
           </Col>
         </Row>
       </Container>
