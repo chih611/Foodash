@@ -6,7 +6,7 @@ import { fetchOrderByCustomerIdAPI } from "../api/order.api";
 const BACKEND_PORT = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_PORT;
 const BASE_URL = `http://localhost:8080`;
 
-export const createOrderDetail = createAsyncThunk(
+const createOrderDetail = createAsyncThunk(
   "orderDetail/createOrderDetail",
   async (
     {
@@ -40,7 +40,7 @@ export const createOrderDetail = createAsyncThunk(
   }
 );
 
-export const fetchBoughtBeforeByCustomerId = createAsyncThunk(
+const fetchBoughtBeforeByCustomerId = createAsyncThunk(
   "orderDetail/fetchBoughtBeforeByCustomerId",
   async (customerId, { rejectWithValue, dispatch }) => {
     try {
@@ -90,7 +90,7 @@ export const fetchBoughtBeforeByCustomerId = createAsyncThunk(
   }
 );
 
-export const fetchOrderDetailList = createAsyncThunk(
+const fetchOrderDetailList = createAsyncThunk(
   "orderDetail/fetchOrderDetailList",
   async (orderId, { rejectWithValue }) => {
     try {
@@ -103,3 +103,9 @@ export const fetchOrderDetailList = createAsyncThunk(
     }
   }
 );
+
+export {
+  createOrderDetail,
+  fetchBoughtBeforeByCustomerId,
+  fetchOrderDetailList,
+};

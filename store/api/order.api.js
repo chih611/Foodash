@@ -4,7 +4,7 @@ import axios from "axios";
 // Define base URL with dynamic backend port from the environment variable
 const BASE_URL = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_ADDRESS;
 
-export const fetchOrderListAPI = async () => {
+const fetchOrderListAPI = async () => {
   const response = await axios.get(`${BASE_URL}/order`);
   let data = response.data;
   if (!Array.isArray(data)) {
@@ -13,7 +13,7 @@ export const fetchOrderListAPI = async () => {
   return data;
 };
 
-export const fetchOrderListByTodayAPI = async () => {
+const fetchOrderListByTodayAPI = async () => {
   const response = await axios.get(`${BASE_URL}/orders_today`);
   let data = response.data;
   if (!Array.isArray(data)) {
@@ -22,7 +22,7 @@ export const fetchOrderListByTodayAPI = async () => {
   return data;
 };
 
-export const fetchOrderLisByIdAPI = async (orderId) => {
+const fetchOrderLisByIdAPI = async (orderId) => {
   const response = await axios.get(`${BASE_URL}/order/${orderId}`);
   let data = response.data;
   if (!Array.isArray(data)) {
@@ -31,7 +31,7 @@ export const fetchOrderLisByIdAPI = async (orderId) => {
   return data;
 };
 
-export const updateOrderAPI = async (orderId, updatedData) => {
+const updateOrderAPI = async (orderId, updatedData) => {
   try {
     // Fetch existing order data from the server
     const existingOrderResponse = await axios.get(
@@ -111,7 +111,7 @@ export const updateOrderAPI = async (orderId, updatedData) => {
   }
 };
 
-export const updateOrderViewByIdAPI = async (orderId, updatedData) => {
+const updateOrderViewByIdAPI = async (orderId, updatedData) => {
   try {
     // Fetch existing order data from the server
     const existingOrderResponse = await axios.get(
@@ -183,7 +183,7 @@ export const updateOrderViewByIdAPI = async (orderId, updatedData) => {
   }
 };
 
-export const fetchOrderByCustomerIdAPI = async (customerId) => {
+const fetchOrderByCustomerIdAPI = async (customerId) => {
   const response = await axios.get(`${BASE_URL}/order/customer/${customerId}`);
   let data = response.data;
   if (!Array.isArray(data)) {
@@ -192,7 +192,7 @@ export const fetchOrderByCustomerIdAPI = async (customerId) => {
   return data;
 };
 
-export const fetchOrderListByCustomerIdAPI = async (customerId) => {
+const fetchOrderListByCustomerIdAPI = async (customerId) => {
   const response = await axios.get(`${BASE_URL}/order/customer/${customerId}`);
   let data = response.data;
   if (!Array.isArray(data)) {
@@ -201,7 +201,7 @@ export const fetchOrderListByCustomerIdAPI = async (customerId) => {
   return data;
 };
 
-export const fetchOrderLisByCustomerNameAPI = async (full_name) => {
+const fetchOrderLisByCustomerNameAPI = async (full_name) => {
   const response = await axios.get(`${BASE_URL}/order/customer/${full_name}`);
   let data = response.data;
   if (!Array.isArray(data)) {
@@ -210,11 +210,23 @@ export const fetchOrderLisByCustomerNameAPI = async (full_name) => {
   return data;
 };
 
-export const fetchTotalOrderListAPI = async () => {
+const fetchTotalOrderListAPI = async () => {
   const response = await axios.get(`${BASE_URL}/order_total_by_customer`);
   let data = response.data;
   if (!Array.isArray(data)) {
     data = [data];
   }
   return data;
+};
+
+export {
+  fetchOrderListAPI,
+  fetchOrderListByTodayAPI,
+  fetchOrderLisByIdAPI,
+  updateOrderAPI,
+  updateOrderViewByIdAPI,
+  fetchOrderByCustomerIdAPI,
+  fetchOrderListByCustomerIdAPI,
+  fetchOrderLisByCustomerNameAPI,
+  fetchTotalOrderListAPI,
 };
