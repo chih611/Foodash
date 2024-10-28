@@ -1,14 +1,6 @@
 import React, { useState } from "react";
 import Link from "next/link";
-import {
-  Container,
-  Row,
-  Col,
-  Navbar,
-  Nav,
-  Button,
-  Offcanvas,
-} from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import {
   increaseQuantity,
@@ -16,71 +8,61 @@ import {
   removeFromCart,
 } from "../../../../store/slices/cartSlice";
 import QuantityInputField from "../ViewCart/QuantityInputContainer";
-import ArrowDropDownOutlined from "@mui/icons-material/ArrowDropDownOutlined"; //dropdown arrow
-import AddCircleOutlineOutlined from "@mui/icons-material/AddCircleOutlineOutlined"; //add item +
-import RemoveCircleOutlineOutlined from "@mui/icons-material/RemoveCircleOutlineOutlined"; //remove item -
-import CloseOutlined from "@mui/icons-material/CloseOutlined"; // delete item x
 import ClearIcon from "@mui/icons-material/Clear";
 
 const OrderSummary = () => {
-  const [showOffcanvas, setShowOffcanvas] = useState(false);
   const cartItems = useSelector((state) => state.cart.cartItems);
   const customerProfile = useSelector((state) => state.customer.profile);
   const customerId = customerProfile?.CUSTOMER_ID || null;
   const dispatch = useDispatch();
-  const handleToggle = () => setShowOffcanvas(!showOffcanvas);
 
-  const handleRemoveItem = (itemId, extras, note) => {
+  const handleRemoveItem = (itemId, extras, labels, note) => {
     console.log("Removing item with note:", note);
-    dispatch(removeFromCart({ customerId, itemId, extras, note }));
+    dispatch(removeFromCart({ customerId, itemId, extras, labels, note }));
   };
 
-  const handleIncreaseQuantity = (itemId, extras, note) => {
-    console.log("Increase quantity", itemId, extras, note);
-    dispatch(increaseQuantity({ customerId, itemId, extras, note }));
+  const handleIncreaseQuantity = (itemId, extras, labels, note) => {
+    console.log("Increase quantity", itemId, extras, labels, note);
+    dispatch(increaseQuantity({ customerId, itemId, extras, labels, note }));
   };
 
-  const handleClearCart = () => {
-    dispatch(clearCartItems({ customerId, cartId }));
-  };
+  const handleDecreaseQuantity = (itemId, extras, labels, note) => {
+    console.log("Decreasing quantity for:", itemId, extras, labels, note);
 
-  const handleDecreaseQuantity = (itemId, extras, note) => {
-    console.log("Decreasing quantity for:", itemId, extras, note); // Debugging log
-
-    // Find the specific item by itemId, extras, and note
     const currentItem = cartItems.find((item) => {
       const extrasMatch =
         JSON.stringify(item.extras) === JSON.stringify(extras);
+      const labelsMatch = item.labels === labels;
       const notesMatch = (item.notes || "").trim() === (note || "").trim();
-      return item.itemId === itemId && extrasMatch && notesMatch;
+      return item.itemId === itemId && extrasMatch && labelsMatch && notesMatch;
     });
 
-    // If the item exists, handle decreasing or removing it based on its quantity
     if (currentItem) {
       if (currentItem.quantity === 1) {
-        // If quantity is 1, remove the item
-        dispatch(removeFromCart({ customerId, itemId, extras, note }));
+        dispatch(removeFromCart({ customerId, itemId, extras, labels, note }));
       } else {
-        // Otherwise, decrease the quantity
-        dispatch(decreaseQuantity({ customerId, itemId, extras, note }));
+        dispatch(
+          decreaseQuantity({ customerId, itemId, extras, labels, note })
+        );
       }
     }
   };
 
   return (
     <div>
-      <div></div>
       <h4 className="my-3">Order Summary</h4>
       <div className="d-flex mx-3">
         <p className="subtitle mx-3">
           {cartItems ? cartItems.length : 0} items
         </p>
-        <ArrowDropDownOutlined />
       </div>
 
       {cartItems ? (
-        cartItems.map((item) => (
-          <Row className="w-100 d-flex my-3 align-items-center">
+        cartItems.map((item, index) => (
+          <Row
+            className="w-100 d-flex my-3 align-items-center"
+            key={`${item.itemId}-${index}`}
+          >
             <Col xs={4}>
               <p className="subtitle me-5 mt-3">{item.itemName}</p>
             </Col>
@@ -88,10 +70,20 @@ const OrderSummary = () => {
               <QuantityInputField
                 quantity={item.quantity}
                 onIncrease={() =>
-                  handleIncreaseQuantity(item.itemId, item.extras, item.notes)
+                  handleIncreaseQuantity(
+                    item.itemId,
+                    item.extras,
+                    item.labels,
+                    item.notes
+                  )
                 }
                 onDecrease={() =>
-                  handleDecreaseQuantity(item.itemId, item.extras, item.notes)
+                  handleDecreaseQuantity(
+                    item.itemId,
+                    item.extras,
+                    item.labels,
+                    item.notes
+                  )
                 }
               />
             </Col>
@@ -100,9 +92,35 @@ const OrderSummary = () => {
                 className="remove-item-icon"
                 style={{ color: "094067" }}
                 onClick={() =>
-                  handleRemoveItem(item.itemId, item.extras, item.notes)
+                  handleRemoveItem(
+                    item.itemId,
+                    item.extras,
+                    item.labels,
+                    item.notes
+                  )
                 }
               />
+            </Col>
+            <Col xs={12}>
+              {/* Display extras */}
+              <p>
+                Variety:{" "}
+                <ul>
+                  {Object.entries(item.extras)
+                    .filter(([key, value]) => value)
+                    .map(([key, value]) => (
+                      <li key={key}>{key}</li>
+                    ))}
+                </ul>
+              </p>
+            </Col>
+            <Col xs={12}>
+              {/* Display labels directly */}
+              <p>Labels: {item.labels ? item.labels : "No labels selected"}</p>
+            </Col>
+            <Col xs={12}>
+              {/* Display notes */}
+              <p>Notes: {item.notes || "None"}</p>
             </Col>
           </Row>
         ))
