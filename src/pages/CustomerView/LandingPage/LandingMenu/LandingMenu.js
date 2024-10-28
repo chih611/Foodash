@@ -25,7 +25,13 @@ const LandingMenu = () => {
           </Col>
           {/* Image Placeholder Section */}
           <Col xs={12} md={3} className="d-flex justify-content-center">
-            <div className="landing-menu--image">{/* Image Placeholder */}</div>
+            <div className="landing-menu--image">
+              <img
+                src="/croissant.jpg"
+                alt="Landing Menu Image"
+                className="img-fluid"
+              />
+            </div>
           </Col>
         </Row>
       </Container>
