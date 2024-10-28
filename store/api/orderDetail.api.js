@@ -2,7 +2,7 @@ import axios from "axios";
 
 const BASE_URL = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_ADDRESS;
 
-export const fetchOrderDetailListAPI = async (orderId) => {
+const fetchOrderDetailListAPI = async (orderId) => {
   try {
     const response = await axios.get(`${BASE_URL}/order_details/${orderId}`);
     let data = response.data;
@@ -13,3 +13,5 @@ export const fetchOrderDetailListAPI = async (orderId) => {
     console.log(e);
   }
 };
+
+export { fetchOrderDetailListAPI };

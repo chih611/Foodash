@@ -4,16 +4,16 @@ const loggerMiddleware = (storeAPI) => (next) => (action) => {
     const result = next(action);
     if (result instanceof Promise) {
       return result.then((resolvedValue) => {
-        console.log("Async Action Result:", resolvedValue);
+        // console.log("Async Action Result:", resolvedValue);
         return resolvedValue;
       });
     }
     return result;
   } else {
     // It's a regular action; log it
-    console.log("Dispatching action:", action);
+    // console.log("Dispatching action:", action);
     let result = next(action);
-    console.log("Next state:", storeAPI.getState());
+    // console.log("Next state:", storeAPI.getState());
     return result;
   }
 };
