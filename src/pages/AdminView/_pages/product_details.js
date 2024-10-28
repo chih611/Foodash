@@ -32,11 +32,11 @@ const ProductDetails = ({
 
   useEffect(() => {
     dispatch(fetchAdminItemByDetailId(Id));
-    dispatch(fetchModifications(Id));
+    dispatch(fetchModifications(Id)); // Fetch existing modifications
   }, [Id, dispatch]);
 
   const dataItems = useSelector((state) => state.items.itemDetail) || [];
-  const dataMods = useSelector((state) => state.items.modAdminDetail);
+  const dataMods = useSelector((state) => state.items.modAdminDetail); // Existing modifications
   const status = useSelector((state) => state.items.status) || "idle";
 
   const onSubmit = async (formData) => {
@@ -53,6 +53,7 @@ const ProductDetails = ({
       await dispatch(createModification({ itemId: Id, ...processedFormData }));
       console.log("Submitted successfully");
       reset(); // Clear the form after successful submission
+      dispatch(fetchModifications(Id)); // Refresh the modifications list after adding
     } catch (error) {
       console.error("Error creating modification:", error);
     }
@@ -86,6 +87,38 @@ const ProductDetails = ({
         </Accordion.Item>
       </Accordion>
 
+      {/* Accordion to display existing modifications */}
+      <Accordion defaultActiveKey="1" alwaysOpen>
+        {dataMods &&
+          dataMods.map((datum, pIndex) => (
+            <Accordion.Item eventKey={`mod-${pIndex}`} key={pIndex}>
+              <Accordion.Header>Modification {datum.ModID}</Accordion.Header>
+              <Accordion.Body>
+                {Object.entries(datum || {}).map(([key, value], index) => (
+                  <Form.Group
+                    as={Row}
+                    key={`${key}-${index}`}
+                    className=""
+                    controlId="modForm"
+                  >
+                    <Col md={6}>
+                      <CustomInput
+                        title={key || "-"}
+                        value={value || "-"}
+                        index={index}
+                        readOnlyFields={readOnlyFields}
+                        dateTimeFields={dateTimeFields}
+                        statusFetching={status}
+                      />
+                    </Col>
+                  </Form.Group>
+                ))}
+              </Accordion.Body>
+            </Accordion.Item>
+          ))}
+      </Accordion>
+
+      {/* Form to add new modification */}
       <Accordion defaultActiveKey="2" alwaysOpen>
         <Accordion.Item eventKey="2">
           <Accordion.Header>Add New Modification</Accordion.Header>
