@@ -31,12 +31,26 @@
 }
 
 .items-container {
-  display: flex;
   flex-wrap: nowrap;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   padding: 10px 0;
   scroll-behavior: smooth;
+  gap: 20px !important; 
+
+  &.centered-single-item {
+    justify-content: center; // Center single item horizontally
+    overflow: hidden; // Hide any unnecessary overflow
+  }
+
+  // Only use flex when there are multiple items
+  &.multiple-items {
+    display: flex; // Enable flex when there are multiple items
+  }
+}
+
+.centered-single-item .home-item {
+  margin: 0 auto; // Ensure the item is fully centered
 }
 
 .items-container::-webkit-scrollbar {
@@ -45,7 +59,7 @@
 
 .home-item {
   flex: 0 0 auto;
-  margin-right: 10px;
+  margin: 0 15px  !important; // Ensure the item has consistent spacing
 }
 
 .arrow-button {

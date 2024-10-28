@@ -13,8 +13,13 @@ import { getAllCustomers } from "../../../../store/slices/customerSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { format, parseISO } from "date-fns";
 import CustomTable from "../_components/table";
-import { fetchCurrentMonthCateSales, fetchSaleMethodThisMonth } from "../../../../store/actions/reportAction";
+import {
+  fetchCurrentMonthCateSales,
+  fetchSaleMethodThisMonth,
+} from "../../../../store/actions/reportAction";
 import styles from "@/styles/styles";
+import jsPDF from "jspdf";
+import moment from "moment";
 
 const Report = (props) => {
   const dispatch = useDispatch();
@@ -37,10 +42,7 @@ const Report = (props) => {
   const statusCurrentMonthCateSales = useSelector(
     (state) => state.report.status
   );
-  const salesMedthod = useSelector(
-    (state) => state.report.salesMedthod
-  );
-
+  const salesMedthod = useSelector((state) => state.report.salesMedthod);
 
   //Declaring
   let headersOrderList = [];
@@ -80,13 +82,67 @@ const Report = (props) => {
     { id: "7", name: "Net Total", amount: "$5.007.31" },
   ];
 
-  // sorted by date
+  const generateSalesReportPDF = () => {
+    const doc = new jsPDF();
+    doc.setFontSize(18);
+    doc.text("Sales Report", 10, 10);
+    doc.setFontSize(12);
+    doc.text(`Date: ${moment().format("DD/MM/YYYY")}`, 10, 20);
 
-  // set up date range picker
+    // Prepare data for the table
+    const tableData = salesMedthod.map((item, index) => {
+      return Object.entries(item).map(([key, value]) => [
+        key,
+        datetimeFields.includes(key)
+          ? moment(value).format("DD/MM/YYYY")
+          : value, // Format dates using moment
+      ]);
+    });
+
+    // Use autoTable for structured table
+    doc.autoTable({
+      head: [["Key", "Value"]],
+      body: tableData.flat(),
+      startY: 30,
+      styles: { fontSize: 10, cellPadding: 2 },
+    });
+
+    doc.save("Sales_Report.pdf");
+  };
+
+  // Function to generate PDF for "Sales By Category"
+  const generateCategorySalesPDF = () => {
+    const doc = new jsPDF();
+    doc.setFontSize(18);
+    doc.text("Sales By Category Report", 10, 10);
+    doc.setFontSize(12);
+    doc.text(`Date: ${moment().format("YYYY-MM-DD")}`, 10, 20);
+
+    // Prepare data for the table
+    const tableData = currentMonthCateSales.map((item) => {
+      return Object.entries(item).map(([key, value]) => [
+        key,
+        datetimeFields.includes(key)
+          ? moment(value).format("DD/MM/YYYY")
+          : value, // Format dates using moment
+      ]);
+    });
+
+    // Use autoTable for structured table
+    doc.autoTable({
+      head: [["Category", "Value"]],
+      body: tableData.flat(),
+      startY: 30,
+      styles: { fontSize: 10, cellPadding: 2 },
+    });
+
+    doc.save("Sales_By_Category_Report.pdf");
+  };
+
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const [showModal, setShowModal] = useState(false); // Modal visibility state
-  const [selectedEvent, setSelectedEvent] = useState(null); // Track selected event
+  const [showModal, setShowModal] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState(null);
 
   const handleStartDateChange = (e) => {
     setStartDate(e.target.value);
@@ -99,31 +155,11 @@ const Report = (props) => {
   const getMonthName = (date) => {
     return new Date().toLocaleString("default", { month: "long" });
   };
-  // Handle event click
+
   const handleEventClick = (event) => {
-    setSelectedEvent(event); // Set selected event details
-    setShowModal(true); // Show the modal with event details
+    setSelectedEvent(event);
+    setShowModal(true);
   };
-
-  //use today filter for orderList with updated date, created date or due date are: today _ JUST need 2 collumn: ORDER_ID & STATUS, Order Amount or Recurring Status
-
-  // const today = format(new Date(), "yyyy.MM.dd");
-  // console.log(today);
-  // // Filter orders to include only today's orders
-  // // Ensure orderList is an array, and filter today's orders based on the Create Date
-  // const todaysOrders = Array.isArray(orderList)
-  //   ? orderList.filter((order) => {
-  //       // Parse the order's Create Date and format it to 'YYYY.MM.DD'
-  //       const formattedCreateDate = format(
-  //         parseISO(order["Create Date"]),
-  //         "yyyy.MM.dd"
-  //       );
-  //       const formattedDueDate = format(parseISO(order.Duedate), "yyyy.MM.dd");
-
-  //       // Check if either date matches today's date
-  //       return formattedCreateDate === today || formattedDueDate === today;
-  //     })
-  //   : [];
 
   return (
     <>
@@ -132,10 +168,10 @@ const Report = (props) => {
         className="g-4 bg-2nd-color mt-1 px-3 py-3 rounded-4"
       >
         <Row xs={1} md={2} className="my-2 justify-content-around">
-          {/* What 's on today, Report by Category and Item */}
+          {/* What's on today, Report by Category and Item */}
 
           <Col lg={5}>
-            {/* What 's on Today */}
+            {/* What's on Today */}
             <Card className="rounded-4">
               <Card.Body>
                 <Card.Title className="subtitle_admin">
@@ -158,10 +194,21 @@ const Report = (props) => {
             {/* Sales By Category */}
             <Card className="rounded-4 my-4">
               <Card.Body>
-                <Card.Title className="subtitle_admin mb-3">
-                  Sales By Category
-                  <hr />
-                </Card.Title>
+                <Row>
+                  <Col xs={6}>
+                    <Card.Title className="subtitle_admin mb-3">
+                      Sales By Category
+                    </Card.Title>
+                  </Col>
+                  <Col xs={6}>
+                    <Button
+                      variant="success"
+                      onClick={generateCategorySalesPDF}
+                    >
+                      Download PDF
+                    </Button>
+                  </Col>
+                </Row>
                 <Link href="./AdminView/ReportCategory">
                   <Button className={styles.btn} variant="primary">
                     View Report
@@ -186,7 +233,18 @@ const Report = (props) => {
             {/* General Report */}
             <Card className="rounded-4">
               <Card.Body>
-                <Card.Title className="subtitle_admin">Sales Report</Card.Title>
+                <Row>
+                  <Col xs={6}>
+                    <Card.Title className="subtitle_admin">
+                      Sales Report
+                    </Card.Title>
+                  </Col>
+                  <Col xs={6}>
+                    <Button variant="success" onClick={generateSalesReportPDF}>
+                      Download PDF
+                    </Button>
+                  </Col>
+                </Row>
                 <Dropdown className="my-3">
                   <Dropdown.Toggle
                     variant="primary"
@@ -198,14 +256,19 @@ const Report = (props) => {
 
                   <Dropdown.Menu>
                     <Dropdown.Item href="#/action-1">This Week</Dropdown.Item>
-                    <Dropdown.Item href="#/action-2">This Quater</Dropdown.Item>
+                    <Dropdown.Item href="#/action-2">
+                      This Quarter
+                    </Dropdown.Item>
                     <Dropdown.Item href="#/action-3">This Year</Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
                 <Card.Text className="my-3">
                   {salesMedthod?.map((item, index) =>
                     Object.entries(item).map(([key, value], j) => (
-                      <div className="m-3 d-flex justify-content-between" key={index}>
+                      <div
+                        className="m-3 d-flex justify-content-between"
+                        key={index}
+                      >
                         <p className="subtitle">{key}</p>
                         <p className="subtitle ">{value}</p>
                       </div>
