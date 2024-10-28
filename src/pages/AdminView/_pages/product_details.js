@@ -1,7 +1,6 @@
 import { Accordion, Button, Col, Form, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
-
 import {
   fetchOrderList,
   updateOrderViewById,
@@ -11,6 +10,7 @@ import {
   fetchAdminItemByDetailId,
   fetchModifications,
 } from "../../../../store/actions/itemAction";
+import { createModification } from "../../../../store/slices/itemsSlice";
 import CustomInput from "../_components/input";
 import CustomDropBox from "../_components/dropbox";
 
@@ -24,9 +24,6 @@ const ProductDetails = ({
   const readOnlyFields = ["ID"];
   extraReadOnlyFields && readOnlyFields.push(...extraReadOnlyFields);
 
-  const personalInfo = ["Full Name", "Phone", "Address", "Email"];
-  const dropDownFields = ["Category name"];
-  const objectFields = ["Modification"];
   const [showSaveBtn, setShowSaveBtn] = useState(false);
   const optionsData = [
     { 1: "EAT" },
@@ -35,48 +32,54 @@ const ProductDetails = ({
     { 4: "COFFEE" },
   ];
 
-  //-----------------------------------------------------------------------------------Fetch Data------------------------------------------
+  const [modificationData, setModificationData] = useState({
+    itemId: Id,
+    modification: "",
+    ingredients: "",
+    labelId: "",
+  });
+
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(fetchAdminItemByDetailId(Id));
     dispatch(fetchModifications(Id));
-  }, []);
+  }, [Id, dispatch]);
+
   const dataItems = useSelector((state) => state.items.itemDetail) || [];
   const dataMods = useSelector((state) => state.items.modAdminDetail);
   const status = useSelector((state) => state.items.status) || "idle";
 
-  //-----------------------------------------------------------------------------------Events----------------------------------------------
+  // Update modification data
+  const handleModificationChange = (field, value) => {
+    setModificationData((prevData) => ({
+      ...prevData,
+      [field]: value,
+      itemId: Id 
+    }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const updatedOrderData = {
-      ...orderData[0],
-      ...orderChanges,
-    };
-
-    // Remove "Full Name" from the object
-    delete updatedOrderData["Full Name"];
-
-    console.log("Order Data to be sent:", updatedOrderData);
-
+    console.log("Save Modification button clicked");
+  
+    // Your existing code
     try {
-      const orderId = Id;
-      await dispatch(
-        updateOrderViewById({ orderId, updatedData: updatedOrderData })
-      );
-      setOpen(false);
-      dispatch(fetchOrderList());
+      console.log("Modification data before submiting:", modificationData);  
+      await dispatch(createModification(modificationData));
+      console.log("Modification data submitted:", modificationData);  
+      setModificationData({
+        itemId: Id,
+        modification: "",
+        ingredients: "",
+        labelId: "",
+      });
     } catch (error) {
-      console.error("Error updating order:", error);
+      console.error("Error creating modification:", error);
     }
   };
-  const handleChange = (field, value) => {
-    // setShowSaveBtn(true);
-    // setOrderChanges((prevChanges) => ({
-    //   ...prevChanges,
-    //   [field]: value,
-    // }));
-  };
+
+  
 
   return (
     <>
@@ -88,7 +91,7 @@ const ProductDetails = ({
               <Form.Group as={Row} className="" controlId="orderForm">
                 {dataItems.map((datum) =>
                   Object.entries(datum || {}).map(([key, value], index) => (
-                    <>
+                    <React.Fragment key={`${key}-${index}`}>
                       <Col md={6}>
                         <CustomInput
                           title={key || "-"}
@@ -97,70 +100,87 @@ const ProductDetails = ({
                           readOnlyFields={readOnlyFields}
                           dateTimeFields={dateTimeFields}
                           statusFetching={status}
-                          handleChange={handleChange}
+                          handleChange={(val) => handleModificationChange(key, val)}
                         />
                       </Col>
-                      {dropDownFields.includes(key) && (
-                        <Col lg="6" className="mt-3">
-                          <CustomDropBox
-                            title={key}
-                            value={value}
-                            index={index}
-                            statusFetching={status}
-                            handleChange={handleChange} // Use unified handleChange
-                            optionsData={optionsData}
-                          />
-                        </Col>
-                      )}
-                    </>
+                    </React.Fragment>
                   ))
                 )}
               </Form.Group>
             </Accordion.Body>
           </Accordion.Item>
         </Accordion>
-        {/* ================================== */}
-        {dataMods &&
-          dataMods[0] &&
-          dataMods?.map((datum, pIndex) => (
-            <Accordion defaultActiveKey={[pIndex]} alwaysOpen>
-              <Accordion.Item eventKey={pIndex}>
+        
+        {/* Modifications Accordion */}
+        <Accordion defaultActiveKey="1" alwaysOpen>
+          {dataMods &&
+            dataMods.map((datum, pIndex) => (
+              <Accordion.Item eventKey={pIndex} key={pIndex}>
                 <Accordion.Header>Modification {datum.ModID}</Accordion.Header>
                 <Accordion.Body>
                   {Object.entries(datum || {}).map(([key, value], index) => (
-                    <>
-                      <Form.Group as={Row} className="" controlId="modForm">
-                        <Col md={6}>
-                          <CustomInput
-                            title={key || "-"}
-                            value={value || "-"}
-                            index={index}
-                            readOnlyFields={readOnlyFields}
-                            dateTimeFields={dateTimeFields}
-                            statusFetching={status}
-                            handleChange={handleChange}
-                          />
-                        </Col>
-                      </Form.Group>
-                    </>
+                    <Form.Group as={Row} key={`${key}-${index}`} className="" controlId="modForm">
+                      <Col md={6}>
+                        <CustomInput
+                          title={key || "-"}
+                          value={value || "-"}
+                          index={index}
+                          readOnlyFields={readOnlyFields}
+                          dateTimeFields={dateTimeFields}
+                          statusFetching={status}
+                          handleChange={(val) => handleModificationChange(key, val)}
+                        />
+                      </Col>
+                    </Form.Group>
                   ))}
                 </Accordion.Body>
               </Accordion.Item>
-            </Accordion>
-          ))}
+            ))}
+        </Accordion>
 
-        {showSaveBtn ? (
-          <Form.Group as={Row} controlId="formPlaintextEmail">
-            <Col className="mb-3 d-flex flex-column">
-              <Button
-                type="submit"
-                className={`${styles.btn} mt-3 align-self-end`}
-              >
-                Save
-              </Button>
-            </Col>
-          </Form.Group>
-        ) : null}
+        {/* New Modification Form */}
+        <Accordion defaultActiveKey="2" alwaysOpen>
+          <Accordion.Item eventKey="2">
+            <Accordion.Header>Add New Modification</Accordion.Header>
+            <Accordion.Body>
+              <Form.Group as={Row} controlId="newModificationForm">
+                <Col md={6}>
+                  <CustomInput
+                    title="Modification"
+                    value={modificationData.modification}
+                    handleChange={(val) => handleModificationChange("modification", val)}
+                  />
+                </Col>
+                <Col md={6}>
+                  <CustomInput
+                    title="Ingredients"
+                    value={modificationData.ingredients}
+                    handleChange={(val) => handleModificationChange("ingredients", val)}
+                  />
+                </Col>
+                <Col md={6}>
+                  <CustomDropBox
+                    title="Label ID"
+                    value={modificationData.labelId}
+                    optionsData={optionsData}
+                    handleChange={(val) => handleModificationChange("labelId", val)}
+                  />
+                </Col>
+              </Form.Group>
+            </Accordion.Body>
+          </Accordion.Item>
+        </Accordion>
+
+        <Form.Group as={Row} controlId="formPlaintextEmail">
+          <Col className="mb-3 d-flex flex-column">
+            <Button
+              type="submit"
+              className={`${styles.btn} mt-3 align-self-end`}
+            >
+              Save Modification
+            </Button>
+          </Col>
+        </Form.Group>
       </Form>
     </>
   );
