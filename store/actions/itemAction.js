@@ -5,7 +5,7 @@ import {
   fetchModificationsAPI,
 } from "../api/item.api";
 
-export const fetchAdminItemByDetailId = createAsyncThunk(
+const fetchAdminItemByDetailId = createAsyncThunk(
   "items/fetchAdminItemByDetailId",
   async (item_id, { rejectWithValue }) => {
     try {
@@ -18,7 +18,7 @@ export const fetchAdminItemByDetailId = createAsyncThunk(
   }
 );
 
-export const fetchAdminItems = createAsyncThunk(
+const fetchAdminItems = createAsyncThunk(
   "items/fetchAdminItemById",
   async (_, { rejectWithValue }) => {
     try {
@@ -31,7 +31,7 @@ export const fetchAdminItems = createAsyncThunk(
   }
 );
 
-export const fetchModifications = createAsyncThunk(
+const fetchModifications = createAsyncThunk(
   "items/fetchModifications",
   async (item_id, { rejectWithValue }) => {
     try {
@@ -43,3 +43,4 @@ export const fetchModifications = createAsyncThunk(
     }
   }
 );
+export { fetchAdminItemByDetailId, fetchAdminItems, fetchModifications };

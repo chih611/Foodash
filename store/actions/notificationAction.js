@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchNotificationsAPI } from "../api/notification.api";
 
-export const fetchNotifications = createAsyncThunk(
+const fetchNotifications = createAsyncThunk(
   "orderDetail/fetchNotifications",
   async (orderId, { rejectWithValue }) => {
     try {
@@ -14,3 +14,4 @@ export const fetchNotifications = createAsyncThunk(
     }
   }
 );
+export { fetchNotifications };

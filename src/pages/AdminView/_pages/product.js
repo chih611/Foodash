@@ -4,6 +4,7 @@ import CustomTable from "../_components/table";
 import ProductDetails from "./product_details";
 import CustomModal from "../_components/modal";
 import NewProduct from "../_components/inputProduct";
+import CustomInput from "../_components/input";
 import { Tab, Button } from "react-bootstrap";
 import { fetchAdminItems } from "../../../../store/actions/itemAction";
 

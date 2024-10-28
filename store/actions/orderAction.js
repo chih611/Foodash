@@ -7,16 +7,16 @@ import {
   fetchOrderLisByDuedateAPI,
   fetchOrderListTodayAPI,
   updateOrderAPI,
-  fetchOrderListByTodayAPI,
   updateOrderViewByIdAPI,
   fetchTotalOrderListAPI,
+  fetchOrderListByTodayAPI,
 } from "../api/order.api";
 import axios from "axios";
 
 const BACKEND_PORT = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_PORT;
 const BASE_URL = `http://localhost:8080`;
 
-export const createOrder = createAsyncThunk(
+const createOrder = createAsyncThunk(
   "order/createOrder",
   async ({ orderData }, { rejectWithValue }) => {
     try {
@@ -28,7 +28,7 @@ export const createOrder = createAsyncThunk(
   }
 );
 
-export const getOrderById = createAsyncThunk(
+const getOrderById = createAsyncThunk(
   "order/getOrderById",
   async (orderId, { rejectWithValue }) => {
     try {
@@ -40,7 +40,7 @@ export const getOrderById = createAsyncThunk(
   }
 );
 
-export const fetchOrderByCustomerId = createAsyncThunk(
+const fetchOrderByCustomerId = createAsyncThunk(
   "order/fetchOrderByCustomerId",
   async (customerId, { rejectWithValue }) => {
     try {
@@ -53,7 +53,7 @@ export const fetchOrderByCustomerId = createAsyncThunk(
   }
 );
 
-export const fetchOrderList = createAsyncThunk(
+const fetchOrderList = createAsyncThunk(
   "order/fetchOrderList",
   async (_, { rejectWithValue }) => {
     try {
@@ -66,8 +66,7 @@ export const fetchOrderList = createAsyncThunk(
     }
   }
 );
-
-export const updateOrder = createAsyncThunk(
+const updateOrder = createAsyncThunk(
   "order/updateOrder",
   async ({ orderId, updatedData }, { rejectWithValue }) => {
     try {
@@ -80,7 +79,7 @@ export const updateOrder = createAsyncThunk(
   }
 );
 
-export const updateOrderViewById = createAsyncThunk(
+const updateOrderViewById = createAsyncThunk(
   "order/updateOrderViewById",
   async ({ orderId, updatedData }, { rejectWithValue }) => {
     try {
@@ -92,7 +91,7 @@ export const updateOrderViewById = createAsyncThunk(
   }
 );
 
-export const fetchOrderListById = createAsyncThunk(
+const fetchOrderListById = createAsyncThunk(
   "order/fetchOrderListById",
   async (orderId, { rejectWithValue }) => {
     try {
@@ -106,7 +105,7 @@ export const fetchOrderListById = createAsyncThunk(
   }
 );
 
-export const fetchOrderLisByCustomerName = createAsyncThunk(
+const fetchOrderLisByCustomerName = createAsyncThunk(
   "order/fetchOrderListByCustomerName",
   async (orderId, { rejectWithValue }) => {
     try {
@@ -119,7 +118,7 @@ export const fetchOrderLisByCustomerName = createAsyncThunk(
   }
 );
 
-export const fetchOrderListByToday = createAsyncThunk(
+const fetchOrderListByToday = createAsyncThunk(
   "order/fetchOrderListByToday",
   async (duedate, { rejectWithValue }) => {
     try {
@@ -132,7 +131,7 @@ export const fetchOrderListByToday = createAsyncThunk(
   }
 );
 
-export const fetchOrderListByDuedate = createAsyncThunk(
+const fetchOrderListByDuedate = createAsyncThunk(
   "order/fetchOrderListByDuedate",
   async (duedate, { rejectWithValue }) => {
     try {
@@ -145,7 +144,7 @@ export const fetchOrderListByDuedate = createAsyncThunk(
   }
 );
 
-export const fetchOrderListToday = createAsyncThunk(
+const fetchOrderListToday = createAsyncThunk(
   "order/fetchOrderListToday",
   async (duedate, { rejectWithValue }) => {
     try {
@@ -157,8 +156,7 @@ export const fetchOrderListToday = createAsyncThunk(
     }
   }
 );
-
-export const fetchTotalOrderList = createAsyncThunk(
+const fetchTotalOrderList = createAsyncThunk(
   "order/fetchTotalOrderList",
   async (_, { rejectWithValue }) => {
     try {
@@ -170,3 +168,18 @@ export const fetchTotalOrderList = createAsyncThunk(
     }
   }
 );
+
+export {
+  createOrder,
+  getOrderById,
+  fetchOrderByCustomerId,
+  fetchOrderList,
+  updateOrder,
+  updateOrderViewById,
+  fetchOrderListById,
+  fetchOrderLisByCustomerName,
+  fetchOrderListByToday,
+  fetchOrderListByDuedate,
+  fetchOrderListToday,
+  fetchTotalOrderList,
+};

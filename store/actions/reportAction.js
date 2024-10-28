@@ -7,7 +7,7 @@ import {
   fetchSaleMethodThisMonthAPI,
 } from "../api/report.api";
 
-export const fetchCurrentMonthCateSales = createAsyncThunk(
+const fetchCurrentMonthCateSales = createAsyncThunk(
   "report/fetchCurrentMonthCateSales",
   async (_, { rejectWithValue }) => {
     try {
@@ -21,7 +21,7 @@ export const fetchCurrentMonthCateSales = createAsyncThunk(
   }
 );
 
-export const fetchSalesByMonth = createAsyncThunk(
+const fetchSalesByMonth = createAsyncThunk(
   "report/fetchSalesByMonth",
   async (_, { rejectWithValue }) => {
     try {
@@ -35,7 +35,7 @@ export const fetchSalesByMonth = createAsyncThunk(
   }
 );
 
-export const fetchSaleReport = createAsyncThunk(
+const fetchSaleReport = createAsyncThunk(
   "report/fetchSaleReport",
   async (_, { rejectWithValue }) => {
     try {
@@ -48,8 +48,7 @@ export const fetchSaleReport = createAsyncThunk(
     }
   }
 );
-
-export const fetchSaleSumByMonth = createAsyncThunk(
+const fetchSaleSumByMonth = createAsyncThunk(
   "report/fetchSaleSumByMonth",
   async (month, { rejectWithValue }) => {
     try {
@@ -63,7 +62,7 @@ export const fetchSaleSumByMonth = createAsyncThunk(
   }
 );
 
-export const fetchSaleMethodThisMonth = createAsyncThunk(
+const fetchSaleMethodThisMonth = createAsyncThunk(
   "report/fetchSaleMethod",
   async (_, { rejectWithValue }) => {
     try {
@@ -76,3 +75,10 @@ export const fetchSaleMethodThisMonth = createAsyncThunk(
     }
   }
 );
+export {
+  fetchCurrentMonthCateSales,
+  fetchSalesByMonth,
+  fetchSaleReport,
+  fetchSaleSumByMonth,
+  fetchSaleMethodThisMonth,
+};
