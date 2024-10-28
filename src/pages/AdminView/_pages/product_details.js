@@ -1,23 +1,18 @@
 import { Accordion, Button, Col, Form, Row } from "react-bootstrap";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
 
-import CustomTable from "../_components/table";
-import { fetchOrderDetailList } from "../../../../store/actions/orderDetailAction";
 import {
   fetchOrderList,
-  fetchOrderListById,
   updateOrderViewById,
 } from "../../../../store/actions/orderAction";
 import styles from "../../../styles/styles";
-import PersonalDetail from "./personal_information";
-import OrderInformation from "./order_information";
 import {
   fetchAdminItemByDetailId,
-  fetchAdminItems,
   fetchModifications,
 } from "../../../../store/actions/itemAction";
 import CustomInput from "../_components/input";
+import CustomDropBox from "../_components/dropbox";
 
 const ProductDetails = ({
   Id,
@@ -25,36 +20,20 @@ const ProductDetails = ({
   customTableColor,
   extraReadOnlyFields,
 }) => {
-  let recordsOrderDetails = [];
-  let headersOrderDetails = [];
   const dateTimeFields = ["Expiry date"];
   const readOnlyFields = ["ID"];
   extraReadOnlyFields && readOnlyFields.push(...extraReadOnlyFields);
 
-  const textBoxFields = [
-    "Full Name",
-    "Duedate",
-    "Recipient",
-    "Address",
-    "Phone",
-    "Email",
-    "Deliver",
-    "Payment",
-    "Taxes",
-    "Delivery Fee",
-    "Service Fee",
-    "UTENSIL",
-    "Giftwrap",
-    "Promotion",
-    "Subtotal",
-    "ORDER_ITEM_ID",
-    "Total",
-    "Create Date",
-  ];
   const personalInfo = ["Full Name", "Phone", "Address", "Email"];
-  const dropDownFields = ["Status"];
+  const dropDownFields = ["Category name"];
   const objectFields = ["Modification"];
   const [showSaveBtn, setShowSaveBtn] = useState(false);
+  const optionsData = [
+    { 1: "EAT" },
+    { 2: "FOOD" },
+    { 3: "DRINK" },
+    { 4: "COFFEE" },
+  ];
 
   //-----------------------------------------------------------------------------------Fetch Data------------------------------------------
   const dispatch = useDispatch();
@@ -109,17 +88,31 @@ const ProductDetails = ({
               <Form.Group as={Row} className="" controlId="orderForm">
                 {dataItems.map((datum) =>
                   Object.entries(datum || {}).map(([key, value], index) => (
-                    <Col md={6}>
-                      <CustomInput
-                        title={key || "-"}
-                        value={value || "-"}
-                        index={index}
-                        readOnlyFields={readOnlyFields}
-                        dateTimeFields={dateTimeFields}
-                        statusFetching={status}
-                        handleChange={handleChange}
-                      />
-                    </Col>
+                    <>
+                      <Col md={6}>
+                        <CustomInput
+                          title={key || "-"}
+                          value={value || "-"}
+                          index={index}
+                          readOnlyFields={readOnlyFields}
+                          dateTimeFields={dateTimeFields}
+                          statusFetching={status}
+                          handleChange={handleChange}
+                        />
+                      </Col>
+                      {dropDownFields.includes(key) && (
+                        <Col lg="6" className="mt-3">
+                          <CustomDropBox
+                            title={key}
+                            value={value}
+                            index={index}
+                            statusFetching={status}
+                            handleChange={handleChange} // Use unified handleChange
+                            optionsData={optionsData}
+                          />
+                        </Col>
+                      )}
+                    </>
                   ))
                 )}
               </Form.Group>
@@ -127,7 +120,8 @@ const ProductDetails = ({
           </Accordion.Item>
         </Accordion>
         {/* ================================== */}
-        {dataMods[0] &&
+        {dataMods &&
+          dataMods[0] &&
           dataMods?.map((datum, pIndex) => (
             <Accordion defaultActiveKey={[pIndex]} alwaysOpen>
               <Accordion.Item eventKey={pIndex}>

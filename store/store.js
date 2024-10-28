@@ -29,6 +29,7 @@ const persistConfig = {
     "notification",
     "report",
     "items",
+    "orderList",
   ],
 };
 

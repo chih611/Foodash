@@ -9,6 +9,7 @@ const CustomDropBox = ({
   setShowSaveBtn,
   statusFetching,
   handleChange,
+  optionsData = [{}],
 }) => {
   const handleSelectChange = (e) => {
     handleChange(title, e.target.value);
@@ -31,12 +32,14 @@ const CustomDropBox = ({
           </Form.Label>
           <Form.Select
             onChange={(e) => handleSelectChange(e)}
-            value={switchOptions ? switchOptions : value}
             size="sm"
+            value={value}
           >
-            <option value="Pending">Pending</option>
-            <option value="Delivered">Delivered</option>
-            <option value="Canceled">Canceled</option>
+            {optionsData.map((datum) => (
+              <option key={Object.keys(datum)} value={Object.keys(datum)}>
+                {Object.values(datum)}
+              </option>
+            ))}
           </Form.Select>
         </>
       )}

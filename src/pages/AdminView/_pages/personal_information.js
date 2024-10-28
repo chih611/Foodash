@@ -15,6 +15,7 @@ const PersonalDetail = ({
   statusFetching,
   customHeaderColor,
   handleChange, // New prop
+  optionsData,
 }) => (
   <>
     <Accordion defaultActiveKey={["0"]} alwaysOpen>
@@ -51,6 +52,7 @@ const PersonalDetail = ({
                         setSwitchOptions={setSwitchOptions}
                         statusFetching={statusFetching}
                         handleChange={handleChange} // Use unified handleChange
+                        optionsData={optionsData}
                       />
                     </Col>
                   ) : null}

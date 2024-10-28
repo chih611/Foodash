@@ -50,7 +50,11 @@ const OrderDetails = ({
   const personalInfo = ["Full Name", "Phone", "Address", "Email"];
   const dropDownFields = ["Status"];
   const objectFields = ["Modification"];
-
+  const optionsData = [
+    { Canceled: "Canceled" },
+    { Pending: "Pending" },
+    { Delivered: "Delivered" },
+  ];
   const dispatch = useDispatch();
   const [orderData, setOrderData] = useState({});
   const [orderChanges, setOrderChanges] = useState({}); // Track only changes
@@ -164,6 +168,7 @@ const OrderDetails = ({
                 statusFetching={statusOrderFetching}
                 customHeaderColor={customTableColor}
                 handleChange={handleChange} // Pass down handleChange
+                optionsData={optionsData}
               />
               <OrderInformation
                 e={e}
@@ -176,6 +181,7 @@ const OrderDetails = ({
                 statusFetching={statusOrderFetching}
                 customOrderInformationColor={customTableColor}
                 handleChange={handleChange} // Pass down handleChange
+                optionsData={optionsData}
               />
             </div>
           ))}
