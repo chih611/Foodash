@@ -5,12 +5,15 @@ import KeyboardArrowDownRounded from "@mui/icons-material/KeyboardArrowDownRound
 
 // Helper function to format the date
 const formatDate = (dateString) => {
+  if (!dateString) return; // Handle null or undefined dateString
   const date = new Date(dateString);
+  if (isNaN(date)) return "Invalid Date"; // Handle invalid date
   return new Intl.DateTimeFormat("en-GB").format(date); // Formats date to DD/MM/YYYY
 };
 
 // Helper function to determine status color
 const getStatusColor = (status) => {
+  if (!status) return; // Default gray for undefined status
   switch (status.toLowerCase()) {
     case "completed":
       return "#808080"; // gray
@@ -32,6 +35,7 @@ const getStatusColor = (status) => {
 
 // Helper function to determine background color for the badge
 const getStatusBackgroundColor = (status) => {
+  if (!status) return; // Default light gray for undefined status
   switch (status.toLowerCase()) {
     case "completed":
       return "#d3d3d3"; // light gray
@@ -109,7 +113,7 @@ const OrderList = ({ orders, onOrderDoubleClick }) => {
                 textAlign: "center",
               }}
             >
-              {order.STATUS.toUpperCase()}
+              {order.STATUS ? order.STATUS.toUpperCase() : ""}
             </div>
           </Col>
         </Row>

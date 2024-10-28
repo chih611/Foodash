@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Row, Col } from "react-bootstrap";
 import CircleRounded from "@mui/icons-material/CircleRounded";
 import HeadphonesOutlined from "@mui/icons-material/HeadphonesOutlined";
+import PrimaryButton from "../ViewCart/_PrimaryButton";
 
 const RecentOrder = ({ order, onLeaveFeedback }) => {
   if (!order) {
@@ -59,15 +60,23 @@ const RecentOrder = ({ order, onLeaveFeedback }) => {
           {" "}
         </Col>
         <Col xs={12} md={2} className="mb-2">
-          <button className="subtitle button-2" onClick={onLeaveFeedback}>
-            Leave Feedback
-          </button>
+          <PrimaryButton
+            variant="inverted"
+            text="Leave Feedback"
+            className="subtitle button-2"
+            onClick={onLeaveFeedback}
+          />
         </Col>
         <Col xs={12} md={2} className="mb-2">
-          <button className="subtitle button-2">
-            <HeadphonesOutlined className="mb-1 mx-3" />
-            Call Driver
-          </button>
+          <PrimaryButton
+            icon={HeadphonesOutlined}
+            variant="inverted"
+            text="Call Driver"
+            className="subtitle button-2"
+            onClick={() => {
+              router.push("/CustomerView/LandingPage/LandingContact");
+            }}
+          />
         </Col>
       </Row>
     </div>
