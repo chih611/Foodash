@@ -43,28 +43,12 @@ const HomeItemContainer = ({ item }) => {
 
   const getItemImageSrc = () => {
     if (item.PICTURE) {
-      // Check if PICTURE is a string and starts with "data:image" (indicating base64)
-      if (
-        typeof item.PICTURE === "string" &&
-        item.PICTURE.startsWith("data:image")
-      ) {
-        return item.PICTURE; // Use base64 image data directly
+      if (item.PICTURE.startsWith("data:image")) {
+        return item.PICTURE; // Base64 case
       }
-
-      // If PICTURE is a string path (not base64)
-      if (typeof item.PICTURE === "string") {
-        return `http://localhost:8080${item.PICTURE}`;
-      }
-
-      // Handle case when PICTURE might be an object (e.g., from database)
-      if (typeof item.PICTURE === "object" && item.PICTURE.data) {
-        const filePath = String.fromCharCode(...item.PICTURE.data);
-        return `http://localhost:8080/${filePath}`;
-      }
+      return `http://localhost:8080${item.PICTURE}`;
     }
-
-    // Default fallback image
-    return "/birthdaycake_cate.jpg";
+    return "/birthdaycake_cate.jpg"; // Default image if none
   };
 
   const itemPicture = getItemImageSrc();

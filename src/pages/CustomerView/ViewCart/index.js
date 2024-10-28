@@ -106,7 +106,12 @@ const ViewCart = () => {
 
       {cartItems.map((item, index) => (
         <Row className="view-cart-item" key={`${item.itemId}-${index}`}>
-          <Col xs={2} className="view-cart-item-image"></Col>
+          <Col xs={2}>
+            <img
+              src="/birthdaycake_cate.jpg"
+              className="view-cart-item-image"
+            />
+          </Col>
           <Col xs={10} className="view-cart-item-details">
             <Row>
               <Col xs={10}>

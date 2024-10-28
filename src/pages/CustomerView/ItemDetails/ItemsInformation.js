@@ -84,17 +84,19 @@ const ItemsInformation = () => {
         <Row>
           {/* Image Section */}
           <Col xs={12} md={5} className="d-flex justify-content-center">
-            <div
-              style={{
-                width: "100%",
-                maxWidth: "342px",
-                height: "342px",
-                backgroundColor: "#e0e0e0",
-                borderRadius: "50%",
-                position: "relative",
-              }}
-            >
-              {/* Image Placeholder */}
+            <div>
+              <img
+                src="/birthdaycake_cate.jpg"
+                alt="item"
+                style={{
+                  width: "100%",
+                  maxWidth: "400px",
+                  height: "342px",
+                  backgroundColor: "#e0e0e0",
+                  borderRadius: "50%",
+                  position: "relative",
+                }}
+              />
             </div>
           </Col>
 
