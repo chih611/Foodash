@@ -2,6 +2,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { fetchItemListAPI, createItemAPI } from "../api/item.api";
+import {
+  fetchAdminItemByDetailId,
+  fetchAdminItemById,
+  fetchAdminItems,
+  fetchItemById,
+  fetchModifications,
+} from "../actions/itemAction";
 
 // Define base URL with dynamic backend port from the environment variable
 const BASE_URL = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_ADDRESS;
@@ -60,7 +67,9 @@ export const createItem = createAsyncThunk(
       const response = await createItemAPI(itemData);
       return response;
     } catch (error) {
-      return rejectWithValue(error.response ? error.response.data : error.message);
+      return rejectWithValue(
+        error.response ? error.response.data : error.message
+      );
     }
   }
 );
@@ -203,6 +212,9 @@ const itemsSlice = createSlice({
     selectedItem: null,
     selectedItemModifications: [],
     modifications: [],
+    itemDetail: null,
+    itemAdmin: null,
+    modAdminDetail: null,
     status: "idle",
     error: null,
   },
@@ -332,6 +344,45 @@ const itemsSlice = createSlice({
         state.status = "failed";
         state.error = action.error || {
           message: "Error fetching all modifications",
+        };
+      })
+      .addCase(fetchAdminItemByDetailId.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchAdminItemByDetailId.fulfilled, (state, action) => {
+        state.itemDetail = action.payload;
+        state.status = "succeeded";
+      })
+      .addCase(fetchAdminItemByDetailId.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error || {
+          message: "Error fetching all modifications",
+        };
+      })
+      .addCase(fetchAdminItems.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchAdminItems.fulfilled, (state, action) => {
+        state.itemAdmin = action.payload;
+        state.status = "succeeded";
+      })
+      .addCase(fetchAdminItems.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error || {
+          message: "Error fetching ",
+        };
+      })
+      .addCase(fetchModifications.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchModifications.fulfilled, (state, action) => {
+        state.modAdminDetail = action.payload;
+        state.status = "succeeded";
+      })
+      .addCase(fetchModifications.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error || {
+          message: "Error fetching !!",
         };
       });
   },

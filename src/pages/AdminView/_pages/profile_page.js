@@ -29,7 +29,7 @@ const CustomerProfile = (props) => {
   let headers = [];
   let records = [];
   let total = [];
-
+  const dateTimeFields = ["DATE_OF_BIRTH"];
   // Fetch customers from state
   const customers = useSelector((state) => state.customer.allCustomers);
   const statusFetching = useSelector((state) => state.customer.status);
@@ -104,6 +104,7 @@ const CustomerProfile = (props) => {
           actionCol="Total"
           showPagination={true}
           customCols={orderTotal}
+          datetimeFields={dateTimeFields}
         />
         {/* Customer Details Modal */}
         <CustomModal

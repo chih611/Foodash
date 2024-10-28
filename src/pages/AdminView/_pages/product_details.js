@@ -1,4 +1,4 @@
-import { Button, Col, Form, Row } from "react-bootstrap";
+import { Accordion, Button, Col, Form, Row } from "react-bootstrap";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
 
@@ -12,6 +12,12 @@ import {
 import styles from "../../../styles/styles";
 import PersonalDetail from "./personal_information";
 import OrderInformation from "./order_information";
+import {
+  fetchAdminItemByDetailId,
+  fetchAdminItems,
+  fetchModifications,
+} from "../../../../store/actions/itemAction";
+import CustomInput from "../_components/input";
 
 const ProductDetails = ({
   Id,
@@ -21,8 +27,8 @@ const ProductDetails = ({
 }) => {
   let recordsOrderDetails = [];
   let headersOrderDetails = [];
-  const dateTimeFields = ["Duedate", "Create Date"];
-  const readOnlyFields = ["Full Name"];
+  const dateTimeFields = ["Expiry date"];
+  const readOnlyFields = ["ID"];
   extraReadOnlyFields && readOnlyFields.push(...extraReadOnlyFields);
 
   const textBoxFields = [
@@ -48,40 +54,19 @@ const ProductDetails = ({
   const personalInfo = ["Full Name", "Phone", "Address", "Email"];
   const dropDownFields = ["Status"];
   const objectFields = ["Modification"];
-
-  const dispatch = useDispatch();
-  const [orderData, setOrderData] = useState({});
-  const [orderChanges, setOrderChanges] = useState({}); // Track only changes
   const [showSaveBtn, setShowSaveBtn] = useState(false);
 
+  //-----------------------------------------------------------------------------------Fetch Data------------------------------------------
+  const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchOrderDetailList(Id));
-    dispatch(fetchOrderListById(Id));
-  }, [dispatch, Id]);
+    dispatch(fetchAdminItemByDetailId(Id));
+    dispatch(fetchModifications(Id));
+  }, []);
+  const dataItems = useSelector((state) => state.items.itemDetail) || [];
+  const dataMods = useSelector((state) => state.items.modAdminDetail);
+  const status = useSelector((state) => state.items.status) || "idle";
 
-  const orderDetailList = useSelector(
-    (state) => state.orderDetail.orderDetailList,
-    shallowEqual
-  );
-  const order = useSelector((state) => state.order.orderById);
-  const statusOrderFetching = useSelector((state) => state.order.status);
-  const statusOrderDetailFetching = useSelector(
-    (state) => state.orderDetail.status
-  );
-
-  if (orderDetailList) {
-    orderDetailList?.map((item) => {
-      headersOrderDetails.push(Object.keys(item));
-    });
-    recordsOrderDetails = orderDetailList;
-  }
-
-  useEffect(() => {
-    if (order && Object.keys(order).length) {
-      setOrderData(order);
-    }
-  }, [order]);
-
+  //-----------------------------------------------------------------------------------Events----------------------------------------------
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -106,42 +91,70 @@ const ProductDetails = ({
       console.error("Error updating order:", error);
     }
   };
+  const handleChange = (field, value) => {
+    // setShowSaveBtn(true);
+    // setOrderChanges((prevChanges) => ({
+    //   ...prevChanges,
+    //   [field]: value,
+    // }));
+  };
 
   return (
     <>
       <Form onSubmit={handleSubmit}>
-        {order?.map((e, i) => (
-          <>
-            <PersonalDetail
-              e={e}
-              textBoxFields={textBoxFields}
-              personalInfo={personalInfo}
-              dropDownFields={dropDownFields}
-              dateTimeFields={dateTimeFields}
-              readOnlyFields={readOnlyFields}
-              Row={Row}
-              statusFetching={statusOrderFetching}
-              customHeaderColor={customTableColor}
-              setShowSaveBtn={setShowSaveBtn}
-              setOrderData={setOrderData}
-              setOrderChanges={setOrderChanges}
-            />
-            <OrderInformation
-              e={e}
-              textBoxFields={textBoxFields}
-              personalInfo={personalInfo}
-              dropDownFields={dropDownFields}
-              dateTimeFields={dateTimeFields}
-              readOnlyFields={readOnlyFields}
-              Row={Row}
-              statusFetching={statusOrderFetching}
-              customOrderInformationColor={customTableColor}
-              setShowSaveBtn={setShowSaveBtn}
-              setOrderData={setOrderData}
-              setOrderChanges={setOrderChanges}
-            />
-          </>
-        ))}
+        <Accordion defaultActiveKey={["0"]} alwaysOpen>
+          <Accordion.Item eventKey="0">
+            <Accordion.Header>Product Detail</Accordion.Header>
+            <Accordion.Body>
+              <Form.Group as={Row} className="" controlId="orderForm">
+                {dataItems.map((datum) =>
+                  Object.entries(datum || {}).map(([key, value], index) => (
+                    <Col md={6}>
+                      <CustomInput
+                        title={key || "-"}
+                        value={value || "-"}
+                        index={index}
+                        readOnlyFields={readOnlyFields}
+                        dateTimeFields={dateTimeFields}
+                        statusFetching={status}
+                        handleChange={handleChange}
+                      />
+                    </Col>
+                  ))
+                )}
+              </Form.Group>
+            </Accordion.Body>
+          </Accordion.Item>
+        </Accordion>
+        {/* ================================== */}
+        {dataMods[0] &&
+          dataMods?.map((datum, pIndex) => (
+            <Accordion defaultActiveKey={[pIndex]} alwaysOpen>
+              <Accordion.Item eventKey={pIndex}>
+                <Accordion.Header>Modification {datum.ModID}</Accordion.Header>
+                <Accordion.Body>
+                  {Object.entries(datum || {}).map(([key, value], index) => (
+                    <>
+                      <Form.Group as={Row} className="" controlId="modForm">
+                        <Col md={6}>
+                          <CustomInput
+                            title={key || "-"}
+                            value={value || "-"}
+                            index={index}
+                            readOnlyFields={readOnlyFields}
+                            dateTimeFields={dateTimeFields}
+                            statusFetching={status}
+                            handleChange={handleChange}
+                          />
+                        </Col>
+                      </Form.Group>
+                    </>
+                  ))}
+                </Accordion.Body>
+              </Accordion.Item>
+            </Accordion>
+          ))}
+
         {showSaveBtn ? (
           <Form.Group as={Row} controlId="formPlaintextEmail">
             <Col className="mb-3 d-flex flex-column">
@@ -155,13 +168,6 @@ const ProductDetails = ({
           </Form.Group>
         ) : null}
       </Form>
-      <CustomTable
-        headers={headersOrderDetails}
-        records={recordsOrderDetails}
-        statusFetching={statusOrderDetailFetching}
-        objectFields={objectFields}
-        customTableColor={customTableColor}
-      />
     </>
   );
 };

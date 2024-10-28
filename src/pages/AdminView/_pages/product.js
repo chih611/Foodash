@@ -1,15 +1,11 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector, } from "react-redux";
 import CustomTable from "../_components/table";
-// import OrderDetails from "./order_details";
 import ProductDetails from "./product_details";
 import CustomModal from "../_components/modal";
-import { fetchItems } from "../../../../store/slices/itemsSlice";
 import NewProduct from "../_components/inputProduct";
-import { Tab, 
-         Button, 
-         Modal} from "react-bootstrap";
-
+import { Tab, Button } from "react-bootstrap";
+import { fetchAdminItems } from "../../../../store/actions/itemAction";
 
 const Product = (props) => {
   const [showPro, setShowPro] = useState(false);
@@ -24,9 +20,10 @@ const Product = (props) => {
 
   //Get data
   useEffect(() => {
-    dispatch(fetchItems()); // Fetch all items initially
+    dispatch(fetchAdminItems()); // Fetch all items initially
   }, [dispatch]);
-  const { items, searchResults, status } = useSelector((state) => state.items);
+  const items = useSelector((state) => state.items.itemAdmin);
+  const status = useSelector((state) => state.items.status);
   //Get colunms of headers name
   if (items) {
     items.map((item) => {
@@ -94,7 +91,7 @@ const Product = (props) => {
           selectedId={selectedId}
           headerTitle="Product"
         >
-          <ProductDetails {...props} selectedId={selectedId} />
+          <ProductDetails {...props} Id={selectedId} />
         </CustomModal>
         {/* <CustomModal
           handleOk={handleOk}
