@@ -1,7 +1,7 @@
 // src/store/slices/itemsSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { fetchItemListAPI, createItemAPI } from "../api/item.api";
+import { fetchItemListAPI, createItemAPI, createModificationAPI } from "../api/item.api";
 import {
   fetchAdminItemByDetailId,
   fetchAdminItemById,
@@ -65,6 +65,21 @@ export const createItem = createAsyncThunk(
   async (itemData, { rejectWithValue }) => {
     try {
       const response = await createItemAPI(itemData);
+      return response;
+    } catch (error) {
+      return rejectWithValue(
+        error.response ? error.response.data : error.message
+      );
+    }
+  }
+);
+
+// add item modification
+export const createModification = createAsyncThunk(
+  "items/createModification",
+  async (itemData, { rejectWithValue }) => {
+    try {
+      const response = await createModificationAPI(itemData);
       return response;
     } catch (error) {
       return rejectWithValue(
