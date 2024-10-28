@@ -34,18 +34,22 @@ const createItemAPI = async (productData) => {
   }
 };
 
-export const createModificationAPI = async (productData) => {
+const createModificationAPI = async (productData) => {
   try {
-    // Use query parameters since backend uses req.query 
+    // Use query parameters since backend uses req.query
     // itemId, modification, ingredients, labelId
-    const response = await axios.post(`${BASE_URL}/item/create/modification`, null, {
-      params: {
-        itemId: parseInt(productData.itemId),
-        modification: productData.modification || "",
-        ingredients: productData.ingredients || {},
-        labelId: parseInt(productData.labelId) || null,
-      },
-    });
+    const response = await axios.post(
+      `${BASE_URL}/item/create/modification`,
+      null,
+      {
+        params: {
+          itemId: parseInt(productData.itemId),
+          modification: productData.modification || "",
+          ingredients: productData.ingredients || {},
+          labelId: parseInt(productData.labelId) || null,
+        },
+      }
+    );
 
     console.log("Response:", response);
     return response.data;
@@ -55,7 +59,7 @@ export const createModificationAPI = async (productData) => {
   }
 };
 
-export const fetchAdminItemByDetailIdAPI = async (item_id) => {
+const fetchAdminItemByDetailIdAPI = async (item_id) => {
   const response = await axios.get(`${BASE_URL}/items_admin/detail/${item_id}`);
   let data = response.data;
   if (!Array.isArray(data)) {
@@ -90,4 +94,5 @@ export {
   fetchAdminItemByDetailIdAPI,
   fetchAdminItemsAPI,
   fetchModificationsAPI,
+  createModificationAPI,
 };
