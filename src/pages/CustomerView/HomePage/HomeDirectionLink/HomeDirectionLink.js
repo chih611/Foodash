@@ -84,7 +84,7 @@ const HomeDirectionLink = () => {
               </Link>
             </Col>
             <Col className="text-center">
-              <Link href="/favorites" passHref legacyBehavior>
+              <Link href="" passHref legacyBehavior>
                 <a className="nav-link" style={getLinkStyle("/favorites")}>
                   <div className="indicator-button">
                     <Row className="align-items-center">
@@ -202,8 +202,8 @@ const HomeDirectionLink = () => {
           </Col>
 
           <Col md={2} className="text-center">
-            <Link href="/favorites" passHref legacyBehavior>
-              <a className="nav-link" style={getLinkStyle("/favorites")}>
+            <Link href="" passHref legacyBehavior>
+              <a className="nav-link" style={getLinkStyle("")}>
                 <div className="indicator-button">
                   <Row className="align-items-center">
                     <Col xs={3}>
