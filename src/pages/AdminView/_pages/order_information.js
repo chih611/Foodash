@@ -16,6 +16,7 @@ const OrderInformation = ({
   statusFetching,
   customOrderInformationColor,
   handleChange, // New prop
+  optionsData,
 }) => (
   <>
     <Accordion defaultActiveKey={["0"]} alwaysOpen className="mt-3">
@@ -53,6 +54,7 @@ const OrderInformation = ({
                         switchOptions={switchOptions}
                         statusFetching={statusFetching}
                         handleChange={handleChange} // Use unified handleChange
+                        optionsData={optionsData}
                       />
                     </Col>
                   ) : null}

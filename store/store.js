@@ -28,6 +28,8 @@ const persistConfig = {
     "customer",
     "notification",
     "report",
+    "items",
+    "orderList",
   ],
 };
 
