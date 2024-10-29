@@ -41,14 +41,14 @@ const CustomerDetail = () => {
     (state) => state.customer.profile?.CUSTOMER_ID
   );
 
+  const customerProfile = useSelector((state) => state.customer.profileDetail);
+
   const dispatch = useDispatch();
   const router = useRouter();
 
-  useEffect(() => {
-    dispatch(fetchCustomerById(customerId));
-  }, [dispatch, customerId]);
-
-  const customerProfile = useSelector((state) => state.customer.profileDetail);
+  // useEffect(() => {
+  //   dispatch(fetchCustomerById(customerId));
+  // }, [dispatch, customerId]);
 
   const {
     register,
