@@ -1,0 +1,13 @@
+@use "../abstract/colors" as colors;
+.admin_container{
+    .admin_bg_btn{
+        background-color: colors.$pressed-color !important;
+        color: white;
+      }
+      
+    .admin_bg_btn:hover {
+        background-color: colors.$bg-2nd-color!important;
+        color: colors.$pressed-color ;
+        border-color: colors.$bg-2nd-color;
+      }
+}

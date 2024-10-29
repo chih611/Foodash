@@ -59,6 +59,7 @@ const UserSetting = (props) => {
           statusFetching={statusFetching}
           showCreateButton={true}
           customTableColor="bg-pressed-color text-light"
+          showPagination={true}
         />
         <CustomModal
           setOpen={setShow}
