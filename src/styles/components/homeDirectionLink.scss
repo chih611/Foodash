@@ -5,6 +5,20 @@
   margin-bottom: 24px;
   background-color: colors.$bg-color;
 
+  .nav-link {
+    color: colors.$element-color; // Use element color for links
+
+    &:hover {
+      text-decoration: none;
+      color: colors.$headline-color !important; // Use hover color for hover state
+    }
+
+    &.active .indicator-button {
+      background-color: colors.$element-color; // Active state uses the main element color
+      color: colors.$bg-color; // White text for active buttons
+    }
+  }
+
   // Offcanvas styles for small screens
   @include mixins.media-breakpoint-down(md) {
     display: none;
@@ -18,20 +32,6 @@
   }
 }
 
-.toggle-direction-link{
+.toggle-direction-link {
   background-color: colors.$headline-color !important;
-}
-
-.nav-link {
-  color: colors.$element-color; // Use element color for links
-
-  &:hover {
-    text-decoration: none;
-    color: colors.$headline-color  !important; // Use hover color for hover state
-  }
-
-  &.active .indicator-button {
-    background-color: colors.$element-color; // Active state uses the main element color
-    color: colors.$bg-color; // White text for active buttons
-  }
 }
