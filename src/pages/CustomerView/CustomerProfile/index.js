@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, startTransition } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import CustomInput from "./CustomInput";
 import EditRounded from "@mui/icons-material/EditRounded";
@@ -6,6 +6,7 @@ import {
   clearProfile,
   updateCustomer,
 } from "../../../../store/slices/customerSlice";
+import { fetchCustomerById } from "../../../../store/slices/customerSlice";
 import PrimaryButton from "../ViewCart/_PrimaryButton";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
@@ -36,9 +37,18 @@ const schema = yup.object().shape({
 });
 
 const CustomerDetail = () => {
-  const customerProfile = useSelector((state) => state.customer.profile);
+  const customerId = useSelector(
+    (state) => state.customer.profile?.CUSTOMER_ID
+  );
+
   const dispatch = useDispatch();
   const router = useRouter();
+
+  useEffect(() => {
+    dispatch(fetchCustomerById(customerId));
+  }, [dispatch, customerId]);
+
+  const customerProfile = useSelector((state) => state.customer.profileDetail);
 
   const {
     register,
