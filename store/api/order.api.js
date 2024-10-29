@@ -35,9 +35,9 @@ const updateOrderAPI = async (orderId, updatedData) => {
   try {
     // Fetch existing order data from the server
     const existingOrderResponse = await axios.get(
-      `${BASE_URL}/order/${orderId}`
+      `${BASE_URL}/order_table/${orderId}`
     );
-    const existingOrderData = existingOrderResponse.data;
+    const existingOrderData = existingOrderResponse.data[0];
 
     // Merge existing data with updated data, prioritizing updated data
     const orderData = {
