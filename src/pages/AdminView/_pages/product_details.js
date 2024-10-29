@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Accordion, Button, Col, Form, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
@@ -9,6 +9,7 @@ import {
 import { createModification } from "../../../../store/slices/itemsSlice";
 import CustomInput from "../_components/input";
 import CustomDropBox from "../_components/dropbox";
+import axios from "axios";
 
 const ProductDetails = ({
   Id,
@@ -31,6 +32,8 @@ const ProductDetails = ({
   const dispatch = useDispatch();
   const { register, handleSubmit, reset } = useForm();
 
+  const [showSaveBtn, setShowSaveBtn] = useState(false);
+  const [data, handleChange] = useState(null);
   useEffect(() => {
     dispatch(fetchAdminItemByDetailId(Id));
     dispatch(fetchModifications(Id)); // Fetch existing modifications
@@ -60,6 +63,16 @@ const ProductDetails = ({
     }
   };
 
+  const updateItemData = async (e) => {
+    console.log(data);
+    // try {
+    //   const response = await axios.put(`router.put("/item/update/${Id}`, updatedData);
+    //   console.log('Data updated successfully:', response.data);
+    // } catch (error) {
+    //   console.error('Error updating data:', error);
+    // }
+  };
+
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <Accordion defaultActiveKey={["0"]} alwaysOpen>
@@ -80,10 +93,25 @@ const ProductDetails = ({
                         readOnlyFields={readOnlyFields}
                         dateTimeFields={dateTimeFields}
                         statusFetching={status}
+                        setShowSaveBtn={setShowSaveBtn}
+                        handleChange={handleChange}
                       />
                     </Col>
                   </React.Fragment>
                 ))
+              )}
+              {showSaveBtn && (
+                <Col className="mb-3 d-flex flex-column">
+                  <Button
+                    type="submit"
+                    className={`mt-3 align-self-end admin_bg_btn`}
+                    onClick={(e) => {
+                      updateItemData(e);
+                    }}
+                  >
+                    Edit Modification
+                  </Button>
+                </Col>
               )}
             </Form.Group>
           </Accordion.Body>
