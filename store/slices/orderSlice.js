@@ -86,7 +86,7 @@ const orderSlice = createSlice({
         state.status = "loading";
       })
       .addCase(createOrder.fulfilled, (state, action) => {
-        state.orderById = action.payload;
+        // state.orderById = action.payload;
         state.status = "succeeded";
       })
       .addCase(createOrder.rejected, (state, action) => {
@@ -121,7 +121,7 @@ const orderSlice = createSlice({
         state.status = "loading";
       })
       .addCase(updateOrder.fulfilled, (state, action) => {
-        state.orderById = action.payload;
+        // state.orderById = action.payload;
         state.status = "succeeded";
       })
       .addCase(updateOrder.rejected, (state, action) => {
@@ -132,7 +132,7 @@ const orderSlice = createSlice({
         state.status = "loading";
       })
       .addCase(updateOrderViewById.fulfilled, (state, action) => {
-        state.orderById = action.payload;
+        // state.orderById = action.payload;
         state.status = "succeeded";
       })
       .addCase(updateOrderViewById.rejected, (state, action) => {

@@ -13,7 +13,8 @@ const Order = (props) => {
   const dispatch = useDispatch();
   let headers = [];
   let records = [];
-  const datetimeFields = ["Duedate", "Create Date"];
+  const datetimeFields = ["Duedate", "Create Date", "Updated"];
+  const objectFields = ["Feedback"];
   useEffect(() => {
     orderId && dispatch(fetchOrderByCustomerId(orderId));
   }, []);
@@ -44,6 +45,7 @@ const Order = (props) => {
             records={records}
             handleRecordDoubleClick={handleRecordDoubleClick}
             datetimeFields={datetimeFields}
+            objectFields={objectFields}
             statusFetching={statusOrderFetching}
             showPagination={true}
             customTableColor="bg-pressed-color text-light"
@@ -71,6 +73,7 @@ const Order = (props) => {
             records={records}
             handleRecordDoubleClick={handleRecordDoubleClick}
             datetimeFields={datetimeFields}
+            objectFields={objectFields}
             statusFetching={statusOrderFetching}
             showPagination={true}
             customTableColor="bg-pressed-color text-light"

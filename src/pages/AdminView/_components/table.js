@@ -242,15 +242,13 @@ const CustomTable = (props) => {
                         {value
                           ? datetimeFields?.includes(key)
                             ? moment(value).format("yyyy-MM-DD")
-                            : objectFields?.includes(key)
-                            ? Object.entries(value).map(([key, vl], k) =>
-                                vl === true ? (
-                                  <>
-                                    <span>{key}</span>
-                                    <br />
-                                  </>
-                                ) : null
-                              )
+                            : objectFields && objectFields?.includes(key)
+                            ? Object.entries(value).map(([key, vl], k) => (
+                                <>
+                                  <span>{vl}</span>
+                                  <br />
+                                </>
+                              ))
                             : value
                           : "-"}
                       </Button>
