@@ -64,14 +64,14 @@ const Header = ({ breadcrumb, handleSelect }) => {
 
   return (
     <>
-      <Row className="align-items-center admin-header my-3">
-        <Col>
+      <Row className="align-items-center admin-header">
+        <Col xs="3">
           <Navbar.Brand href="#home">
             {" "}
             <Image src="/Foodash_logo.png" className="w-50" />
           </Navbar.Brand>
         </Col>
-        <Col>
+        <Col xs="5">
           <Nav className="flex-row breadcrumb" onSelect={handleSelect}>
             <Nav.Item className="me-2">
               <Nav.Link eventKey="Home">Home </Nav.Link>
@@ -90,31 +90,32 @@ const Header = ({ breadcrumb, handleSelect }) => {
             </Nav.Item>
           </Nav>
         </Col>
-        <Col>
+        <Col xs="2">
           <Row className="justify-content-end info-group">
             <Col lg={1}>
-              <Navbar>
-                <Navbar.Collapse>
-                  <Button
-                    className={`position-relative btn-info ${
-                      showNotifications ? "active" : ""
-                    }`}
-                    onClick={toggleNotifications}
-                  >
-                    <NotificationsNoneIcon />
-                    <Badge className="position-absolute" pill>
-                      {/* {isLoading ? '...' : (notifications && notifications.length) || 0} */}
-                      {isLoading ? "..." : unreadCount}
-                    </Badge>
-                  </Button>
-                </Navbar.Collapse>
-              </Navbar>
+              <Button
+                className={`position-relative admin_bg_btn ${
+                  showNotifications ? "active" : ""
+                }`}
+                onClick={toggleNotifications}
+              >
+                <NotificationsNoneIcon />
+                <Badge
+                  className="position-absolute"
+                  pill
+                  bg="danger"
+                  text="light"
+                >
+                  {/* {isLoading ? '...' : (notifications && notifications.length) || 0} */}
+                  {isLoading ? "..." : unreadCount}
+                </Badge>
+              </Button>
             </Col>
           </Row>
         </Col>
-        <Col>
+        <Col xs="2">
           <Navbar className="justify-content-center user">
-            <Button variant="link text-capitalize fw-bold">
+            <Button variant="link text-capitalize fw-bold text-pressed-color">
               Hello, I'm Admin
             </Button>
             <Figure className="figure">

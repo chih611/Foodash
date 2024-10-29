@@ -1,3 +1,6 @@
+@use "../abstract/colors" as colors;
+
+
 .admin-header {
   .navbar-brand {
     img {
@@ -52,7 +55,7 @@
       text-decoration: underline;
     }
   }
-
+ 
   .info-group {
     .col-lg-1 {
       width: fit-content;
