@@ -74,13 +74,13 @@ const OrderList = ({ orders, onOrderDoubleClick }) => {
           key={order.ORDER_ID}
           className="w-100 align-items-center d-flex"
           style={{ marginTop: "24px", cursor: "pointer" }}
-          onDoubleClick={() => onOrderDoubleClick(order.ORDER_ID)} // Double-click event
+          onDoubleClick={() => onOrderDoubleClick(order.ID)} // Double-click event
         >
           {/* 1st column: Date */}
           <Col xs={3} md={3} className="mb-2">
             <div className="align-items-center w-100">
               <p className="subtitle w-100 text-center">
-                {formatDate(order.DUEDATE)} {/* Reformatted date */}
+                {formatDate(order.Duedate)} {/* Reformatted date */}
               </p>
             </div>
           </Col>
@@ -88,14 +88,14 @@ const OrderList = ({ orders, onOrderDoubleClick }) => {
           {/* 2nd column: OrderID */}
           <Col xs={2} md={2} className="mb-2">
             <div className="align-items-center w-100">
-              <p className="subtitle w-100 text-center">{order.ORDER_ID}</p>
+              <p className="subtitle w-100 text-center">{order.ID}</p>
             </div>
           </Col>
 
           {/* 3rd column: Amount */}
           <Col xs={3} md={3} className="mb-2">
             <div className="align-items-center w-100">
-              <p className="subtitle w-100 text-center">${order.TOTAL}</p>
+              <p className="subtitle w-100 text-center">${order.Total}</p>
             </div>
           </Col>
 
@@ -104,8 +104,8 @@ const OrderList = ({ orders, onOrderDoubleClick }) => {
             <div
               className="text-decoration-none w-100 d-flex align-items-center justify-content-center"
               style={{
-                backgroundColor: getStatusBackgroundColor(order.STATUS),
-                color: getStatusColor(order.STATUS),
+                backgroundColor: getStatusBackgroundColor(order.Status),
+                color: getStatusColor(order.Status),
                 padding: "4px 8px",
                 borderRadius: "12px",
                 fontWeight: "bold",
@@ -113,7 +113,7 @@ const OrderList = ({ orders, onOrderDoubleClick }) => {
                 textAlign: "center",
               }}
             >
-              {order.STATUS ? order.STATUS.toUpperCase() : ""}
+              {order.Status ? order.Status.toUpperCase() : ""}
             </div>
           </Col>
         </Row>
