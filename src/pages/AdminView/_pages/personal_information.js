@@ -24,7 +24,7 @@ const PersonalDetail = ({
           Personal Infomation
         </Accordion.Header>
         <Accordion.Body>
-          <Form.Group as={Row} className="" controlId="formPlaintextEmail">
+          <Form.Group as={Row} controlId="formPlaintextEmail">
             {Object.entries(e).map(([key, value], index) => {
               return (
                 <>

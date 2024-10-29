@@ -5,6 +5,7 @@ import CustomTable from "../_components/table";
 import OrderDetails from "./order_details";
 import CustomModal from "../_components/modal";
 import { fetchOrderByCustomerId } from "../../../../store/actions/orderAction";
+import styles from "@/styles/styles";
 
 const Order = (props) => {
   const { orderId, countOrder } = props;
@@ -48,7 +49,7 @@ const Order = (props) => {
             objectFields={objectFields}
             statusFetching={statusOrderFetching}
             showPagination={true}
-            customTableColor="bg-pressed-color text-light"
+            customTableColor={styles.admin_header_tables}
           />
           <CustomModal
             setOpen={setShow}
@@ -76,18 +77,19 @@ const Order = (props) => {
             objectFields={objectFields}
             statusFetching={statusOrderFetching}
             showPagination={true}
-            customTableColor="bg-pressed-color text-light"
+            customTableColor={styles.admin_header_tables}
           />
           <CustomModal
             setOpen={setShow}
             open={show}
             selectedId={selectedId}
             headerTitle="Order"
-            customTableColor="bg-pressed-color text-light"
+            customerModalColor="bg-pressed-color text-light"
           >
             <OrderDetails
               {...props}
-              customTableColor="bg-pressed-color text-light"
+              customTableColor={styles.admin_header_tables}
+              customAccordingColor="bg-pressed-color"
             />
           </CustomModal>
         </Tab.Pane>

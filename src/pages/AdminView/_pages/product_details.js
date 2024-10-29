@@ -16,6 +16,7 @@ const ProductDetails = ({
   setOpen,
   customTableColor,
   extraReadOnlyFields,
+  customAccordingColor,
 }) => {
   const dateTimeFields = ["Expiry date"];
   const readOnlyFields = ["ID"];
@@ -129,7 +130,9 @@ const ProductDetails = ({
     <Form onSubmit={onSubmit}>
       <Accordion defaultActiveKey="0" alwaysOpen>
         <Accordion.Item eventKey="0">
-          <Accordion.Header>Product Detail</Accordion.Header>
+          <Accordion.Header className={customAccordingColor}>
+            Product Detail
+          </Accordion.Header>
           <Accordion.Body>
             <Form.Group as={Row} controlId="orderForm">
               {dataItems.map((datum) =>
@@ -156,7 +159,9 @@ const ProductDetails = ({
       <Accordion defaultActiveKey="1" alwaysOpen>
         {dataMods.map((datum) => (
           <Accordion.Item eventKey={`mod-${datum.ModID}`} key={datum.ModID}>
-            <Accordion.Header>Modification {datum.ModID}</Accordion.Header>
+            <Accordion.Header className={customAccordingColor}>
+              Modification {datum.ModID}
+            </Accordion.Header>
             <Accordion.Body>
               <Form.Group as={Row} controlId={`modification-${datum.ModID}`}>
                 {Object.entries(datum || {}).map(([key, value]) => (
@@ -190,7 +195,9 @@ const ProductDetails = ({
 
       <Accordion defaultActiveKey="2" alwaysOpen>
         <Accordion.Item eventKey="2">
-          <Accordion.Header>Add New Modification</Accordion.Header>
+          <Accordion.Header className={customAccordingColor}>
+            Add New Modification
+          </Accordion.Header>
           <Accordion.Body>
             <Form.Group as={Row} controlId="newModificationForm">
               <Col md={6}>
@@ -236,7 +243,7 @@ const ProductDetails = ({
 
       <Form.Group as={Row} controlId="formPlaintextEmail">
         <Col className="mb-3 d-flex flex-column">
-          <Button type="submit" className="mt-3 align-self-end">
+          <Button type="submit" className={`mt-3 align-self-end admin_bg_btn`}>
             Save Modification
           </Button>
         </Col>

@@ -192,12 +192,13 @@ const OrderTracking = () => {
           open={showModal}
           selectedId={selectedOrderId}
           headerTitle="Order Details"
-          customTableColor="bg-headline-color"
+          customerModalColor="bg-headline-color text-center"
         >
           <OrderDetails
             Id={selectedOrderId}
             setOpen={setShowModal}
             customTableColor="bg-headline-color"
+            customAccordingColor="bg-headline-color"
             extraReadOnlyFields={[
               "Full Name",
               "Phone",

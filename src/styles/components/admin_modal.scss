@@ -1,7 +1,11 @@
 
 @use "../abstract/colors" as colors;
-.accordion-button:not(.collapsed) {
+.accordion-button {
     background-color: var(--header-color) !important;
     color: white !important; /* Custom text color */
     font-weight: bold !important; /* Custom font weight */
-  }
+}
+
+.modal-title {
+    color: white !important;
+}
