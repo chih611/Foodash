@@ -10,11 +10,8 @@ import {
   updateItemModificationById,
 } from "../../../../store/slices/itemsSlice";
 import CustomInput from "../_components/input";
-<<<<<<< HEAD
 import CustomDropBox from "../_components/dropbox";
 import axios from "axios";
-=======
->>>>>>> origin
 
 const ProductDetails = ({
   Id,
