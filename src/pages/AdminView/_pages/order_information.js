@@ -40,6 +40,7 @@ const OrderInformation = ({
                         dateTimeFields={dateTimeFields}
                         statusFetching={statusFetching}
                         handleChange={handleChange} // Use unified handleChange
+                        setShowSaveBtn={setShowSaveBtn}
                       />
                     </Col>
                   ) : null}

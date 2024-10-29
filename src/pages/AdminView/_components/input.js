@@ -9,11 +9,9 @@ const CustomInput = ({
   dateTimeFields,
   numberFields,
   statusFetching,
-  setShowSaveBtn = true,
   handleChange,
 }) => {
   const handleInputChange = (e) => {
-    setShowSaveBtn(true);
     if (handleChange) {
       handleChange(title, e.target.value); // Use unified handleChange
     }

@@ -275,7 +275,7 @@ const CustomTable = (props) => {
                             : objectFields && objectFields?.includes(key)
                             ? Object.entries(value).map(([key, vl], k) => (
                                 <>
-                                  <span>{vl ? key + " : " + vl : "-"}</span>
+                                  <span>{vl && key + " : " + vl}</span>
                                   <br />
                                 </>
                               ))
