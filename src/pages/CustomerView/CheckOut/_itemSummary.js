@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import Link from "next/link";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import {
   increaseQuantity,
@@ -17,18 +17,14 @@ const OrderSummary = () => {
   const dispatch = useDispatch();
 
   const handleRemoveItem = (itemId, extras, labels, note) => {
-    console.log("Removing item with note:", note);
     dispatch(removeFromCart({ customerId, itemId, extras, labels, note }));
   };
 
   const handleIncreaseQuantity = (itemId, extras, labels, note) => {
-    console.log("Increase quantity", itemId, extras, labels, note);
     dispatch(increaseQuantity({ customerId, itemId, extras, labels, note }));
   };
 
   const handleDecreaseQuantity = (itemId, extras, labels, note) => {
-    console.log("Decreasing quantity for:", itemId, extras, labels, note);
-
     const currentItem = cartItems.find((item) => {
       const extrasMatch =
         JSON.stringify(item.extras) === JSON.stringify(extras);
@@ -57,14 +53,14 @@ const OrderSummary = () => {
         </p>
       </div>
 
-      {cartItems ? (
+      {cartItems && cartItems.length > 0 ? (
         cartItems.map((item, index) => (
           <Row
             className="w-100 d-flex my-3 align-items-center"
             key={`${item.itemId}-${index}`}
           >
             <Col xs={4}>
-              <p className="subtitle me-5 mt-3">{item.itemName}</p>
+              <p className=" me-5 mt-3">{item.itemName}</p>
             </Col>
             <Col xs={4}>
               <QuantityInputField
@@ -90,7 +86,7 @@ const OrderSummary = () => {
             <Col xs={4}>
               <ClearIcon
                 className="remove-item-icon"
-                style={{ color: "094067" }}
+                style={{ color: "#094067" }}
                 onClick={() =>
                   handleRemoveItem(
                     item.itemId,
@@ -101,26 +97,41 @@ const OrderSummary = () => {
                 }
               />
             </Col>
-            <Col xs={12}>
-              {/* Display extras */}
-              <p>
-                Variety:{" "}
-                <ul>
-                  {Object.entries(item.extras)
-                    .filter(([key, value]) => value)
-                    .map(([key, value]) => (
-                      <li key={key}>{key}</li>
-                    ))}
-                </ul>
+
+            <Col xs={12} style={{ paddingLeft: "1.5rem" }}>
+              {/* Display extras (without bullet points) */}
+              <p className="subtitle me-5 mt-3  mb-1">Variety:</p>
+              <ul style={{ listStyleType: "none", paddingLeft: "1rem" }}>
+                {Object.entries(item.extras)
+                  .filter(([key, value]) => value)
+                  .map(([key]) => (
+                    <li key={key} style={{ marginBottom: "0.25rem" }}>
+                      {key}
+                    </li>
+                  ))}
+              </ul>
+            </Col>
+
+            <Col xs={12} style={{ paddingLeft: "1.5rem" }}>
+              {/* Display labels with indentation */}
+              <p className="subtitle me-5 mt-3  mb-1">Labels:</p>
+              <p
+                className="subtitle "
+                style={{ paddingLeft: "1rem", margin: 0 }}
+              >
+                {item.labels || "No labels selected"}
               </p>
             </Col>
-            <Col xs={12}>
-              {/* Display labels directly */}
-              <p>Labels: {item.labels ? item.labels : "No labels selected"}</p>
-            </Col>
-            <Col xs={12}>
-              {/* Display notes */}
-              <p>Notes: {item.notes || "None"}</p>
+
+            <Col xs={12} style={{ paddingLeft: "1.5rem" }}>
+              {/* Display notes with indentation */}
+              <p className="subtitle me-5 mt-3  mb-1">Notes:</p>
+              <p
+                className="subtitle "
+                style={{ paddingLeft: "1rem", margin: 0 }}
+              >
+                {item.notes || "None"}
+              </p>
             </Col>
           </Row>
         ))
@@ -137,7 +148,6 @@ const OrderSummary = () => {
                 border: "none",
                 padding: "0",
               }}
-              onClick={() => router.push("/CustomerView/HomePage")}
             >
               Create my first order
             </button>

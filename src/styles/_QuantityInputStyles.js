@@ -27,7 +27,7 @@ const QuantityButton = styled.button`
   transition: background-color 0.3s ease, color 0.3s ease;
 
   &:hover {
-    background-color: #007bff;
+    background-color: #f38b3c;
     color: #fff;
   }
 
