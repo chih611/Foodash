@@ -12,6 +12,7 @@ import HomeItemContainer from "../HomeItemContainer/HomeItemContainer";
 import HomeCategoryContainer from "../HomeCategoryContainer/HomeCategoryContainer";
 import { useRouter } from "next/router";
 import { fetchCartByCustomerId } from "../../../../../store/slices/cartSlice";
+import { fetchCustomerById } from "../../../../../store/slices/customerSlice";
 
 const HomeContent = () => {
   const dispatch = useDispatch();
@@ -39,6 +40,8 @@ const HomeContent = () => {
     dispatch(fetchIngredients());
     dispatch(getAllModifications());
     if (customerId) {
+      dispatch(fetchCustomerById(customerId));
+
       dispatch(fetchCartByCustomerId(customerId)).then((action) => {
         if (action.payload) {
           console.log("Cart Items fetched:", action.payload);
