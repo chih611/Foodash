@@ -95,38 +95,18 @@ const Header = ({ breadcrumb, handleSelect }) => {
             <Col lg={1}>
               <Navbar>
                 <Navbar.Collapse>
-                  <Button className={`position-relative btn-info ${showNotifications ? "active" : ""}`}
-                          onClick={toggleNotifications}>
+                  <Button
+                    className={`position-relative btn-info ${
+                      showNotifications ? "active" : ""
+                    }`}
+                    onClick={toggleNotifications}
+                  >
                     <NotificationsNoneIcon />
                     <Badge className="position-absolute" pill>
                       {/* {isLoading ? '...' : (notifications && notifications.length) || 0} */}
                       {isLoading ? "..." : unreadCount}
                     </Badge>
                   </Button>
-                </Navbar.Collapse>
-              </Navbar>
-            </Col>
-            <Col lg={1}>
-              <Navbar>
-                <Navbar.Collapse className="justify-content-end">
-                  <button className="position-relative btn-info">
-                    <ChatIcon />
-                    <Badge className="position-absolute" pill>
-                      9
-                    </Badge>
-                  </button>
-                </Navbar.Collapse>
-              </Navbar>
-            </Col>
-            <Col lg={1}>
-              <Navbar>
-                <Navbar.Collapse className="justify-content-end">
-                  <button className="position-relative btn-info btn-setting">
-                    <SettingsIcon />
-                    <Badge className="position-absolute" pill>
-                      9
-                    </Badge>
-                  </button>
                 </Navbar.Collapse>
               </Navbar>
             </Col>
@@ -150,8 +130,12 @@ const Header = ({ breadcrumb, handleSelect }) => {
       </Row>
       {/* {showNotifications && <NotificationBoard notifications={notifications || []} onClose={toggleNotifications} />} */}
       {showNotifications && (
-  <NotificationBoard notifications={notifications || []} onClose={toggleNotifications} data = {notifications} />
-)}
+        <NotificationBoard
+          notifications={notifications || []}
+          onClose={toggleNotifications}
+          data={notifications}
+        />
+      )}
     </>
   );
 };

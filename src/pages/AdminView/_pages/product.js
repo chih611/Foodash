@@ -84,6 +84,7 @@ const Product = (props) => {
           datetimeFields={customFields}
           statusFetching={status}
           customTableColor="bg-pressed-color text-light"
+          showPagination={true}
         />
 
         <CustomModal
