@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Row, Col, Button } from "react-bootstrap";
 import CircleRounded from "@mui/icons-material/CircleRounded";
 import KeyboardArrowDownRounded from "@mui/icons-material/KeyboardArrowDownRounded";
@@ -62,16 +62,19 @@ const OrderList = ({ orders, onOrderDoubleClick }) => {
     return <div>No Orders</div>;
   }
 
+  // Sort orders by ORDER_ID in descending order (most recent first)
+  const sortedOrders = [...orders].sort((a, b) => b.ID - a.ID);
+
   // Function to show all orders
   const handleShowAll = () => {
-    setVisibleOrders(orders.length); // Set visibleOrders to total length of orders array
+    setVisibleOrders(sortedOrders.length); // Set visibleOrders to total length of orders array
   };
 
   return (
     <div className="filters-section my-3">
-      {orders.slice(0, visibleOrders).map((order) => (
+      {sortedOrders.slice(0, visibleOrders).map((order) => (
         <Row
-          key={order.ORDER_ID}
+          key={order.ID}
           className="w-100 align-items-center d-flex"
           style={{ marginTop: "24px", cursor: "pointer" }}
           onDoubleClick={() => onOrderDoubleClick(order.ID)} // Double-click event
@@ -120,7 +123,7 @@ const OrderList = ({ orders, onOrderDoubleClick }) => {
       ))}
 
       {/* Show more button if there are more orders to show */}
-      {visibleOrders < orders.length && (
+      {visibleOrders < sortedOrders.length && (
         <div className="w-100 align-items-center d-flex justify-content-center mt-4">
           <Button
             className="w-100 d-flex justify-content-center align-items-center"
