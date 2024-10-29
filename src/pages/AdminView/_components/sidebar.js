@@ -56,7 +56,9 @@ const SideBar = ({ handleSelect }) => {
                   </Nav.Link>
                 </Nav.Item>
                 <div className="my-3"></div>
-                <Button className={styles.nav_style}>LOG OUT</Button>
+                <Button className={styles.nav_style + "admin_bg_btn"}>
+                  LOG OUT
+                </Button>
               </Nav>
             </Col>
             {/* <Col className={styles.logout_btn}>

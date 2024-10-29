@@ -15,6 +15,7 @@ import {
   fetchOrderByCustomerId,
   fetchTotalOrderList,
 } from "../../../../store/actions/orderAction";
+import styles from "@/styles/styles";
 const CustomerProfile = (props) => {
   const [showCustomerDetailsModal, setShowCustomerDetailsModal] =
     useState(false);
@@ -97,7 +98,7 @@ const CustomerProfile = (props) => {
           onCreateClick={handleCreateClick} // Pass the handleCreateClick function
           statusFetching={statusFetching}
           showCreateButton={false}
-          customTableColor="bg-pressed-color text-light"
+          customTableColor={styles.admin_header_tables}
           showSpecialButton={true}
           setSelectedId={setSelectedId}
           handleRecordSingleClick={handleOrderClick}
@@ -112,12 +113,12 @@ const CustomerProfile = (props) => {
           open={showCustomerDetailsModal}
           selectedId={selectedCustomerId}
           headerTitle="Customer Details"
-          customTableColor="bg-pressed-color text-light"
+          customerModalColor="bg-pressed-color text-center"
         >
           <CustomerProfileDetails
             {...props}
             selectedId={selectedCustomerId}
-            customTableColor="bg-pressed-color text-light"
+            customTableColor={styles.admin_header_tables}
           />
         </CustomModal>
         {/* Create Customer Modal */}
@@ -125,7 +126,7 @@ const CustomerProfile = (props) => {
           setOpen={setShowCreateCustomerModal}
           open={showCreateCustomerModal}
           headerTitle="Create New Customer"
-          customTableColor="bg-pressed-color text-light"
+          customerModalColor="bg-pressed-color text-light"
           selectedId={selectedId}
         >
           <CustomerProfileCreate
@@ -138,7 +139,7 @@ const CustomerProfile = (props) => {
           open={showOrder}
           selectedId={selectedId}
           headerTitle="Customer"
-          customTableColor="bg-pressed-color text-light"
+          customerModalColor="bg-pressed-color text-light"
         >
           <Order
             {...props}

@@ -194,7 +194,7 @@ const OrderTracking = () => {
           open={showModal}
           selectedId={selectedOrderId}
           headerTitle="Order Details"
-          customTableColor="bg-headline-color"
+          customerModalColor="bg-headline-color text-center"
         >
           <OrderDetails
             Id={selectedOrderId}

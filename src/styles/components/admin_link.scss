@@ -1,13 +1,10 @@
 @use "../abstract/colors" as colors;
 .admin_container{
-    .admin_bg_link{
-        background-color: colors.$pressed-color !important;
-        color: white;
+    .admin_txt_link{
+        color: colors.$pressed-color !important;
       }
       
-    .admin_bg_link:hover {
-        background-color: colors.$bg-2nd-color!important;
-        color: colors.$pressed-color ;
-        border-color: colors.$bg-2nd-color;
+    .admin_txt_link:hover {
+        color: colors.$bg-2nd-color!important;
       }
 }

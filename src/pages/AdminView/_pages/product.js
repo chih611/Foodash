@@ -7,6 +7,7 @@ import NewProduct from "../_components/inputProduct";
 import CustomInput from "../_components/input";
 import { Tab, Button } from "react-bootstrap";
 import { fetchAdminItems } from "../../../../store/actions/itemAction";
+import styles from "@/styles/styles";
 
 const Product = (props) => {
   const [showPro, setShowPro] = useState(false);
@@ -62,29 +63,18 @@ const Product = (props) => {
   return (
     <>
       <Tab.Pane {...props} className="g-4 bg-2nd-color m-2 px-3 py-3 rounded-4">
-        <Button
-          variant="primary"
-          className="add-btn"
-          onClick={handleShowAddCustomer}
-        >
-          Add Item
-        </Button>
-        {/* Add Customer Modal - Using React Bootstrap */}
-        <NewProduct
-          show={showAddCustomer}
-          onHide={handleCloseAddCustomer}
-          backdrop="static"
-          keyboard={false}
-        />
-
         <CustomTable
           headers={headers}
           records={records}
           handleRecordDoubleClick={handleRecordDoubleClick}
           datetimeFields={customFields}
           statusFetching={status}
-          customTableColor="bg-pressed-color text-light"
+          customTableColor={styles.admin_header_tables}
           showPagination={true}
+          showAddCustomer={showAddCustomer}
+          handleCloseAddCustomer={handleCloseAddCustomer}
+          showOderCreateBtn={true}
+          handleShowAddCustomer={handleShowAddCustomer}
         />
 
         <CustomModal
@@ -92,6 +82,7 @@ const Product = (props) => {
           open={showPro}
           selectedId={selectedId}
           headerTitle="Product"
+          customerModalColor="bg-pressed-color text-center"
         >
           <ProductDetails {...props} Id={selectedId} />
         </CustomModal>

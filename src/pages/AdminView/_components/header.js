@@ -74,7 +74,9 @@ const Header = ({ breadcrumb, handleSelect }) => {
         <Col xs="5">
           <Nav className="flex-row breadcrumb" onSelect={handleSelect}>
             <Nav.Item className="me-2">
-              <Nav.Link eventKey="Home">Home </Nav.Link>
+              <Nav.Link eventKey="Home" className="admin_txt_link">
+                Home{" "}
+              </Nav.Link>
             </Nav.Item>
             <Nav.Item>
               <Nav.Link>
