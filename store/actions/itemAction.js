@@ -3,6 +3,7 @@ import {
   fetchAdminItemByDetailIdAPI,
   fetchAdminItemsAPI,
   fetchModificationsAPI,
+  fetchModificationsByIdAPI,
 } from "../api/item.api";
 
 const fetchAdminItemByDetailId = createAsyncThunk(
@@ -43,4 +44,22 @@ const fetchModifications = createAsyncThunk(
     }
   }
 );
-export { fetchAdminItemByDetailId, fetchAdminItems, fetchModifications };
+
+const fetchModificationsById = createAsyncThunk(
+  "items/fetchModificationsById",
+  async (mod_id, { rejectWithValue }) => {
+    try {
+      return await fetchModificationsByIdAPI(mod_id);
+    } catch (error) {
+      return rejectWithValue(
+        error.response ? error.response.data : error.message
+      );
+    }
+  }
+);
+export {
+  fetchAdminItemByDetailId,
+  fetchAdminItems,
+  fetchModifications,
+  fetchModificationsById,
+};
