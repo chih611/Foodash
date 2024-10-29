@@ -39,6 +39,8 @@ const Checkout = () => {
   const customerProfile = useSelector((state) => state.customer.profile);
   const customerId = customerProfile?.CUSTOMER_ID || null;
 
+  console.log("Cart Items: " + cartItems);
+
   // Prefill recipient details with customer profile if logged in
   useEffect(() => {
     if (customerProfile) {
@@ -125,6 +127,30 @@ const Checkout = () => {
     }
   };
 
+  const retryWithBackoff = async (fn, retries = 3, delay = 500) => {
+    try {
+      return await fn();
+    } catch (error) {
+      if (retries > 0 && error.code === "ER_LOCK_DEADLOCK") {
+        console.warn(`Deadlock detected, retrying in ${delay}ms...`);
+        await new Promise((res) => setTimeout(res, delay));
+        return retryWithBackoff(fn, retries - 1, delay * 2); // Exponential backoff
+      }
+      throw error; // Throw if max retries reached or other error
+    }
+  };
+
+  const serializeExtras = (extras) => {
+    return JSON.stringify(
+      Object.keys(extras)
+        .sort()
+        .reduce((result, key) => {
+          result[key] = extras[key];
+          return result;
+        }, {})
+    );
+  };
+
   const createOrderHandler = async (
     finalCustomerId,
     cartSubtotal,
@@ -179,7 +205,8 @@ const Checkout = () => {
 
   const createOrderItemsHandler = async (orderId, cartItems) => {
     try {
-      const orderDetailPromises = cartItems.map(async (item) => {
+      // Iterate over each cart item sequentially
+      for (const item of cartItems) {
         const orderDetailPayload = {
           ORDER_ID: orderId,
           UNIT_PRICE: item.price,
@@ -188,13 +215,14 @@ const Checkout = () => {
           LABEL_ID: item.labelId,
           NOTES: item.notes,
           ITEM_ID: item.itemId,
-          MODIFICATION: item.extras,
+          MODIFICATION: serializeExtras(item.extras),
         };
 
-        return dispatch(createOrderDetail(orderDetailPayload)).unwrap();
-      });
-
-      await Promise.all(orderDetailPromises);
+        // Await each retryWithBackoff call before moving to the next item
+        await retryWithBackoff(() =>
+          dispatch(createOrderDetail(orderDetailPayload)).unwrap()
+        );
+      }
     } catch (error) {
       throw error;
     }

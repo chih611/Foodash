@@ -38,7 +38,7 @@ const SpecialSection = ({ title, items = [] }) => {
               >
                 <Row
                   noGutters
-                  className={`d-flex flex-nowrap ${
+                  className={`flex-nowrap ${
                     items && items.length === 1 ? "justify-content-center" : ""
                   }`}
                 >

@@ -35,7 +35,7 @@ const FeedBackForm = ({ order, handleClose }) => {
       // Dispatch the updateOrder action
       await dispatch(
         updateOrder({
-          orderId: order.ORDER_ID,
+          orderId: order.ID,
           updatedData: updatedOrderData,
         })
       );
@@ -51,7 +51,7 @@ const FeedBackForm = ({ order, handleClose }) => {
   return (
     <Modal show={show} onHide={handleClose} centered>
       <Modal.Header closeButton>
-        <Modal.Title>Leave Feedback for Order #{order?.ORDER_ID}</Modal.Title>
+        <Modal.Title>Leave Feedback for Order #{order?.ID}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={handleSubmit(onSubmit)}>

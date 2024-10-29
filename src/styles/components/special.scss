@@ -1,9 +1,9 @@
 @use "../abstract/colors" as colors;
 @use "../abstract/mixins" as mixins;
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap");
 
 .special-container {
-  font-family: 'DM Sans', sans-serif;
+  font-family: "DM Sans", sans-serif;
   background-color: #fffffe;
   width: 100%;
   margin: 0 auto;
@@ -36,7 +36,7 @@
   -webkit-overflow-scrolling: touch;
   padding: 10px 0;
   scroll-behavior: smooth;
-  gap: 20px !important; 
+  gap: 20px !important;
 
   &.centered-single-item {
     justify-content: center; // Center single item horizontally
@@ -59,7 +59,7 @@
 
 .home-item {
   flex: 0 0 auto;
-  margin: 0 15px  !important; // Ensure the item has consistent spacing
+  margin: 0 15px !important; // Ensure the item has consistent spacing
 }
 
 .arrow-button {
@@ -115,6 +115,6 @@
     height: auto; /* Reset the height */
     max-height: none; /* Reset the maximum height */
     margin-right: 0; /* Remove the right margin */
-    border-radius: 0; /* Remove the border radius */  
+    border-radius: 0; /* Remove the border radius */
   }
 }

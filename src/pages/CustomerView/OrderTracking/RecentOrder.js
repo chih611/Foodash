@@ -9,7 +9,7 @@ const RecentOrder = ({ order, onLeaveFeedback }) => {
     return <div>No recent order available</div>;
   }
 
-  const estimateArrival = order ? new Date(order.DUEDATE) - new Date() : null;
+  const estimateArrival = order ? new Date(order.Duedate) - new Date() : null;
 
   const getReadableTime = (milliseconds) => {
     const totalMinutes = Math.floor(milliseconds / 60000);
@@ -32,7 +32,7 @@ const RecentOrder = ({ order, onLeaveFeedback }) => {
           <p className="subtitle mb-0">Order ID : </p>
         </Col>
         <Col xs={12} md={7} className="mb-2 align-items-center">
-          <p className="subtitle mb-0">{order.ORDER_ID}</p>
+          <p className="subtitle mb-0">{order.ID}</p>
         </Col>
         <Col xs={12} md={3} className="mb-2 align-items-center ">
           <p className="subtitle mb-0 d-flex w-100">
@@ -51,7 +51,7 @@ const RecentOrder = ({ order, onLeaveFeedback }) => {
           }}
         >
           <CircleRounded className="mb-0 me-3 mb-2" sx={{ color: "#ef4565" }} />
-          <p className="subtitle mb-0 mb-2">Delivering</p>
+          <p className="subtitle mb-0 mb-2">{order.Status}</p>
         </div>
       </Row>
 

@@ -50,9 +50,7 @@ const OrderTracking = () => {
       : null);
 
   const handleOrderDoubleClick = (orderId) => {
-    const clickedOrder = filteredOrders.find(
-      (order) => order.ORDER_ID === orderId
-    );
+    const clickedOrder = filteredOrders.find((order) => order.ID === orderId);
     setSelectedOrder(clickedOrder);
     setSelectedOrderId(orderId);
     setShowModal(true);
@@ -61,8 +59,8 @@ const OrderTracking = () => {
   // Sort Orders by Delivery Date
   const handleSortByDate = (order) => {
     const sortedOrders = [...filteredOrders].sort((a, b) => {
-      const dateA = new Date(a.DUEDATE);
-      const dateB = new Date(b.DUEDATE);
+      const dateA = new Date(a.Duedate);
+      const dateB = new Date(b.Duedate);
       return order === "asc" ? dateA - dateB : dateB - dateA;
     });
     setFilteredOrders(sortedOrders);

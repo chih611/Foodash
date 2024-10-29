@@ -54,6 +54,10 @@ const OrderDetails = ({
     { Canceled: "Canceled" },
     { Pending: "Pending" },
     { Delivered: "Delivered" },
+    { Unpaid: "Unpaid" },
+    { Paid: "Paid" },
+    { Refund: "Refund" },
+    { Quote: "Quote" },
   ];
   const dispatch = useDispatch();
   const [orderData, setOrderData] = useState({});
