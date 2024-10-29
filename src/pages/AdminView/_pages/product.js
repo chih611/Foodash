@@ -84,7 +84,11 @@ const Product = (props) => {
           headerTitle="Product"
           customerModalColor="bg-pressed-color text-center"
         >
-          <ProductDetails {...props} Id={selectedId} />
+          <ProductDetails
+            {...props}
+            Id={selectedId}
+            customAccordingColor="bg-pressed-color"
+          />
         </CustomModal>
         {/* <CustomModal
           handleOk={handleOk}

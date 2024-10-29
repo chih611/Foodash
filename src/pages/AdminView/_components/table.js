@@ -259,7 +259,15 @@ const CustomTable = (props) => {
                               handleRecordSingleClick(e);
                           })
                         }
-                        className="text-decoration-none text-dark text-nowrap"
+                        className={
+                          customCols.length > 0
+                            ? customCols.map((col) =>
+                                key.includes(col)
+                                  ? "admin_bg_btn"
+                                  : "text-decoration-none text-dark text-nowrap"
+                              )
+                            : "text-decoration-none text-dark text-nowrap"
+                        }
                       >
                         {value
                           ? datetimeFields?.includes(key)

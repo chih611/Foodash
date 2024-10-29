@@ -89,6 +89,7 @@ const Order = (props) => {
             <OrderDetails
               {...props}
               customTableColor={styles.admin_header_tables}
+              customAccordingColor="bg-pressed-color"
             />
           </CustomModal>
         </Tab.Pane>

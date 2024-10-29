@@ -15,6 +15,7 @@ const ProductDetails = ({
   setOpen,
   customTableColor,
   extraReadOnlyFields,
+  customAccordingColor,
 }) => {
   const dateTimeFields = ["Expiry date"];
   const readOnlyFields = ["ID"];
@@ -63,7 +64,9 @@ const ProductDetails = ({
     <Form onSubmit={handleSubmit(onSubmit)}>
       <Accordion defaultActiveKey={["0"]} alwaysOpen>
         <Accordion.Item eventKey="0">
-          <Accordion.Header>Product Detail</Accordion.Header>
+          <Accordion.Header className={customAccordingColor}>
+            Product Detail
+          </Accordion.Header>
           <Accordion.Body>
             <Form.Group as={Row} className="" controlId="orderForm">
               {dataItems.map((datum) =>
@@ -92,7 +95,9 @@ const ProductDetails = ({
         {dataMods &&
           dataMods.map((datum, pIndex) => (
             <Accordion.Item eventKey={`mod-${pIndex}`} key={pIndex}>
-              <Accordion.Header>Modification {datum.ModID}</Accordion.Header>
+              <Accordion.Header className={customAccordingColor}>
+                Modifications {datum.ModID}
+              </Accordion.Header>
               <Accordion.Body>
                 {Object.entries(datum || {}).map(([key, value], index) => (
                   <Form.Group
@@ -121,7 +126,9 @@ const ProductDetails = ({
       {/* Form to add new modification */}
       <Accordion defaultActiveKey="2" alwaysOpen>
         <Accordion.Item eventKey="2">
-          <Accordion.Header>Add New Modification</Accordion.Header>
+          <Accordion.Header className={customAccordingColor}>
+            Add New Modification
+          </Accordion.Header>
           <Accordion.Body>
             <Form.Group as={Row} controlId="newModificationForm">
               <Col md={6}>
@@ -158,7 +165,7 @@ const ProductDetails = ({
 
       <Form.Group as={Row} controlId="formPlaintextEmail">
         <Col className="mb-3 d-flex flex-column">
-          <Button type="submit" className={`mt-3 align-self-end`}>
+          <Button type="submit" className={`mt-3 align-self-end admin_bg_btn`}>
             Save Modification
           </Button>
         </Col>
