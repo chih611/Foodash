@@ -252,6 +252,7 @@ const customerSlice = createSlice({
   reducers: {
     clearProfile: (state) => {
       state.profile = null;
+      state.profileDetail = null;
       state.favouriteFoods = [];
       state.status = "idle";
       state.error = null;

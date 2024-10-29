@@ -113,7 +113,7 @@ const CustomerDetail = () => {
     await dispatch(clearProfile());
     await dispatch(clearCart());
     await dispatch(clearOrderByCustomerId());
-    await router.push("/CustomerView/");
+    router.push("/CustomerView/");
   };
 
   return (
