@@ -216,7 +216,7 @@ const Report = (props) => {
                   </Button>
                 </Link>
 
-                <label className="font-medium text-gray-700 ms-4 fw-bold">
+                <label className="font-medium text-gray-700 ms-4 fw-bold mb-4">
                   This month: {getMonthName(startDate)}
                 </label>
                 <CustomTable
