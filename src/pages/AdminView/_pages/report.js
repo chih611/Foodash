@@ -19,6 +19,7 @@ import {
 } from "../../../../store/actions/reportAction";
 import styles from "@/styles/styles";
 import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 import moment from "moment";
 
 const Report = (props) => {
