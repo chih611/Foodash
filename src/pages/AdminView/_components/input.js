@@ -8,7 +8,7 @@ const CustomInput = ({
   readOnlyFields,
   dateTimeFields,
   statusFetching,
-  setShowSaveBtn,
+  setShowSaveBtn = true,
   handleChange,
 }) => {
   const handleInputChange = (e) => {
