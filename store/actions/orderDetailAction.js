@@ -55,7 +55,7 @@ const fetchBoughtBeforeByCustomerId = createAsyncThunk(
       let allItems = [];
       for (const order of orders) {
         const response = await axios.get(
-          `${BASE_URL}/order_details/${order.ORDER_ID}`
+          `${BASE_URL}/order_details/${order.ID}`
         );
         const orderDetails = response.data;
 
@@ -77,7 +77,7 @@ const fetchBoughtBeforeByCustomerId = createAsyncThunk(
           uniqueItemsMap.set(item.Product, item);
         }
       });
-
+      console.log(uniqueItemsMap);
       // Convert the Map back to an array
       const uniqueItems = Array.from(uniqueItemsMap.values());
       // console.log("Unique Items:", uniqueItems);

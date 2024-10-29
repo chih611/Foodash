@@ -39,8 +39,6 @@ const OrderTracking = () => {
     (state) => state.order.orderListByCustomerId || [] // Ensure it's always an array
   );
 
-  console.log(orderByCustomer);
-
   useEffect(() => {
     setFilteredOrders(orderByCustomer);
   }, [orderByCustomer]);
