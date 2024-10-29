@@ -19,6 +19,7 @@ const OrderDetails = ({
   Id,
   setOpen,
   customTableColor,
+  customAccordingColor,
   extraReadOnlyFields,
 }) => {
   let recordsOrderDetails = [];
@@ -170,7 +171,7 @@ const OrderDetails = ({
                 readOnlyFields={readOnlyFields}
                 Row={Row}
                 statusFetching={statusOrderFetching}
-                customHeaderColor={customTableColor}
+                customHeaderColor={customAccordingColor}
                 handleChange={handleChange} // Pass down handleChange
                 optionsData={optionsData}
               />
@@ -183,7 +184,7 @@ const OrderDetails = ({
                 readOnlyFields={readOnlyFields}
                 Row={Row}
                 statusFetching={statusOrderFetching}
-                customOrderInformationColor={customTableColor}
+                customOrderInformationColor={customAccordingColor}
                 handleChange={handleChange} // Pass down handleChange
                 optionsData={optionsData}
               />
@@ -213,8 +214,8 @@ const OrderDetails = ({
       </div>
 
       {/* Button to Generate PDF */}
-      <div className="text-center my-3">
-        <Button onClick={generatePDF} className="btn btn-primary">
+      <div className="text-center my-3 ">
+        <Button onClick={generatePDF} className="btn btn-primary admin_bg_btn">
           Download Order Details PDF
         </Button>
       </div>

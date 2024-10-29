@@ -6,6 +6,7 @@ import UserSettingDetails from "./user_setting_details";
 import CustomModal from "../_components/modal";
 import { fetchAllAdmins } from "../../../../store/slices/adminSlice";
 import UserSettingCreate from "./user_setting_create";
+import styles from "@/styles/styles";
 const UserSetting = (props) => {
   const [show, setShow] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
@@ -58,7 +59,7 @@ const UserSetting = (props) => {
           onCreateClick={handleCreateClick} // Pass the handleCreateClick function
           statusFetching={statusFetching}
           showCreateButton={true}
-          customTableColor="bg-pressed-color text-light"
+          customTableColor={styles.admin_header_tables}
           showPagination={true}
         />
         <CustomModal
@@ -66,7 +67,7 @@ const UserSetting = (props) => {
           open={show}
           selectedId={selectedId}
           headerTitle="Admin Settings"
-          customTableColor="bg-pressed-color text-light"
+          customerModalColor="bg-pressed-color text-light"
         >
           <UserSettingDetails
             {...props}
@@ -79,7 +80,7 @@ const UserSetting = (props) => {
           setOpen={setShowCreateAdminModal}
           open={showCreateAdminModal}
           headerTitle="Create New Admin"
-          customTableColor="bg-pressed-color text-light"
+          customerModalColor="bg-pressed-color text-light"
         >
           <UserSettingCreate setOpen={setShowCreateAdminModal} />
 

@@ -2,15 +2,19 @@ import moment from "moment";
 import {
   Badge,
   Button,
+  Col,
+  Container,
   FloatingLabel,
   Form,
   Pagination,
   Placeholder,
+  Row,
   Table,
 } from "react-bootstrap";
 import { useMemo, useState } from "react";
 import { SwapVertRounded } from "@mui/icons-material";
 import styles from "../../../styles/styles";
+import NewProduct from "./inputProduct";
 const CustomTable = (props) => {
   const {
     headers,
@@ -27,6 +31,10 @@ const CustomTable = (props) => {
     handleRecordSingleClick,
     actionCol,
     customCols = [],
+    showAddCustomer,
+    handleCloseAddCustomer,
+    showOderCreateBtn,
+    handleShowAddCustomer,
   } = props;
 
   const [show, setShow] = useState(false);
@@ -149,32 +157,54 @@ const CustomTable = (props) => {
         </Table>
       ) : (
         <>
-          <FloatingLabel controlId="floatingInput" label="Search ...">
-            <Form.Control
-              type="text"
-              placeholder="Search ..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="rounded-4 mb-2 mt-4"
-            />
-          </FloatingLabel>
+          <Row className="mb-2">
+            <Col xs={showOderCreateBtn || showCreateButton ? 11 : 12}>
+              <FloatingLabel controlId="floatingInput" label="Search ...">
+                <Form.Control
+                  type="text"
+                  placeholder="Search ..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="rounded-4"
+                />
+              </FloatingLabel>
+            </Col>
+            <Col xs={1} className=" justify-content-center d-flex">
+              {showOderCreateBtn && (
+                <>
+                  <Button
+                    variant="primary"
+                    className={`admin_bg_btn align-self-center`}
+                    onClick={handleShowAddCustomer}
+                  >
+                    Add Item
+                  </Button>
+                  <NewProduct
+                    show={showAddCustomer}
+                    onHide={handleCloseAddCustomer}
+                    backdrop="static"
+                    keyboard={false}
+                  />
+                </>
+              )}
 
-          {showCreateButton && ( // Conditional rendering of the "Create" button
-            <Button
-              className={`${styles.btn} mt-3 align-self-end`}
-              onClick={onCreateClick}
-            >
-              Create Admin
-            </Button>
-          )}
+              {showCreateButton && ( // Conditional rendering of the "Create" button
+                <Button
+                  className={`admin_bg_btn align-self-center`}
+                  onClick={onCreateClick}
+                >
+                  Create Admin
+                </Button>
+              )}
+            </Col>
+          </Row>
 
           <Table
-            striped
             hover
             size="sm"
             responsive
             style={{
-              borderRadius: "20px",
+              borderRadius: "15px",
               overflow: "hidden",
             }}
           >
@@ -185,19 +215,11 @@ const CustomTable = (props) => {
                 )}
                 {Array.from({ length: 1 }).map((_, index) =>
                   headers[0]?.map((header, j) => (
-                    <th
-                      key={j}
-                      className={
-                        customTableColor + " text-light text-center text-nowrap"
-                      }
-                    >
+                    <th key={j} className={customTableColor + "text-nowrap"}>
                       {header}
                       <Button
                         variant="link"
-                        className={
-                          customTableColor +
-                          "text-light text-center text-nowrap"
-                        }
+                        className={customTableColor + "text-center text-nowrap"}
                         onClick={() => handleSort(header)}
                       >
                         <SwapVertRounded />
@@ -237,7 +259,15 @@ const CustomTable = (props) => {
                               handleRecordSingleClick(e);
                           })
                         }
-                        className="text-decoration-none text-dark text-nowrap"
+                        className={
+                          customCols.length > 0
+                            ? customCols.map((col) =>
+                                key.includes(col)
+                                  ? "admin_bg_btn"
+                                  : "text-decoration-none text-dark text-nowrap"
+                              )
+                            : "text-decoration-none text-dark text-nowrap"
+                        }
                       >
                         {value
                           ? datetimeFields?.includes(key)
