@@ -20,7 +20,8 @@ const HomeCategoryContainer = ({ onCategoryClick }) => {
     eat: "/platter_cate.jpg",
     food: "/sanwich.jpg",
     drink: "/drink_cate.jpg",
-    coffee: "/drink_cate.jpg",
+    coffee:
+      "/stock-of-mix-a-cup-coffee-latte-more-motive-top-view-foodgraphy-generative-ai-photo.jpg",
   };
 
   return (
