@@ -133,6 +133,7 @@ const ProductDetails = ({
   };
 
   const handleChange = (field, value) => {
+    setShowSaveBtn(true);
     setModChanges((prevChanges) => ({
       ...prevChanges,
       [field]: value,
