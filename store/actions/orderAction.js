@@ -13,8 +13,7 @@ import {
 } from "../api/order.api";
 import axios from "axios";
 
-const BACKEND_PORT = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_PORT;
-const BASE_URL = `http://localhost:8080`;
+const BASE_URL = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_PORT;
 
 const createOrder = createAsyncThunk(
   "order/createOrder",
