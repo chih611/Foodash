@@ -12,6 +12,7 @@ import {
   fetchAdminItems,
   fetchItemById,
   fetchModifications,
+  fetchModificationsById,
 } from "../actions/itemAction";
 
 // Define base URL with dynamic backend port from the environment variable
@@ -261,6 +262,7 @@ const itemsSlice = createSlice({
     itemDetail: null,
     itemAdmin: null,
     modAdminDetail: null,
+    modDetailByModId: null,
     status: "idle",
     error: null,
   },
@@ -439,6 +441,17 @@ const itemsSlice = createSlice({
         state.status = "succeeded";
       })
       .addCase(updateItemModificationById.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error;
+      })
+      .addCase(fetchModificationsById.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchModificationsById.fulfilled, (state, action) => {
+        state.modDetailByModId = action.payload;
+        state.status = "succeeded";
+      })
+      .addCase(fetchModificationsById.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error;
       });

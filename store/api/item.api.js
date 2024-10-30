@@ -62,9 +62,6 @@ const createModificationAPI = async (productData) => {
 const fetchAdminItemByDetailIdAPI = async (item_id) => {
   const response = await axios.get(`${BASE_URL}/items_admin/detail/${item_id}`);
   let data = response.data;
-  if (!Array.isArray(data)) {
-    data = [data];
-  }
   return data;
 };
 
@@ -88,6 +85,14 @@ const fetchModificationsAPI = async (item_id) => {
   return data;
 };
 
+const fetchModificationsByIdAPI = async (mod_id) => {
+  const response = await axios.get(
+    `${BASE_URL}/items_admin_update/modification/${mod_id}`
+  );
+  let data = response.data;
+  return data;
+};
+
 export {
   fetchItemListAPI,
   createItemAPI,
@@ -95,4 +100,5 @@ export {
   fetchAdminItemsAPI,
   fetchModificationsAPI,
   createModificationAPI,
+  fetchModificationsByIdAPI,
 };

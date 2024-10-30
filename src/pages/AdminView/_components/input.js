@@ -7,8 +7,8 @@ const CustomInput = ({
   value,
   readOnlyFields,
   dateTimeFields,
+  numberFields,
   statusFetching,
-  setShowSaveBtn,
   handleChange,
 }) => {
   const handleInputChange = (e) => {
@@ -35,7 +35,7 @@ const CustomInput = ({
           </Form.Label>
           <Form.Control
             key={`input-${index}`}
-            type="text"
+            type={numberFields?.includes(title) ? "number" : "text"}
             aria-describedby="order"
             placeholder={
               value

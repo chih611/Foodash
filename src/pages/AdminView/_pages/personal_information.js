@@ -16,6 +16,7 @@ const PersonalDetail = ({
   customHeaderColor,
   handleChange, // New prop
   optionsData,
+  setShowSaveBtn,
 }) => (
   <>
     <Accordion defaultActiveKey={["0"]} alwaysOpen>
@@ -38,6 +39,7 @@ const PersonalDetail = ({
                         dateTimeFields={dateTimeFields}
                         statusFetching={statusFetching}
                         handleChange={handleChange} // Use unified handleChange
+                        // setShowSaveBtn={setShowSaveBtn}
                       />
                     </Col>
                   ) : null}
@@ -49,7 +51,7 @@ const PersonalDetail = ({
                         value={value}
                         index={index}
                         switchOptions={switchOptions}
-                        setSwitchOptions={setSwitchOptions}
+                        // setSwitchOptions={setSwitchOptions}
                         statusFetching={statusFetching}
                         handleChange={handleChange} // Use unified handleChange
                         optionsData={optionsData}

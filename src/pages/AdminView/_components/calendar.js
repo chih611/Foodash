@@ -5,6 +5,7 @@ import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import CustomModal from "./modal";
 import OrderDetails from "../_pages/order_details";
+import styles from "@/styles/styles";
 
 const CalendarTracking = (props) => {
   const {
@@ -100,8 +101,13 @@ const CalendarTracking = (props) => {
         open={showModal}
         selectedId={selectedEvent?.Id}
         headerTitle="Order"
+        customerModalColor="bg-pressed-color text-light"
       >
-        <OrderDetails {...props} />
+        <OrderDetails
+          {...props}
+          customAccordingColor="bg-pressed-color"
+          customTableColor={styles.admin_header_tables}
+        />
       </CustomModal>
     </>
   );

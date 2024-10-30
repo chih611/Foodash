@@ -4,12 +4,12 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   fetchAdminItemByDetailId,
   fetchModifications,
+  fetchModificationsById,
 } from "../../../../store/actions/itemAction";
-import {
-  createModification,
-  updateItemModificationById,
-} from "../../../../store/slices/itemsSlice";
+import { createModification } from "../../../../store/slices/itemsSlice";
 import CustomInput from "../_components/input";
+import axios from "axios";
+import moment from "moment";
 
 const ProductDetails = ({
   Id,
@@ -18,8 +18,9 @@ const ProductDetails = ({
   extraReadOnlyFields,
   customAccordingColor,
 }) => {
+  const BASE_URL = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_ADDRESS;
   const dateTimeFields = ["Expiry date"];
-  const readOnlyFields = ["ID"];
+  const readOnlyFields = ["ID", "LabelID", "ItemID", "ModID", "Label name"];
   extraReadOnlyFields && readOnlyFields.push(...extraReadOnlyFields);
 
   const optionsData = [
@@ -28,14 +29,14 @@ const ProductDetails = ({
   ];
 
   const dispatch = useDispatch();
-
-  // State to manage new modification form data and existing modification data
+  const [modChanges, setModChanges] = useState();
   const [newModification, setNewModification] = useState({
     modification: "",
     ingredients: "",
     labelId: "",
   });
   const [modificationData, setModificationData] = useState({});
+  const [showSaveBtn, setShowSaveBtn] = useState(false);
 
   useEffect(() => {
     dispatch(fetchAdminItemByDetailId(Id));
@@ -45,62 +46,43 @@ const ProductDetails = ({
   const dataItems = useSelector((state) => state.items.itemDetail) || [];
   const dataMods = useSelector((state) => state.items.modAdminDetail) || [];
   const status = useSelector((state) => state.items.status) || "idle";
+  const oldModData = useSelector((state) => state.items.modDetailByModId);
 
-  // Track changes for existing modifications
-  const handleModificationChange = (modId, field, event) => {
-    // Ensure event and event.target are valid
-    const value = event?.target?.value || ""; // Default to empty string if undefined
+  const compareEachValue = async (obj1, obj2) => {
+    const differentProperties = {};
 
-    // Update modification data
-    setModificationData((prevData) => ({
-      ...prevData,
-      [modId]: {
-        ...prevData[modId],
-        [field]: value,
-      },
-    }));
+    // Loop through obj1 and compare values with obj2
+    for (const key in obj1) {
+      if (obj1.hasOwnProperty(key)) {
+        if (!obj2.hasOwnProperty(key) || obj1[key] !== obj2[key]) {
+          differentProperties[key] = obj1[key];
+        }
+      }
+    }
 
-    // Debugging output
-    console.log("Updated modification data:", {
-      ...modificationData,
-      [modId]: {
-        ...modificationData[modId],
-        [field]: value,
-      },
-    });
+    // Check for properties in obj2 that are missing in obj1
+    for (const key in obj2) {
+      if (obj2.hasOwnProperty(key) && !obj1.hasOwnProperty(key)) {
+        differentProperties[key] = obj2[key];
+      }
+    }
+
+    return differentProperties;
   };
 
   // Save existing modification
   const saveModification = async (modId) => {
-    const modData = modificationData[modId] || {};
-    const modifiedData = {
-      itemId: Id,
-      ModId: modId,
-      modification: modData.modification || "",
-      ingredients: (modData.ingredients || "")
-        .split(",")
-        .map((ingredient) => ingredient.trim())
-        .filter((ingredient) => ingredient !== ""),
-      labelId: modData.labelId || null,
-    };
-
-    console.log("Data to be saved:", modifiedData); // Debugging output
-
+    const comparisonResults = await compareEachValue(modChanges, oldModData);
+    console.log(comparisonResults);
     try {
-      await dispatch(updateItemModificationById(modifiedData));
-      dispatch(fetchModifications(Id));
+      const response = await axios.put(
+        `${BASE_URL}/item/update/modification/${modId}`,
+        comparisonResults
+      );
+      console.log("Data updated successfully:", response.data);
     } catch (error) {
-      console.error("Error saving modification:", error);
+      console.error("Error updating data:", error);
     }
-  };
-
-  // Track new modification input changes
-  const handleNewModificationChange = (field, event) => {
-    const value = event.target.value;
-    setNewModification((prevData) => ({
-      ...prevData,
-      [field]: value,
-    }));
   };
 
   // Submit new modification
@@ -126,6 +108,43 @@ const ProductDetails = ({
     }
   };
 
+  const updateItemData = async (e) => {
+    const comparisonResults = await compareEachValue(modChanges, dataItems);
+    console.log(comparisonResults);
+    const convetObject = {
+      itemName: comparisonResults["Name"],
+      quantity: comparisonResults["Quantity"],
+      unitPrice: comparisonResults["Unit price"],
+      category: comparisonResults["Category"],
+      picture: comparisonResults["Picture"],
+      description: comparisonResults["Description"],
+      expDate: moment(comparisonResults["Expiry date"]).format("YYYY-MM-DD"),
+      specialStt: comparisonResults["Special status"],
+    };
+    try {
+      const response = await axios.put(
+        `${BASE_URL}/item/update/${Id}`,
+        convetObject
+      );
+      console.log("Data updated successfully:", response.data);
+    } catch (error) {
+      console.error("Error updating data:", error);
+    }
+  };
+
+  const handleChange = (field, value) => {
+    setShowSaveBtn(true);
+    setModChanges((prevChanges) => ({
+      ...prevChanges,
+      [field]: value,
+    }));
+  };
+
+  const handleEnter = (modId) => {
+    dispatch(fetchModificationsById(modId));
+  };
+
+  // console.log(modChanges);
   return (
     <Form onSubmit={onSubmit}>
       <Accordion defaultActiveKey="0" alwaysOpen>
@@ -135,21 +154,34 @@ const ProductDetails = ({
           </Accordion.Header>
           <Accordion.Body>
             <Form.Group as={Row} controlId="orderForm">
-              {dataItems.map((datum) =>
-                Object.entries(datum || {}).map(([key, value], index) => (
-                  <React.Fragment key={`${key}-${index}`}>
-                    <Col md={6}>
-                      <CustomInput
-                        title={key || "-"}
-                        value={value || "-"}
-                        index={index}
-                        readOnlyFields={readOnlyFields}
-                        dateTimeFields={dateTimeFields}
-                        statusFetching={status}
-                      />
-                    </Col>
-                  </React.Fragment>
-                ))
+              {Object.entries(dataItems || {}).map(([key, value], index) => (
+                <React.Fragment key={`${key}-${index}`}>
+                  <Col md={6}>
+                    <CustomInput
+                      title={key || "-"}
+                      value={value || "-"}
+                      index={index}
+                      readOnlyFields={readOnlyFields}
+                      dateTimeFields={dateTimeFields}
+                      statusFetching={status}
+                      setShowSaveBtn={setShowSaveBtn}
+                      handleChange={handleChange}
+                    />
+                  </Col>
+                </React.Fragment>
+              ))}
+              {showSaveBtn && (
+                <Col className="mb-3 d-flex flex-column">
+                  <Button
+                    type="submit"
+                    className={`mt-3 align-self-end admin_bg_btn`}
+                    onClick={(e) => {
+                      updateItemData(e);
+                    }}
+                  >
+                    Save Item
+                  </Button>
+                </Col>
               )}
             </Form.Group>
           </Accordion.Body>
@@ -162,10 +194,10 @@ const ProductDetails = ({
             <Accordion.Header className={customAccordingColor}>
               Modification {datum.ModID}
             </Accordion.Header>
-            <Accordion.Body>
+            <Accordion.Body onEnter={() => handleEnter(datum.ModID)}>
               <Form.Group as={Row} controlId={`modification-${datum.ModID}`}>
                 {Object.entries(datum || {}).map(([key, value]) => (
-                  <Col md={6} key={key}>
+                  <Col md={6} key={key} className="mt-4">
                     <CustomInput
                       title={key || "-"}
                       value={
@@ -174,20 +206,21 @@ const ProductDetails = ({
                       readOnlyFields={readOnlyFields}
                       dateTimeFields={dateTimeFields}
                       statusFetching={status}
-                      handleChange={(e) =>
-                        handleModificationChange(datum.ModID, key, e)
-                      }
+                      handleChange={handleChange}
+                      setShowSaveBtn={setShowSaveBtn}
                     />
                   </Col>
                 ))}
               </Form.Group>
-              <Button
-                variant="primary"
-                className="mt-2"
-                onClick={() => saveModification(datum.ModID)}
-              >
-                Save Changes
-              </Button>
+              {showSaveBtn && (
+                <Button
+                  variant="primary"
+                  className="mt-2"
+                  onClick={() => saveModification(datum.ModID)}
+                >
+                  Save Changes
+                </Button>
+              )}
             </Accordion.Body>
           </Accordion.Item>
         ))}
