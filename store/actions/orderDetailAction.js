@@ -3,7 +3,8 @@ import { fetchOrderDetailListAPI } from "../api/orderDetail.api";
 import axios from "axios";
 import { fetchOrderByCustomerIdAPI } from "../api/order.api";
 
-const BASE_URL = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_PORT;
+const BACKEND_PORT = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_PORT;
+const BASE_URL = `https://ec2.foodash.org`;
 
 const createOrderDetail = createAsyncThunk(
   "orderDetail/createOrderDetail",

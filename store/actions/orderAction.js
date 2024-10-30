@@ -13,7 +13,8 @@ import {
 } from "../api/order.api";
 import axios from "axios";
 
-const BASE_URL = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_PORT;
+const BACKEND_PORT = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_PORT;
+const BASE_URL = `https://ec2.foodash.org`;
 
 const createOrder = createAsyncThunk(
   "order/createOrder",

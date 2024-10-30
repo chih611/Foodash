@@ -3,8 +3,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const BASE_URL = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_PORT;
-
+// const BASE_URL = `https://${process.env.NEXT_PUBLIC_REACT_APP_BACKEND_ADDRESS}`;
+const BASE_URL = `https://ec2.foodash.org`;
 // const BASE_URL = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_ADDRESS;
 // Async action to fetch admin data
 
