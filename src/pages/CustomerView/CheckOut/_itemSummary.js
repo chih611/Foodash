@@ -99,7 +99,6 @@ const OrderSummary = () => {
             </Col>
 
             <Col xs={12} style={{ paddingLeft: "1.5rem" }}>
-              {/* Display extras (without bullet points) */}
               <p className="subtitle me-5 mt-3  mb-1">Variety:</p>
               <ul style={{ listStyleType: "none", paddingLeft: "1rem" }}>
                 {Object.entries(item.extras)
@@ -113,7 +112,6 @@ const OrderSummary = () => {
             </Col>
 
             <Col xs={12} style={{ paddingLeft: "1.5rem" }}>
-              {/* Display labels with indentation */}
               <p className="subtitle me-5 mt-3  mb-1">Labels:</p>
               <p
                 className="subtitle "
@@ -124,7 +122,6 @@ const OrderSummary = () => {
             </Col>
 
             <Col xs={12} style={{ paddingLeft: "1.5rem" }}>
-              {/* Display notes with indentation */}
               <p className="subtitle me-5 mt-3  mb-1">Notes:</p>
               <p
                 className="subtitle "
