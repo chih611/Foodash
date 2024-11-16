@@ -13,8 +13,6 @@ import moment from "moment";
 
 const ProductDetails = ({
   Id,
-  setOpen,
-  customTableColor,
   extraReadOnlyFields,
   customAccordingColor,
 }) => {
@@ -32,16 +30,17 @@ const ProductDetails = ({
   const [modChanges, setModChanges] = useState();
   const [newModification, setNewModification] = useState({
     modification: "",
-    ingredients: "",
+    ingredients: [],
     labelId: "",
   });
   const [modificationData, setModificationData] = useState({});
   const [showSaveBtn, setShowSaveBtn] = useState(false);
   const [selectedOption, setSelectedOption] = useState('');
+  const [ingredientArr, setIngredientArr] = useState([]);
   useEffect(() => {
     dispatch(fetchAdminItemByDetailId(Id));
     dispatch(fetchModifications(Id));
-  }, [Id, dispatch]);
+  }, [Id]);
 
   const dataItems = useSelector((state) => state.items.itemDetail) || [];
   const dataMods = useSelector((state) => state.items.modAdminDetail) || [];
@@ -146,26 +145,35 @@ const ProductDetails = ({
 
   // create new modiification functions
   const handleNewModificationChange = (e) => {
-    let values = [];
+
     const { type } = e;
     const { value, name } = e.target;
     type === 'change' && setSelectedOption(value);
     if (name === 'ingredients') {
-      values = value.split(",").map(i => i.trim()).filter((ingredient) => ingredient !== "");
+      setIngredientArr(...ingredientArr);
     }
 
     setNewModification({
       ...newModification,
       [name]: value,
-      ingredients: values,
-      itemId: Id,
     });
   };
-  const onModificationSubmit = (e) => {
+  const onModificationSubmit = async (e) => {
     e.preventDefault();
-    dispatch(createModification(newModification));
+    const payload = {
+      ...newModification,
+      ingredients: newModification.ingredients.split(",").map((ingredient) => ingredient.trim())
+        .filter((ingredient) => ingredient !== ""),
+      itemId: Id,
+    }
+    try {
+      await dispatch(createModification(payload));
+    } catch (e) { console.log(e) }
+    // setReloadPage(true);
+    // await dispatch(fetchModifications(Id));
     console.log('Form Data:', newModification);
   }
+
   return (
     <>
       <Form onSubmit={onSubmit}>
