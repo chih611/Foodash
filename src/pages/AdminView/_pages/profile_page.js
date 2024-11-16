@@ -83,7 +83,6 @@ const CustomerProfile = (props) => {
           TOTAL: total,
           ...record,
         };
-        console.log(newrec);
         return newrec;
       })) ||
     records;
