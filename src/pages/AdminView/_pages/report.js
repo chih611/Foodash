@@ -71,7 +71,7 @@ const Report = (props) => {
     setSelectedId(ID);
     setShow(true);
   };
-  const handleReportclick = (e) => {};
+  const handleReportclick = (e) => { };
 
   const payments = [
     { id: "1", name: "Total Collected", amount: "$5,080.40" },
@@ -263,25 +263,32 @@ const Report = (props) => {
                     <Dropdown.Item href="#/action-3">This Year</Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
-                <Card.Text className="my-3">
-                  {salesMedthod?.map((item, index) =>
-                    Object.entries(item).map(([key, value], j) => (
-                      <div
-                        className="m-3 d-flex justify-content-between"
-                        key={index}
-                      >
-                        <p className="subtitle">{key}</p>
-                        <p className="subtitle ">{value}</p>
-                      </div>
-                    ))
-                  )}
-                </Card.Text>
+                {salesMedthod?.map((item, index) =>
+                  Object.entries(item).map(([key, value], j) => (
+                    <>
+                      <Row key={j}>
+                        <Col>
+                          <Card.Text className="my-3">
+                            {key}
+                          </Card.Text >
+                        </Col>
+                        <Col className="d-flex justify-content-end">
+                          <Card.Text className="my-3">
+                            {value}
+                          </Card.Text>
+                        </Col>
+
+                      </Row>
+                    </>
+                  ))
+                )}
+
               </Card.Body>
             </Card>
-          </Col>
+          </Col >
 
           {/* Tracking calendar */}
-          <Col lg={7}>
+          < Col lg={7} >
             <Card className="rounded-4">
               <Card.Body>
                 <Card.Title
@@ -301,9 +308,9 @@ const Report = (props) => {
                 ></CalendarTracking>
               </Card.Body>
             </Card>
-          </Col>
-        </Row>
-      </Tab.Pane>
+          </Col >
+        </Row >
+      </Tab.Pane >
     </>
   );
 };

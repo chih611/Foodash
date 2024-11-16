@@ -43,7 +43,7 @@ const createModificationAPI = async (productData) => {
       null,
       {
         params: {
-          itemId: parseInt(productData.itemId),
+          itemId: productData.itemId,
           modification: productData.modification || "",
           ingredients: productData.ingredients || {},
           labelId: parseInt(productData.labelId) || null,
