@@ -50,8 +50,6 @@ const createModificationAPI = async (productData) => {
         },
       }
     );
-
-    console.log("Response:", response);
     return response.data;
   } catch (error) {
     console.error("API Error:", error.response?.data || error.message);
