@@ -36,7 +36,6 @@ const ProductDetails = ({
   const [modificationData, setModificationData] = useState({});
   const [showSaveBtn, setShowSaveBtn] = useState(false);
   const [selectedOption, setSelectedOption] = useState('');
-  const [ingredientArr, setIngredientArr] = useState([]);
   useEffect(() => {
     dispatch(fetchAdminItemByDetailId(Id));
     dispatch(fetchModifications(Id));
@@ -149,16 +148,13 @@ const ProductDetails = ({
     const { type } = e;
     const { value, name } = e.target;
     type === 'change' && setSelectedOption(value);
-    if (name === 'ingredients') {
-      setIngredientArr(...ingredientArr);
-    }
 
     setNewModification({
       ...newModification,
       [name]: value,
     });
   };
-  const onModificationSubmit = async (e) => {
+  const onModificationSubmit = (e) => {
     e.preventDefault();
     const payload = {
       ...newModification,
@@ -166,12 +162,16 @@ const ProductDetails = ({
         .filter((ingredient) => ingredient !== ""),
       itemId: Id,
     }
-    try {
-      await dispatch(createModification(payload));
-    } catch (e) { console.log(e) }
-    // setReloadPage(true);
-    // await dispatch(fetchModifications(Id));
-    console.log('Form Data:', newModification);
+
+    dispatch(createModification(payload))
+      .then((response) => {
+        if (response?.payload === "Created successfully!") {
+          return dispatch(fetchModifications(Id));
+        }
+      })
+      .catch((error) => {
+        console.error("Error during modification submission:", error);
+      });
   }
 
   return (
