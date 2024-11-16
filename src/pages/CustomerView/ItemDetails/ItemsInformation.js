@@ -51,17 +51,25 @@ const ItemsInformation = () => {
   }
 
   // Ensure that we're correctly parsing the modifications and ingredients
-  const parsedModifications = selectedItemModifications.map((mod) => ({
+  const parsedModifications = selectedItemModifications?.map((mod) => ({
     modification: mod.MODIFICATION,
-    ingredients: mod.INGREDIENTS,
+    ingredients: mod.INGREDIENTS || [], // Default to an empty array if ingredients are null
   }));
 
+  console.log("parsedModifications", parsedModifications);
+
   // Render only the ingredients for the current modification in the loop
-  const renderModifications = parsedModifications.map((mod, index) => (
-    <div key={index}>
-      <strong>{mod.modification}</strong>: {mod.ingredients.join(", ")}
-    </div>
-  ));
+  const renderModifications = parsedModifications?.map(
+    (mod, index) => (
+      console.log("mod", mod),
+      (
+        <div key={index}>
+          <strong>{mod.modification}</strong>:{" "}
+          {mod.ingredients?.join(", ") || "No ingredients available"}
+        </div>
+      )
+    )
+  );
 
   const parsedLabels =
     typeof selectedItem.LABELS === "string"

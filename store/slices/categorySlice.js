@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const BASE_URL = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_ADDRESS;
+const BASE_URL = `https://ec2.foodash.org`;
 
 export const fetchItemsByCategory = createAsyncThunk(
   "category/fetchItemsByCategory",
