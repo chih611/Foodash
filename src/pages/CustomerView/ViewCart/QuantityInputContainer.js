@@ -6,11 +6,11 @@ import styles from "../../../styles/_QuantityInputStyles"; // Import styles
 const QuantityInputField = ({ quantity, onIncrease, onDecrease }) => {
   return (
     <styles.QuantityInputContainer>
-      <styles.QuantityButton onClick={onDecrease}>
+      <styles.QuantityButton type="button" onClick={onDecrease}>
         <RemoveIcon />
       </styles.QuantityButton>
       <styles.QuantityInputField type="text" value={quantity} readOnly />
-      <styles.QuantityButton onClick={onIncrease}>
+      <styles.QuantityButton type="button" onClick={onIncrease}>
         <AddIcon />
       </styles.QuantityButton>
     </styles.QuantityInputContainer>
