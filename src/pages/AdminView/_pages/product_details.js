@@ -37,7 +37,7 @@ const ProductDetails = ({
   });
   const [modificationData, setModificationData] = useState({});
   const [showSaveBtn, setShowSaveBtn] = useState(false);
-
+  const [selectedOption, setSelectedOption] = useState('');
   useEffect(() => {
     dispatch(fetchAdminItemByDetailId(Id));
     dispatch(fetchModifications(Id));
@@ -144,144 +144,171 @@ const ProductDetails = ({
     dispatch(fetchModificationsById(modId));
   };
 
-  // console.log(modChanges);
-  return (
-    <Form onSubmit={onSubmit}>
-      <Accordion defaultActiveKey="0" alwaysOpen>
-        <Accordion.Item eventKey="0">
-          <Accordion.Header className={customAccordingColor}>
-            Product Detail
-          </Accordion.Header>
-          <Accordion.Body>
-            <Form.Group as={Row} controlId="orderForm">
-              {Object.entries(dataItems || {}).map(([key, value], index) => (
-                <React.Fragment key={`${key}-${index}`}>
-                  <Col md={6}>
-                    <CustomInput
-                      title={key || "-"}
-                      value={value || "-"}
-                      index={index}
-                      readOnlyFields={readOnlyFields}
-                      dateTimeFields={dateTimeFields}
-                      statusFetching={status}
-                      setShowSaveBtn={setShowSaveBtn}
-                      handleChange={handleChange}
-                    />
-                  </Col>
-                </React.Fragment>
-              ))}
-              {showSaveBtn && (
-                <Col className="mb-3 d-flex flex-column">
-                  <Button
-                    type="submit"
-                    className={`mt-3 align-self-end admin_bg_btn`}
-                    onClick={(e) => {
-                      updateItemData(e);
-                    }}
-                  >
-                    Save Item
-                  </Button>
-                </Col>
-              )}
-            </Form.Group>
-          </Accordion.Body>
-        </Accordion.Item>
-      </Accordion>
+  // create new modiification functions
+  const handleNewModificationChange = (e) => {
+    let values = [];
+    const { type } = e;
+    const { value, name } = e.target;
+    type === 'change' && setSelectedOption(value);
+    if (name === 'ingredients') {
+      values = value.split(",").map(i => i.trim()).filter((ingredient) => ingredient !== "");
+    }
 
-      <Accordion defaultActiveKey="1" alwaysOpen>
-        {dataMods.map((datum) => (
-          <Accordion.Item eventKey={`mod-${datum.ModID}`} key={datum.ModID}>
+    setNewModification({
+      ...newModification,
+      [name]: value,
+      ingredients: values,
+      itemId: Id,
+    });
+  };
+  const onModificationSubmit = (e) => {
+    e.preventDefault();
+    dispatch(createModification(newModification));
+    console.log('Form Data:', newModification);
+  }
+  return (
+    <>
+      <Form onSubmit={onSubmit}>
+        <Accordion defaultActiveKey="0" alwaysOpen>
+          <Accordion.Item eventKey="0">
             <Accordion.Header className={customAccordingColor}>
-              Modification {datum.ModID}
+              Product Detail
             </Accordion.Header>
-            <Accordion.Body onEnter={() => handleEnter(datum.ModID)}>
-              <Form.Group as={Row} controlId={`modification-${datum.ModID}`}>
-                {Object.entries(datum || {}).map(([key, value]) => (
-                  <Col md={6} key={key} className="mt-4">
-                    <CustomInput
-                      title={key || "-"}
-                      value={
-                        modificationData[datum.ModID]?.[key] || value || ""
-                      }
-                      readOnlyFields={readOnlyFields}
-                      dateTimeFields={dateTimeFields}
-                      statusFetching={status}
-                      handleChange={handleChange}
-                      setShowSaveBtn={setShowSaveBtn}
-                    />
-                  </Col>
+            <Accordion.Body>
+              <Form.Group as={Row} controlId="orderForm">
+                {Object.entries(dataItems || {}).map(([key, value], index) => (
+                  <React.Fragment key={`${key}-${index}`}>
+                    <Col md={6}>
+                      <CustomInput
+                        title={key || "-"}
+                        value={value || "-"}
+                        index={index}
+                        readOnlyFields={readOnlyFields}
+                        dateTimeFields={dateTimeFields}
+                        statusFetching={status}
+                        setShowSaveBtn={setShowSaveBtn}
+                        handleChange={handleChange}
+                      />
+                    </Col>
+                  </React.Fragment>
                 ))}
+                {showSaveBtn && (
+                  <Col className="mb-3 d-flex flex-column">
+                    <Button
+                      type="submit"
+                      className={`mt-3 align-self-end admin_bg_btn`}
+                      onClick={(e) => {
+                        updateItemData(e);
+                      }}
+                    >
+                      Save Item
+                    </Button>
+                  </Col>
+                )}
               </Form.Group>
-              {showSaveBtn && (
-                <Button
-                  variant="primary"
-                  className="mt-2"
-                  onClick={() => saveModification(datum.ModID)}
-                >
-                  Save Changes
-                </Button>
-              )}
             </Accordion.Body>
           </Accordion.Item>
-        ))}
-      </Accordion>
+        </Accordion>
 
-      <Accordion defaultActiveKey="2" alwaysOpen>
-        <Accordion.Item eventKey="2">
-          <Accordion.Header className={customAccordingColor}>
-            Add New Modification
-          </Accordion.Header>
-          <Accordion.Body>
-            <Form.Group as={Row} controlId="newModificationForm">
-              <Col md={6}>
-                <Form.Label>Modification</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Enter modification"
-                  value={newModification.modification}
-                  onChange={(e) =>
-                    handleNewModificationChange("modification", e)
-                  }
-                />
-              </Col>
-              <Col md={6}>
-                <Form.Label>Ingredients (comma-separated)</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Enter ingredients"
-                  value={newModification.ingredients}
-                  onChange={(e) =>
-                    handleNewModificationChange("ingredients", e)
-                  }
-                />
-              </Col>
-              <Col md={6}>
-                <Form.Label>Label ID</Form.Label>
-                <Form.Select
-                  value={newModification.labelId}
-                  onChange={(e) => handleNewModificationChange("labelId", e)}
-                >
-                  <option value="">Select Label</option>
-                  {optionsData.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
+        <Accordion defaultActiveKey="1" alwaysOpen>
+          {dataMods.map((datum) => (
+            <Accordion.Item eventKey={`mod-${datum.ModID}`} key={datum.ModID}>
+              <Accordion.Header className={customAccordingColor}>
+                Modification {datum.ModID}
+              </Accordion.Header>
+              <Accordion.Body onEnter={() => handleEnter(datum.ModID)}>
+                <Form.Group as={Row} controlId={`modification-${datum.ModID}`}>
+                  {Object.entries(datum || {}).map(([key, value]) => (
+                    <Col md={6} key={key} className="mt-4">
+                      <CustomInput
+                        title={key || "-"}
+                        value={
+                          modificationData[datum.ModID]?.[key] || value || ""
+                        }
+                        readOnlyFields={readOnlyFields}
+                        dateTimeFields={dateTimeFields}
+                        statusFetching={status}
+                        handleChange={handleChange}
+                        setShowSaveBtn={setShowSaveBtn}
+                      />
+                    </Col>
                   ))}
-                </Form.Select>
-              </Col>
-            </Form.Group>
-          </Accordion.Body>
-        </Accordion.Item>
-      </Accordion>
+                </Form.Group>
+                {showSaveBtn && (
+                  <Button
+                    variant="primary"
+                    className="mt-2"
+                    onClick={() => saveModification(datum.ModID)}
+                  >
+                    Save Changes
+                  </Button>
+                )}
+              </Accordion.Body>
+            </Accordion.Item>
+          ))}
+        </Accordion>
 
-      <Form.Group as={Row} controlId="formPlaintextEmail">
-        <Col className="mb-3 d-flex flex-column">
-          <Button type="submit" className={`mt-3 align-self-end admin_bg_btn`}>
-            Save Modification
-          </Button>
-        </Col>
-      </Form.Group>
-    </Form>
+        <Form.Group as={Row} controlId="formPlaintextEmail">
+          <Col className="mb-3 d-flex flex-column">
+            <Button type="submit" className={`mt-3 align-self-end admin_bg_btn`}>
+              Save Modification
+            </Button>
+          </Col>
+        </Form.Group>
+      </Form>
+      <Form onSubmit={onModificationSubmit}>
+        <Accordion defaultActiveKey="2" alwaysOpen>
+          <Accordion.Item eventKey="2">
+            <Accordion.Header className={customAccordingColor}>
+              Add New Modification
+            </Accordion.Header>
+            <Accordion.Body>
+              <Form.Group as={Row} controlId="createModificationForm">
+                <Col md={6}>
+                  <Form.Label>Modification</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter modification"
+                    value={newModification.modification}
+                    name="modification"
+                    onChange={handleNewModificationChange}
+                  />
+                </Col>
+                <Col md={6}>
+                  <Form.Label>Ingredients (comma-separated)</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter ingredients"
+                    value={newModification.ingredients}
+                    name="ingredients"
+                    onChange={handleNewModificationChange}
+                  />
+                </Col>
+                <Col md={6}>
+                  <Form.Label>Label ID</Form.Label>
+                  <Form.Select
+                    value={selectedOption}
+                    name="labelId"
+                    onChange={handleNewModificationChange}
+                  >
+                    <option>Select label</option>
+                    {optionsData.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </Form.Select>
+                </Col>
+              </Form.Group>
+              <Col className="mb-3 d-flex flex-column">
+                <Button type="submit" className={`mt-3 align-self-end admin_bg_btn`}>
+                  Create Modification
+                </Button>
+              </Col>
+            </Accordion.Body>
+          </Accordion.Item>
+        </Accordion>
+      </Form></>
   );
 };
 
