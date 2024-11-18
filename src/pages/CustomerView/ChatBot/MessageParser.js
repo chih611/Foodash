@@ -9,6 +9,18 @@ class MessageParser {
     if (lowerCaseMessage.includes("navigate")) {
       this.actionProvider.handleNavigate();
     } else if (
+      lowerCaseMessage.includes("sign up") ||
+      lowerCaseMessage.includes("register") ||
+      lowerCaseMessage.includes("create account")
+    ) {
+      this.actionProvider.handleSignUp();
+    } else if (
+      lowerCaseMessage.includes("login") ||
+      lowerCaseMessage.includes("log in") ||
+      lowerCaseMessage.includes("sign in")
+    ) {
+      this.actionProvider.handleLogin();
+    } else if (
       lowerCaseMessage.includes("order history") ||
       lowerCaseMessage.includes("history") ||
       (lowerCaseMessage.includes("track") &&
@@ -18,7 +30,11 @@ class MessageParser {
       this.actionProvider.handleOrderHistory();
     } else if (lowerCaseMessage.includes("order")) {
       this.actionProvider.handlePlaceOrder();
-    } else if (lowerCaseMessage.includes("help")) {
+    } else if (
+      lowerCaseMessage.includes("help") ||
+      lowerCaseMessage.includes("hello") ||
+      lowerCaseMessage.includes("hi")
+    ) {
       this.actionProvider.handleHelp();
     } else {
       this.actionProvider.handleDefault();

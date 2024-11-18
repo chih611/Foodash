@@ -77,6 +77,32 @@ class ActionProvider {
       messages: [...prevState.messages, message],
     }));
   };
+
+  handleSignUp = () => {
+    const messages = [
+      this.createChatBotMessage(
+        "That depends on the current page that you are on. If you are in the Landing Page, click the Sign In button then click on register."
+      ),
+      this.createChatBotMessage(
+        "If you are in the Home Page within the application, click on the Avatar symbol and click on the link prompting you to sign in. There you will see the register button."
+      ),
+    ];
+
+    this.setState((prevState) => ({
+      ...prevState,
+      messages: [...prevState.messages, ...messages],
+    }));
+  };
+
+  handleSignIn = () => {
+    const message = this.createChatBotMessage(
+      "To sign in, click on the **Sign In** button at the top right corner of the page. Fill in your email and password and click **Sign In** to access your account."
+    );
+    this.setState((prevState) => ({
+      ...prevState,
+      messages: [...prevState.messages, message],
+    }));
+  };
 }
 
 export default ActionProvider;
