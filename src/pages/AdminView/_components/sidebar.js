@@ -61,9 +61,6 @@ const SideBar = ({ handleSelect }) => {
                 </Button>
               </Nav>
             </Col>
-            {/* <Col className={styles.logout_btn}>
-              <Button>LOG OUT</Button>
-            </Col> */}
           </Row>
         </Col>
         <Col lg={10}>

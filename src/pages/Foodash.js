@@ -49,9 +49,6 @@ const Foodash = () => {
             <Link href="/AdminView/CRM/CRM"></Link>
           </li>
           <li>
-            <Link href="/AdminView/Inventory/Inventory"></Link>
-          </li>
-          <li>
             <Link href="/AdminView/OrderManagement/OrderManagement"></Link>
           </li>
           <li>
