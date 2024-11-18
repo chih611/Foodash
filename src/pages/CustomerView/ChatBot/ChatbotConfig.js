@@ -46,15 +46,6 @@ const config = {
         <LinkMessage linkText="Go to sign in" linkUrl="/CustomerView/SignIn/" />
       ),
     },
-    {
-      widgetName: "homePageLink",
-      widgetFunc: () => (
-        <LinkMessage
-          linkText="Go to home page"
-          linkUrl="/CustomerView/HomePage"
-        />
-      ),
-    },
   ],
 };
 

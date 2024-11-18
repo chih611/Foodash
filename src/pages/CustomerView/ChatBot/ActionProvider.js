@@ -4,44 +4,50 @@ class ActionProvider {
     this.setState = setStateFunc;
   }
 
+  // Function to save messages to local storage
+  saveMessagesToLocalStorage = (messages) => {
+    localStorage.setItem("chatMessages", JSON.stringify(messages));
+  };
+
+  // Function to update chatbot state and save messages to local storage
+  updateState = (newMessages) => {
+    this.setState((prevState) => {
+      const updatedMessages = [...prevState.messages, ...newMessages];
+      this.saveMessagesToLocalStorage(updatedMessages);
+      return {
+        ...prevState,
+        messages: updatedMessages,
+      };
+    });
+  };
+
   handleHelp = () => {
     const message = this.createChatBotMessage(
       "Sure! I can help you with navigation, understanding features, and more. What do you need assistance with?"
     );
-    this.setState((prevState) => ({
-      ...prevState,
-      messages: [...prevState.messages, message],
-    }));
+    this.updateState([message]);
   };
 
   handleNavigate = () => {
     const message = this.createChatBotMessage(
       "To navigate, you can click on the menu at the top to explore different sections of the application."
     );
-    this.setState((prevState) => ({
-      ...prevState,
-      messages: [...prevState.messages, message],
-    }));
+    this.updateState([message]);
   };
 
   handleDefault = () => {
     const message = this.createChatBotMessage(
       "I'm sorry, I didn't quite understand. Could you please rephrase?"
     );
-    this.setState((prevState) => ({
-      ...prevState,
-      messages: [...prevState.messages, message],
-    }));
+    this.updateState([message]);
   };
 
   handlePlaceOrder = () => {
     const messages = [
       this.createChatBotMessage("To place an order, follow these steps:"),
       this.createChatBotMessage(
-        "1. Click on this link to get to the home page where you can view the menu : ",
-        {
-          widget: "homePageLink",
-        }
+        "1. Click on this link to get to the home page where you can view the menu:",
+        { widget: "homePageLink" }
       ),
       this.createChatBotMessage(
         "2. Click on the **Category** to view items for each category."
@@ -68,59 +74,40 @@ class ActionProvider {
       ),
     ];
 
-    this.setState((prevState) => ({
-      ...prevState,
-      messages: [...prevState.messages, ...messages],
-    }));
+    this.updateState(messages);
   };
 
   handleOrderHistory = () => {
     const message = this.createChatBotMessage(
       "To view your order history or track an order, click on the **Order Tracking** tab. If you are not logged in, you will be prompted to log in to view your order history."
     );
-    this.setState((prevState) => ({
-      ...prevState,
-      messages: [...prevState.messages, message],
-    }));
+    this.updateState([message]);
   };
 
   handleSignUp = () => {
     const message = this.createChatBotMessage(
-      "To sign up or  register a new account, simply follow this link : ",
-      {
-        widget: "registerLink",
-      }
+      "To sign up or register a new account, simply follow this link:",
+      { widget: "registerLink" }
     );
-    this.setState((prevState) => ({
-      ...prevState,
-      messages: [...prevState.messages, message],
-    }));
+    this.updateState([message]);
   };
 
   handleSignIn = () => {
     const message = this.createChatBotMessage(
-      "To sign in, simply follow this link : ",
+      "To sign in, simply follow this link:",
       {
         widget: "signInLink",
       }
     );
-    this.setState((prevState) => ({
-      ...prevState,
-      messages: [...prevState.messages, message],
-    }));
+    this.updateState([message]);
   };
 
   handleContact = () => {
     const message = this.createChatBotMessage(
       "You can visit the home page by clicking the link below:",
-      {
-        widget: "contactUsLink",
-      }
+      { widget: "contactUsLink" }
     );
-    this.setState((prevState) => ({
-      ...prevState,
-      messages: [...prevState.messages, message],
-    }));
+    this.updateState([message]);
   };
 }
 
