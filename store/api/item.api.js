@@ -23,6 +23,7 @@ const createItemAPI = async (productData) => {
         category_id: parseInt(productData.category_id) || null,
         description: productData.description || "",
         special: parseInt(productData.special) || 0,
+        picture: productData.picture || "",
       },
     });
 
