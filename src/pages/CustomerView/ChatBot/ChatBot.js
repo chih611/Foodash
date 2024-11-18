@@ -4,7 +4,7 @@ import "react-chatbot-kit/build/main.css";
 import config from "./ChatbotConfig";
 import MessageParser from "./MessageParser";
 import ActionProvider from "./ActionProvider";
-import "./Chatbot.css";
+import ChatBubbleOutlineRoundedIcon from "@mui/icons-material/ChatBubbleOutlineRounded"; // Import the icon
 
 const ChatBot = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -33,10 +33,8 @@ const ChatBot = () => {
             boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
           }}
         >
-          <img
-            src="/chat-icon.svg"
-            alt="Chat"
-            style={{ width: "30px", height: "30px" }}
+          <ChatBubbleOutlineRoundedIcon
+            style={{ color: "white", fontSize: "30px" }}
           />
         </div>
       )}
