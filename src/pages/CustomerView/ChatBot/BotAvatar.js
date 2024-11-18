@@ -4,7 +4,7 @@ const BotAvatar = () => {
   return (
     <div
       style={{
-        backgroundColor: "#5A9",
+        backgroundColor: "#f38b3c",
         borderRadius: "50%",
         width: "40px",
         height: "40px",

@@ -4,7 +4,9 @@ import "react-chatbot-kit/build/main.css";
 import config from "./ChatbotConfig";
 import MessageParser from "./MessageParser";
 import ActionProvider from "./ActionProvider";
-import ChatBubbleOutlineRoundedIcon from "@mui/icons-material/ChatBubbleOutlineRounded"; // Import the icon
+import ChatBubbleOutlineRoundedIcon from "@mui/icons-material/ChatBubbleOutlineRounded";
+import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
+import { Clear } from "@mui/icons-material";
 
 const ChatBot = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -22,7 +24,7 @@ const ChatBot = () => {
           className="chatbot-toggle-bubble"
           onClick={handleToggle}
           style={{
-            backgroundColor: "#5A9",
+            backgroundColor: "#f38b3c",
             width: "60px",
             height: "60px",
             borderRadius: "50%",
@@ -44,7 +46,7 @@ const ChatBot = () => {
           <div
             className="chatbot-header"
             style={{
-              backgroundColor: "#5A9",
+              backgroundColor: "#f38b3c",
               color: "white",
               padding: "10px",
               borderTopLeftRadius: "10px",
@@ -54,7 +56,7 @@ const ChatBot = () => {
               alignItems: "center",
             }}
           >
-            <span>FoodDashBot</span>
+            <span>Help Bot</span>
             <button
               onClick={handleToggle}
               style={{
@@ -65,7 +67,7 @@ const ChatBot = () => {
                 fontSize: "16px",
               }}
             >
-              ✖
+              <ClearRoundedIcon />
             </button>
           </div>
           <Chatbot

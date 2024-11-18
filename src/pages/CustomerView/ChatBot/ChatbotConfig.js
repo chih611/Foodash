@@ -2,14 +2,14 @@ import { createChatBotMessage } from "react-chatbot-kit";
 import BotAvatar from "./BotAvatar";
 
 const config = {
-  botName: "FoodDashBot",
+  botName: "HelpBot",
   initialMessages: [createChatBotMessage("Hi! How can I assist you today?")],
   customStyles: {
     botMessageBox: {
-      backgroundColor: "#5A9",
+      backgroundColor: "#f38b3c",
     },
     chatButton: {
-      backgroundColor: "#5A9",
+      backgroundColor: "#f38b3c",
     },
   },
   customComponents: {
