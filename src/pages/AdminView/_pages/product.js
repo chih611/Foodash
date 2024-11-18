@@ -17,6 +17,7 @@ const Product = (props) => {
   let headers = [];
   let records = [];
   const customFields = ["Duedate", "Create Date"];
+  const imgFields = ["Picture"];
   // pop up modal to show the add_new_customer function
   const [showAddCustomer, setShowAddCustomer] = useState(false);
 
@@ -75,6 +76,7 @@ const Product = (props) => {
           handleCloseAddCustomer={handleCloseAddCustomer}
           showOderCreateBtn={true}
           handleShowAddCustomer={handleShowAddCustomer}
+          imgFields={imgFields}
         />
 
         <CustomModal

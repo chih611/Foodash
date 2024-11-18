@@ -10,6 +10,7 @@ const CustomInput = ({
   numberFields,
   statusFetching,
   handleChange,
+  hiddenFields = [""],
 }) => {
   const handleInputChange = (e) => {
     if (handleChange) {

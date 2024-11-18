@@ -3,9 +3,9 @@ import {
   Badge,
   Button,
   Col,
-  Container,
   FloatingLabel,
   Form,
+  Image,
   Pagination,
   Placeholder,
   Row,
@@ -13,7 +13,6 @@ import {
 } from "react-bootstrap";
 import { useMemo, useState } from "react";
 import { SwapVertRounded } from "@mui/icons-material";
-import styles from "../../../styles/styles";
 import NewProduct from "./inputProduct";
 const CustomTable = (props) => {
   const {
@@ -35,6 +34,7 @@ const CustomTable = (props) => {
     handleCloseAddCustomer,
     showOderCreateBtn,
     handleShowAddCustomer,
+    imgFields = [""]
   } = props;
 
   const [show, setShow] = useState(false);
@@ -238,19 +238,19 @@ const CustomTable = (props) => {
                         variant={
                           customCols.length > 0
                             ? customCols.map((col) =>
-                                key.includes(col) ? "primary" : "link"
-                              )
+                              key.includes(col) ? "primary" : "link"
+                            )
                             : "link"
                         }
                         onDoubleClick={() =>
                           customCols.length > 0
                             ? customCols.map((col) => {
-                                !key.includes(col) &&
-                                  handleRecordDoubleClick &&
-                                  handleRecordDoubleClick(e);
-                              })
+                              !key.includes(col) &&
+                                handleRecordDoubleClick &&
+                                handleRecordDoubleClick(e);
+                            })
                             : handleRecordDoubleClick &&
-                              handleRecordDoubleClick(e)
+                            handleRecordDoubleClick(e)
                         }
                         onClick={() =>
                           customCols.map((col) => {
@@ -262,10 +262,10 @@ const CustomTable = (props) => {
                         className={
                           customCols.length > 0
                             ? customCols.map((col) =>
-                                key.includes(col)
-                                  ? "admin_bg_btn"
-                                  : "text-decoration-none text-dark text-nowrap"
-                              )
+                              key.includes(col)
+                                ? "admin_bg_btn"
+                                : "text-decoration-none text-dark text-nowrap"
+                            )
                             : "text-decoration-none text-dark text-nowrap"
                         }
                       >
@@ -273,13 +273,15 @@ const CustomTable = (props) => {
                           ? datetimeFields?.includes(key)
                             ? moment(value).format("yyyy-MM-DD")
                             : objectFields && objectFields?.includes(key)
-                            ? Object.entries(value).map(([key, vl], k) => (
+                              ? Object.entries(value).map(([key, vl], k) => (
                                 <>
                                   <span>{vl && key + " : " + vl}</span>
                                   <br />
                                 </>
                               ))
-                            : value
+                              : imgFields?.includes(key) ?
+                                <Image src={value} thumbnail width={30} height={30} />
+                                : value
                           : "-"}
                       </Button>
                     </td>

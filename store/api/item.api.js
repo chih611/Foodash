@@ -47,6 +47,7 @@ const createModificationAPI = async (productData) => {
           itemId: productData.itemId,
           modification: productData.modification || "",
           ingredients: productData.ingredients || {},
+          picture: productData.picture || "",
           labelId: parseInt(productData.labelId) || null,
         },
       }
