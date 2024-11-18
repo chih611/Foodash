@@ -38,27 +38,33 @@ class ActionProvider {
     const messages = [
       this.createChatBotMessage("To place an order, follow these steps:"),
       this.createChatBotMessage(
-        "1. Click on the **Category** to view items for each category."
-      ),
-      this.createChatBotMessage("2. Select the items you want to order."),
-      this.createChatBotMessage("3. View the item's **information**."),
-      this.createChatBotMessage(
-        "4. Click **Add to Cart** to view applicable modifications."
+        "1. Click on this link to get to the home page where you can view the menu : ",
+        {
+          widget: "homePageLink",
+        }
       ),
       this.createChatBotMessage(
-        "5. Select the **modifications** you want to apply."
+        "2. Click on the **Category** to view items for each category."
+      ),
+      this.createChatBotMessage("3. Select the items you want to order."),
+      this.createChatBotMessage("4. View the item's **information**."),
+      this.createChatBotMessage(
+        "5. Click **Add to Cart** to view applicable modifications."
       ),
       this.createChatBotMessage(
-        "6. Click **Add to Cart** again to add the item to your cart."
+        "6. Select the **modifications** you want to apply."
       ),
       this.createChatBotMessage(
-        "7. Click on the **Cart Icon** to view your cart."
+        "7. Click **Add to Cart** again to add the item to your cart."
       ),
       this.createChatBotMessage(
-        "8. Click the **Checkout Button** to proceed with your order."
+        "8. Click on the **Cart Icon** to view your cart."
       ),
       this.createChatBotMessage(
-        "9. Fill in the required information and click **Place Order** to pay or **Create Quote** for a price estimate."
+        "9. Click the **Checkout Button** to proceed with your order."
+      ),
+      this.createChatBotMessage(
+        "10. Fill in the required information and click **Place Order** to pay or **Create Quote** for a price estimate."
       ),
     ];
 
@@ -79,24 +85,37 @@ class ActionProvider {
   };
 
   handleSignUp = () => {
-    const messages = [
-      this.createChatBotMessage(
-        "That depends on the current page that you are on. If you are in the Landing Page, click the Sign In button then click on register."
-      ),
-      this.createChatBotMessage(
-        "If you are in the Home Page within the application, click on the Avatar symbol and click on the link prompting you to sign in. There you will see the register button."
-      ),
-    ];
-
+    const message = this.createChatBotMessage(
+      "To sign up or  register a new account, simply follow this link : ",
+      {
+        widget: "registerLink",
+      }
+    );
     this.setState((prevState) => ({
       ...prevState,
-      messages: [...prevState.messages, ...messages],
+      messages: [...prevState.messages, message],
     }));
   };
 
   handleSignIn = () => {
     const message = this.createChatBotMessage(
-      "To sign in, click on the **Sign In** button at the top right corner of the page. Fill in your email and password and click **Sign In** to access your account."
+      "To sign in, simply follow this link : ",
+      {
+        widget: "signInLink",
+      }
+    );
+    this.setState((prevState) => ({
+      ...prevState,
+      messages: [...prevState.messages, message],
+    }));
+  };
+
+  handleContact = () => {
+    const message = this.createChatBotMessage(
+      "You can visit the home page by clicking the link below:",
+      {
+        widget: "contactUsLink",
+      }
     );
     this.setState((prevState) => ({
       ...prevState,

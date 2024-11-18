@@ -9,6 +9,11 @@ class MessageParser {
     if (lowerCaseMessage.includes("navigate")) {
       this.actionProvider.handleNavigate();
     } else if (
+      lowerCaseMessage.includes("contact") ||
+      lowerCaseMessage.includes("refund")
+    ) {
+      this.actionProvider.handleContact();
+    } else if (
       lowerCaseMessage.includes("sign up") ||
       lowerCaseMessage.includes("register") ||
       lowerCaseMessage.includes("create account")
@@ -19,7 +24,7 @@ class MessageParser {
       lowerCaseMessage.includes("log in") ||
       lowerCaseMessage.includes("sign in")
     ) {
-      this.actionProvider.handleLogin();
+      this.actionProvider.handleSignIn();
     } else if (
       lowerCaseMessage.includes("order history") ||
       lowerCaseMessage.includes("history") ||
