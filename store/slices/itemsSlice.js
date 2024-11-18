@@ -16,7 +16,7 @@ import {
 } from "../actions/itemAction";
 
 // Define base URL with dynamic backend port from the environment variable
-const BASE_URL = `https://ec2.foodash.org`;
+const BASE_URL = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_ADDRESS;
 
 // Fetch items thunk
 export const fetchItems = createAsyncThunk(
