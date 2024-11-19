@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Accordion, Button, Col, Form, Row } from "react-bootstrap";
+import { Accordion, Button, Col, Figure, Form, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchAdminItemByDetailId,
@@ -18,7 +18,9 @@ const ProductDetails = ({
 }) => {
   const BASE_URL = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_ADDRESS;
   const dateTimeFields = ["Expiry date"];
-  const readOnlyFields = ["ID", "LabelID", "ItemID", "ModID", "Label name"];
+  const readOnlyFields = ["LabelID", "ItemID", "ModID", "Label name"];
+  const hiddenFields = ["Picture", "ID"];
+  const imgFields = ["Picture"];
   extraReadOnlyFields && readOnlyFields.push(...extraReadOnlyFields);
 
   const optionsData = [
@@ -36,6 +38,9 @@ const ProductDetails = ({
   const [modificationData, setModificationData] = useState({});
   const [showSaveBtn, setShowSaveBtn] = useState(false);
   const [selectedOption, setSelectedOption] = useState('');
+  const [file, setFile] = useState(null);
+  const [updatedItems, setUpdatedItems] = useState({});
+
   useEffect(() => {
     dispatch(fetchAdminItemByDetailId(Id));
     dispatch(fetchModifications(Id));
@@ -105,29 +110,35 @@ const ProductDetails = ({
       console.error("Error creating modification:", error);
     }
   };
-
-  const updateItemData = async (e) => {
-    const comparisonResults = await compareEachValue(modChanges, dataItems);
-    console.log(comparisonResults);
-    const convetObject = {
-      itemName: comparisonResults["Name"],
-      quantity: comparisonResults["Quantity"],
-      unitPrice: comparisonResults["Unit price"],
-      category: comparisonResults["Category"],
-      picture: comparisonResults["Picture"],
-      description: comparisonResults["Description"],
-      expDate: moment(comparisonResults["Expiry date"]).format("YYYY-MM-DD"),
-      specialStt: comparisonResults["Special status"],
-    };
+  const onSubmitItem = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "ml_default"); // Replace with your preset name
     try {
-      const response = await axios.put(
+      const response = await axios.post(
+        `${BASE_URL}/upload_img`,
+        formData
+      )
+      const comparisonResults = await compareEachValue(updatedItems, dataItems);
+      const processedFormData = {
+        itemName: comparisonResults["Name"],
+        quantity: comparisonResults["Quantity"],
+        unitPrice: comparisonResults["Unit price"],
+        category: comparisonResults["Category"],
+        picture: response.data.url,
+        description: comparisonResults["Description"],
+        expDate: moment(comparisonResults["Expiry date"]).format("YYYY-MM-DD"),
+        specialStt: comparisonResults["Special status"],
+      };
+      await axios.patch(
         `${BASE_URL}/item/update/${Id}`,
-        convetObject
+        processedFormData
       );
-      console.log("Data updated successfully:", response.data);
-    } catch (error) {
-      console.error("Error updating data:", error);
+      await dispatch(fetchAdminItemByDetailId(Id));
+
     }
+    catch (e) { console.log(e) };
   };
 
   const handleChange = (field, value) => {
@@ -137,7 +148,13 @@ const ProductDetails = ({
       [field]: value,
     }));
   };
-
+  const handleChangeItem = (field, value) => {
+    setShowSaveBtn(true);
+    setUpdatedItems({
+      ...updatedItems,
+      [field]: value,
+    });
+  };
   const handleEnter = (modId) => {
     dispatch(fetchModificationsById(modId));
   };
@@ -173,10 +190,12 @@ const ProductDetails = ({
         console.error("Error during modification submission:", error);
       });
   }
-
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
   return (
     <>
-      <Form onSubmit={onSubmit}>
+      <Form onSubmit={onSubmitItem}>
         <Accordion defaultActiveKey="0" alwaysOpen>
           <Accordion.Item eventKey="0">
             <Accordion.Header className={customAccordingColor}>
@@ -185,29 +204,54 @@ const ProductDetails = ({
             <Accordion.Body>
               <Form.Group as={Row} controlId="orderForm">
                 {Object.entries(dataItems || {}).map(([key, value], index) => (
-                  <React.Fragment key={`${key}-${index}`}>
-                    <Col md={6}>
-                      <CustomInput
-                        title={key || "-"}
-                        value={value || "-"}
-                        index={index}
-                        readOnlyFields={readOnlyFields}
-                        dateTimeFields={dateTimeFields}
-                        statusFetching={status}
-                        setShowSaveBtn={setShowSaveBtn}
-                        handleChange={handleChange}
-                      />
+                  imgFields?.includes(key) ?
+                    <Col md={12} className="mb-3">
+                      <Figure>
+                        <Figure.Image
+                          width={171}
+                          height={180}
+                          src={value}
+                          thumbnail
+                        />
+                        <Figure.Caption>
+                          {value}
+                        </Figure.Caption>
+                      </Figure>
+                      <Row>
+                        <Form.Label className="fw-bold">Edit Image</Form.Label>
+                        <Form.Control onChange={handleFileChange} type="file" name="file" accept="image/*" />
+
+                      </Row>
+
                     </Col>
-                  </React.Fragment>
+                    :
+                    !hiddenFields?.includes(key) && (
+                      <React.Fragment key={`${key}-${index}`}>
+                        <Col md={6} className="mb-3">
+                          <CustomInput
+                            title={key || "-"}
+                            value={value || "-"}
+                            index={index}
+                            readOnlyFields={readOnlyFields}
+                            dateTimeFields={dateTimeFields}
+                            hiddenFields={hiddenFields}
+                            statusFetching={status}
+                            setShowSaveBtn={setShowSaveBtn}
+                            handleChange={handleChangeItem}
+                          />
+                        </Col>
+                      </React.Fragment>
+                    )
+
                 ))}
                 {showSaveBtn && (
                   <Col className="mb-3 d-flex flex-column">
                     <Button
                       type="submit"
                       className={`mt-3 align-self-end admin_bg_btn`}
-                      onClick={(e) => {
-                        updateItemData(e);
-                      }}
+                    // onClick={(e) => {
+                    //   updateItemData(e);
+                    // }}
                     >
                       Save Item
                     </Button>
@@ -217,7 +261,15 @@ const ProductDetails = ({
             </Accordion.Body>
           </Accordion.Item>
         </Accordion>
-
+        <Form.Group as={Row} controlId="formPlaintextEmail">
+          <Col className="mb-3 d-flex flex-column">
+            <Button type="submit" className={`mt-3 align-self-end admin_bg_btn`}>
+              Save Modification
+            </Button>
+          </Col>
+        </Form.Group>
+      </Form>
+      <Form onSubmit={onSubmit}>
         <Accordion defaultActiveKey="1" alwaysOpen>
           {dataMods.map((datum) => (
             <Accordion.Item eventKey={`mod-${datum.ModID}`} key={datum.ModID}>
