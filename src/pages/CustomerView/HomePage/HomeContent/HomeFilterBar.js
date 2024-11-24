@@ -37,6 +37,8 @@ const HomeFilterBar = ({
     onCategoryChange(categoryId); // Call the prop function to set the category
     dispatch(fetchItemsByCategory(categoryId)); // Fetch items by category
   };
+  
+  const shouldShowCategories = categories && categories.length > 0;
 
   return (
     <div className="filters-section my-3">
@@ -56,7 +58,27 @@ const HomeFilterBar = ({
             {categoryStatus === "loading" && (
               <Dropdown.Item>Loading...</Dropdown.Item>
             )}
-            {categoryStatus === "succeeded" &&
+            {shouldShowCategories ? (
+              <>
+                <Dropdown.Item onClick={() => onCategoryChange(null)}>
+                </Dropdown.Item>
+                {categories.map((category) => (
+                  <Dropdown.Item
+                    key={category.CATEGORY_ID}
+                    onClick={() => handleCategoryClick(category.CATEGORY_ID)}
+                  >
+                    {category.CATEGORY_NAME}
+                  </Dropdown.Item>
+                ))}
+              </>
+            ) : (
+              <Dropdown.Item disabled>
+                {categoryStatus === 'failed' 
+                  ? `Error: ${categoryError || 'Failed to load categories'}`
+                  : 'No categories available'}
+              </Dropdown.Item>
+            )}
+            {/* {categoryStatus === "succeeded" &&
               categories.map((category) => (
                 <Dropdown.Item
                   key={category.CATEGORY_ID}
@@ -67,7 +89,7 @@ const HomeFilterBar = ({
               ))}
             {categoryStatus === "failed" && (
               <Dropdown.Item>Error: {categoryError}</Dropdown.Item>
-            )}
+            )} */}
           </Dropdown.Menu>
         </Dropdown>
 

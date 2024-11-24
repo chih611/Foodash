@@ -37,12 +37,17 @@ const HomeSideBarBox = ({ onFilterChange }) => {
           </Col>
         </Row>
         <Collapse in={open.dietary}>
-          <div>
+          <div 
+          style={{
+            maxHeight: '350px', // Set a fixed height for the scrollable area
+            overflowY: 'auto',  // Enable vertical scrolling
+            paddingRight: '10px' // Add some padding for the scrollbar
+          }}>
             <ul>
               {ingredientList
                 .filter((ingredient) => ingredient !== null) // Filter out null values
                 .map((ingredient, index) => (
-                  <li key={index}>
+                  <p key={index}>
                     <Form.Check
                       type="checkbox"
                       label={ingredient}
@@ -54,7 +59,7 @@ const HomeSideBarBox = ({ onFilterChange }) => {
                         )
                       }
                     />
-                  </li>
+                  </p>
                 ))}
             </ul>
           </div>

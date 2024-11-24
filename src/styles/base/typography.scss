@@ -33,7 +33,7 @@ h4 {
   font-family: $font-stack;
   font-size: 24px;
   font-weight: bold;
-  color: colors.$headline-color !important;
+  color: colors.$text-color !important;
 }
 
 h5 {
@@ -83,7 +83,7 @@ body {
   font-family: $font-stack;
   font-size: 16px;
   font-weight: normal;
-  color: colors.$bg-color;
+  color: colors.$text-color;
 }
 
 .direction {

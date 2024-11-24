@@ -2,15 +2,16 @@
 @use "../abstract/mixins" as mixins;
 
 .home-sidebar {
-  border-right: 1px solid colors.$element-2nd-color;
-  padding: 1rem 0.01rem;
+  
+  
 }
 .home-sidebar-box {
   padding: 1rem;
 }
 
 .sidebar-box {
-  background-color: colors.$element-2nd-color;
+  // background-color: colors.$text-color;
+  border: 1.5px solid colors.$text-color;
   border-radius: 10px;
 
   &-category {
@@ -18,12 +19,12 @@
     padding: 1rem;
 
     &:first-of-type {
-      box-shadow: 0px -5px 5px -5px colors.$headline-color;
+      box-shadow: 0px -5px 5px -5px colors.$text-color;
     }
   }
   &-removeicon {
     background-color: colors.$bg-color;
-    color: colors.$headline-color;
+    color: colors.$text-color;
     border: 2px solid colors.$bg-color;
     border-radius: 100%;
   }
