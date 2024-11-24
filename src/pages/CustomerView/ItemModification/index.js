@@ -190,7 +190,7 @@ const ItemModification = () => {
       </Row>
 
       {/* Product Image & Info */}
-      <Row className="my-4">
+      <Row className="my-4 mx-2">
         <Col xs={12} md={6} lg={6} className="text-center">
           <div
             style={{
@@ -198,19 +198,21 @@ const ItemModification = () => {
               maxWidth: "342px",
               height: "342px",
               backgroundColor: "#e0e0e0",
-              borderRadius: "50%",
+              borderRadius: "100%",
               position: "relative",
+              overflow: "hidden",
             }}
           >
             <Image
               src={selectedItem.image || "/birthdaycake_cate.jpg"}
               alt={selectedItem.ITEM_NAME}
               layout="fill"
+              
             />
           </div>
         </Col>
         <Col xs={12} md={6} lg={6}>
-          <h2 className="product-title">{selectedItem.ITEM_NAME}</h2>
+          <h2 className="product-title mt-4">{selectedItem.ITEM_NAME}</h2>
 
           <div className="my-2">
             {selectedItem.LABELS
@@ -229,13 +231,13 @@ const ItemModification = () => {
       </Row>
 
       {/* Extras Section */}
-      <Row className="my-4">
+      <Row className="my-4 mx-2">
         <Col>
           <h2>Variety</h2>
           <div className="variety-container">
             {selectedItemModifications
               ? selectedItemModifications.map((mod, index) => (
-                  <Row key={index} className="extra-checkbox-row">
+                  <Row key={index} className="extra-checkbox-row ">
                     <Col xs={3} className="d-flex align-items-center">
                       <label
                         htmlFor={mod.MODIFICATION}
@@ -246,8 +248,8 @@ const ItemModification = () => {
                         </Row>
                       </label>
                     </Col>
-                    <Col xs={8} />
-                    <Col xs={1} className="d-flex align-items-center">
+                    <Col xs={6} />
+                    <Col xs={3} className="d-flex  w-100">
                       <input
                         type="checkbox"
                         id={mod.MODIFICATION}
@@ -265,7 +267,7 @@ const ItemModification = () => {
       </Row>
 
       {/* Labels Section */}
-      <Row className="my-4">
+      <Row className="my-4 mx-2">
         <Col>
           <h2>Labels</h2>
           <div className="variety-container">
@@ -284,8 +286,8 @@ const ItemModification = () => {
                           </Row>
                         </label>
                       </Col>
-                      <Col xs={8} />
-                      <Col xs={1} className="d-flex align-items-center">
+                      <Col xs={6} />
+                      <Col xs={3} className="d-flex align-items-center">
                         <input
                           type="checkbox"
                           id={label.LABEL_NAME}
@@ -305,7 +307,7 @@ const ItemModification = () => {
       </Row>
 
       {/* Note Section */}
-      <Row className="my-4">
+      <Row className="my-4 mx-2">
         <Col>
           <h2>Note</h2>
           <textarea

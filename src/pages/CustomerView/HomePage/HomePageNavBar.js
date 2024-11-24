@@ -18,7 +18,7 @@ const HomePageNavBar = () => {
     <div
       className="navBar"
       style={{
-        marginBottom: "150px",
+        marginBottom: "200px",
         backgroundImage: "url(/man-is-standing-by-grill-cooking-food-pan.jpg",
         backgroundSize: "cover", // Ensure the image covers the entire div
         backgroundPosition: "center", // Center the image
@@ -41,7 +41,7 @@ const HomePageNavBar = () => {
                   <Image
                     src="/WCC_LOGO.png"
                     alt="Logo"
-                    width={150} // Adjust width as needed
+                    width={120} // Adjust width as needed
                     height={62} // Adjust height as needed
                     className="navbar-brand"
                   />
@@ -96,7 +96,7 @@ const HomePageNavBar = () => {
           {/* Mobile Search Bar */}
           <Row className="w-100 align-items-center d-lg-none">
             <Col xs={12} className="w-100 d-flex justify-content-center">
-              <div>
+              <div> 
                 <SearchBar />
               </div>
             </Col>
