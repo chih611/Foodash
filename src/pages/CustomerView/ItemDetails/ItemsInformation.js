@@ -109,7 +109,7 @@ const ItemsInformation = () => {
           </Col>
 
           {/* Text Section */}
-          <Col xs={12} md={7} className="mb-4">
+          <Col xs={12} md={7} className="my-4">
             <h1 className="item-title">{selectedItem.ITEM_NAME}</h1>
             <Nav className="mb-2">
               {parsedLabels
@@ -122,7 +122,7 @@ const ItemsInformation = () => {
             </Nav>
 
             <div className="price-section">
-              <h3>${selectedItem.UNIT_PRICE}</h3>
+              <h5>${selectedItem.UNIT_PRICE}, exclusive of GST.</h5>
             </div>
             <h5 className="ingredients-title">Description</h5>
 

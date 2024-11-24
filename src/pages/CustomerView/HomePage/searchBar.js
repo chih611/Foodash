@@ -69,7 +69,7 @@ const SearchBar = () => {
     <div className="searchContainer" style={{ position: "relative" }}>
       <SearchRounded
         className="me-2"
-        sx={{ color: "#f38b3c", cursor: "pointer" }}
+        sx={{ color: "#fffffe", cursor: "pointer" }}
         onClick={() => handleSearch(search)}
       />
       <input

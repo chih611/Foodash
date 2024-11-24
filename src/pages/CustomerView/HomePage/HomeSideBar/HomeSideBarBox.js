@@ -43,11 +43,11 @@ const HomeSideBarBox = ({ onFilterChange }) => {
             overflowY: 'auto',  // Enable vertical scrolling
             paddingRight: '10px' // Add some padding for the scrollbar
           }}>
-            <ul>
+            <ul style={{ listStyleType: "none", padding: 3 }}>
               {ingredientList
                 .filter((ingredient) => ingredient !== null) // Filter out null values
                 .map((ingredient, index) => (
-                  <p key={index}>
+                  <li key={index}>
                     <Form.Check
                       type="checkbox"
                       label={ingredient}
@@ -59,7 +59,7 @@ const HomeSideBarBox = ({ onFilterChange }) => {
                         )
                       }
                     />
-                  </p>
+                  </li>
                 ))}
             </ul>
           </div>
