@@ -27,8 +27,6 @@ const HomeContent = () => {
     (state) => state.items
   );
 
-  console.log(items);
-
   const [currentView, setCurrentView] = useState("categories");
   const [priceSort, setPriceSort] = useState(""); // Sorting by price
   const [nameSort, setNameSort] = useState(""); // Sorting by name
@@ -57,8 +55,6 @@ const HomeContent = () => {
       setDisplayedItems(items); // Initialize displayedItems with fetched items
     }
   }, [items]);
-
-  console.log("Items:", items); // Log items before rendering
 
   useEffect(() => {
     const handleRouteChange = (url) => {
