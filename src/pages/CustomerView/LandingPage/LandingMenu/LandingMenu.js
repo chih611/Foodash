@@ -4,38 +4,70 @@ import Link from "next/link";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import PrimaryButton from "../../ViewCart/_PrimaryButton";
 import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
+import LandingContact from "../LandingContact";
 
 const LandingMenu = () => {
   return (
-    <div className="landing-menu">
-      <Container
-        fluid
-        className="px-3 px-md-5 py-5" // Adjusted padding for mobile and desktop
-      >
-        <Row className="align-items-center">
-          {/* Text and Button Section */}
-          <Col xs={12} md={9} className="text-left mb-4">
-            <h1 className="display-4">
-              Welcome to today's delicious catering menu
-            </h1>
-            <p className="lead">WWC freshest ingredients for your event</p>
+    <div className="landing-menu --image position-relative">
+    <Container fluid >
+      {/* Desktop View - Hidden on screens smaller than md */}
+      <Row className="align-items-center d-none d-md-block px-3 px-md-4 py-4">
+        <img
+          src="/landingPage_background.png"
+          alt="Landing Menu Image"
+          className="img-fluid vh-100"
+        />
+        <div className="position-absolute start-50 translate-middle-x" style={{ top: '10%' }}>
+          <div className="text-center">
             <Link href="/CustomerView/HomePage" legacyBehavior passHref>
-              <PrimaryButton icon={Inventory2OutlinedIcon} text="Order Now" />
+              <div className="d-inline-block">
+                <PrimaryButton 
+                  icon={Inventory2OutlinedIcon} 
+                  text="Order Now"
+                  className="btn-lg"
+                />
+              </div>
             </Link>
-          </Col>
-          {/* Image Placeholder Section */}
-          <Col xs={12} md={3} className="d-flex justify-content-center">
-            <div className="landing-menu--image">
+          </div>
+        </div>
+      </Row>
+      <Row className="align-items-center d-none d-md-block">
+        <LandingContact />
+      </Row>
+
+      {/* Mobile View - Visible only on screens smaller than md */}
+      <div className="d-md-none">
+          <Row className="position-relative g-0">
+            <Col xs={12} >
               <img
-                src="/croissant.jpg"
+                src="/landingPage_background_mobile.png"
                 alt="Landing Menu Image"
-                className="img-fluid"
+                className="img-fluid w-100"
               />
-            </div>
-          </Col>
-        </Row>
-      </Container>
-    </div>
+              <div className="position-absolute translate-middle-x" style={{ top: '65%', left: '60%' }}>
+                <div className="text-center">
+                  <Link href="/CustomerView/HomePage" legacyBehavior passHref>
+                    <div className="d-inline-block">
+                      <PrimaryButton 
+                        icon={Inventory2OutlinedIcon} 
+                        text="Order Now"
+                        className="btn-sm"
+                      />
+                    </div>
+                  </Link>
+                </div>
+              </div>
+            </Col>
+          </Row>
+          
+          <Row className="mt-2">
+            <Col xs={12}>
+              
+            </Col>
+          </Row>
+        </div>
+    </Container>
+  </div>
   );
 };
 

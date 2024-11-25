@@ -18,9 +18,12 @@ const LandingContact = () => {
   const [email, setEmail] = useState("");
   return (
     <div className="landing-contact">
-      <LandingNavBar />
+      <div className="navBar" style={{ marginBottom: "150px" }}>
+        <LandingNavBar />
+      </div>
+      
       {/* <LandingMenu /> */}
-      <Container style={{ marginTop: "150px" }} className="landing-contact">
+      <Container className="landing-contact">
         {/* Contact Information: Adress, Working Hours, Email, Phone */}
         <Row className="justify-content-between">
           <p className="heading_white mt-3">Get in touch</p>
