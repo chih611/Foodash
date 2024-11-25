@@ -31,9 +31,9 @@ const HomePageNavBar = () => {
         className="border-bottom navBar-body"
         fixed="top"
       >
-        <Container fluid className="  navBar-body  px-md-5 py-md-4">
+        <Container fluid className="  navBar-body  px-md-4 py-md-4">
           {/* Mobile Layout */}
-          <Row className="w-100 align-items-center d-lg-none">
+          <Row className="w-100 align-items-center d-lg-none ms-4">
             {/* Logo (3 columns) */}
             <Col xs={4} className="d-flex justify-content-center">
               <Link href="/CustomerView/HomePage" legacyBehavior passHref>
@@ -41,7 +41,7 @@ const HomePageNavBar = () => {
                   <Image
                     src="/WCC_LOGO.png"
                     alt="Logo"
-                    width={120} // Adjust width as needed
+                    width={100} // Adjust width as needed
                     height={62} // Adjust height as needed
                     className="navbar-brand"
                   />

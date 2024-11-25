@@ -56,12 +56,12 @@ const ItemsInformation = () => {
     ingredients: mod.INGREDIENTS || [], // Default to an empty array if ingredients are null
   }));
 
-  console.log("parsedModifications", parsedModifications);
+  // console.log("parsedModifications", parsedModifications);
 
   // Render only the ingredients for the current modification in the loop
   const renderModifications = parsedModifications?.map(
     (mod, index) => (
-      console.log("mod", mod),
+      // console.log("mod", mod),
       (
         <div key={index}>
           <strong>{mod.modification}</strong>:{" "}
@@ -82,23 +82,40 @@ const ItemsInformation = () => {
     );
   };
 
+  //Parse the Item image
+  const getItemImageSrc = () => {
+    if (!selectedItem?.PICTURE) {
+      return "/birthdaycake_cate.jpg";
+    }
+
+    // Clean the URL if it has a base64 prefix
+    const cleanUrl = selectedItem.PICTURE.replace('data:image/png;base64,', '');
+
+    // Return Cloudinary URL directly if it exists
+    if (cleanUrl.includes('cloudinary.com')) {
+      return cleanUrl;
+    }
+
+    // For local images
+    return `http://localhost:8080${cleanUrl}`;
+  };
+
   return (
     <div className="item-information">
       <Container
         fluid
         className="px-3 px-md-5 py-5"
-        style={{ marginTop: "24px" }}
       >
         <Row>
           {/* Image Section */}
-          <Col xs={12} md={5} className="d-flex justify-content-center">
+          <Col xs={12} md={5} className="d-flex justify-content-center mb-5">
             <div>
               <img
-                src="/birthdaycake_cate.jpg"
+                src={getItemImageSrc()}
                 alt="item"
                 style={{
                   width: "100%",
-                  maxWidth: "400px",
+                  maxWidth: "500px",
                   height: "342px",
                   backgroundColor: "#e0e0e0",
                   borderRadius: "50%",
@@ -109,7 +126,7 @@ const ItemsInformation = () => {
           </Col>
 
           {/* Text Section */}
-          <Col xs={12} md={7} className="my-4">
+          <Col xs={12} md={7}>
             <h1 className="item-title">{selectedItem.ITEM_NAME}</h1>
             <Nav className="mb-2">
               {parsedLabels
@@ -137,7 +154,7 @@ const ItemsInformation = () => {
             <h5 className="ingredients-title">Ingredients & Recipes</h5>
             <Row className="ingredients-list">{renderModifications}</Row>
 
-            <Row className="action-buttons mt-3">
+            <Row className="action-buttons mt-4">
               <Col xs={5} md={5}>
                 <PrimaryButton
                   onClick={handleAddToCart}
@@ -145,7 +162,7 @@ const ItemsInformation = () => {
                   text="Order Now"
                 />
               </Col>
-              <Col xs={5} md={5}>
+              <Col xs={6} md={5}>
                 <PrimaryButton
                   onClick={handleAddToCart}
                   icon={AddShoppingCartIcon}
@@ -153,7 +170,7 @@ const ItemsInformation = () => {
                   inverted={true}
                 />
               </Col>
-              <Col xs={2} md={2}>
+              <Col xs={1} md={2}>
                 <Button variant="outline-danger" className="wishlist-btn">
                   <FavoriteBorderOutlinedIcon />
                 </Button>

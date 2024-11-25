@@ -17,19 +17,47 @@ const SearchBar = () => {
   // Access items from Redux store
   const { items } = useSelector((state) => state.items);
 
+  // Safe search helper function
+  const safeSearchMatch = (itemName, searchValue) => {
+    try {
+      return itemName && typeof itemName === 'string' && 
+        itemName.toLowerCase().includes(searchValue.toLowerCase());
+    } catch (err) {
+      console.warn('Error matching item:', err);
+      return false;
+    }
+  };
+
   // Handle search input change
   const handleInputChange = (e) => {
     const value = e.target.value;
     setSearch(value);
 
-    if (value.trim()) {
-      const filteredItems = items.filter((item) =>
-        item.ITEM_NAME.toLowerCase().includes(value.toLowerCase())
-      );
-      setLocalSearchResults(filteredItems);
-    } else {
+    try {
+      if (value.trim()) {
+        // Make sure items is an array before filtering
+        if (!Array.isArray(items)) {
+          console.warn('Items is not an array:', items);
+          return;
+        }
+
+        const filteredItems = items.filter((item) => {
+          // Check if item exists and has ITEM_NAME
+          if (!item || !item.ITEM_NAME) {
+            console.warn('Invalid item found:', item);
+            return false;
+          }
+          return safeSearchMatch(item.ITEM_NAME, value);
+        });
+
+        setLocalSearchResults(filteredItems);
+      } else {
+        setLocalSearchResults([]);
+        dispatch(clearSearchResults());
+      }
+    } catch (error) {
+      console.error('Search error:', error);
       setLocalSearchResults([]);
-      dispatch(clearSearchResults());
     }
   };
 

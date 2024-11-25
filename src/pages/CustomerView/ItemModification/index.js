@@ -34,6 +34,24 @@ const ItemModification = () => {
   });
   const [note, setNote] = useState("");
 
+  //Parse the Item image
+  const getItemImageSrc = () => {
+    if (!selectedItem?.PICTURE) {
+      return "/birthdaycake_cate.jpg";
+    }
+
+    // Clean the URL if it has a base64 prefix
+    const cleanUrl = selectedItem.PICTURE.replace('data:image/png;base64,', '');
+
+    // Return Cloudinary URL directly if it exists
+    if (cleanUrl.includes('cloudinary.com')) {
+      return cleanUrl;
+    }
+
+    // For local images
+    return `http://localhost:8080${cleanUrl}`;
+  };
+
   // Set modifications into the state when selectedItemModifications is available
   useEffect(() => {
     if (selectedItemModifications.length > 0) {
@@ -191,7 +209,7 @@ const ItemModification = () => {
 
       {/* Product Image & Info */}
       <Row className="my-4 mx-2">
-        <Col xs={12} md={6} lg={6} className="text-center">
+        <Col xs={12} md={4} lg={6} className="text-center">
           <div
             style={{
               width: "100%",
@@ -201,18 +219,19 @@ const ItemModification = () => {
               borderRadius: "100%",
               position: "relative",
               overflow: "hidden",
+              boxShadow: "0 8px 16px rgba(0, 0, 0, 0.2)",
             }}
           >
             <Image
-              src={selectedItem.image || "/birthdaycake_cate.jpg"}
+              src={getItemImageSrc() || "/birthdaycake_cate.jpg"}
               alt={selectedItem.ITEM_NAME}
               layout="fill"
               
             />
           </div>
         </Col>
-        <Col xs={12} md={6} lg={6}>
-          <h2 className="product-title mt-4">{selectedItem.ITEM_NAME}</h2>
+        <Col xs={12} md={8} lg={6}>
+          <p className="name_tag">{selectedItem.ITEM_NAME}</p>
 
           <div className="my-2">
             {selectedItem.LABELS
@@ -221,19 +240,50 @@ const ItemModification = () => {
                     {label}
                   </Badge>
                 ))
-              : "No labels available"}
+              : " "}
           </div>
 
-          <div className="my-3">
+          <div className="my-4">
             <h4>${selectedItem.UNIT_PRICE || 13.5} / pack</h4>
+          </div>
+          
+          
+          <h3 className="product-title">Mix and Match</h3>
+          <div className="variety-container">
+            {selectedItemModifications
+              ? selectedItemModifications.map((mod, index) => (
+                  <Row key={index} className="extra-checkbox-row ">
+                    <Col xs={10} className="d-flex align-items-center">
+                      <label
+                        htmlFor={mod.MODIFICATION}
+                        className="custom-label"
+                      >
+                        <Row className="extra-item-name">
+                        Option {index + 1}: {mod.MODIFICATION}
+                        </Row>
+                      </label>
+                    </Col>
+                    <Col xs={2} className="d-flex">
+                      <input
+                        type="checkbox"
+                        id={mod.MODIFICATION}
+                        name={mod.MODIFICATION}
+                        checked={extras[mod.MODIFICATION]}
+                        onChange={handleCheckboxChange}
+                        className="custom-checkbox"
+                      />
+                    </Col>
+                  </Row>
+                ))
+              : "Standard box only"}
           </div>
         </Col>
       </Row>
 
       {/* Extras Section */}
-      <Row className="my-4 mx-2">
+      {/* <Row className="my-4 mx-2">
         <Col>
-          <h2>Variety</h2>
+          <h3 className="product-title">Variety</h3>
           <div className="variety-container">
             {selectedItemModifications
               ? selectedItemModifications.map((mod, index) => (
@@ -244,12 +294,12 @@ const ItemModification = () => {
                         className="custom-label"
                       >
                         <Row className="extra-item-name">
-                          {mod.MODIFICATION}
+                        Option {index + 1}: {mod.MODIFICATION}
                         </Row>
                       </label>
                     </Col>
-                    <Col xs={6} />
-                    <Col xs={3} className="d-flex  w-100">
+                    <Col xs={3} />
+                    <Col xs={3} className="d-flex">
                       <input
                         type="checkbox"
                         id={mod.MODIFICATION}
@@ -264,30 +314,30 @@ const ItemModification = () => {
               : "No modifications available"}
           </div>
         </Col>
-      </Row>
+      </Row> */}
 
-      {/* Labels Section */}
+      {/* Labels for Dietary Section */}
       <Row className="my-4 mx-2">
         <Col>
-          <h2>Labels</h2>
+          <h3 className="product-title ">Dietary Preferences</h3>
           <div className="variety-container">
             {optionLabels
               ? optionLabels
                   .filter((label) => label.LABEL_NAME !== "croissant_labels")
                   .map((label, index) => (
-                    <Row key={index} className="label-checkbox-row">
-                      <Col xs={3} className="d-flex align-items-center">
+                    <Row key={index}>
+                      <Col xs={3}>
                         <label
                           htmlFor={label.LABEL_NAME}
                           className="custom-label"
                         >
-                          <Row className="label-item-name">
+                          <Row className="extra-item-name">
                             {label.LABEL_NAME}
                           </Row>
                         </label>
                       </Col>
                       <Col xs={6} />
-                      <Col xs={3} className="d-flex align-items-center">
+                      <Col xs={3} >
                         <input
                           type="checkbox"
                           id={label.LABEL_NAME}
@@ -309,7 +359,7 @@ const ItemModification = () => {
       {/* Note Section */}
       <Row className="my-4 mx-2">
         <Col>
-          <h2>Note</h2>
+          <h2>Special Notes</h2>
           <textarea
             value={note}
             onChange={handleNoteChange}

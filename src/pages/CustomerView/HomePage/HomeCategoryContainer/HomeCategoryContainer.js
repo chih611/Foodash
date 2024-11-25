@@ -17,11 +17,15 @@ const HomeCategoryContainer = ({ onCategoryClick }) => {
 
   // Define a mapping for category names to background images
   const categoryImages = {
-    eat: "/platter_cate.jpg",
-    food: "/sanwich.jpg",
+    savoury: "/platter_cate.jpg",
+    sharing: "/pexels-fidel-2814828.jpg",
     drink: "/drink_cate.jpg",
-    coffee:
-      "/stock-of-mix-a-cup-coffee-latte-more-motive-top-view-foodgraphy-generative-ai-photo.jpg",
+    sweet:
+      "/sweet_treat.jpg",
+    salads:
+      "/salads_category.jpg",
+    celebrations:
+      "/celebration_category.jpg",
   };
 
   return (
@@ -37,8 +41,8 @@ const HomeCategoryContainer = ({ onCategoryClick }) => {
               key={category.CATEGORY_ID}
               xs={12}
               sm={6}
-              md={6}
-              lg={6}
+              md={4}
+              lg={4}
               className="my-3"
             >
               <div
@@ -50,7 +54,7 @@ const HomeCategoryContainer = ({ onCategoryClick }) => {
                   backgroundImage: `url(${backgroundImage})`,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
-                  height: "200px",
+                  height: "220px",
                   borderRadius: "10px",
                   overflow: "hidden",
                 }}

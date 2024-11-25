@@ -12,12 +12,12 @@
 
 .product-card {
   border: 1px solid #8f5652 !important;
-  border-radius: 35px !important;
+  border-radius: 30px !important;
   padding: 8px; // Reduced padding inside the card
   padding-top: 40px; // Reduced padding for the top section
   margin: 40px 0px 20px 0px;
   transition: all 0.3s ease;
-  height: 200px !important; // Adjusted height for consistency
+  height: 220px !important; // Adjusted height for consistency
   position: relative;
   background-color: #fffffe;
 
@@ -40,6 +40,7 @@
       border-radius: 50%;
       object-fit: cover;
       background-color: #d8eefe;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
     }
   }
 
@@ -63,7 +64,7 @@
   }
 
   .product-title {
-    font-size: 14px;
+    font-size: 16px;
     color: colors.$text-color;
     margin-top: 70px; // Reduced margin to pull title closer to the rating
     margin-bottom: 5px;
@@ -78,9 +79,10 @@
   }
 
   .product-price {
-    font-size: 14px;
+    font-size: 16px;
     color: colors.$text-color;
     text-align: left;
+    font-weight: 500;
     margin-bottom: 8px;
   }
 

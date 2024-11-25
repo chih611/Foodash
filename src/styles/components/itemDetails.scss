@@ -19,6 +19,7 @@
           border-radius: 50%; // Makes the image circular
           object-fit: cover; // Ensures the image does not distort
           background-color: #e0e0e0; // Background color as fallback
+          box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
         }
       
         .category-tab {

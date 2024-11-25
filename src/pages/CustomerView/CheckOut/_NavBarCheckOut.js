@@ -42,7 +42,7 @@ const NavBarCheckOut = () => {
             <Col xs={1} className="d-flex justify-content-start">
               <Link href="/CustomerView/HomePage" legacyBehavior passHref>
                 <a>
-                  <div className="account-button me-2">
+                  <div className="account-button">
                     <ArrowBackRounded sx={{ color: "#fffffe" }} />
                   </div>
                 </a>
@@ -50,7 +50,7 @@ const NavBarCheckOut = () => {
             </Col>
 
             {/* Logo (6 columns) */}
-            <Col xs={6} className="d-flex justify-content-center">
+            <Col xs={6} className="d-flex justify-content-center ms-4">
               <Image
                 src="/WCC_LOGO.png"
                 alt="Logo"
@@ -60,7 +60,6 @@ const NavBarCheckOut = () => {
               />
             </Col>
 
-            <Col xs={1}></Col>
 
             {/* Account button */}
             <Col
