@@ -36,20 +36,27 @@ const ItemModification = () => {
 
   //Parse the Item image
   const getItemImageSrc = () => {
-    if (!selectedItem?.PICTURE) {
+
+    try{
+      if (!selectedItem?.PICTURE) {
+        return "/birthdaycake_cate.jpg";
+      }
+
+      // Clean the URL if it has a base64 prefix
+      const cleanUrl = selectedItem.PICTURE.replace('data:image/png;base64,', '');
+
+      // Return Cloudinary URL directly if it exists
+      if (cleanUrl.includes('cloudinary.com')) {
+        return cleanUrl;
+      }
+
+      // For local images
+      return `http://localhost:8080${cleanUrl}`;
+
+    } catch (error) {
+      console.error('Error getting image source:', error);
       return "/birthdaycake_cate.jpg";
     }
-
-    // Clean the URL if it has a base64 prefix
-    const cleanUrl = selectedItem.PICTURE.replace('data:image/png;base64,', '');
-
-    // Return Cloudinary URL directly if it exists
-    if (cleanUrl.includes('cloudinary.com')) {
-      return cleanUrl;
-    }
-
-    // For local images
-    return `http://localhost:8080${cleanUrl}`;
   };
 
   // Set modifications into the state when selectedItemModifications is available
@@ -223,7 +230,7 @@ const ItemModification = () => {
             }}
           >
             <Image
-              src={getItemImageSrc() || "/birthdaycake_cate.jpg"}
+              src={getItemImageSrc()}
               alt={selectedItem.ITEM_NAME}
               layout="fill"
               
