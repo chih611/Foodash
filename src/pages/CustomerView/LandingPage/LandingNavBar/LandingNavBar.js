@@ -42,7 +42,7 @@ const LandingNavBar = () => {
 
             {/* Logo (6 columns) */}
             <Col xs={6} className="d-flex justify-content-center">
-              <Link href="/" legacyBehavior passHref>
+              <Link href="/CustomerView/LandingPage" legacyBehavior passHref>
                 <a>
                   <Image
                     src="/WCC_LOGO.png"
@@ -86,7 +86,7 @@ const LandingNavBar = () => {
           <Row className="w-100 align-items-center d-none d-lg-flex">
             <Col xs={12} md={3} className="d-flex align-items-center">
               {/* Logo Section */}
-              <Link href="/" legacyBehavior passHref>
+              <Link href="/CustomerView/LandingPage/" legacyBehavior passHref>
                 <a>
                   <Image
                     src="/WCC_LOGO.png"
@@ -103,13 +103,13 @@ const LandingNavBar = () => {
               {/* Navigation Links */}
               <Nav className="w-100 justify-content-between">
                 <Col className="d-flex justify-content-center">
-                  <Link href="/CustomerView/HomePage/" legacyBehavior passHref>
+                  <Link href="/CustomerView/HomePage" legacyBehavior passHref>
                     <a className="nav-link">Menu</a>
                   </Link>
                 </Col>
                 <Col className="d-flex justify-content-center">
                   <Link
-                    href="/CustomerView/LandingPage/LandingSpecial"
+                    href="/"
                     legacyBehavior
                     passHref
                   >
@@ -127,7 +127,7 @@ const LandingNavBar = () => {
                 </Col>
                 <Col className="d-flex justify-content-center">
                   <Link
-                    href="/CustomerView/LandingPage/LandingGallery"
+                    href="/"
                     legacyBehavior
                     passHref
                   >
@@ -136,7 +136,7 @@ const LandingNavBar = () => {
                 </Col>
                 <Col className="d-flex justify-content-center">
                   <Link
-                    href="/CustomerView/LandingPage/LandingAbout"
+                    href="/"
                     legacyBehavior
                     passHref
                   >
@@ -184,19 +184,19 @@ const LandingNavBar = () => {
         </Offcanvas.Header>
         <Offcanvas.Body>
           <Nav className="flex-column">
-            <Nav.Link as={Link} href="/CustomerView/LandingPage">
+            <Nav.Link as={Link} href="/CustomerView/HomePage/">
               Menu
-            </Nav.Link>
-            <Nav.Link as={Link} href="/CustomerView/LandingPage/LandingSpecial">
-              Special
             </Nav.Link>
             <Nav.Link as={Link} href="/CustomerView/LandingPage/LandingContact">
               Contact Us
             </Nav.Link>
-            <Nav.Link as={Link} href="/CustomerView/LandingPage/LandingGallery">
+            <Nav.Link as={Link} href="/">
+              Special
+            </Nav.Link>            
+            <Nav.Link as={Link} href="/">
               Gallery
             </Nav.Link>
-            <Nav.Link as={Link} href="/CustomerView/LandingPage/LandingAbout">
+            <Nav.Link as={Link} href="/">
               About Us
             </Nav.Link>
           </Nav>
