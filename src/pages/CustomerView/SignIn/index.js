@@ -8,6 +8,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { signInCustomer } from "../../../../store/slices/customerSlice";
 import PrimaryButton from "../ViewCart/_PrimaryButton";
 import { signInAsAdmin } from "../../../../store/slices/adminSlice"; // Import the admin sign-in action
+import ChatBot from "../ChatBot/ChatBot";
 
 // Define the validation schema using Yup
 const schema = yup.object().shape({
@@ -180,6 +181,7 @@ const SignIn = () => {
           </button>
         </form>
       </div>
+      <ChatBot />
     </div>
   );
 };

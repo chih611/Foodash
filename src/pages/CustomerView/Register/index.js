@@ -5,12 +5,12 @@ import { useDispatch, useSelector } from "react-redux";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { createCustomer } from "../../../../store/slices/customerSlice";
-import MailchimpSubscribe from 'react-mailchimp-subscribe';
+import MailchimpSubscribe from "react-mailchimp-subscribe";
 import {
   selectCustomerStatus,
   selectCustomerError,
 } from "../../../../store/selector/selector";
-
+import ChatBot from "../ChatBot/ChatBot";
 const schema = yup.object().shape({
   firstName: yup.string().required("First Name is required"),
   lastName: yup.string().required("Last Name is required"),
@@ -98,7 +98,10 @@ const Register = () => {
     >
       <div
         className="card p-4 w-100 shadow-lg"
-        style={{ maxWidth: "500px", backgroundColor: "rgba(255, 255, 255, 0.85)" }}
+        style={{
+          maxWidth: "500px",
+          backgroundColor: "rgba(255, 255, 255, 0.85)",
+        }}
       >
         <img
           src="/Foodash_logo.png"
@@ -115,7 +118,9 @@ const Register = () => {
           render={({ subscribe, status, message }) => (
             <>
               {/* The form submission now happens here, with access to subscribe */}
-              <form onSubmit={handleSubmit((data) => onSubmit(data, subscribe))}>
+              <form
+                onSubmit={handleSubmit((data) => onSubmit(data, subscribe))}
+              >
                 <div className="row">
                   <div className="col-md-6 mb-3">
                     <label htmlFor="firstName" className="form-label">
@@ -288,13 +293,21 @@ const Register = () => {
                 </button>
 
                 {status === "sending" && <div>Sending...</div>}
-                {status === "error" && <div style={{ color: "red" }} dangerouslySetInnerHTML={{ __html: message }} />}
-                {status === "success" && <div style={{ color: "green" }}>Created!</div>}
+                {status === "error" && (
+                  <div
+                    style={{ color: "red" }}
+                    dangerouslySetInnerHTML={{ __html: message }}
+                  />
+                )}
+                {status === "success" && (
+                  <div style={{ color: "green" }}>Created!</div>
+                )}
               </form>
             </>
           )}
         />
       </div>
+      <ChatBot />
     </div>
   );
 };

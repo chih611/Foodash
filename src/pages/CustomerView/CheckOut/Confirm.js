@@ -10,6 +10,7 @@ import PrimaryButton from "../ViewCart/_PrimaryButton";
 import { useRouter } from "next/router";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
+import ChatBot from "../ChatBot/ChatBot";
 
 // Function to format the date to DD/MM/YYYY
 const formatDate = (dateString) => {
@@ -145,6 +146,7 @@ const Confirm = () => {
           </Link>
         </div>
       </div>
+      <ChatBot />
     </div>
   );
 };

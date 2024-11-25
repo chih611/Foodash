@@ -11,6 +11,7 @@ import PrimaryButton from "../ViewCart/_PrimaryButton";
 import HomePageNavBar from "../HomePage/HomePageNavBar";
 import Image from "next/image";
 import Link from "next/link";
+import ChatBot from "../ChatBot/ChatBot";
 import { useRouter } from "next/router";
 
 const ItemModification = () => {
@@ -36,25 +37,26 @@ const ItemModification = () => {
 
   //Parse the Item image
   const getItemImageSrc = () => {
-
-    try{
+    try {
       if (!selectedItem?.PICTURE) {
         return "/birthdaycake_cate.jpg";
       }
 
       // Clean the URL if it has a base64 prefix
-      const cleanUrl = selectedItem.PICTURE.replace('data:image/png;base64,', '');
+      const cleanUrl = selectedItem.PICTURE.replace(
+        "data:image/png;base64,",
+        ""
+      );
 
       // Return Cloudinary URL directly if it exists
-      if (cleanUrl.includes('cloudinary.com')) {
+      if (cleanUrl.includes("cloudinary.com")) {
         return cleanUrl;
       }
 
       // For local images
       return `http://localhost:8080${cleanUrl}`;
-
     } catch (error) {
-      console.error('Error getting image source:', error);
+      console.error("Error getting image source:", error);
       return "/birthdaycake_cate.jpg";
     }
   };
@@ -233,7 +235,6 @@ const ItemModification = () => {
               src={getItemImageSrc()}
               alt={selectedItem.ITEM_NAME}
               layout="fill"
-              
             />
           </div>
         </Col>
@@ -253,8 +254,7 @@ const ItemModification = () => {
           <div className="my-4">
             <h4>${selectedItem.UNIT_PRICE || 13.5} / pack</h4>
           </div>
-          
-          
+
           <h3 className="product-title">Mix and Match</h3>
           <div className="variety-container">
             {selectedItemModifications
@@ -266,7 +266,7 @@ const ItemModification = () => {
                         className="custom-label"
                       >
                         <Row className="extra-item-name">
-                        Option {index + 1}: {mod.MODIFICATION}
+                          Option {index + 1}: {mod.MODIFICATION}
                         </Row>
                       </label>
                     </Col>
@@ -344,7 +344,7 @@ const ItemModification = () => {
                         </label>
                       </Col>
                       <Col xs={6} />
-                      <Col xs={3} >
+                      <Col xs={3}>
                         <input
                           type="checkbox"
                           id={label.LABEL_NAME}
@@ -387,6 +387,7 @@ const ItemModification = () => {
           style={{ width: "100%" }}
         />
       </Row>
+      <ChatBot />
     </Container>
   );
 };

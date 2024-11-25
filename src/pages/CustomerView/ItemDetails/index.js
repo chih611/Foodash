@@ -3,6 +3,7 @@ import HomeDirectionLink from "../HomePage/HomeDirectionLink/HomeDirectionLink";
 import { useSelector } from "react-redux";
 import ItemsInformation from "./ItemsInformation";
 import HomePageNavBar from "../HomePage/HomePageNavBar";
+import ChatBot from "../ChatBot/ChatBot";
 const ItemDetails = () => {
   const selectedItem = useSelector((state) => state.items.selectedItem);
   return (
@@ -10,7 +11,8 @@ const ItemDetails = () => {
       <HomePageNavBar />
       <HomeDirectionLink />
       <div className="container">
-        <ItemsInformation item={selectedItem} />{" "}
+        <ItemsInformation item={selectedItem} />
+        <ChatBot />
       </div>
     </div>
   );

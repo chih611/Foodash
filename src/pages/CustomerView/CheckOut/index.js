@@ -18,6 +18,7 @@ import PaymentIcon from "@mui/icons-material/Payment";
 import PrimaryButton from "../ViewCart/_PrimaryButton";
 import { useForm, FormProvider } from "react-hook-form";
 import Swal from "sweetalert2";
+import ChatBot from "../ChatBot/ChatBot";
 
 const Checkout = () => {
   const [pickup, setPickup] = useState(false);
@@ -265,6 +266,7 @@ const Checkout = () => {
             </Row>
           </form>
         </FormProvider>
+        <ChatBot />
       </Container>
     </div>
   );
