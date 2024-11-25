@@ -84,6 +84,7 @@ const ItemsInformation = () => {
 
   //Parse the Item image
   const getItemImageSrc = () => {
+    try {
     if (!selectedItem?.PICTURE) {
       return "/birthdaycake_cate.jpg";
     }
@@ -98,7 +99,12 @@ const ItemsInformation = () => {
 
     // For local images
     return `http://localhost:8080${cleanUrl}`;
-  };
+
+  } catch (error) {
+    console.error('Error getting image source:', error);
+    return "/birthdaycake_cate.jpg";
+  }
+};
 
   return (
     <div className="item-information">
