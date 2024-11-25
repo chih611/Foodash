@@ -11,6 +11,7 @@ import HomePageNavBar from "../HomePage/HomePageNavBar";
 import Link from "next/link";
 import { ArrowBackRounded } from "@mui/icons-material";
 import Section from "./Section";
+import ChatBot from "../ChatBot/ChatBot";
 
 const BoughtBefore = () => {
   const customerId = useSelector(
@@ -107,6 +108,7 @@ const BoughtBefore = () => {
           ))}
         </Row>
       </main>
+      <ChatBot />
     </Container>
   );
 };
