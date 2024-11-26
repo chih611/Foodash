@@ -62,3 +62,10 @@
 .result_item:hover {
   background-color: colors.$bg-color;
 }
+.clear-search-icon {
+  position: absolute;
+  right: 10px; /* Adjust distance from the right edge */
+  cursor: pointer;
+  top: 50%;
+  transform: translateY(-50%);
+}
