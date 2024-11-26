@@ -109,6 +109,25 @@ class ActionProvider {
     );
     this.updateState([message]);
   };
+
+  handleCancel = () => {
+    const messages = [
+      this.createChatBotMessage(
+        "If you need to cancel your booking, please get in touch with us as soon as possible. Cancellations less than 48 hours prior to your booking may be liable for 50% of the catering cost"
+      ),
+      this.createChatBotMessage(
+        "Changes can be made but your order must be finalised 7 days prior to the event. We will do our best to accommodate late/last minute bookings as we understand things don’t always go as planned."
+      ),
+    ];
+    this.updateState(messages);
+  };
+
+  handleApplicablePayment = () => {
+    const message = this.createChatBotMessage(
+      "Once you confirm our quote we will send you an invoice. Payment can then be made by EFT bank transfer."
+    );
+    this.updateState([message]);
+  };
 }
 
 export default ActionProvider;
