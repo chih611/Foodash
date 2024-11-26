@@ -14,6 +14,19 @@ class MessageParser {
     ) {
       this.actionProvider.handleContact();
     } else if (
+      (lowerCaseMessage.includes("cancel") &&
+        lowerCaseMessage.includes("order")) ||
+      (lowerCaseMessage.includes("refund") &&
+        lowerCaseMessage.includes("order"))
+    ) {
+      this.actionProvider.handleCancel();
+    } else if (
+      (lowerCaseMessage.includes("form") &&
+        lowerCaseMessage.includes("payment")) ||
+      lowerCaseMessage.includes("payment")
+    ) {
+      this.actionProvider.handleApplicablePayment();
+    } else if (
       lowerCaseMessage.includes("sign up") ||
       lowerCaseMessage.includes("register") ||
       lowerCaseMessage.includes("create account")
