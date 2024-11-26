@@ -9,7 +9,7 @@ import LandingContact from "../LandingContact";
 const LandingMenu = () => {
   return (
     <div className="landing-menu --image position-relative">
-    <Container fluid >
+    
       {/* Desktop View - Hidden on screens smaller than md */}
       <Row className="align-items-center d-none d-md-block px-3 px-md-4 py-4">
         <img
@@ -51,7 +51,7 @@ const LandingMenu = () => {
                       <PrimaryButton 
                         icon={Inventory2OutlinedIcon} 
                         text="Order Now"
-                        className="btn-sm"
+                        className="btn-lg"
                       />
                     </div>
                   </Link>
@@ -66,7 +66,7 @@ const LandingMenu = () => {
             </Col>
           </Row>
         </div>
-    </Container>
+    
   </div>
   );
 };

@@ -30,7 +30,7 @@ const LandingNavBar = () => {
           {/* Mobile Layout */}
           <Row className="w-100 align-items-center d-lg-none">
             {/* Menu Button (2 columns) */}
-            <Col xs={2} className="d-flex justify-content-start">
+            <Col xs={1} className="d-flex justify-content-start me-3">
               <Button
                 className="toggle-direction-link d-md-none"
                 variant="primary"
@@ -41,7 +41,7 @@ const LandingNavBar = () => {
             </Col>
 
             {/* Logo (6 columns) */}
-            <Col xs={6} className="d-flex justify-content-center">
+            <Col xs={5} className="d-flex">
               <Link href="/CustomerView/LandingPage" legacyBehavior passHref>
                 <a>
                   <Image
@@ -57,7 +57,7 @@ const LandingNavBar = () => {
 
             {/* Cart and Login buttons (4 columns, aligned right) */}
             <Col
-              xs={4}
+              xs={5}
               className="d-flex justify-content-end align-items-center"
             >
               {/* Cart Button */}
