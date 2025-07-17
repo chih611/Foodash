@@ -11,7 +11,7 @@ import PrimaryButton from "../ViewCart/_PrimaryButton";
 import HomePageNavBar from "../HomePage/HomePageNavBar";
 import Image from "next/image";
 import Link from "next/link";
-import ChatBot from "../ChatBot/ChatBot";
+import ChatBot from "../../../components/ChatBot/ChatBot";
 import { useRouter } from "next/router";
 
 const ItemModification = () => {

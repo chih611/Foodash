@@ -16,7 +16,7 @@ import {
 } from "../../../../store/slices/cartSlice";
 import { useRouter } from "next/router";
 import QuantityInputField from "./_QuantityInputContainer";
-import ChatBot from "../ChatBot/ChatBot";
+import ChatBot from "../../../components/ChatBot/ChatBot";
 
 const ViewCart = () => {
   const dispatch = useDispatch();

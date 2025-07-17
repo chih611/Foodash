@@ -6,7 +6,7 @@ import HomePageNavBar from "../HomePage/HomePageNavBar";
 import HomeDirectionLink from "../HomePage/HomeDirectionLink/HomeDirectionLink";
 import SpecialSection from "./Special_Section";
 import Advertisement from "./Advertisement";
-import ChatBot from "../ChatBot/ChatBot";
+import ChatBot from "../../../components/ChatBot/ChatBot";
 
 const Special = () => {
   const dispatch = useDispatch();

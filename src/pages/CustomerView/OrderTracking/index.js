@@ -15,7 +15,7 @@ import CustomModal from "@/pages/AdminView/_components/modal";
 import OrderDetails from "@/pages/AdminView/_pages/order_details";
 import HomeDirectionLink from "../HomePage/HomeDirectionLink/HomeDirectionLink";
 import FeedBackForm from "./FeedBackForm";
-import ChatBot from "../ChatBot/ChatBot";
+import ChatBot from "../../../components/ChatBot/ChatBot";
 
 const OrderTracking = () => {
   const dispatch = useDispatch();

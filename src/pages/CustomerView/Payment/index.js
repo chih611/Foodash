@@ -14,7 +14,7 @@ import {
 } from "react-square-web-payments-sdk";
 import { clearCartItems } from "../../../../store/slices/cartSlice";
 import moment from "moment";
-import ChatBot from "../ChatBot/ChatBot";
+import ChatBot from "../../../components/ChatBot/ChatBot";
 
 const Payment = () => {
   const dispatch = useDispatch();

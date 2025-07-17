@@ -1,3 +1,4 @@
+// components/ChatBot/ChatbotConfig.js
 import { createChatBotMessage } from "react-chatbot-kit";
 import BotAvatar from "./BotAvatar";
 import LinkMessage from "./LinkMessages";
