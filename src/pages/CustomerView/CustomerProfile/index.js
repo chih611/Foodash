@@ -18,7 +18,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { clearCart } from "../../../../store/slices/cartSlice";
 import { clearOrderByCustomerId } from "../../../../store/slices/orderSlice";
 import moment from "moment";
-import ChatBot from "../ChatBot/ChatBot";
+import ChatBot from "../../../components/ChatBot/ChatBot";
 // Yup validation schema
 const schema = yup.object().shape({
   firstName: yup.string().required("First Name is required"),
